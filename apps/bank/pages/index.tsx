@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Button from '@woolta/ui/wds/base/Button';
 
 const StyledPage = styled.div`
   .page {
@@ -14,6 +15,7 @@ export function Index() {
   return (
     <StyledPage>
       <div className="wrapper">
+        <Button />
         <div className="container">
           <div id="welcome">
             <h1>
