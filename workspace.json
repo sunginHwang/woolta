@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "--bank": "apps/bank",
-    "-ui-wds": "libs/ui/wds"
+    "-ui-wds": "libs/ui/wds",
+    "bank-api": "apps/bank-api"
   }
 }
