@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@woolta/ui/wds": ["libs/ui/wds/src/index.ts"],
-      "@woolta/ui/wds/base/*": ["libs/ui/wds/src/lib/base/*"],
+      "@woolta/ui/wds/base/*": ["libs/ui/wds/src/lib/base/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
