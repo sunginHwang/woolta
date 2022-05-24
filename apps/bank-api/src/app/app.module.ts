@@ -11,6 +11,11 @@ import { PersonModule } from './models/person.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       typePaths: ['./**/*.graphql'],
       driver: ApolloDriver,
+      cors: {
+        origin: 'http://localhost:4200',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+        credentials: true,
+      },
     }),
     PersonModule,
   ],

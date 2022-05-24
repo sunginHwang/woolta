@@ -1,12 +1,30 @@
 import styled from '@emotion/styled';
-import Button from '@woolta/ui/wds/base/Button';
+import { gql } from 'graphql-request';
+import { useEffect } from 'react';
+import gqlRequest from '../lib/gqlRequest';
+//import Button from '@woolta/ui/wds/base/Button';
 
 const StyledPage = styled.div`
   .page {
   }
 `;
+const GET_PERSON_GQL = gql`
+   {
+    getAllPerson {
+      id
+      name
+    }
+  }
+`;
 
 export function Index() {
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      gqlRequest.request(GET_PERSON_GQL);
+     
+    }
+  }, []);
   /*
    * Replace the elements below with your own.
    *
@@ -15,7 +33,7 @@ export function Index() {
   return (
     <StyledPage>
       <div className="wrapper">
-        <Button />
+        {/* <Button /> */}
         <div className="container">
           <div id="welcome">
             <h1>
