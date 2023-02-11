@@ -1,9 +1,0 @@
-{
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
-  "projects": {
-    "--bank": "apps/bank",
-    "-ui-wds": "libs/ui/wds",
-    "bank-api": "apps/bank-api"
-  }
-}
