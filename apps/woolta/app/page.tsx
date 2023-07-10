@@ -1,6 +1,7 @@
 'use client'
+import { SPLIT_LIB } from '@common';
+import { testForCommon } from '@common/test';
 import styled from '@emotion/styled';
-
 const StyledPage = styled.div`
   .page {
   }
@@ -19,7 +20,9 @@ export default async function Index() {
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome woolta 👋
+              Welcome woolta 👋<br/>
+              {SPLIT_LIB}<br/>
+              {testForCommon()}
             </h1>
           </div>
           <div id="hero" className="rounded">
