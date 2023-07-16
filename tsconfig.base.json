@@ -17,7 +17,7 @@
     "paths": {
       "@common": ["libs/common/src/index.ts"],
       "@common/server": ["libs/common/src/server.ts"],
-      "@common/test": ["libs/common/test/src/index.ts"],
+      "@common/test": ["libs/common/test/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
