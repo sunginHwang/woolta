@@ -9,6 +9,5 @@ export default {
   sideBarZIndex: 50,
   mobileWidth: '1024px',
   phoneWidth: '450px',
-
 };
 

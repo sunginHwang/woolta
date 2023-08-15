@@ -1,4 +1,4 @@
-import { keyframes } from 'styled-components';
+import { keyframes } from "@emotion/react";
 
 const loading = keyframes`
   0% {
