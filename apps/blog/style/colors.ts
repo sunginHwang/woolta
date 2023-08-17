@@ -32,7 +32,6 @@
 //   },
 // };
 
-
 export const brand_color = '#E62F71';
 
 export const white = '#FFFFFF';
@@ -88,6 +87,8 @@ export const red500 = '#f03e3e';
 export const red600 = '#c2393b';
 export const red700 = '#953436';
 export const red800 = '#692d2e';
+
+export const green200 = '#6E827F';
 
 export const yellow500 = '#FEE700';
 
@@ -179,6 +180,7 @@ export type ColorType =
   | 'border4'
   | 'bg_primary'
   | 'bg_secondary'
+  | 'green200'
   | 'pink_primary'
   | 'pink_inactive'
   | 'pink_disabled';
@@ -245,4 +247,5 @@ export const colors: Record<ColorType, string> = {
   pink_primary,
   pink_inactive,
   pink_disabled,
+  green200,
 };

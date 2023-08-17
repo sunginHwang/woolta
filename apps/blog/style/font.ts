@@ -1,22 +1,6 @@
-
 import { css, SerializedStyles } from '@emotion/react';
 
 export type FontVarient =
-  // -start- depreacard-대상
-  | 'title1'
-  | 'title2'
-  | 'title3'
-  | 'title4'
-  | 'title5'
-  | 'title7'
-  | 'small1'
-  | 'small2'
-  | 'small4'
-  | 'small4_semibold'
-  | 'small5'
-  | 'button'
-  | 'button_small'
-  // -end- depreacard-
   | 'title1_bold'
   | 'title1_medium'
   | 'title2_bold'
@@ -49,84 +33,6 @@ export type FontVarient =
   | 'small4_regular';
 
 export const typography: Record<FontVarient, SerializedStyles> = {
-  // title1_bold 대체
-  title1: css`
-    font-size: 24px;
-    line-height: 31.2px;
-    font-weight: 600;
-  `,
-  // title2_bold 대체
-  title2: css`
-    font-size: 20px;
-    line-height: 26px;
-    font-weight: 600;
-  `,
-  // title3_bold 대체
-  title3: css`
-    font-size: 18px;
-    line-height: 25.2px;
-    font-weight: 600;
-  `,
-  // title4_bold 대체
-  title4: css`
-    font-size: 16px;
-    line-height: 22.4px;
-    font-weight: 600;
-  `,
-  // title4_medium 대체
-  title5: css`
-    font-size: 16px;
-    line-height: 22.4px;
-    font-weight: 500;
-  `,
-  // body3_medium 대체
-  title7: css`
-    font-size: 13px;
-    line-height: 18.2px;
-    font-weight: 500;
-  `,
-  // body4_medium 대체
-  small1: css`
-    font-size: 13px;
-    line-height: 18.2px;
-    font-weight: 500;
-  `,
-  // small1_medium 대체
-  small2: css`
-    font-size: 12px;
-    line-height: 16.8px;
-    font-weight: 500;
-  `,
-  // title5_medium 대체
-  button: css`
-    font-size: 16px;
-    line-height: 21px;
-    font-weight: 500;
-  `,
-  // body4_medium 대체
-  button_small: css`
-    font-size: 13px;
-    line-height: 18.2px;
-    font-weight: 500;
-  `,
-  // small3_regular 대체
-  small4: css`
-    font-size: 10px;
-    line-height: 14px;
-    font-weight: 400;
-  `,
-  // small3_bold 대체
-  small4_semibold: css`
-    font-size: 10px;
-    line-height: 14px;
-    font-weight: 600;
-  `,
-  // small4_medium 대체
-  small5: css`
-    font-weight: 500;
-    font-size: 9px;
-    line-height: 12.6px;
-  `,
   title1_bold: css`
     font-size: 24px;
     line-height: 31.2px;
@@ -183,10 +89,10 @@ export const typography: Record<FontVarient, SerializedStyles> = {
     font-weight: 600;
   `,
   title6_medium: css`
-  font-size: 14px;
-  line-height: 19.6px;
-  font-weight: 500;
-`,
+    font-size: 14px;
+    line-height: 19.6px;
+    font-weight: 500;
+  `,
   body1: css`
     font-size: 16px;
     line-height: 22.4px;
