@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ColorType, colors } from 'apps/blog/style/colors';
 import { FontVarient, typography } from 'apps/blog/style/font';
@@ -63,8 +64,9 @@ const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseTextProps['
   children,
   ...props
 }) => {
+  const theme = useTheme();
   return (
-    <Base as={as} variant={variant} {...props}>
+    <Base as={as} variant={variant} theme={theme} {...props}>
       {children}
     </Base>
   );
@@ -74,7 +76,7 @@ export default Text;
 
 const Base = styled.span<BaseTextProps>`
   ${({ variant }) => typography[variant]};
-  ${({ color }) => color && `color: ${colors[color]}`};
+  ${({ color, theme }) => color && `color: ${theme.colors[color]}`};
   ${({ alignment = 'left' }) => `text-align: ${alignment}`};
   ${({ mt = 0, ml = 0, mb = 0, mr = 0 }) => `margin: ${mt}px ${mr}px ${mb}px ${ml}px`}
 `;

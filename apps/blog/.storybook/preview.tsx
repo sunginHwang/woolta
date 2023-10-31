@@ -18,7 +18,7 @@ const GlobalStyles = () => (
 );
 
 const ThemeDecorator: Decorator = (Story: StoryFn, context: StoryContext) => {
-  return <ThemeProvider theme={theme.dark}>{Story({}, context)}</ThemeProvider>;
+  return <ThemeProvider theme={theme.white}>{Story({}, context)}</ThemeProvider>;
 };
 
 export { ThemeDecorator };
