@@ -1,23 +1,17 @@
-import { useDispatch } from 'react-redux';
+import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
-import { closeToast, openToast } from '../../store/reducers/layoutReducer';
+import { toastMessageAtom } from '../components/layout/store';
 
 export default function useToast() {
-  const dispatch = useDispatch();
+  const setToast = useSetAtom(toastMessageAtom);
+  const showToast = (message: string) => setToast(message);
 
-  const showToast = useCallback((message: string) => {
-    dispatch(openToast(message));
-  }, [dispatch]);
-
-  const hideToast = useCallback(() => {
-    dispatch(closeToast());
-  }, [dispatch]);
+  const hideToast = () => setToast('');
 
   const notifyToast = useCallback((message: string) => {
     showToast(message);
-    setTimeout(() => hideToast(), 2000);
-  }, [dispatch]);
+    setTimeout(() => hideToast(), 2_000);
+  }, []);
 
-
-  return [showToast, hideToast, notifyToast] as [typeof showToast, typeof hideToast, typeof notifyToast];
+  return { showToast, hideToast, notifyToast };
 }

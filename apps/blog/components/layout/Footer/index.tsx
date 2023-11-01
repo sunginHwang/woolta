@@ -1,4 +1,5 @@
-import React from 'react';
+import styled from '@emotion/styled';
+import { blog_primary, customGray, white } from 'apps/blog/style/colors';
 import layouts from '../../../style/layouts';
 
 type FooterProps = {
@@ -9,10 +10,10 @@ function Footer({ editMode }: FooterProps) {
   if (editMode) return null;
 
   return (
-    <S.Footer>
+    <SC.Container>
       <p>Copyright © 2018 woolta.com</p>
       <p>gommpo111@gmail.com</p>
-    </S.Footer>
+    </SC.Container>
   );
 }
 
@@ -22,24 +23,22 @@ Footer.defaultProps = {
 
 export default Footer;
 
-const S: any = {};
+const SC = {
+  Container: styled.div`
+    height: ${layouts.mainFooterHeight};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: ${white};
+    border-top: 0.1rem solid ${customGray};
+    color: ${blog_primary};
+    text-align: center;
+    padding-top: 1.6rem;
 
-S.Footer = styled.div`
-  height: ${layouts.mainFooterHeight};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  -ms-flex-pack: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  background-color: ${(props) => props.theme.colors.whiteColor};
-  border-top: 0.1rem solid ${(props) => props.theme.colors.customGrayColor};
-  color: ${(props) => props.theme.colors.mainThemeColor};
-  text-align: center;
-  padding-top: 1.6rem;
-
-  P {
-    font-size: 1.4rem;
-    margin-bottom: 1.6rem;
-  }
-`;
+    P {
+      font-size: 1.4rem;
+      margin-bottom: 1.6rem;
+    }
+  `,
+};

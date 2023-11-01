@@ -1,31 +1,21 @@
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import colors from '../../../style/colors';
+import styled from '@emotion/styled';
+import { useUserInfo } from 'apps/blog/hooks/queries/useUserInfo';
+import { customGray, gray800, gray_main, white } from 'apps/blog/style/colors';
+import { goLoginPage, goPostEditPage, goPostListPage } from 'apps/blog/utils/routeUtil';
+import { useCallback } from 'react';
 import layouts from '../../../style/layouts';
-import { IUserInfo } from '../../types/user/IUserInfo';
-import { ICategory } from '../../types/post/ICategory';
-import { goLoginPage, goPostEditPage, goPostListPage } from '../../core/utils/routeUtil';
-import useToast from '../../core/hooks/useToast';
-
+import { useCategories } from '../hooks/useCategories';
+import useToast from 'apps/blog/hooks/useToast';
 
 type SideBarProps = {
-  isOpen: boolean,
-  userInfo: IUserInfo,
-  categories?: ICategory[],
-  onLogout: () => void,
+  isOpen: boolean;
   toggleSideBar: (toggle: boolean) => void;
-}
+};
 
-function SideBar({
-                   isOpen,
-                   userInfo,
-                   categories,
-                   onLogout,
-                   toggleSideBar,
-                 }: SideBarProps) {
-
-  const [, hideToast] = useToast();
-
+function SideBar({ isOpen, toggleSideBar }: SideBarProps) {
+  const { hideToast } = useToast();
+  const { userInfo, logout } = useUserInfo();
+  const { categories } = useCategories();
   const clearSideMenu = useCallback(() => {
     toggleSideBar(false);
     hideToast();
@@ -43,13 +33,12 @@ function SideBar({
 
   const isLogin: boolean = userInfo.userId !== '';
 
-  const renderCategories = categories.map(category => {
-
+  const renderCategories = categories.map((category) => {
     // 카테고리 페이지 이동
-    const goCategoryPage = useCallback(() => {
+    const goCategoryPage = () => {
       goPostListPage(category.value);
       clearSideMenu();
-    }, [category.value]);
+    };
 
     return (
       <li key={category.value}>
@@ -58,110 +47,99 @@ function SideBar({
     );
   });
 
-  const renderUserMenu =
+  const renderUserMenu = (
     <li>
       <a>
-        <S.UserImage src={userInfo.imageUrl}/>
+        <SC.UserImage src={userInfo.imageUrl} />
         <span>{userInfo.userId}</span>
-        <S.Logout onClick={onLogout}>로그아웃</S.Logout>
+        <SC.Loout onClick={logout}>로그아웃</SC.Loout>
       </a>
-    </li>;
+    </li>
+  );
 
-  const renderNonUserMenu =
+  const renderNonUserMenu = (
     <li>
       <a onClick={onLoginClick}>로그인</a>
-    </li>;
+    </li>
+  );
 
-  const renderPostWriteMenu = isLogin === true &&
+  const renderPostWriteMenu = isLogin === true && (
     <li>
       <a onClick={onPostEditClick}>글쓰기 페이지 이동</a>
-    </li>;
+    </li>
+  );
 
   return (
     <>
-      <S.SideBar isSideBarOpen={isOpen}>
+      <SC.Contaienr isSideBarOpen={isOpen}>
         <ul>
           {isLogin ? renderUserMenu : renderNonUserMenu}
           {renderPostWriteMenu}
           {renderCategories}
         </ul>
-      </S.SideBar>
-      {isOpen && <S.SideBarWhiteSpace/>}
+      </SC.Contaienr>
+      {isOpen && <SC.SideBarWhiteSpace />}
     </>
   );
-};
-
-SideBar.defaultProps = {
-  isOpen: false,
-  userInfo: {
-    no: 0,
-    userId: '',
-  },
-  categories: [],
-} as SideBarProps;
+}
 
 export default SideBar;
 
-const S: any = {};
+const SC = {
+  Contaienr: styled.div<{ isSideBarOpen: boolean }>`
+    border: 0.1rem solid ${customGray};
+    width: ${layouts.mainRightWidth};
+    height: 100%;
+    position: fixed;
+    font-size: 1.6rem;
+    z-index: ${layouts.sideBarZIndex * 2};
+    background-color: ${white};
+    top: ${layouts.mainHeaderHeight};
 
-S.SideBar = styled.div`
-  border: .1rem solid ${props => props.theme.colors.customGrayColor};
-  width: ${layouts.mainRightWidth};
-  height: 100%;
-  position: fixed;
-  font-size: 1.6rem;
-  z-index: ${layouts.sideBarZIndex * 2};
-  background-color: ${props => props.theme.colors.whiteColor};
-  top: ${layouts.mainHeaderHeight};
+    right: ${({ isSideBarOpen }) => (isSideBarOpen ? 0 : `-${layouts.mainRightWidth}`)};
+    transition: all 0.1s ease;
 
-  right: ${props => props.isSideBarOpen ? 0 : `-${layouts.mainRightWidth}`};
-  transition: all .1s ease;
+    ul {
+      margin-top: 3.2rem !important;
 
-  ul{
-    margin-top: 3.2rem !important;
+      li {
+        a {
+          text-align: left;
+          display: block;
+          text-decoration: none;
+          padding: 1.6rem;
+          border-left: 0.2px solid transparent;
+          font-weight: 400;
+          color: ${gray_main};
+          cursor: pointer;
+        }
 
-    li{
-      a{
-        text-align: left;
-        display: block;
-        text-decoration: none;
-        padding: 1.6rem;
-        border-left: .2px solid transparent;
-        font-weight: 400;
-        color: ${props => props.theme.colors.mainThemeColor};
-        cursor: pointer;
-      }
-
-      &:hover{
-        color: ${props => props.theme.colors.mainThemeColor};
-        background-color: ${props => props.theme.colors.customGrayColor};
+        &:hover {
+          color: ${gray_main};
+          background-color: ${customGray};
+        }
       }
     }
-  }
-  `;
-
-S.Logout = styled.p`
-  cursor: pointer;
-  float:right;
-`;
-
-S.UserImage = styled.img`
-  float: left;
-  width: 2.5rem;
-  margin-right: 1rem;
-  border-radius: 50%;
-  height: 100%;
-  vertical-align: middle;
-`;
-
-S.SideBarWhiteSpace = styled.div`
-  background-color: ${props => props.theme.colors.SideBarSpaceColor};
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: ${layouts.sideBarZIndex}
-`;
-
-
+  `,
+  Loout: styled.p`
+    cursor: pointer;
+    float: right;
+  `,
+  UserImage: styled.img`
+    float: left;
+    width: 2.5rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+    height: 100%;
+    vertical-align: middle;
+  `,
+  SideBarWhiteSpace: styled.div`
+    background-color: ${gray800};
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: ${layouts.sideBarZIndex};
+  `,
+};

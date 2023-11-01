@@ -3,6 +3,8 @@ import { Global, ThemeProvider } from '@emotion/react';
 import { reset_style } from '../style/reset';
 import { theme } from '../style/colors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Provider } from 'jotai';
+import Layout from '../components/layout';
 
 const queryClient = new QueryClient();
 
@@ -42,7 +44,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Global styles={reset_style} />
       <body>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme.dark}>{children} </ThemeProvider>
+          <Provider>
+            <ThemeProvider theme={theme.dark}>
+              <Layout>{children}</Layout>
+            </ThemeProvider>
+          </Provider>
         </QueryClientProvider>
       </body>
     </html>

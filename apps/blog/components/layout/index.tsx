@@ -1,30 +1,32 @@
-import { useEffect, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import SideBar from './SideBar';
-import Header from './Header';
 import Footer from './Footer';
+import Header from './Header';
+import SpinnerLoading from '../base/loading/SpinnerLoading';
+import NotificationBar from '../common/notification/NotificationBar';
+import Content from './Content/inedx';
 
-const Layout = () => {
+type Props = PropsWithChildren & {};
+
+const Layout: FC<Props> = ({ children }) => {
   const [showSidebar, setShowSideBar] = useState(false);
+  const editMode = false;
+  const spinnerLoading = false;
+  const mobileHeader = false;
 
   return (
     <>
-      <SideBar
-        isOpen={showSidebar}
-        userInfo={userInfo}
-        categories={categories}
-        onLogout={onLogout}
-        toggleSideBar={setShowSideBar}
-      />
+      <SideBar isOpen={showSidebar} toggleSideBar={setShowSideBar} />
       <Header showSideBar={showSidebar} showMobileHeader={mobileHeader} toggleSideBar={setShowSideBar} />
       <SpinnerLoading loading={spinnerLoading} />
-      <NanoBarLoading />
+      {/* <NanoBarLoading /> */}
       <Content editMode={editMode}>
-        <ThemeHeader>
+        {/* <ThemeHeader>
           <ToggleThemeSwitch isDarkMode={isDarkMode} onChangeTheme={toggleTheme} />
-        </ThemeHeader>
+        </ThemeHeader> */}
         {children}
       </Content>
-      <NotificationBar isShow={toast.isShow} message={toast.message} />
+      <NotificationBar />
       <Footer />
     </>
   );

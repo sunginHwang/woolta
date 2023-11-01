@@ -16,6 +16,7 @@ export const gray700 = '#6D6D6D';
 export const gray800 = '#484848';
 export const gray900 = '#242424';
 export const gray950 = '#121212';
+export const gray1000 = '#3A3E46';
 
 export const pink030 = '#FFF7FA';
 export const pink050 = '#FFEDF3';
@@ -67,6 +68,7 @@ export const periwinkle_blue = '#8c9eff';
 export const kakao_color = '#fded4f';
 export const yellow_review = '#FEC600';
 
+export const gray_main = 'rgba(255, 255, 255, 0.88)';
 export const gray_primary = black;
 export const gray_secondary = gray700;
 export const gray_tertiary = gray500;
@@ -74,7 +76,7 @@ export const gray_active = gray900;
 export const gray_inactive = gray600;
 export const gray_disabled = gray300;
 export const gray_inactive_filled = gray300;
-
+export const customGray = gray1000;
 export const border1 = gray400;
 export const border2 = gray300;
 export const border3 = gray200;
@@ -86,6 +88,8 @@ export const bg_secondary = gray100;
 export const pink_primary = pink600;
 export const pink_inactive = pink200;
 export const pink_disabled = pink150;
+
+export const blogPrimary = gray_main;
 
 export type ColorType =
   | 'white'
@@ -149,7 +153,9 @@ export type ColorType =
   | 'green200'
   | 'pink_primary'
   | 'pink_inactive'
-  | 'pink_disabled';
+  | 'pink_disabled'
+  | 'blogPrimary'
+  | 'customGray';
 
 export const colors: Record<ColorType, string> = {
   white,
@@ -214,6 +220,8 @@ export const colors: Record<ColorType, string> = {
   pink_inactive,
   pink_disabled,
   green200,
+  blogPrimary,
+  customGray,
 };
 
 export const theme = {
