@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import layouts from 'apps/blog/style/layouts';
 import { makeArray } from 'apps/blog/utils/array-utils';
 import SkeletonBar from '../../base/SkeletonBar';
-import { colors } from 'apps/blog/style/colors';
 
 function PostListSkeleton() {
   return (
@@ -50,7 +49,7 @@ const SC = {
     text-align: left;
     padding-bottom: 1em;
     padding-top: 1.7em;
-    border-bottom: 2px solid ${colors.gray600};
+    border-bottom: 2px solid ${({ theme }) => theme.colors.gray600};
 
     @media screen and (max-width: ${layouts.phoneWidth}) {
       padding-bottom: 0.5em;

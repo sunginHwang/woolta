@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { useUserInfo } from 'apps/blog/hooks/queries/useUserInfo';
-import { customGray, gray800, gray_main, white } from 'apps/blog/style/colors';
 import { goLoginPage, goPostEditPage, goPostListPage } from 'apps/blog/utils/routeUtil';
 import { useCallback } from 'react';
 import layouts from '../../../style/layouts';
@@ -87,13 +86,13 @@ export default SideBar;
 
 const SC = {
   Contaienr: styled.div<{ isSideBarOpen: boolean }>`
-    border: 0.1rem solid ${customGray};
+    border: 0.1rem solid ${({ theme }) => theme.colors.customGray};
     width: ${layouts.mainRightWidth};
     height: 100%;
     position: fixed;
     font-size: 1.6rem;
     z-index: ${layouts.sideBarZIndex * 2};
-    background-color: ${white};
+    background-color: ${({ theme }) => theme.colors.white};
     top: ${layouts.mainHeaderHeight};
 
     right: ${({ isSideBarOpen }) => (isSideBarOpen ? 0 : `-${layouts.mainRightWidth}`)};
@@ -110,13 +109,13 @@ const SC = {
           padding: 1.6rem;
           border-left: 0.2px solid transparent;
           font-weight: 400;
-          color: ${gray_main};
+          color: ${({ theme }) => theme.colors.grayPrimary};
           cursor: pointer;
         }
 
         &:hover {
-          color: ${gray_main};
-          background-color: ${customGray};
+          color: ${({ theme }) => theme.colors.grayMain};
+          background-color: ${({ theme }) => theme.colors.customGray};
         }
       }
     }
@@ -134,7 +133,7 @@ const SC = {
     vertical-align: middle;
   `,
   SideBarWhiteSpace: styled.div`
-    background-color: ${gray800};
+    background-color: ${({ theme }) => theme.colors.gray800};
     position: fixed;
     top: 0;
     bottom: 0;

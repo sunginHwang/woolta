@@ -1,5 +1,4 @@
 import React from 'react';
-import { white } from '../../../style/colors';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -20,7 +19,7 @@ export default Content;
 
 const SC = {
   Content: styled.div`
-    background-color: ${white} !important;
+    background-color: ${({ theme }) => theme.colors.white} !important;
     > div {
       min-height: 100%;
       text-align: center;

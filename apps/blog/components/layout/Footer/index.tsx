@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
-import { blog_primary, customGray, white } from 'apps/blog/style/colors';
+import { blogPrimary, customGray, white } from 'apps/blog/style/colors';
 import layouts from '../../../style/layouts';
 
 type FooterProps = {
-  editMode: boolean;
+  editMode?: boolean;
 };
 
-function Footer({ editMode }: FooterProps) {
+function Footer({ editMode = false }: FooterProps) {
   if (editMode) return null;
 
   return (
@@ -16,10 +16,6 @@ function Footer({ editMode }: FooterProps) {
     </SC.Container>
   );
 }
-
-Footer.defaultProps = {
-  editMode: false,
-} as FooterProps;
 
 export default Footer;
 
@@ -32,7 +28,7 @@ const SC = {
     justify-content: center;
     background-color: ${white};
     border-top: 0.1rem solid ${customGray};
-    color: ${blog_primary};
+    color: ${blogPrimary};
     text-align: center;
     padding-top: 1.6rem;
 

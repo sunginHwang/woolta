@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { Post } from '.';
 import styled from '@emotion/styled';
-import { colors } from 'apps/blog/style/colors';
 import layouts from 'apps/blog/style/layouts';
 import Link from 'next/link';
-import Text from '../../base/SkeletonBar/Text';
+import Text from '../../base/Text';
 
 interface Props {
   post: Post;
@@ -14,26 +13,19 @@ const Item: FC<Props> = ({ post }) => {
   return (
     <SC.Container>
       <Link href={`/categories/${post.categoryNo}/posts/${post.postNo}`}>
-        <Text className='title' variant='title1_bold' color='green200' as='h2' mb={10}>
+        <Text className='title' variant='title3Bold' color='grayPrimary' as='h2' mb={8}>
           {post.title}
         </Text>
-        <Text className='content' variant='body1' color='green200' as='p' mb={10}>
+        <Text className='content' variant='body3' color='graySecondary' as='p' mb={15}>
           {post.subDescription}
         </Text>
         <SC.SubInfo>
-          <Text variant='small3_bold' color='gray600' className='label'>
-            {post.categoryLabel}
-          </Text>
-          <Text variant='small3_regular' color='gray400' className='separator'>
-            |
-          </Text>
-          <Text variant='small3_regular' color='gray400' className='meta'>
-            {post.author}
-          </Text>
-          <Text variant='small3_regular' color='gray400' className='separator'>
-            |
-          </Text>
-          <Text variant='small3_regular' color='gray400' className='meta'>
+          <SC.Chip>
+            <Text variant='small3Bold' color='graySecondary' className='label'>
+              {post.categoryLabel}
+            </Text>
+          </SC.Chip>
+          <Text variant='small1Regular' color='grayTertiary' className='meta'>
             {post.createdAt}
           </Text>
         </SC.SubInfo>
@@ -47,35 +39,30 @@ export default Item;
 const SC = {
   Container: styled.article`
     text-align: left;
-    padding-bottom: 1.6rem;
-    padding-top: 2.72rem;
-    border-bottom: 0.1rem solid ${colors.gray400};
+    padding: 1.6rem 0;
+    border-bottom: 0.1rem solid rgb(244, 244, 244);
+    cursor: pointer;
 
     @media screen and (max-width: ${layouts.phoneWidth}) {
-      padding-bottom: 0.8rem;
-      padding-top: 1.92rem;
-    }
-
-    .title {
-      margin-bottom: 1rem;
-      cursor: pointer;
     }
 
     .content {
-      max-width: 80%;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
     }
   `,
   SubInfo: styled.div`
-    .separator {
-      margin-right: 0.5rem;
-    }
-
-    .meta {
-      margin-right: 0.5rem;
-    }
-
-    .label {
-      margin-right: 1rem;
-    }
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `,
+  Chip: styled.div`
+    padding: 3px 8px 4px 8px;
+    background-color: ${({ theme }) => theme.colors.bgSecondary};
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
   `,
 };

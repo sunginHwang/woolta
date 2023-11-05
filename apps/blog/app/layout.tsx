@@ -38,14 +38,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel='stylesheet'
           as='style'
           crossOrigin=''
-          href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css'
+          href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css'
         />
       </head>
       <Global styles={reset_style} />
       <body>
         <QueryClientProvider client={queryClient}>
           <Provider>
-            <ThemeProvider theme={theme.dark}>
+            <ThemeProvider theme={theme.light}>
               <Layout>{children}</Layout>
             </ThemeProvider>
           </Provider>

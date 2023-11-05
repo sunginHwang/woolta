@@ -1,94 +1,94 @@
 import { css, SerializedStyles } from '@emotion/react';
 
 export type FontVarient =
-  | 'title1_bold'
-  | 'title1_medium'
-  | 'title2_bold'
-  | 'title2_medium'
-  | 'title3_bold'
-  | 'title3_medium'
-  | 'title4_bold'
-  | 'title4_medium'
-  | 'title5_bold'
-  | 'title5_medium'
-  | 'title6_bold'
-  | 'title6_medium'
+  | 'title1Bold'
+  | 'title1Medium'
+  | 'title2Bold'
+  | 'title2Medium'
+  | 'title3Bold'
+  | 'title3Medium'
+  | 'title4Bold'
+  | 'title4Medium'
+  | 'title5Bold'
+  | 'title5Medium'
+  | 'title6Bold'
+  | 'title6Medium'
   | 'body1'
   | 'body2'
   | 'body3'
-  | 'body4_bold'
-  | 'body4_medium'
-  | 'body4_regular'
-  | 'small1_bold'
-  | 'small1_medium'
-  | 'small1_regular'
-  | 'small2_bold'
-  | 'small2_medium'
-  | 'small2_regular'
-  | 'small3_bold'
-  | 'small3_medium'
-  | 'small3_regular'
-  | 'small4_bold'
-  | 'small4_medium'
-  | 'small4_regular';
+  | 'body4Bold'
+  | 'body4Medium'
+  | 'body4Regular'
+  | 'small1Bold'
+  | 'small1Medium'
+  | 'small1Regular'
+  | 'small2Bold'
+  | 'small2Medium'
+  | 'small2Regular'
+  | 'small3Bold'
+  | 'small3Medium'
+  | 'small3Regular'
+  | 'small4Bold'
+  | 'small4Medium'
+  | 'small4Regular';
 
 export const typography: Record<FontVarient, SerializedStyles> = {
-  title1_bold: css`
+  title1Bold: css`
     font-size: 24px;
     line-height: 31.2px;
     font-weight: 600;
   `,
-  title1_medium: css`
+  title1Medium: css`
     font-size: 24px;
     line-height: 31.2px;
     font-weight: 500;
   `,
-  title2_bold: css`
+  title2Bold: css`
     font-size: 20px;
     line-height: 26px;
     font-weight: 600;
   `,
-  title2_medium: css`
+  title2Medium: css`
     font-size: 20px;
     line-height: 26px;
     font-weight: 500;
   `,
-  title3_bold: css`
+  title3Bold: css`
     font-size: 18px;
     line-height: 25.2px;
     font-weight: 600;
   `,
-  title3_medium: css`
+  title3Medium: css`
     font-size: 18px;
     line-height: 25.2px;
     font-weight: 500;
   `,
-  title4_bold: css`
+  title4Bold: css`
     font-size: 16px;
     line-height: 22.4px;
     font-weight: 600;
   `,
-  title4_medium: css`
+  title4Medium: css`
     font-size: 16px;
     line-height: 22.4px;
     font-weight: 500;
   `,
-  title5_bold: css`
+  title5Bold: css`
     font-size: 15px;
     line-height: 21px;
     font-weight: 600;
   `,
-  title5_medium: css`
+  title5Medium: css`
     font-size: 15px;
     line-height: 21px;
     font-weight: 500;
   `,
-  title6_bold: css`
+  title6Bold: css`
     font-size: 14px;
     line-height: 19.6px;
     font-weight: 600;
   `,
-  title6_medium: css`
+  title6Medium: css`
     font-size: 14px;
     line-height: 19.6px;
     font-weight: 500;
@@ -108,77 +108,77 @@ export const typography: Record<FontVarient, SerializedStyles> = {
     line-height: 19.6px;
     font-weight: 400;
   `,
-  body4_bold: css`
+  body4Bold: css`
     font-size: 13px;
     line-height: 18.2px;
     font-weight: 600;
   `,
-  body4_medium: css`
+  body4Medium: css`
     font-size: 13px;
     line-height: 18.2px;
     font-weight: 500;
   `,
-  body4_regular: css`
+  body4Regular: css`
     font-size: 13px;
     line-height: 18.2px;
     font-weight: 400;
   `,
-  small1_bold: css`
+  small1Bold: css`
     font-size: 12px;
     line-height: 16.8px;
     font-weight: 600;
   `,
-  small1_medium: css`
+  small1Medium: css`
     font-size: 12px;
     line-height: 16.8px;
     font-weight: 500;
   `,
-  small1_regular: css`
+  small1Regular: css`
     font-size: 12px;
     line-height: 16.8px;
     font-weight: 400;
   `,
-  small2_bold: css`
+  small2Bold: css`
     font-size: 11px;
     line-height: 15.4px;
     font-weight: 600;
   `,
-  small2_medium: css`
+  small2Medium: css`
     font-size: 11px;
     line-height: 15.4px;
     font-weight: 500;
   `,
-  small2_regular: css`
+  small2Regular: css`
     font-size: 11px;
     line-height: 15.4px;
     font-weight: 400;
   `,
-  small3_bold: css`
+  small3Bold: css`
     font-size: 10px;
     line-height: 14px;
     font-weight: 600;
   `,
-  small3_medium: css`
+  small3Medium: css`
     font-size: 10px;
     line-height: 14px;
     font-weight: 500;
   `,
-  small3_regular: css`
+  small3Regular: css`
     font-size: 10px;
     line-height: 14px;
     font-weight: 400;
   `,
-  small4_bold: css`
+  small4Bold: css`
     font-weight: 600;
     font-size: 9px;
     line-height: 12.6px;
   `,
-  small4_medium: css`
+  small4Medium: css`
     font-weight: 500;
     font-size: 9px;
     line-height: 12.6px;
   `,
-  small4_regular: css`
+  small4Regular: css`
     font-weight: 400;
     font-size: 9px;
     line-height: 12.6px;

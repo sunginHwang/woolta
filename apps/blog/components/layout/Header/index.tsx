@@ -1,6 +1,5 @@
 import React from 'react';
 import { MdList } from 'react-icons/md';
-import { customGray, green200 } from '../../../style/colors';
 import layouts from '../../../style/layouts';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -28,9 +27,7 @@ function Header({ showMobileHeader, showSideBar, toggleSideBar }: HeaderProps) {
     <>
       <SC.Header isShowMobileHeader={showMobileHeader}>
         <SC.HeaderLogo onClick={onMainPageClick}>woolta</SC.HeaderLogo>
-        <SC.HeaderMenu onClick={onToggleSideBar}>
-          <MdList />
-        </SC.HeaderMenu>
+        <MdList size={30} onClick={onToggleSideBar} />
       </SC.Header>
     </>
   );
@@ -53,15 +50,17 @@ const SC = {
     right: 0;
     left: 0;
     z-index: 100;
-    background-color: ${customGray};
-    color: ${green200};
+    background-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.customGray};
     border-bottom-style: solid;
-    height: ${layouts.mainHeaderHeight};
-    border-color: ${customGray};
-    border-width: 0.1rem 0.1rem 0.2rem 0.1rem;
+    height: ${layouts.DesktopHeader};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.bgSecondary};
+    padding: 0 1.6rem;
 
     @media screen and (max-width: ${layouts.mobileWidth}) {
       transition: all 0.2s ease-in-out;
+      height: ${layouts.mobileHeader};
+
       ${(props) =>
         props.isShowMobileHeader &&
         css`
@@ -71,15 +70,13 @@ const SC = {
     }
   `,
 
-  HeaderLogo: styled.span`
+  HeaderLogo: styled.p`
     font-weight: bolder;
     font-size: 2rem;
-    padding: 1.6rem;
     cursor: pointer;
   `,
   HeaderMenu: styled.span`
     cursor: pointer;
     font-size: 3rem;
-    margin: 1.6rem;
   `,
 };

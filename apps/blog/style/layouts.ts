@@ -1,6 +1,8 @@
 export default {
   /*common layout*/
   mainHeaderHeight: '6rem',
+  mobileHeader: '4.8rem',
+  DesktopHeader: '6rem',
   mainFooterHeight: '8rem',
   mainContentHeight: '100%',
   mainRightWidth: '24rem',
@@ -10,4 +12,3 @@ export default {
   mobileWidth: '1024px',
   phoneWidth: '450px',
 };
-

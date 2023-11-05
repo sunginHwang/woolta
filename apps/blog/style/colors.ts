@@ -1,4 +1,6 @@
-export const brand_color = '#E62F71';
+import { Theme } from '@emotion/react';
+
+export const brandColor = '#E62F71';
 
 export const white = '#FFFFFF';
 export const black = '#000000';
@@ -61,35 +63,35 @@ export const yellow500 = '#FEE700';
 
 export const orange500 = '#FFA93B';
 
-export const safe_green = '#5ac366';
-export const warning_red = '#f03e3e';
-export const light_yellow = '#fff97a';
-export const periwinkle_blue = '#8c9eff';
-export const kakao_color = '#fded4f';
-export const yellow_review = '#FEC600';
+export const safeGreen = '#5ac366';
+export const warningRed = '#f03e3e';
+export const lightYellow = '#fff97a';
+export const periwinkleBlue = '#8c9eff';
+export const kakaoColor = '#fded4f';
+export const yellowReview = '#FEC600';
 
-export const gray_main = 'rgba(255, 255, 255, 0.88)';
-export const gray_primary = black;
-export const gray_secondary = gray700;
-export const gray_tertiary = gray500;
-export const gray_active = gray900;
-export const gray_inactive = gray600;
-export const gray_disabled = gray300;
-export const gray_inactive_filled = gray300;
+export const grayMain = 'rgba(255, 255, 255, 0.88)';
+export const grayPrimary = black;
+export const graySecondary = gray700;
+export const grayTertiary = gray500;
+export const grayActive = gray900;
+export const grayInactive = gray600;
+export const grayDisabled = gray300;
+export const grayInactiveFilled = gray300;
 export const customGray = gray1000;
 export const border1 = gray400;
 export const border2 = gray300;
 export const border3 = gray200;
 export const border4 = gray100;
 
-export const bg_primary = gray050;
-export const bg_secondary = gray100;
+export const bgPrimary = gray050;
+export const bgSecondary = gray100;
 
-export const pink_primary = pink600;
-export const pink_inactive = pink200;
-export const pink_disabled = pink150;
+export const pinkPrimary = pink600;
+export const pinkInactive = pink200;
+export const pinkDisabled = pink150;
 
-export const blogPrimary = gray_main;
+export const blogPrimary = grayMain;
 
 export type ColorType =
   | 'white'
@@ -137,25 +139,26 @@ export type ColorType =
   | 'red500'
   | 'yellow500'
   | 'yellow'
-  | 'gray_primary'
-  | 'gray_secondary'
-  | 'gray_tertiary'
-  | 'gray_active'
-  | 'gray_inactive'
-  | 'gray_inactive_filled'
-  | 'gray_disabled'
+  | 'grayPrimary'
+  | 'graySecondary'
+  | 'grayTertiary'
+  | 'grayActive'
+  | 'grayInactive'
+  | 'grayInactiveFilled'
+  | 'grayDisabled'
   | 'border1'
   | 'border2'
   | 'border3'
   | 'border4'
-  | 'bg_primary'
-  | 'bg_secondary'
+  | 'bgPrimary'
+  | 'bgSecondary'
   | 'green200'
-  | 'pink_primary'
-  | 'pink_inactive'
-  | 'pink_disabled'
+  | 'pinkPrimary'
+  | 'pinkInactive'
+  | 'pinkDisabled'
   | 'blogPrimary'
-  | 'customGray';
+  | 'customGray'
+  | 'grayMain';
 
 export const colors: Record<ColorType, string> = {
   white,
@@ -201,32 +204,103 @@ export const colors: Record<ColorType, string> = {
   red100,
   red150,
   red500,
-  yellow: yellow_review,
+  yellow: yellowReview,
   yellow500,
-  gray_primary,
-  gray_secondary,
-  gray_tertiary,
-  gray_active,
-  gray_inactive,
-  gray_disabled,
-  gray_inactive_filled,
+  grayPrimary,
+  graySecondary,
+  grayTertiary,
+  grayActive,
+  grayInactive,
+  grayDisabled,
+  grayInactiveFilled,
   border1,
   border2,
   border3,
   border4,
-  bg_primary,
-  bg_secondary,
-  pink_primary,
-  pink_inactive,
-  pink_disabled,
+  bgPrimary,
+  bgSecondary,
+  pinkPrimary,
+  pinkInactive,
+  pinkDisabled,
   green200,
   blogPrimary,
   customGray,
+  grayMain,
 };
 
-export const theme = {
-  white: {
-    colors,
+export type ThemeType = 'dark' | 'light';
+
+export const theme: {
+  [key in ThemeType]: Theme;
+} = {
+  light: {
+    colors: {
+      white,
+      black,
+      gray050,
+      gray100,
+      gray150,
+      gray200,
+      gray300,
+      gray400,
+      gray500,
+      gray600,
+      gray650,
+      gray700,
+      gray800,
+      gray900,
+      gray950,
+      pink030,
+      pink050,
+      pink100,
+      pink150,
+      pink200,
+      pink300,
+      pink400,
+      pink500,
+      pink600,
+      pink700,
+      pink800,
+      pink900,
+      blue050,
+      blue100,
+      blue150,
+      blue200,
+      blue300,
+      blue400,
+      blue500,
+      blue550,
+      blue600,
+      blue700,
+      blue800,
+      blue900,
+      red050,
+      red100,
+      red150,
+      red500,
+      yellow: yellowReview,
+      yellow500,
+      grayPrimary,
+      graySecondary,
+      grayTertiary,
+      grayActive,
+      grayInactive,
+      grayDisabled,
+      grayInactiveFilled,
+      border1,
+      border2,
+      border3,
+      border4,
+      bgPrimary,
+      bgSecondary,
+      pinkPrimary,
+      pinkInactive,
+      pinkDisabled,
+      green200,
+      blogPrimary,
+      customGray,
+      grayMain,
+    },
   },
   dark: {
     colors: {
@@ -273,25 +347,34 @@ export const theme = {
       red100,
       red150,
       red500,
-      yellow: yellow_review,
+      yellow: yellowReview,
       yellow500,
-      gray_primary,
-      gray_secondary,
-      gray_tertiary,
-      gray_active,
-      gray_inactive,
-      gray_disabled,
-      gray_inactive_filled,
+      grayPrimary,
+      graySecondary,
+      grayTertiary,
+      grayActive,
+      grayInactive,
+      grayDisabled,
+      grayInactiveFilled,
       border1,
       border2,
       border3,
       border4,
-      bg_primary,
-      bg_secondary,
-      pink_primary,
-      pink_inactive,
-      pink_disabled,
-      green200: '#000',
+      bgPrimary,
+      bgSecondary,
+      pinkPrimary,
+      pinkInactive,
+      pinkDisabled,
+      green200,
+      blogPrimary,
+      customGray,
+      grayMain,
     },
   },
 };
+
+declare module '@emotion/react' {
+  export interface Theme {
+    colors: Record<ColorType, string>;
+  }
+}

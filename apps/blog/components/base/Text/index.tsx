@@ -29,7 +29,6 @@ export interface BaseTextProps extends React.Attributes {
   color?: ColorType;
   /**
    * text 타입을 정의 합니다.
-   * @default 'small1_regular'
    */
   variant: FontVarient;
   /**
