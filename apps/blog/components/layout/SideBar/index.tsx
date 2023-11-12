@@ -3,7 +3,7 @@ import { useUserInfo } from 'apps/blog/hooks/queries/useUserInfo';
 import { goLoginPage, goPostEditPage, goPostListPage } from 'apps/blog/utils/routeUtil';
 import { useCallback } from 'react';
 import layouts from '../../../style/layouts';
-import { useCategories } from '../hooks/useCategories';
+import { useCategories } from '../../home/hooks/useCategories';
 import useToast from 'apps/blog/hooks/useToast';
 
 type SideBarProps = {

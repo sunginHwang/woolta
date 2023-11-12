@@ -7,3 +7,11 @@ export const convertToPlainText = (markdown: string): string => {
     .replace(/[![*]/g, ' ')
     .replace(/[(.*)]/g, ' ');
 };
+
+
+
+export function splitWithIndex(str: string, index: number) {
+  const result = [str.slice(0, index), str.slice(index)];
+
+  return result;
+}

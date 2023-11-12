@@ -10,9 +10,14 @@ type ApiRes<T> = {
   code: number;
 };
 
+const allCategory: ICategory = {
+  value: 'ALL',
+  label: '전체',
+};
+
 export async function fetchCategories() {
   const { data } = await apiCall.get<ApiRes<ICategory[]>>(`${BLOG_API}/post/categories`);
-  return data.data;
+  return [allCategory, ...data.data];
 }
 
 export const useCategories = () => {

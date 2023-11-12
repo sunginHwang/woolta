@@ -1,19 +1,35 @@
-import { File } from 'buffer';
-import * as FileApi from '../api/FileApi';
-import { convertImageToCodeImage } from '../utils/imageUtil';
 import { useCallback } from 'react';
 
+import apiCall from 'apps/blog/utils/apiCall';
+import { BLOG_API, IMAGE_API } from 'apps/blog/config';
 
-export default function useImageUpload(){
+export const saveImageAndGetImageUrl = async (imageFile: File) => {
+  const data = new FormData();
+  data.append('imageFile', imageFile);
 
+  try {
+    const result = await apiCall.post(`${BLOG_API}/file/upload/image`, data);
+
+    if (result.status === 200 && result.data.code === 'SUCCESS') {
+      const savedImageUrl: string = `${IMAGE_API}/${result.data.data.originFileName}`;
+      return savedImageUrl;
+    } else {
+      alert('이미지 업로드에 실패하였습니다.');
+    }
+  } catch (e) {
+    alert('이미지 업로드에 실패하였습니다.');
+  }
+
+  return '';
+};
+
+export default function useImageUpload() {
   const onImageUpload = useCallback(async (file: File) => {
-    const savedImageUrl = await FileApi.saveImageAndGetImageUrl(file);
-    return convertImageToCodeImage(savedImageUrl);
-  },[]);
+    const savedImageUrl = await saveImageAndGetImageUrl(file);
+    return savedImageUrl;
+  }, []);
 
-  const addImageTag = useCallback((image: string, content: string, addIndex: number)=>{
-    return content.slice(0, addIndex) + image + content.slice(addIndex);
-  },[])
-
-  return [onImageUpload, addImageTag] as [typeof onImageUpload, typeof addImageTag];
+  return {
+    onImageUpload,
+  };
 }
