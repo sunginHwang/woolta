@@ -7,6 +7,8 @@ import { useImageDndAndPaste } from '../hooks/useImageDndAndPaste';
 import { themeCss } from './theme';
 import { splitWithIndex } from 'apps/blog/utils/StringUtil';
 import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
+import { useAtom } from 'jotai';
+import { postAtom } from '../store';
 
 const UPLOAD_PREV_TEXT = `![업로드중..]()\n`;
 
@@ -37,7 +39,7 @@ func main() {
 
 const Editor = () => {
   const editor = useRef(null);
-  const [value, setValue] = useState(code);
+  const [value, setValue] = useAtom(postAtom);
   const { view, setContainer } = useCodeMirror({
     container: editor.current,
     extensions: [[markdown({ base: markdownLanguage }), javascript(), syntaxHighlighting(defaultHighlightStyle)]],
