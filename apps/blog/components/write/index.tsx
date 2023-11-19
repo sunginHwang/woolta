@@ -23,10 +23,13 @@ export default Write;
 const SC = {
   Container: styled.div`
     width: 100%;
+    height: calc(100vh - 61px);
     display: flex;
 
     .item {
-      flex: 0.5 1 0%;
+      display: flex;
+      flex: 1 1 0%;
+      overflow-y: scroll;
     }
   `,
 };

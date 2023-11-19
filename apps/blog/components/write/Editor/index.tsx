@@ -9,6 +9,7 @@ import { splitWithIndex } from 'apps/blog/utils/StringUtil';
 import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
 import { useAtom } from 'jotai';
 import { postAtom } from '../store';
+import { languages } from '@codemirror/language-data';
 
 const UPLOAD_PREV_TEXT = `![업로드중..]()\n`;
 
@@ -42,7 +43,21 @@ const Editor = () => {
   const [value, setValue] = useAtom(postAtom);
   const { view, setContainer } = useCodeMirror({
     container: editor.current,
-    extensions: [[markdown({ base: markdownLanguage }), javascript(), syntaxHighlighting(defaultHighlightStyle)]],
+    basicSetup: {
+      autocompletion: true,
+      searchKeymap: true,
+      closeBrackets: true,
+      closeBracketsKeymap: true,
+      highlightActiveLine: true,
+      completionKeymap: true,
+    },
+    extensions: [
+      [
+        markdown({ base: markdownLanguage, codeLanguages: languages }),
+        javascript(),
+        syntaxHighlighting(defaultHighlightStyle),
+      ],
+    ],
     value: value,
     onChange: setValue,
   });
@@ -87,5 +102,19 @@ const SC = {
     min-height: 0px;
     flex: 1 1 0%;
     text-align: left;
+
+    .CodeMirror-wrap pre {
+      word-break: break-word;
+    }
+
+    .cm-line {
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      word-break: normal;
+    }
+
+    .cm-content {
+      white-space: pre-wrap;
+    }
   `,
 };

@@ -4,6 +4,28 @@ import layouts from 'apps/blog/style/layouts';
 import { FC } from 'react';
 import Markdown from 'react-markdown';
 
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import tsx from 'react-syntax-highlighter/dist/cjs/languages/prism/tsx';
+import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
+import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss';
+import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
+import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
+import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
+import javascript from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
+import java from 'react-syntax-highlighter/dist/esm/languages/hljs/java';
+import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
+import style from 'react-syntax-highlighter/dist/esm/styles/hljs/darcula';
+
+SyntaxHighlighter.registerLanguage('tsx', tsx);
+SyntaxHighlighter.registerLanguage('jsx', jsx);
+SyntaxHighlighter.registerLanguage('typescript', typescript);
+SyntaxHighlighter.registerLanguage('scss', scss);
+SyntaxHighlighter.registerLanguage('bash', bash);
+SyntaxHighlighter.registerLanguage('markdown', markdown);
+SyntaxHighlighter.registerLanguage('json', json);
+//SyntaxHighlighter.registerLanguage('javascript', javascript);
+//SyntaxHighlighter.registerLanguage('java', java);
+
 interface Props {
   markdown: string;
 }
@@ -11,7 +33,22 @@ interface Props {
 const MarkdownViewer: FC<Props> = ({ markdown }) => {
   return (
     <SC.Viewer>
-      <Markdown>{markdown}</Markdown>
+      <Markdown
+        components={{
+          code({ node, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '');
+            return match ? (
+              <SyntaxHighlighter language={match[1]} style={style} {...props}>
+                {String(children).replace(/\n$/, '')}
+              </SyntaxHighlighter>
+            ) : (
+              <code {...props}>{children}</code>
+            );
+          },
+        }}
+      >
+        {markdown}
+      </Markdown>
     </SC.Viewer>
   );
 };
@@ -20,6 +57,8 @@ export default MarkdownViewer;
 
 const SC = {
   Viewer: styled.div`
+    flex: 1 1 0%;
+    overflow-y: auto;
     text-align: left;
     padding: 1.6rem;
 
@@ -211,7 +250,7 @@ const SC = {
     h2 {
       margin-top: 7rem;
       margin-bottom: 3rem;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 3.2rem;
       border-bottom: 0.2rem solid ${({ theme }) => theme.colors.gray300};
       line-height: 4.4rem;
