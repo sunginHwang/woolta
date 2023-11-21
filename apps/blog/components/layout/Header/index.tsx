@@ -42,7 +42,7 @@ export default Header;
 
 const SC = {
   Header: styled.div<{ isShowMobileHeader: boolean }>`
-    position: fixed;
+    position: sticky;
     display: flex;
     justify-content: space-between;
     align-items: center;

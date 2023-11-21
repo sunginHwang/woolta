@@ -10,21 +10,24 @@ type ApiRes<T> = {
   code: number;
 };
 
-const allCategory: ICategory = {
-  value: 'ALL',
+export const allCategory: ICategory = {
+  value: '-1',
   label: '전체',
 };
 
 export async function fetchCategories() {
   const { data } = await apiCall.get<ApiRes<ICategory[]>>(`${BLOG_API}/post/categories`);
-  return [allCategory, ...data.data];
+  return data.data;
 }
 
 export const useCategories = () => {
   const { data, ...rest } = useQuery({ queryKey: [CATEGORIES_QUERY_KEY], queryFn: fetchCategories });
 
+  const defaultCategories = data ?? [];
+
   return {
-    categories: data ?? [],
+    categories: [allCategory, ...defaultCategories],
+    categoriesExceptAll: defaultCategories,
     ...rest,
   };
 };

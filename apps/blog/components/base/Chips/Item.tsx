@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { MouseEvent, forwardRef, useEffect, useMemo } from 'react';
+import { MouseEvent, forwardRef } from 'react';
 import Chip, { ChipItem } from './Chip';
 
 export interface ChipItemWithLink extends ChipItem {
-  href: string;
+  href?: string;
 }
 
 interface Props {
@@ -24,15 +24,18 @@ const Item = forwardRef<HTMLLIElement, Props>(
       onClick?.(e, chip, index);
     };
 
-    const link_props = is_replace ? { href: chip.href, replace: true } : { href: chip.href };
-
+    const link_props = is_replace ? { href: chip?.href ?? '', replace: true } : { href: chip?.href ?? '' };
     const class_name = chip.value === active_chip_value ? 'active' : '';
 
     return (
-      <li ref={parents_ref}>
-        <Link {...link_props} onClick={handleChipClick}>
+      <li ref={parents_ref} onClick={handleChipClick}>
+        {chip.href ? (
+          <Link {...link_props}>
+            <Chip text={chip.name} active={chip.value === active_chip_value} className={class_name} />
+          </Link>
+        ) : (
           <Chip text={chip.name} active={chip.value === active_chip_value} className={class_name} />
-        </Link>
+        )}
       </li>
     );
   },

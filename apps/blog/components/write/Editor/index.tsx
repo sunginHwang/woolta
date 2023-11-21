@@ -1,120 +1,23 @@
 import styled from '@emotion/styled';
-import { javascript } from '@codemirror/lang-javascript';
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { useCodeMirror } from '@uiw/react-codemirror';
-import { useEffect, useRef, useState } from 'react';
-import { useImageDndAndPaste } from '../hooks/useImageDndAndPaste';
-import { themeCss } from './theme';
-import { splitWithIndex } from 'apps/blog/utils/StringUtil';
-import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
-import { useAtom } from 'jotai';
-import { postAtom } from '../store';
-import { languages } from '@codemirror/language-data';
-
-const UPLOAD_PREV_TEXT = `![업로드중..]()\n`;
-
-const code = `## Title
-
-\`\`\`jsx
-function Demo() {
-  return <div>demo</div>
-}
-\`\`\`
-
-\`\`\`bash
-# Not dependent on uiw.
-npm install @codemirror/lang-markdown --save
-npm install @codemirror/language-data --save
-\`\`\`
-
-[weisit ulr](https://uiwjs.github.io/react-codemirror/)
-
-\`\`\`go
-package main
-import "fmt"
-func main() {
-  fmt.Println("Hello, 世界")
-}
-\`\`\`
-`;
+import Categories from './Categories';
+import Content from './Content';
+import Title from './Title';
 
 const Editor = () => {
-  const editor = useRef(null);
-  const [value, setValue] = useAtom(postAtom);
-  const { view, setContainer } = useCodeMirror({
-    container: editor.current,
-    basicSetup: {
-      autocompletion: true,
-      searchKeymap: true,
-      closeBrackets: true,
-      closeBracketsKeymap: true,
-      highlightActiveLine: true,
-      completionKeymap: true,
-    },
-    extensions: [
-      [
-        markdown({ base: markdownLanguage, codeLanguages: languages }),
-        javascript(),
-        syntaxHighlighting(defaultHighlightStyle),
-      ],
-    ],
-    value: value,
-    onChange: setValue,
-  });
-
-  const updateImage = (image: string) => {
-    setValue((prev) => prev.replace(UPLOAD_PREV_TEXT, image));
-  };
-
-  const addUploadLoadingText = () => {
-    const currentFocusIndex = view?.state?.selection.main.head;
-    if (currentFocusIndex !== undefined) {
-      const [prevText, nextText] = splitWithIndex(value, currentFocusIndex);
-      setValue(prevText + UPLOAD_PREV_TEXT + nextText);
-      return;
-    }
-
-    setValue(`\n${value}${UPLOAD_PREV_TEXT}`);
-  };
-
-  useImageDndAndPaste({
-    onUpdating: addUploadLoadingText,
-    onUpdateImage: updateImage,
-  });
-
-  useEffect(() => {
-    if (editor.current) {
-      setContainer(editor.current);
-    }
-  }, [editor.current]);
-
   return (
-    <div>
-      <SC.TextEditor css={themeCss} ref={editor} />
-    </div>
+    <SC.Container>
+      <Title />
+      <Categories />
+      <Content />
+    </SC.Container>
   );
 };
 
 export default Editor;
 
 const SC = {
-  TextEditor: styled.div`
-    min-height: 0px;
-    flex: 1 1 0%;
-    text-align: left;
-
-    .CodeMirror-wrap pre {
-      word-break: break-word;
-    }
-
-    .cm-line {
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      word-break: normal;
-    }
-
-    .cm-content {
-      white-space: pre-wrap;
-    }
+  Container: styled.div`
+    width: 100%;
+    height: 100%;
   `,
 };

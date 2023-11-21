@@ -1,5 +1,5 @@
 import PostList from '../posts/PostList';
-import CategoryChips from './CategoryChips';
+import CategoryChips from '../common/CategoryChips';
 import { useRecentPosts } from './hooks/useRecentPosts';
 
 function Home() {

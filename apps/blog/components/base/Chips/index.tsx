@@ -40,7 +40,7 @@ interface Props {
   /**
    * chip클릭시 이벤트 입니다.
    */
-  onChipClick?: (e: MouseEvent<HTMLElement>, chip: ChipItemWithLink, index: number) => void;
+  onChipClick?: (chip: ChipItemWithLink, e: MouseEvent<HTMLElement>, index: number) => void;
 }
 
 /**
@@ -88,7 +88,7 @@ const Chips = ({
       resetScrollTo(stickey_height);
     }
 
-    onChipClick?.(e, chip, idx);
+    onChipClick?.(chip, e, idx);
   };
 
   if (is_loading) {
@@ -134,13 +134,12 @@ export default Chips;
 const SC = {
   Container: styled.ul<{ use_stickey?: boolean; stickey_height?: number }>`
     ${invisibleScrollBar}
-    padding: 16px;
+    padding: 8px 16px;
     white-space: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
     position: relative;
     gap: 6px;
-    height: 51px;
     display: flex;
     align-items: center;
     scrollbar-width: none;
