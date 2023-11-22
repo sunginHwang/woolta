@@ -1,14 +1,22 @@
 'use client';
 import { Global, ThemeProvider } from '@emotion/react';
-import { reset_style } from '../style/reset';
-import { theme } from '../style/colors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'jotai';
 import Layout from '../components/layout';
+import { theme } from '../style/colors';
+import { reset_style } from '../style/reset';
+import { getCookie } from '../utils/cookie';
+import { ACCESS_TOKEN } from '../constants';
+import { settingAccessHeaderToken } from '../utils/apiCall';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const accessToken = getCookie(ACCESS_TOKEN);
+  if (accessToken) {
+    settingAccessHeaderToken(accessToken);
+  }
+
   return (
     <html lang='ko'>
       <head>

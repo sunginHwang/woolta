@@ -1,4 +1,5 @@
-import Login from 'apps/blog/components/login';
+'use client';
+import Login from 'apps/blog/components/login/main';
 
 const LoginPage = () => {
   return <Login />;

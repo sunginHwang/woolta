@@ -1,12 +1,23 @@
 import styled from '@emotion/styled';
+import { useLogin } from 'apps/blog/hooks/queries/useLogin';
 import useInputs from 'apps/blog/hooks/useInputs';
 import layouts from 'apps/blog/style/layouts';
 
 const Login = () => {
   const [loginForm, onChange] = useInputs({ id: '', password: '' });
+  const { login } = useLogin();
 
   const handleLogin = () => {
-    console.log('handleLoginClick');
+    if (loginForm.id === '') {
+      alert('아이디를 입력해 주세요.');
+      return;
+    }
+
+    if (loginForm.password === '') {
+      alert('암호를 입력해 주세요.');
+      return;
+    }
+    login(loginForm.id, loginForm.password);
   };
 
   return (

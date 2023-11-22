@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { BLOG_API, TEMP_POST_AUTO_SAVE } from 'apps/blog/constants';
 import useToast from 'apps/blog/hooks/useToast';
 import apiCall from 'apps/blog/utils/apiCall';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type ApiRes<T> = {
   data: T;
