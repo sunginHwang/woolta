@@ -221,7 +221,6 @@ const SC = {
         border-radius: 0.8rem;
         background-color: ${({ theme }) => theme.colors.bgSecondary};
         border: 0.1rem solid ${({ theme }) => theme.colors.grayMain};
-        margin: 0 0.8rem;
       }
     }
 

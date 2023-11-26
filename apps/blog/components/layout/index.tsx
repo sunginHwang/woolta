@@ -40,6 +40,6 @@ function getIsWritePage() {
   if (typeof window === 'undefined') {
     return false;
   }
-  console.log(window.location.pathname);
+
   return window.location.pathname === '/write';
 }

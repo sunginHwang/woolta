@@ -28,7 +28,7 @@ const noneEditModeCss = css`
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  max-width: 100rem;
+  max-width: 70rem;
 `;
 const editModeCss = css`
   height: 100%;
