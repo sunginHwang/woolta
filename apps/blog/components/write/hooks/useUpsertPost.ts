@@ -1,30 +1,44 @@
-import { useMutation } from '@tanstack/react-query';
+import { QueryClient, useMutation } from '@tanstack/react-query';
 import { BLOG_API, TEMP_POST_AUTO_SAVE } from 'apps/blog/constants';
 import useToast from 'apps/blog/hooks/useToast';
 import apiCall from 'apps/blog/utils/apiCall';
 import { useRouter } from 'next/navigation';
+import { getPostQueryKey } from '../../post/hooks/usePost';
 
 type ApiRes<T> = {
   data: T;
   code: number;
 };
 
-type UpsertPost = { id: number; title: string; contents: string; categoryNo: number };
+type UpsertPost = { id: number; title: string; contents: string; categoryNo: number; isUpdate: boolean };
 
-export const upsertPostApi = (postData: UpsertPost) => {
-  return apiCall.post<ApiRes<{ categoryNo: number; postNo: number }>>(`${BLOG_API}/post`, postData);
+export const upsertPostApi = async (upsertPostInfo: UpsertPost) => {
+  const { isUpdate, ...postInfo } = upsertPostInfo;
+  const res = await apiCall.post<ApiRes<{ categoryNo: number; postNo: number }>>(`${BLOG_API}/post`, postInfo);
+  const upsertPost = res.data.data;
+
+  return {
+    upsertPost,
+    isUpdate,
+  };
 };
 
 export const useUpsertPost = () => {
   const { showToast } = useToast();
   const router = useRouter();
+  const queryClient = new QueryClient();
 
   const upsertPostMutate = useMutation({
     mutationFn: upsertPostApi,
-    onSuccess: (res) => {
+    onSuccess: ({ upsertPost, isUpdate }) => {
+      const { categoryNo, postNo } = upsertPost;
       localStorage.removeItem(TEMP_POST_AUTO_SAVE);
-      showToast('글 작성이 완료되었습니다.');
-      const { categoryNo, postNo } = res.data.data;
+
+      if (isUpdate) {
+        queryClient.invalidateQueries({ queryKey: getPostQueryKey(categoryNo, postNo) });
+      }
+
+      showToast(`글 ${isUpdate ? '수정' : '작성'}이 완료되었습니다.`);
       router.push(`categories/${categoryNo}/posts/${postNo}`);
     },
     onError: alert,

@@ -12,7 +12,7 @@ const Write = () => {
   const { content, title, category, postNo } = useAtomValue(postAtom);
   const { upsertPost } = useUpsertPost();
 
-  const isUpdatePost = postNo && postNo > 0;
+  const isUpdatePost = postNo !== null && postNo > 0;
 
   const handleWriteClick = () => {
     upsertPost({
@@ -20,6 +20,7 @@ const Write = () => {
       id: postNo ?? 0,
       contents: content,
       categoryNo: Number(category),
+      isUpdate: isUpdatePost,
     });
   };
 

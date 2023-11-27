@@ -24,7 +24,7 @@ export const usePost = () => {
   const { categoryNo, postNo } = useParams() as { categoryNo: string; postNo: string };
 
   const { data, ...rest } = useQuery({
-    queryKey: [POST_QUERY_KEY, categoryNo, postNo],
+    queryKey: getPostQueryKey(Number(categoryNo), Number(postNo)),
     queryFn: () => fetchPost(Number(categoryNo), Number(postNo)),
   });
 
@@ -33,3 +33,7 @@ export const usePost = () => {
     ...rest,
   };
 };
+
+export function getPostQueryKey(categoryNo: number, postNo: number) {
+  return [POST_QUERY_KEY, categoryNo, postNo];
+}
