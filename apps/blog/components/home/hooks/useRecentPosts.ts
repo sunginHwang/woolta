@@ -3,7 +3,7 @@ import { BLOG_API } from 'apps/blog/config';
 import { IPost } from 'apps/blog/types/post/IPost';
 import apiCall from 'apps/blog/utils/apiCall';
 
-const RECNET_POSTS_QUERY_KEY: string = 'getRecentPosts';
+export const POSTS_QUERY_KEY: string = 'getPosts';
 
 type ApiRes<T> = {
   data: T;
@@ -16,7 +16,7 @@ export async function fetchRecentPosts() {
 }
 
 export const useRecentPosts = () => {
-  const { data, ...rest } = useQuery({ queryKey: [RECNET_POSTS_QUERY_KEY], queryFn: fetchRecentPosts });
+  const { data, ...rest } = useQuery({ queryKey: [POSTS_QUERY_KEY], queryFn: fetchRecentPosts });
   const recent_posts: IPost[] = data ?? [];
   return {
     recent_posts,

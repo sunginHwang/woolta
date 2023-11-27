@@ -7,11 +7,13 @@ import { typography } from 'apps/blog/style/font';
 import { useSetAtom } from 'jotai';
 import { setPostAtom } from '../../write/store';
 import { useRouter } from 'next/navigation';
+import { useDeletePost } from '../hooks/useDeletePost';
 
 const Title = () => {
   const { push } = useRouter();
   const { post } = usePost();
   const { isLogin } = useUserInfo();
+  const { deletePost } = useDeletePost();
   const setPost = useSetAtom(setPostAtom);
 
   const handleModifyClick = () => {
@@ -23,7 +25,17 @@ const Title = () => {
     push('/write');
   };
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = () => {
+    if (!confirm('삭제하시겠습니까?')) {
+      return;
+    }
+
+    if (!post || post.categoryNo === undefined) {
+      return;
+    }
+    const { categoryNo, postNo } = post;
+    deletePost({ categoryNo, postNo });
+  };
 
   if (!post) {
     return null;
