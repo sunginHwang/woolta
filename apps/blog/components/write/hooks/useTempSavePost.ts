@@ -30,17 +30,17 @@ export const useTempSavePost = () => {
 
   const loadTempPost = () => {
     try {
-      const tempPost: WritePost = JSON.parse(localStorage.getItem(TEMP_POST_AUTO_SAVE) ?? '');
-      const isNotExistTempPost = tempPost.content === '' && tempPost.title === '';
+      const tempPost: WritePost | null = JSON.parse(localStorage.getItem(TEMP_POST_AUTO_SAVE) ?? '');
 
-      if (isNotExistTempPost) {
+      if (!tempPost) {
         return;
       }
 
-      const isConfirm = confirm('임시저장된 정보를 불러오시겠습니까?');
-
-      if (isConfirm) {
+      if (confirm('임시저장된 정보를 불러오시겠습니까?')) {
         setPost(tempPost);
+        localStorage.removeItem(TEMP_POST_AUTO_SAVE);
+      } else {
+        localStorage.removeItem(TEMP_POST_AUTO_SAVE);
       }
     } catch {
       return;

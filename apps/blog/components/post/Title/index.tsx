@@ -4,12 +4,24 @@ import Text from '../../base/Text';
 import { usePost } from '../hooks/usePost';
 import { useUserInfo } from 'apps/blog/hooks/queries/useUserInfo';
 import { typography } from 'apps/blog/style/font';
+import { useSetAtom } from 'jotai';
+import { setPostAtom } from '../../write/store';
+import { useRouter } from 'next/navigation';
 
 const Title = () => {
+  const { push } = useRouter();
   const { post } = usePost();
   const { isLogin } = useUserInfo();
+  const setPost = useSetAtom(setPostAtom);
 
-  const handleModifyClick = () => {};
+  const handleModifyClick = () => {
+    if (!post) {
+      return;
+    }
+    const { title, categoryNo, content, postNo } = post;
+    setPost({ title, content, category: String(categoryNo), postNo });
+    push('/write');
+  };
 
   const handleDeleteClick = () => {};
 

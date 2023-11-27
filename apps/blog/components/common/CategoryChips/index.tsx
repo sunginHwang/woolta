@@ -17,7 +17,7 @@ const CategoryChips: FC<Props> = ({ active_category, useLink, useAllCategory = t
 
   const cateogryChips = categoriesFilterByAll.map<ChipItemWithLink>((category) => ({
     name: category.label,
-    value: category.value,
+    value: String(category.value),
     href: useLink ? '' : undefined,
   }));
 

@@ -14,15 +14,13 @@ const Categories = () => {
 
     if (isInjectInitCategory) {
       const firstCategory = categoriesExceptAll[0];
-      setPostCategory(firstCategory.value);
+      setPostCategory(String(firstCategory.value));
     }
   }, [postCategory, categoriesExceptAll]);
 
   const handleChipClick = (chip: ChipItemWithLink) => {
     setPostCategory(chip.value);
   };
-
-  console.log(postCategory);
 
   return (
     <CategoryChips

@@ -12,6 +12,8 @@ const Write = () => {
   const { content, title, category, postNo } = useAtomValue(postAtom);
   const { upsertPost } = useUpsertPost();
 
+  const isUpdatePost = postNo && postNo > 0;
+
   const handleWriteClick = () => {
     upsertPost({
       title,
@@ -29,7 +31,7 @@ const Write = () => {
       <div className='item viewer'>
         <MarkdownViewer markdown={content} />
         <button className='button' onClick={handleWriteClick}>
-          작성하기
+          {isUpdatePost ? '수정하기' : '작성하기'}
         </button>
       </div>
     </SC.Container>
