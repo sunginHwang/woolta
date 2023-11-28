@@ -5,17 +5,14 @@ import Header from './Header';
 import SpinnerLoading from '../base/loading/SpinnerLoading';
 import NotificationBar from '../common/notification/NotificationBar';
 import Content from './Content/inedx';
-import { useRouter } from 'next/navigation';
 
 type Props = PropsWithChildren & {};
 
 const Layout: FC<Props> = ({ children }) => {
   const [showSidebar, setShowSideBar] = useState(false);
-  const editMode = false;
   const spinnerLoading = false;
   const mobileHeader = false;
   const isEditMode = getIsWritePage();
-  console.log(isEditMode);
   return (
     <>
       <SideBar isOpen={showSidebar} toggleSideBar={setShowSideBar} />

@@ -1,10 +1,9 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
 import React from 'react';
 import { MdList } from 'react-icons/md';
 import layouts from '../../../style/layouts';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { goMainPage } from 'apps/blog/utils/routeUtil';
-import useToast from 'apps/blog/hooks/useToast';
 
 type HeaderProps = {
   showMobileHeader: boolean;
@@ -13,20 +12,14 @@ type HeaderProps = {
 };
 
 function Header({ showMobileHeader, showSideBar, toggleSideBar }: HeaderProps) {
-  const { hideToast } = useToast();
-
-  const onMainPageClick = React.useCallback(() => {
-    goMainPage();
-    toggleSideBar(false);
-    hideToast();
-  }, []);
-
   const onToggleSideBar = React.useCallback(() => toggleSideBar(!showSideBar), [showSideBar]);
 
   return (
     <>
       <SC.Header isShowMobileHeader={showMobileHeader}>
-        <SC.HeaderLogo onClick={onMainPageClick}>woolta</SC.HeaderLogo>
+        <Link href='/'>
+          <SC.HeaderLogo>woolta</SC.HeaderLogo>
+        </Link>
         <MdList size={30} onClick={onToggleSideBar} />
       </SC.Header>
     </>
@@ -46,14 +39,14 @@ const SC = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: ${layouts.HeaderHeight};
+    height: ${layouts.HeaderHeight};
     top: 0;
     right: 0;
     left: 0;
     z-index: 100;
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.customGray};
-    border-bottom-style: solid;
-    height: ${layouts.DesktopHeader};
     border-bottom: 1px solid ${({ theme }) => theme.colors.bgSecondary};
     padding: 0 1.6rem;
 

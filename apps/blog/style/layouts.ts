@@ -2,7 +2,7 @@ export default {
   /*common layout*/
   mainHeaderHeight: '6rem',
   mobileHeader: '4.8rem',
-  DesktopHeader: '6rem',
+  HeaderHeight: '4.8rem',
   mainFooterHeight: '8rem',
   mainContentHeight: '100%',
   mainRightWidth: '24rem',

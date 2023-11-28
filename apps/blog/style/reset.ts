@@ -113,6 +113,7 @@ export const reset_style = css`
   }
 
   a {
+    color: inherit;
     text-decoration: none;
   }
 
