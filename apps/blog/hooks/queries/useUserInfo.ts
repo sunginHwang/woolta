@@ -1,8 +1,6 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
-import { BLOG_API } from 'apps/blog/config';
-import { IPost } from 'apps/blog/types/post/IPost';
 import { IUserInfo } from 'apps/blog/types/user/IUserInfo';
-import apiCall, { settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
+import apiCall, { ApiRes, settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
 
 const USER_INFO_QUERY_KEY: string = 'getUserInfo';
 const queryClient = new QueryClient();
@@ -14,14 +12,9 @@ const initValue: IUserInfo = {
   authToken: '',
 };
 
-type ApiRes<T> = {
-  data: T;
-  code: number;
-};
-
 export async function fetchUserInfo() {
   try {
-    const { data } = await apiCall.get<ApiRes<IUserInfo>>(`${BLOG_API}/user/check/jwt`);
+    const { data } = await apiCall.get<ApiRes<IUserInfo>>(`/user/check/jwt`);
     return data.data;
   } catch {
     settingAccessHeaderToken('');

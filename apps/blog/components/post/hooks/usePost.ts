@@ -1,19 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { BLOG_API } from 'apps/blog/config';
 import { IPost } from 'apps/blog/types/post/IPost';
-import apiCall from 'apps/blog/utils/apiCall';
+import apiCall, { ApiRes } from 'apps/blog/utils/apiCall';
 import { useParams } from 'next/navigation';
 
 const POST_QUERY_KEY: string = 'getPost';
 
-type ApiRes<T> = {
-  data: T;
-  code: number;
-};
-
 export async function fetchPost(categoryNo: number, postNo: number) {
   try {
-    const response = await apiCall.get<ApiRes<IPost>>(`${BLOG_API}/post/categories/${categoryNo}/posts/${postNo}`);
+    const response = await apiCall.get<ApiRes<IPost>>(`/post/categories/${categoryNo}/posts/${postNo}`);
     return response.data.data;
   } catch {
     return null;

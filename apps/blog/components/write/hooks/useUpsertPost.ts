@@ -1,20 +1,15 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { BLOG_API, TEMP_POST_AUTO_SAVE } from 'apps/blog/constants';
 import useToast from 'apps/blog/hooks/useToast';
-import apiCall from 'apps/blog/utils/apiCall';
+import apiCall, { ApiRes } from 'apps/blog/utils/apiCall';
 import { useRouter } from 'next/navigation';
 import { getPostQueryKey } from '../../post/hooks/usePost';
-
-type ApiRes<T> = {
-  data: T;
-  code: number;
-};
 
 type UpsertPost = { id: number; title: string; contents: string; categoryNo: number; isUpdate: boolean };
 
 export const upsertPostApi = async (upsertPostInfo: UpsertPost) => {
   const { isUpdate, ...postInfo } = upsertPostInfo;
-  const res = await apiCall.post<ApiRes<{ categoryNo: number; postNo: number }>>(`${BLOG_API}/post`, postInfo);
+  const res = await apiCall.post<ApiRes<{ categoryNo: number; postNo: number }>>(`/post`, postInfo);
   const upsertPost = res.data.data;
 
   return {

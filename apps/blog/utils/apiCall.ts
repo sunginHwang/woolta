@@ -1,7 +1,18 @@
 import axios from 'axios';
-import { ACCESS_HEADER_TOKEN, ACCESS_TOKEN } from '../constants';
+import { ACCESS_HEADER_TOKEN, ACCESS_TOKEN, BLOG_API } from '../constants';
 
-let apiCall = axios.create();
+export type ApiRes<T> = {
+  data: T;
+  code: number;
+  message: string;
+};
+
+let apiCall = axios.create({
+  baseURL: BLOG_API,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 if (typeof Storage !== 'undefined') {
   apiCall.defaults.headers.common[ACCESS_HEADER_TOKEN] = localStorage.getItem(ACCESS_TOKEN);

@@ -1,16 +1,11 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { ACCESS_TOKEN, BLOG_API, COOKIE_CONFIG } from 'apps/blog/config';
 import { IUserInfo } from 'apps/blog/types/user/IUserInfo';
-import apiCall, { settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
+import apiCall, { ApiRes, settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
 const USER_INFO_QUERY_KEY: string = 'getUserInfo';
-
-type ApiRes<T> = {
-  data: T;
-  code: number;
-};
 
 const initValue: IUserInfo = {
   no: 0,
@@ -24,7 +19,7 @@ export function userLogin({ id, password }: { id: string; password: string }) {
   data.append('id', id);
   data.append('password', password);
 
-  return apiCall.post<ApiRes<IUserInfo>>(`${BLOG_API}/user/login`, data);
+  return apiCall.post<ApiRes<IUserInfo>>('/user/login', data);
 }
 
 export const useLogin = () => {

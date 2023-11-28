@@ -1,14 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { BLOG_API } from 'apps/blog/config';
 import { ICategory } from 'apps/blog/types/post/ICategory';
-import apiCall from 'apps/blog/utils/apiCall';
+import apiCall, { ApiRes } from 'apps/blog/utils/apiCall';
 
 const CATEGORIES_QUERY_KEY: string = 'getCategories';
-
-type ApiRes<T> = {
-  data: T;
-  code: number;
-};
 
 export const allCategory: ICategory = {
   value: '-1',
@@ -16,7 +10,7 @@ export const allCategory: ICategory = {
 };
 
 export async function fetchCategories() {
-  const { data } = await apiCall.get<ApiRes<ICategory[]>>(`${BLOG_API}/post/categories`);
+  const { data } = await apiCall.get<ApiRes<ICategory[]>>(`/post/categories`);
   return data.data;
 }
 
