@@ -1,8 +1,7 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ColorType, colors } from 'apps/blog/style/colors';
-import { FontVarient, typography } from 'apps/blog/style/font';
 import React, { FC } from 'react';
+import { ColorType, FontVarient, typography } from '../../style';
 
 type Alignment = 'left' | 'center' | 'right';
 
@@ -54,10 +53,10 @@ export interface BaseTextProps extends React.Attributes {
 }
 
 /**
- * 공통 Text 컴포넌트
+ * Text 컴포넌트
  * @component
  */
-const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseTextProps['as']>]> = ({
+export const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseTextProps['as']>]> = ({
   as = 'span',
   variant,
   children,
@@ -70,8 +69,6 @@ const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseTextProps['
     </Base>
   );
 };
-
-export default Text;
 
 const Base = styled.span<BaseTextProps>`
   ${({ variant }) => typography[variant]};

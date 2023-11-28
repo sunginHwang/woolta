@@ -1,38 +1,37 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Text from '.';
-import { FontVarient } from 'apps/blog/style/font';
-import { ColorType } from 'apps/blog/style/colors';
+import { Text } from '.';
+import { ColorType, FontVarient } from '../../style';
 
 const fontType: FontVarient[] = [
-  'title1_bold',
-  'title1_medium',
-  'title2_bold',
-  'title2_medium',
-  'title3_bold',
-  'title3_medium',
-  'title4_bold',
-  'title4_medium',
-  'title5_bold',
-  'title5_medium',
-  'title6_bold',
+  'title1Bold',
+  'title1Medium',
+  'title2Bold',
+  'title2Medium',
+  'title3Bold',
+  'title3Medium',
+  'title4Bold',
+  'title4Medium',
+  'title5Bold',
+  'title5Medium',
+  'title6Bold',
   'body1',
   'body2',
   'body3',
-  'body4_bold',
-  'body4_medium',
-  'body4_regular',
-  'small1_bold',
-  'small1_medium',
-  'small1_regular',
-  'small2_bold',
-  'small2_medium',
-  'small2_regular',
-  'small3_bold',
-  'small3_medium',
-  'small3_regular',
-  'small4_medium',
-  'small4_regular',
+  'body4Bold',
+  'body4Medium',
+  'body4Regular',
+  'small1Bold',
+  'small1Medium',
+  'small1Regular',
+  'small2Bold',
+  'small2Medium',
+  'small2Regular',
+  'small3Bold',
+  'small3Medium',
+  'small3Regular',
+  'small4Medium',
+  'small4Regular',
 ];
 
 const colorType: ColorType[] = [

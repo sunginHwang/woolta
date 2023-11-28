@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { blogPrimary, customGray, white } from 'apps/blog/style/colors';
 import layouts from '../../../style/layouts';
-import Text from '../../base/Text';
+import { Text } from '@wds';
 
 type FooterProps = {
   editMode?: boolean;

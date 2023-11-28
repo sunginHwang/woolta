@@ -3,7 +3,7 @@ import { Post } from '.';
 import styled from '@emotion/styled';
 import layouts from 'apps/blog/style/layouts';
 import Link from 'next/link';
-import Text from '../../base/Text';
+import { Text } from '@wds';
 
 interface Props {
   post: Post;
