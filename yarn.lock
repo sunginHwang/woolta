@@ -12545,6 +12545,11 @@ multipipe@^1.0.2:
     duplexer2 "^0.1.2"
     object-assign "^4.1.0"
 
+nanobar@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/nanobar/-/nanobar-0.4.2.tgz#01c512e6c662e38562694f64e4a88a253732f48f"
+  integrity sha512-9lZYwIn1ZyiQcdhpPZe2bDgSv+pyP4qCWCnvonKzTQVS/XTeQm45Ampml++JnitI1XYnXt59IVDT9qUChdqErw==
+
 nanoid@^3.3.4, nanoid@^3.3.6:
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"

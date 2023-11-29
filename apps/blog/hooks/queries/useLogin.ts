@@ -1,5 +1,5 @@
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
-import { ACCESS_TOKEN, BLOG_API, COOKIE_CONFIG } from 'apps/blog/config';
+import { QueryClient, useMutation } from '@tanstack/react-query';
+import { ACCESS_TOKEN, COOKIE_CONFIG } from 'apps/blog/config';
 import { IUserInfo } from 'apps/blog/types/user/IUserInfo';
 import apiCall, { ApiRes, settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
 import Cookies from 'js-cookie';

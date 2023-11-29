@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { SkeletonBar } from '@wds';
 import layouts from 'apps/blog/style/layouts';
 import { makeArray } from 'apps/blog/utils/array-utils';
-import SkeletonBar from '../../base/SkeletonBar';
 
 function PostListSkeleton() {
   return (

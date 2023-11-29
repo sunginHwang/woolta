@@ -1,26 +1,27 @@
-import { HashLoader } from 'react-spinners';
-import { gray400 } from 'apps/blog/style/colors';
 import styled from '@emotion/styled';
+import { gray400, green200 } from '@wds';
+import { FC } from 'react';
+import { HashLoader } from 'react-spinners';
 
-type SpinnerLoadingProps = {
-  loading: boolean;
-};
-
-function SpinnerLoading({ loading }: SpinnerLoadingProps) {
-  return (
-    <>
-      {loading && (
-        <SC.Contaienr>
-          <div>
-            <HashLoader color={'#6e827f'} loading={loading} />
-          </div>
-        </SC.Contaienr>
-      )}
-    </>
-  );
+interface Props {
+  isLoading: boolean;
 }
 
-export default SpinnerLoading;
+const Loading: FC<Props> = ({ isLoading }) => {
+  if (!isLoading) {
+    return null;
+  }
+
+  return (
+    <SC.Contaienr>
+      <div>
+        <HashLoader color={green200} loading />
+      </div>
+    </SC.Contaienr>
+  );
+};
+
+export default Loading;
 
 const SC = {
   Contaienr: styled.div`

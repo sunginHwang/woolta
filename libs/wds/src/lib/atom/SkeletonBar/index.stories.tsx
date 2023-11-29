@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj } from '@storybook/react';
-import SkeletonBar from './index';
+import { SkeletonBar } from './index';
 
 const meta: Meta<typeof SkeletonBar> = { component: SkeletonBar };
 export default meta;

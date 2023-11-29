@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { typography } from 'apps/blog/style/font';
+import { typography } from '@wds';
 import { useAtomValue } from 'jotai';
 import MarkdownViewer from '../common/MarkdownViewer';
 import Editor from './Editor';

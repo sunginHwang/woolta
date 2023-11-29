@@ -1,6 +1,6 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { IUserInfo } from 'apps/blog/types/user/IUserInfo';
-import apiCall, { ApiRes, settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
+import { getData, settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
 
 const USER_INFO_QUERY_KEY: string = 'getUserInfo';
 const queryClient = new QueryClient();
@@ -14,8 +14,8 @@ const initValue: IUserInfo = {
 
 export async function fetchUserInfo() {
   try {
-    const { data } = await apiCall.get<ApiRes<IUserInfo>>(`/user/check/jwt`);
-    return data.data;
+    const { data } = await getData<IUserInfo>(`/user/check/jwt`);
+    return data;
   } catch {
     settingAccessHeaderToken('');
   }

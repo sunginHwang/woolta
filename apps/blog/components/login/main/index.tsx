@@ -1,6 +1,6 @@
+import { useInputs } from '@common';
 import styled from '@emotion/styled';
 import { useLogin } from 'apps/blog/hooks/queries/useLogin';
-import useInputs from 'apps/blog/hooks/useInputs';
 import layouts from 'apps/blog/style/layouts';
 
 const Login = () => {

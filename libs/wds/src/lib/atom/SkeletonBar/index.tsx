@@ -1,17 +1,16 @@
 import styled from '@emotion/styled';
-import animations from 'apps/blog/style/animations';
+import animations from '../../style/animations';
+import { FC } from 'react';
 
-type Props = {
+interface Props {
   width?: string;
   height?: string;
   radius?: number;
-};
-
-function SkeletonBar({ width = '20rem', height = '3.2rem', radius = 3 }: Props) {
-  return <SC.Contaienr width={width} height={height} radius={radius} />;
 }
 
-export default SkeletonBar;
+export const SkeletonBar: FC<Props> = ({ width = '20rem', height = '3.2rem', radius = 3 }) => {
+  return <SC.Contaienr width={width} height={height} radius={radius} />;
+};
 
 const SC = {
   Contaienr: styled.div<{ width: string; height: string; radius: number }>`

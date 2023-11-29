@@ -2,12 +2,11 @@ import styled from '@emotion/styled';
 import layouts from '../../../style/layouts';
 import { usePost } from '../hooks/usePost';
 import { useUserInfo } from 'apps/blog/hooks/queries/useUserInfo';
-import { typography } from 'apps/blog/style/font';
 import { useSetAtom } from 'jotai';
 import { setPostAtom } from '../../write/store';
 import { useRouter } from 'next/navigation';
 import { useDeletePost } from '../hooks/useDeletePost';
-import { Text } from '@wds';
+import { Text, typography } from '@wds';
 
 const Title = () => {
   const { push } = useRouter();

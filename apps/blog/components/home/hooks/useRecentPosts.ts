@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { IPost } from 'apps/blog/types/post/IPost';
-import apiCall, { ApiRes } from 'apps/blog/utils/apiCall';
+import { getData } from 'apps/blog/utils/apiCall';
 
 export const POSTS_QUERY_KEY: string = 'getPosts';
 
 export async function fetchRecentPosts() {
-  const { data } = await apiCall.get<ApiRes<IPost[]>>(`/post/categories/new/posts`);
-  return data.data;
+  const { data } = await getData<IPost[]>(`/post/categories/new/posts`);
+  return data;
 }
 
 export const useRecentPosts = () => {

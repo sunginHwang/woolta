@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
-import { blogPrimary, white } from 'apps/blog/style/colors';
+import { blogPrimary, white } from '@wds';
 import { useAtomValue } from 'jotai';
 import { MdNotificationsActive } from 'react-icons/md';
 import { toastMessageAtom } from '../../layout/store';
 
 function NotificationBar() {
   const toastMessage = useAtomValue(toastMessageAtom);
-  if (toastMessage === '') return null;
+
+  if (toastMessage === '') {
+    return null;
+  }
 
   return (
     <SC.Container isShow>

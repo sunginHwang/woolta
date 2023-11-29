@@ -1,7 +1,6 @@
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { bgPrimary, border3, grayActive, graySecondary, pinkPrimary, white } from 'apps/blog/style/colors';
-import { typography } from 'apps/blog/style/font';
+import { typography, bgPrimary, border3, grayActive, graySecondary, pinkPrimary, white } from '@wds';
 import { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
 
 type ChipVarient = 'filled' | 'outlined' | 'event';

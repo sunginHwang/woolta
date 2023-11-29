@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-import { COOKIE_CONFIG, SETTING_THEME } from '../config';
+import { COOKIE_CONFIG, SETTING_THEME } from '../../config';
 
 export default function useDarkMode(defaultTheme?: string) {
   let initTheme = defaultTheme;

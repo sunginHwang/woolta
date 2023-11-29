@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { blogPrimary, customGray, white } from 'apps/blog/style/colors';
 import layouts from '../../../style/layouts';
 import { Text } from '@wds';
 
@@ -32,9 +31,9 @@ const SC = {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: ${white};
+    background-color: ${({ theme }) => theme.colors.white};
     border-top: 0.1rem solid ${({ theme }) => theme.colors.bgSecondary};
-    color: ${blogPrimary};
+    color: ${({ theme }) => theme.colors.blogPrimary};
     text-align: center;
     padding: 1.6rem 0 3rem;
   `,

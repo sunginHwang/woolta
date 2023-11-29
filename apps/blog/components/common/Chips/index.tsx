@@ -2,10 +2,8 @@ import { useMount } from '@common';
 import { SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useStickeyScrollReset } from 'apps/blog/hooks/useStickeyScrollReset';
-import { white } from 'apps/blog/style/colors';
-import { invisibleScrollBar } from 'apps/blog/style/mixins';
 import { MouseEvent, useMemo, useRef } from 'react';
-import SkeletonBar from '../SkeletonBar';
+import { white, SkeletonBar, invisibleScrollBar } from '@wds';
 import Item, { ChipItemWithLink } from './Item';
 
 interface Props {

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { white } from 'apps/blog/style/colors';
-import { typography } from 'apps/blog/style/font';
+import { typography } from '@wds';
 import { postTitleAtom } from '../store';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler } from 'react';
@@ -20,7 +19,7 @@ export default Title;
 const SC = {
   Container: styled.input`
     ${typography.title1Medium}
-    background: ${white};
+    background-color: ${({ theme }) => theme.colors.white};
     display: block;
     padding: 0px;
     width: 100%;
