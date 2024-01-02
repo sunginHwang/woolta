@@ -69,6 +69,7 @@ const SC = {
       css`
         position: sticky;
         top: ${stickeyHeight};
+        z-index: 10;
       `}
 
     a {
