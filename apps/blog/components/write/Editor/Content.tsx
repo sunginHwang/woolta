@@ -4,7 +4,7 @@ import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { languages } from '@codemirror/language-data';
 import styled from '@emotion/styled';
 import { useCodeMirror } from '@uiw/react-codemirror';
-import { splitWithIndex } from 'apps/blog/utils/StringUtil';
+import { splitWithIndex } from 'apps/blog/utils/string';
 import { useAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
 import { useImageDndAndPaste } from '../hooks/useImageDndAndPaste';

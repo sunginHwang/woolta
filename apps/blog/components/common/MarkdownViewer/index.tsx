@@ -17,7 +17,7 @@ const MarkdownViewer: FC<Props> = ({ markdown }) => {
           code({ node, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '');
             return match ? (
-              <SyntaxHighlighter language={match[1]} {...props} style={tomorrow} PreTag='div'>
+              <SyntaxHighlighter language={match[1]} style={tomorrow} PreTag='div'>
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
@@ -39,7 +39,6 @@ const SC = {
     flex: 1 1 0%;
     overflow-y: auto;
     text-align: left;
-    padding: 1.6rem;
 
     p,
     ol,
@@ -66,8 +65,7 @@ const SC = {
       code {
         font-size: 1.3rem;
         border-radius: 0.8rem;
-        padding: 1.6rem;
-        font-family: 'Pretendard', 'sans-serif';
+        font-family: 'Pretendard', 'sans-serif' !important;
       }
     }
 
@@ -94,11 +92,11 @@ const SC = {
         font-size: 1.6rem;
       }
 
-      :first-child {
+      :first-of-type {
         margin: 0;
       }
 
-      :last-child {
+      :last-of-type {
         margin: 0;
       }
 
@@ -180,7 +178,12 @@ const SC = {
     }
 
     strong {
+      font-weight: 600;
       color: ${({ theme }) => theme.colors.gray800};
+
+      code {
+        color: ${({ theme }) => theme.colors.green200};
+      }
     }
 
     h1,
@@ -220,30 +223,33 @@ const SC = {
         padding: 0.326rem 0.39rem;
         border-radius: 0.8rem;
         background-color: ${({ theme }) => theme.colors.bgSecondary};
-        border: 0.1rem solid ${({ theme }) => theme.colors.grayMain};
+        border: 0.1rem solid ${({ theme }) => theme.colors.gray400};
+        margin: 0 0.4rem;
       }
     }
 
     h1 {
-      font-size: 4rem;
-      margin-top: 7rem;
-      margin-bottom: 3rem;
-    }
-
-    h2 {
+      font-size: 3.2rem;
       margin-top: 7rem;
       margin-bottom: 3rem;
       font-weight: 600;
-      font-size: 3.2rem;
-      border-bottom: 0.2rem solid ${({ theme }) => theme.colors.gray300};
-      line-height: 4.4rem;
-      padding-bottom: 0.4rem;
+    }
+
+    h2 {
+      margin-top: 5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 2.4rem;
+      border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray300};
+      line-height: 1.3;
+      padding-bottom: 1rem;
     }
 
     h3 {
-      font-size: 2.1rem;
+      font-size: 1.8rem;
       margin-top: 4.6rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
     }
 
     tr {
@@ -257,7 +263,7 @@ const SC = {
       border: 0.1rem solid ${({ theme }) => theme.colors.grayTertiary};
     }
 
-    table tr:nth-child(2n) {
+    table tr:nth-of-type(2n) {
       background: ${({ theme }) => theme.colors.gray400};
 
       /* 마크다운 뷰어 첫줄 패딩 이슈 처리 */

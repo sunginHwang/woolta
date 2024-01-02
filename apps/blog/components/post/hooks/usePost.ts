@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { IPost } from 'apps/blog/types/post/IPost';
-import { getData } from 'apps/blog/utils/apiCall';
+import { getData } from 'apps/blog/utils/api';
 import { useParams } from 'next/navigation';
 
 const POST_QUERY_KEY: string = 'getPost';

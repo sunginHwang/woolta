@@ -1,7 +1,6 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import { BLOG_API } from 'apps/blog/constants';
 import useToast from 'apps/blog/hooks/useToast';
-import apiCall from 'apps/blog/utils/apiCall';
+import apiCall from 'apps/blog/utils/api';
 import { useRouter } from 'next/navigation';
 import { POSTS_QUERY_KEY } from '../../home/hooks/useRecentPosts';
 
@@ -11,7 +10,7 @@ interface DeletePostInfo {
 }
 
 export const deletePostApi = ({ categoryNo, postNo }: DeletePostInfo) => {
-  return apiCall.delete(`${BLOG_API}/post`, { data: { categoryNo, postNo } });
+  return apiCall.delete('/post', { data: { categoryNo, postNo } });
 };
 
 export const useDeletePost = () => {

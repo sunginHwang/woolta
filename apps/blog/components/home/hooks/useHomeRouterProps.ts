@@ -1,9 +1,8 @@
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 export const useHomeRouterProps = () => {
-  const { query } = useRouter();
-
-  const categoryId = query.categoryId ? String(query.categoryId) : '';
+  const params = useSearchParams();
+  const categoryId = params.get('category') ?? '-1';
 
   return {
     categoryId,

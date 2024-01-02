@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { IPost } from 'apps/blog/types/post/IPost';
-import { getData } from 'apps/blog/utils/apiCall';
+import { getData } from 'apps/blog/utils/api';
 
 export const POSTS_QUERY_KEY: string = 'getPosts';
 
@@ -10,7 +10,7 @@ export async function fetchRecentPosts() {
 }
 
 export const useRecentPosts = () => {
-  const { data, ...rest } = useQuery({ queryKey: [POSTS_QUERY_KEY], queryFn: fetchRecentPosts });
+  const { data, ...rest } = useSuspenseQuery({ queryKey: [POSTS_QUERY_KEY], queryFn: fetchRecentPosts });
   const recent_posts: IPost[] = data ?? [];
   return {
     recent_posts,

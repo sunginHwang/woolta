@@ -1,15 +1,15 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import { BLOG_API, TEMP_POST_AUTO_SAVE } from 'apps/blog/constants';
 import useToast from 'apps/blog/hooks/useToast';
-import apiCall, { ApiRes } from 'apps/blog/utils/apiCall';
+import apiCall, { APIResponse } from 'apps/blog/utils/api';
 import { useRouter } from 'next/navigation';
 import { getPostQueryKey } from '../../post/hooks/usePost';
+import config from 'apps/blog/utils/config';
 
 type UpsertPost = { id: number; title: string; contents: string; categoryNo: number; isUpdate: boolean };
 
 export const upsertPostApi = async (upsertPostInfo: UpsertPost) => {
   const { isUpdate, ...postInfo } = upsertPostInfo;
-  const res = await apiCall.post<ApiRes<{ categoryNo: number; postNo: number }>>(`/post`, postInfo);
+  const res = await apiCall.post<APIResponse<{ categoryNo: number; postNo: number }>>(`/post`, postInfo);
   const upsertPost = res.data.data;
 
   return {
@@ -27,7 +27,7 @@ export const useUpsertPost = () => {
     mutationFn: upsertPostApi,
     onSuccess: ({ upsertPost, isUpdate }) => {
       const { categoryNo, postNo } = upsertPost;
-      localStorage.removeItem(TEMP_POST_AUTO_SAVE);
+      localStorage.removeItem(config.tempPostAutoSave);
 
       if (isUpdate) {
         queryClient.invalidateQueries({ queryKey: getPostQueryKey(categoryNo, postNo) });

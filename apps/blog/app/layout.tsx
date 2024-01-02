@@ -2,12 +2,13 @@
 
 import { Global, ThemeProvider, css } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { reset_style, theme } from '@wds';
 import { Provider } from 'jotai';
 import Layout from '../components/layout';
+import { usePwa } from '../hooks/usePwa';
+import { settingAccessHeaderToken } from '../utils/api';
+import config, { setConfig } from '../utils/config';
 import { getCookie } from '../utils/cookie';
-import { ACCESS_TOKEN } from '../constants';
-import { settingAccessHeaderToken } from '../utils/apiCall';
-import { reset_style, theme } from '@wds';
 
 const blog_reset_css = css`
   ${reset_style}
@@ -18,10 +19,13 @@ const blog_reset_css = css`
   }
 `;
 
-const queryClient = new QueryClient();
+setConfig();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const accessToken = getCookie(ACCESS_TOKEN);
+  usePwa();
+  const queryClient = new QueryClient();
+
+  const accessToken = getCookie(config.accessToken);
   if (accessToken) {
     settingAccessHeaderToken(accessToken);
   }
@@ -39,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel='icon' type='icon' href='/static/woolta.ico' sizes='128x128' />
         <link rel='apple-touch-icon' href='/static/woolta.ico' />
         <link rel='shortcut icon' href='/static/woolta.ico' />
+        <link rel='manifest' href='/manifest.json' />
         <meta name='mobile-web-app-capable' content='yes' />
         <meta name='theme-color' content='#fff' />
         <meta name='apple-mobile-web-app-capable' content='yes' />

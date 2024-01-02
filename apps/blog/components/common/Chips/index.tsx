@@ -2,7 +2,7 @@ import { useMount } from '@common';
 import { SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useStickeyScrollReset } from 'apps/blog/hooks/useStickeyScrollReset';
-import { MouseEvent, useMemo, useRef } from 'react';
+import { FC, MouseEvent, useMemo, useRef } from 'react';
 import { white, SkeletonBar, invisibleScrollBar } from '@wds';
 import Item, { ChipItemWithLink } from './Item';
 
@@ -28,6 +28,11 @@ interface Props {
    */
   stickey_height?: number;
   /**
+   * padding 여백을 설정 합니다.
+   * @default 0.8rem 1.6rem;
+   */
+  padding?: string;
+  /**
    * custom 스타일 css 를 정의합니다.
    */
   custom_css?: SerializedStyles;
@@ -49,6 +54,7 @@ const Chips = ({
   chips = [],
   active_chip_value = '',
   aria_label = '',
+  padding,
   is_replace,
   is_loading,
   custom_css,
@@ -90,15 +96,7 @@ const Chips = ({
   };
 
   if (is_loading) {
-    return (
-      <SC.Container use_stickey={use_stickey} stickey_height={stickey_height}>
-        {[47, 58, 46, 85, 47, 58].map((width, index) => (
-          <li key={index}>
-            <SkeletonBar width={`${width / 10}rem`} height='3.6rem' radius={18} />
-          </li>
-        ))}
-      </SC.Container>
-    );
+    return <Loading stickey_height={stickey_height} padding={padding} />;
   }
 
   return (
@@ -110,6 +108,7 @@ const Chips = ({
         ref={chip_list_ref}
         css={custom_css}
         aria-label={aria_label}
+        padding={padding}
       >
         {chips.map((chip, index) => (
           <Item
@@ -127,12 +126,26 @@ const Chips = ({
   );
 };
 
-export default Chips;
+const Loading: FC<Pick<Props, 'padding' | 'stickey_height'>> = ({ padding, stickey_height }) => {
+  return (
+    <SC.Container use_stickey={!stickey_height} stickey_height={stickey_height} padding={padding}>
+      {[47, 58, 46, 85, 47, 58].map((width, index) => (
+        <li key={index}>
+          <SkeletonBar width={`${width / 10}rem`} height='3.6rem' radius={18} />
+        </li>
+      ))}
+    </SC.Container>
+  );
+};
+
+export default Object.assign(Chips, {
+  Loading,
+});
 
 const SC = {
-  Container: styled.ul<{ use_stickey?: boolean; stickey_height?: number }>`
+  Container: styled.ul<{ use_stickey?: boolean; stickey_height?: number; padding?: string }>`
     ${invisibleScrollBar}
-    padding: 8px 16px;
+    padding: ${({ padding = '0.8rem 1.6rem;' }) => padding};
     white-space: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;

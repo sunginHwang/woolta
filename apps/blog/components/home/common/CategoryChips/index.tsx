@@ -1,7 +1,9 @@
-import { FC, MouseEvent } from 'react';
+import { FC, MouseEvent, Suspense } from 'react';
 import Chips from '../../../common/Chips';
 import { ChipItemWithLink } from '../../../common/Chips/Item';
 import { useCategories } from '../../hooks/useCategories';
+
+const CHIP_PADDING = '.8rem 0';
 
 interface Props {
   active_category: string;
@@ -10,11 +12,17 @@ interface Props {
   onChipClick?: (chip: ChipItemWithLink, e: MouseEvent<HTMLElement>, idx: number) => void;
 }
 
-const CategoryChips: FC<Props> = ({ active_category, useLink, useAllCategory = true, onChipClick }) => {
-  const { categories, categoriesExceptAll, isLoading } = useCategories();
+const CategoryChips: FC<Props> = (props) => {
+  return (
+    <Suspense fallback={<Chips.Loading padding={CHIP_PADDING} />}>
+      <Core {...props} />
+    </Suspense>
+  );
+};
 
+const Core: FC<Props> = ({ active_category, useLink, useAllCategory = true, onChipClick }) => {
+  const { categories, categoriesExceptAll } = useCategories();
   const categoriesFilterByAll = useAllCategory ? categories : categoriesExceptAll;
-
   const cateogryChips = categoriesFilterByAll.map<ChipItemWithLink>((category) => ({
     name: category.label,
     value: String(category.value),
@@ -22,7 +30,7 @@ const CategoryChips: FC<Props> = ({ active_category, useLink, useAllCategory = t
   }));
 
   return (
-    <Chips chips={cateogryChips} is_loading={isLoading} active_chip_value={active_category} onChipClick={onChipClick} />
+    <Chips padding={CHIP_PADDING} chips={cateogryChips} active_chip_value={active_category} onChipClick={onChipClick} />
   );
 };
 

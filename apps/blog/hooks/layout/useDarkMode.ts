@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-import { COOKIE_CONFIG, SETTING_THEME } from '../../config';
+import config from 'apps/blog/utils/config';
 
 export default function useDarkMode(defaultTheme?: string) {
   let initTheme = defaultTheme;
@@ -20,11 +20,11 @@ export default function useDarkMode(defaultTheme?: string) {
   const [theme, setTheme] = useState(initTheme);
 
   const setMode = (mode: string) => {
-    Cookies.set(SETTING_THEME, mode, COOKIE_CONFIG);
+    Cookies.set(config.settingTheme, mode, config.cookieConfig);
     setTheme(mode);
   };
 
-  const toggleTheme = () => theme === 'light' ? setMode('dark') : setMode('light');
+  const toggleTheme = () => (theme === 'light' ? setMode('dark') : setMode('light'));
 
   return [theme, toggleTheme] as [string, typeof toggleTheme];
-};
+}

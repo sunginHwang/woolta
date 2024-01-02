@@ -117,8 +117,103 @@ export const reset_style = css`
     text-decoration: none;
   }
 
-  body > div:first-child,
+  body > div:first-of-type,
   #__next {
     height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  ol,
+  ul,
+  li {
+    list-style: none;
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:focus {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+  }
+  input:focus {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+  }
+  textarea:focus {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  [role='button'],
+  input[type='submit'],
+  input[type='reset'],
+  input[type='button'],
+  button {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+
+  /* Reset \`button\` and button-style \`input\` default styles */
+  input[type='submit'],
+  input[type='reset'],
+  input[type='button'],
+  button {
+    background: none;
+    border: 0;
+    color: inherit;
+    /* cursor: default; */
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -webkit-appearance: button; /* for input */
+    -webkit-user-select: none; /* for button */
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  button:focus {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  input::-moz-focus-inner,
+  button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  input[type='range'] {
+    width: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+  }
+  input[type='range']:focus {
+    outline: none;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+
+  /* Make \`a\` like a button */
+  [role='button'] {
+    color: inherit;
+    cursor: default;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    white-space: pre;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 `;

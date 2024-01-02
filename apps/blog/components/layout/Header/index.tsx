@@ -1,40 +1,28 @@
+import { useScrollDirection } from '@common';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import React from 'react';
-import { MdList } from 'react-icons/md';
 import layouts from '../../../style/layouts';
 
-type HeaderProps = {
-  showMobileHeader: boolean;
-  showSideBar: boolean;
-  toggleSideBar: (toggle: boolean) => void;
-};
-
-function Header({ showMobileHeader, showSideBar, toggleSideBar }: HeaderProps) {
-  const onToggleSideBar = React.useCallback(() => toggleSideBar(!showSideBar), [showSideBar]);
+const Header = () => {
+  const scroll_direction = useScrollDirection();
+  const isHideHeader = scroll_direction === 'down';
 
   return (
     <>
-      <SC.Header isShowMobileHeader={showMobileHeader}>
+      <SC.Header isHideHeader={isHideHeader}>
         <Link href='/'>
           <SC.HeaderLogo>woolta</SC.HeaderLogo>
         </Link>
-        <MdList size={30} onClick={onToggleSideBar} />
       </SC.Header>
     </>
   );
-}
-
-Header.defaultProps = {
-  showMobileHeader: false,
-  showSideBar: false,
-} as HeaderProps;
+};
 
 export default Header;
 
 const SC = {
-  Header: styled.div<{ isShowMobileHeader: boolean }>`
+  Header: styled.div<{ isHideHeader: boolean }>`
     position: sticky;
     display: flex;
     justify-content: space-between;
@@ -54,8 +42,8 @@ const SC = {
       transition: all 0.2s ease-in-out;
       height: ${layouts.mobileHeader};
 
-      ${(props) =>
-        props.isShowMobileHeader &&
+      ${({ isHideHeader }) =>
+        isHideHeader &&
         css`
           top: -${layouts.mainHeaderHeight};
           border: none;

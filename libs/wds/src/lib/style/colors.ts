@@ -1,4 +1,5 @@
 import { Theme } from '@emotion/react';
+import { zIndex } from './zIndex';
 
 export const brandColor = '#E62F71';
 
@@ -62,6 +63,7 @@ export const green200 = '#6E827F';
 export const yellow500 = '#FEE700';
 
 export const orange500 = '#FFA93B';
+export const orange600 = '#f25e5e';
 
 export const safeGreen = '#5ac366';
 export const warningRed = '#f03e3e';
@@ -71,7 +73,7 @@ export const kakaoColor = '#fded4f';
 export const yellowReview = '#FEC600';
 
 export const grayMain = 'rgba(255, 255, 255, 0.88)';
-export const grayPrimary = black;
+export const grayPrimary = gray800;
 export const graySecondary = gray700;
 export const grayTertiary = gray500;
 export const grayActive = gray900;
@@ -138,6 +140,9 @@ export type ColorType =
   | 'red150'
   | 'red500'
   | 'yellow500'
+  | 'orange500'
+  | 'orange600'
+  | 'orangePrimary'
   | 'yellow'
   | 'grayPrimary'
   | 'graySecondary'
@@ -206,6 +211,9 @@ export const colors: Record<ColorType, string> = {
   red500,
   yellow: yellowReview,
   yellow500,
+  orange500,
+  orange600,
+  orangePrimary: orange600,
   grayPrimary,
   graySecondary,
   grayTertiary,
@@ -234,6 +242,7 @@ export const theme: {
   [key in ThemeType]: Theme;
 } = {
   light: {
+    zIndex,
     colors: {
       white,
       black,
@@ -280,6 +289,9 @@ export const theme: {
       red500,
       yellow: yellowReview,
       yellow500,
+      orange500,
+      orange600,
+      orangePrimary: orange600,
       grayPrimary,
       graySecondary,
       grayTertiary,
@@ -303,6 +315,7 @@ export const theme: {
     },
   },
   dark: {
+    zIndex,
     colors: {
       white: '#000',
       black: '#fff',
@@ -349,6 +362,9 @@ export const theme: {
       red500,
       yellow: yellowReview,
       yellow500,
+      orange500,
+      orange600,
+      orangePrimary: orange600,
       grayPrimary,
       graySecondary,
       grayTertiary,
@@ -376,5 +392,6 @@ export const theme: {
 declare module '@emotion/react' {
   export interface Theme {
     colors: Record<ColorType, string>;
+    zIndex: typeof zIndex;
   }
 }

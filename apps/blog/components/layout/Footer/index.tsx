@@ -1,27 +1,32 @@
 import styled from '@emotion/styled';
 import layouts from '../../../style/layouts';
 import { Text } from '@wds';
+import { ComponentProps } from 'react';
+import { useLayout } from '../hooks/useLayout';
 
-type FooterProps = {
-  editMode?: boolean;
-};
+const Footer = () => {
+  const { isEditMode } = useLayout();
 
-function Footer({ editMode = false }: FooterProps) {
-  if (editMode) return null;
+  if (!isEditMode) {
+    return null;
+  }
 
   return (
     <SC.Container>
-      <Text variant='body3' color='graySecondary' mb={10}>
+      <Text {...text_style} mb={10}>
         Copyright © 2018 woolta.com
       </Text>
-      <Text variant='body3' color='graySecondary'>
-        gommpo111@gmail.com
-      </Text>
+      <Text {...text_style}>gommpo111@gmail.com</Text>
     </SC.Container>
   );
-}
+};
 
 export default Footer;
+
+const text_style: Pick<ComponentProps<typeof Text>, 'variant' | 'color'> = {
+  variant: 'body3',
+  color: 'graySecondary',
+};
 
 const SC = {
   Container: styled.div`

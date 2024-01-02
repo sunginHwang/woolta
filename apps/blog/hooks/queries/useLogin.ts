@@ -1,7 +1,7 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import { ACCESS_TOKEN, COOKIE_CONFIG } from 'apps/blog/config';
 import { IUserInfo } from 'apps/blog/types/user/IUserInfo';
-import apiCall, { ApiRes, settingAccessHeaderToken } from 'apps/blog/utils/apiCall';
+import apiCall, { APIResponse, settingAccessHeaderToken } from 'apps/blog/utils/api';
+import config from 'apps/blog/utils/config';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
@@ -19,7 +19,7 @@ export function userLogin({ id, password }: { id: string; password: string }) {
   data.append('id', id);
   data.append('password', password);
 
-  return apiCall.post<ApiRes<IUserInfo>>('/user/login', data);
+  return apiCall.post<APIResponse<IUserInfo>>('/user/login', data);
 }
 
 export const useLogin = () => {
@@ -30,7 +30,7 @@ export const useLogin = () => {
     onSuccess: (res) => {
       const userInfo = res.data.data;
       if (userInfo.authToken) {
-        Cookies.set(ACCESS_TOKEN, userInfo.authToken, COOKIE_CONFIG);
+        Cookies.set(config.accessToken, userInfo.authToken, config.cookieConfig);
         settingAccessHeaderToken(userInfo.authToken);
       }
       queryClient.setQueryData([USER_INFO_QUERY_KEY], () => userInfo);
@@ -44,7 +44,7 @@ export const useLogin = () => {
 
   const logout = () => {
     settingAccessHeaderToken('');
-    Cookies.remove(ACCESS_TOKEN);
+    Cookies.remove(config.accessToken);
     queryClient.setQueryData([USER_INFO_QUERY_KEY], () => initValue);
   };
 

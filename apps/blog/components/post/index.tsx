@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import layouts from 'apps/blog/style/layouts';
 import Content from './Content';
 import Title from './Title';
+import config from 'apps/blog/utils/config';
 
 const Post = () => {
   return (

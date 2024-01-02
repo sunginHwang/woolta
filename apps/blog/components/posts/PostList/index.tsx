@@ -25,11 +25,11 @@ export interface Writer {
 
 interface Props {
   post_list?: Post[];
-  is_loading?: boolean;
+  isLoading?: boolean;
 }
 
-const PostList: FC<Props> = ({ post_list = [], is_loading }) => {
-  if (is_loading) {
+const PostList: FC<Props> = ({ post_list = [], isLoading }) => {
+  if (isLoading) {
     return <PostListSkeleton />;
   }
 
@@ -42,7 +42,9 @@ const PostList: FC<Props> = ({ post_list = [], is_loading }) => {
   );
 };
 
-export default PostList;
+export default Object.assign(PostList, {
+  Skeleton: PostListSkeleton,
+});
 
 const SC = {
   Container: styled.div`
