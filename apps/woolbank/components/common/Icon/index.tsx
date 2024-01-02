@@ -12,3 +12,4 @@ export { default as IconWalletOutline } from './WalletOutline';
 export { default as IconChevronLeft } from './ChevronLeft';
 export { default as IconChevronDown } from './ChevronDown';
 export { default as IconClose } from './Close';
+export { default as IconTrashCan } from './TrashCan';
