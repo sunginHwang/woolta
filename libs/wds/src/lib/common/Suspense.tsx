@@ -4,7 +4,7 @@ import { ComponentProps, FC, Suspense as ReactSuspense } from 'react';
 /**
  * SSR Suspense
  */
-const Suspense: FC<ComponentProps<typeof ReactSuspense>> = ({ fallback, children }) => {
+export const Suspense: FC<ComponentProps<typeof ReactSuspense>> = ({ fallback, children }) => {
   const is_mounted = useIsMounted();
 
   if (is_mounted) {
@@ -13,5 +13,3 @@ const Suspense: FC<ComponentProps<typeof ReactSuspense>> = ({ fallback, children
 
   return fallback;
 };
-
-export default Suspense;

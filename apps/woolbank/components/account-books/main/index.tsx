@@ -1,8 +1,10 @@
+import { Suspense } from '@wds';
 import { layout } from '../../../style/layout';
 import Header from '../../common/Header';
 import Tabs from '../../common/Tabs';
 import AccountList from './AccountList';
 import RegularExpenditure from './RegularExtenditure';
+import RegularExpenditureSkeleton from './RegularExtenditure/RegularExpenditureSkeleton';
 
 const TAB_LIST = [
   {
@@ -28,7 +30,9 @@ const AccountBookList = () => {
       <Header title='가계부' />
       <Tabs tabs={TAB_LIST} value='1' stickeyHeight={layout.headerHeight} />
       {/* <AccountList /> */}
-      <RegularExpenditure />
+      <Suspense fallback={<RegularExpenditureSkeleton />}>
+        <RegularExpenditure />
+      </Suspense>
     </>
   );
 };

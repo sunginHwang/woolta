@@ -5,6 +5,7 @@ import { reset_style, theme } from 'libs/wds/src';
 import { ReactNode, Suspense } from 'react';
 import Layout from '../components/layout/Layout';
 import { setConfig } from '../utils/config';
+import { ConfirmProvider } from '../components/common/Confirm/ConfirmService';
 
 setConfig();
 
@@ -76,10 +77,12 @@ const withApp = (Story: ReactNode) => {
         </head>
         <ThemeProvider theme={theme.light}>
           <Layout>
-            <Suspense fallback={<div>로딩중</div>}>
-              <Story />
-              <div id='modalDeem' />
-            </Suspense>
+            <ConfirmProvider>
+              <Suspense fallback={<div>로딩중</div>}>
+                <Story />
+                <div id='modalDeem' />
+              </Suspense>
+            </ConfirmProvider>
           </Layout>
         </ThemeProvider>
       </QueryClientProvider>

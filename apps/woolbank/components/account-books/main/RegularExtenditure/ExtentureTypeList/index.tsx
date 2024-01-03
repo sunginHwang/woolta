@@ -16,7 +16,7 @@ const ExtentureTypeList = () => {
 
   return (
     <SC.Container>
-      {regularExpenditureTypeList.map(({ name, list }, index) => {
+      {regularExpenditureTypeList.map(({ name, type, list }, index) => {
         const totalAmount = list.reduce((acc, item) => item.amount + acc, 0);
 
         return (
@@ -31,9 +31,7 @@ const ExtentureTypeList = () => {
             </SC.TypeInfo>
             <ul>
               {list.map((item) => {
-                return (
-                  <ExpenditureTypeItem key={item.id} regularExpenditure={item} onRemoveClick={() => console.log(1)} />
-                );
+                return <ExpenditureTypeItem key={item.id} type={type} regularExpenditure={item} />;
               })}
             </ul>
           </SC.ExpenditureType>

@@ -1,5 +1,5 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { getData } from '../../../../../utils/api';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { deleteData, getData } from '../../../../../utils/api';
 
 export const REGULAR_EXTENTIRE_LIST_QUERY_KEY = 'getRegularExtentireList';
 
@@ -31,7 +31,16 @@ const fetchRegularExtentureList = async () => {
   }
 };
 
+const removeRegularExpenditure = async (id: number) => {
+  const res = await deleteData(`/regular-expenditures/${id}`);
+  return res.data;
+};
+
 export const useRegularExtentureList = () => {
+  const queryClient = useQueryClient();
+  const removeeRegularExtentureMutate = useMutation({
+    mutationFn: (removeId: number) => removeRegularExpenditure(removeId),
+  });
   const { data, ...rest } = useSuspenseQuery({
     queryKey: [REGULAR_EXTENTIRE_LIST_QUERY_KEY],
     queryFn: fetchRegularExtentureList,
@@ -43,7 +52,29 @@ export const useRegularExtentureList = () => {
     return acc + item.amount;
   }, 0);
 
+  const removeRegularExtentureItem = (type: string, removeId: number) => {
+    queryClient.setQueryData([REGULAR_EXTENTIRE_LIST_QUERY_KEY], (prev: RegularExpenditureListItem[]) => {
+      return prev.reduce<RegularExpenditureListItem[]>((acc, item) => {
+        if (item.type === type) {
+          const updatedItem = {
+            type,
+            name: item.name,
+            list: item.list.filter(({ id }) => id !== removeId),
+          };
+
+          updatedItem.list.length > 0 && acc.push(updatedItem);
+        } else {
+          acc.push(item);
+        }
+
+        return acc;
+      }, []);
+    });
+  };
+
   return {
+    removeeRegularExtentureMutate,
+    removeRegularExtentureItem,
     regularExpenditureTypeList,
     flatRegularExpenditureTypeList,
     totalAmount,

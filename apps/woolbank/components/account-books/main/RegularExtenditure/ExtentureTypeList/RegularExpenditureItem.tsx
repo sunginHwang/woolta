@@ -2,35 +2,54 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Text } from '@wds';
 import { FC } from 'react';
+import { useConfirm } from '../../../../../components/common/Confirm/ConfirmService';
 import { IconTrashCan } from '../../../../../components/common/Icon';
 import { getRemainDay } from '../../../../../utils/date';
-import { RegularExpenditure } from '../hooks/useRegularExtentureList';
+import { RegularExpenditure, useRegularExtentureList } from '../hooks/useRegularExtentureList';
 import { useTouchSlide } from './useTouchSlide';
 
 const ICON_SIZE = 26;
 
 interface Props {
+  type: string;
   // 정기지출 아이템
   regularExpenditure: RegularExpenditure;
-  // 정기지출 삭제
-  onRemoveClick: (id: number) => void;
 }
 
 /**
  * 정기 지출 리스트 -> 정기 지출 리스트 아이탬
  * @component
  */
-const RegularExpenditureItem: FC<Props> = ({ regularExpenditure, onRemoveClick }) => {
+const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
   const { title, isAutoExpenditure, amount, id, regularExpenditureDay } = regularExpenditure;
   const { remainDayKo, remainDay } = getRemainDay(regularExpenditureDay, { completeMsg: '지출일' });
   const isAccentRemainDay = remainDay <= 3;
 
   const { colors } = useTheme();
+  const { openConfirm, setConfirmLoading } = useConfirm();
+  const { removeRegularExtentureItem, removeeRegularExtentureMutate } = useRegularExtentureList();
   const { moveX, setMoveX, handleTouchStart, handleTouchMove, handleTouchEnd } = useTouchSlide();
 
-  const handleRemoveClick = () => {
+  const handleRemoveClick = async () => {
     setMoveX(0);
-    onRemoveClick(id);
+
+    const isConfirm = await openConfirm({
+      message: '정말 삭제하시겠습니까?',
+      useAutoClose: false,
+    });
+
+    if (isConfirm) {
+      setConfirmLoading(true);
+      removeeRegularExtentureMutate.mutate(id, {
+        onSuccess: () => {
+          //TODO: toast 교체 필요
+          alert('삭제 되었습니다.');
+          removeRegularExtentureItem(type, id);
+        },
+        onError: () => alert('다시 시도해 주세요.'),
+        onSettled: () => setConfirmLoading(false),
+      });
+    }
   };
 
   return (

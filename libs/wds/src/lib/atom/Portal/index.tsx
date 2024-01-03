@@ -15,6 +15,5 @@ export const Portal: FC<Props> = ({ targetId, children }) => {
   if (!targetNode) {
     return null;
   }
-  console.log('eho');
   return ReactDOM.createPortal(children, targetNode);
 };
