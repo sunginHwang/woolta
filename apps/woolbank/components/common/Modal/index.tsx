@@ -1,4 +1,5 @@
 import BottomSheet from './ButtonSheet';
+import DateSheet from './DateSheet';
 
 const Modal = () => {
   return null;
@@ -6,4 +7,5 @@ const Modal = () => {
 
 export default Object.assign(Modal, {
   BottomSheet,
+  DateSheet,
 });

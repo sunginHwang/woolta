@@ -21,7 +21,7 @@ const apiCall = axios.create({
 
 if (typeof Storage !== 'undefined') {
   apiCall.defaults.headers.common[config.accessHeaderToken] =
-    'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDM3NzQ5OTksImV4cCI6MTcwNDM3OTc5OX0.FUDjR_MSJ1-30abAS2I0OcKqlGMOYmD2ynv5ats-2ixhMO44d4nVy_TaC9Ur4QBCgBk35fKa4agFADGkP3xc_w';
+    'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDQ0MjM0OTksImV4cCI6MTcwNTAyODI5OX0.Jv2p72MNqqX16UqpX-8lNEEBYMXrv8AGtSW3J5_Vw_ptBNjPeEf6lMUWWqxLor7XutVuxX1ysIc6H6rLlv0L3A';
 }
 
 apiCall.defaults.headers.common['Access-Control-Allow-Headers'] = '*';

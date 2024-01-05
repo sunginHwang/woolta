@@ -13,3 +13,12 @@ export const getRemainDay = (date: string | number, { completeMsg = 'd-day' }: {
   const remainDay = Math.abs(now.diff(compareDay, 'day'));
   return { remainDay, remainDayKo: remainDay > 7 ? compareDay.format('MM월 D일') : `${remainDay}일 뒤` };
 };
+
+export type DateRange = 'month' | 'week' | 'year';
+
+// 년, 월, 주 단위 날짜 최소, 최대 범위 계산
+export function getDateRange(rangeType: DateRange, date?: Dayjs | undefined) {
+  const rangeDate = date ?? dayjs();
+
+  return [rangeDate.startOf(rangeType), rangeDate.endOf(rangeType)];
+}

@@ -8,5 +8,14 @@ type Story = StoryObj<typeof AccountBooks>;
 
 export const 가계부_리스트: Story = {
   args: {},
-  parameters: {},
+  parameters: {
+    nextjs: {
+      router: {
+        pathname: '/account-books',
+        query: {
+          tab: 'statistic',
+        },
+      },
+    },
+  },
 };

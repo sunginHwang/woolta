@@ -38,7 +38,6 @@ export default Menu;
 
 const SC = {
   Menu: styled(Text)<{ isActive: boolean }>`
-    margin: 0 1rem;
     padding: 1.4rem;
     background-color: ${({ isActive, theme }) => (isActive ? theme.colors.gray200 : theme.colors.white)};
     border-radius: 0.8rem;

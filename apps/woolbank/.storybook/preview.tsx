@@ -6,10 +6,17 @@ import { ReactNode, Suspense } from 'react';
 import Layout from '../components/layout/Layout';
 import { setConfig } from '../utils/config';
 import { ConfirmProvider } from '../components/common/Confirm/ConfirmService';
+import { AppRouterContext } from 'next/dist/shared/lib/app-router-context';
 
 setConfig();
 
 const parameters: Preview['parameters'] = {
+  nextRouter: {
+    Provider: AppRouterContext.Provider, // next 13 next 13 (using next/navigation)
+  },
+  nextjs: {
+    appDirectory: true,
+  },
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
