@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Text } from '@wds';
 import Image from 'next/image';
 import { FC } from 'react';
-import noData from './no_data.svg';
+import noData from './images/no_data.svg';
 
 interface Props {
   msg: string;
