@@ -1,46 +1,73 @@
 'use client';
-import { Suspense } from '@wds';
+
+import { useSearchParams } from 'next/navigation';
 import { layout } from '../../../style/layout';
-import FullScreenLoading from '../../common/FullScreenLoading';
 import Header from '../../common/Header';
 import Tabs from '../../common/Tabs';
 import AccountList from './AccountList';
 import RegularExpenditure from './RegularExtenditure';
-import RegularExpenditureSkeleton from './RegularExtenditure/RegularExpenditureSkeleton';
 import StatisticTab from './Statistic';
+
+enum TabType {
+  AccountList = 'account-list',
+  RegularExpenditure = 'regular-expenditure',
+  Statistic = 'statistic',
+}
+
+const TAB_COMPONENT_LIST = {
+  [TabType.AccountList]: AccountList,
+  [TabType.RegularExpenditure]: RegularExpenditure,
+  [TabType.Statistic]: StatisticTab,
+};
 
 const TAB_LIST = [
   {
     label: '리스트',
-    value: '1',
-    link: '',
+    value: TabType.AccountList,
+    link: `/account-books?tab=${TabType.AccountList}`,
   },
   {
     label: '정기지출',
-    value: '2',
-    link: '',
+    value: TabType.RegularExpenditure,
+    link: `/account-books?tab=${TabType.RegularExpenditure}`,
   },
   {
     label: '통계',
-    value: '3',
-    link: '',
+    value: TabType.Statistic,
+    link: `/account-books?tab=${TabType.Statistic}`,
   },
 ];
 
+/**
+ * 가계부
+ * @component
+ */
 const AccountBookList = () => {
+  const { get } = useSearchParams();
+  console.log(get('tab'));
+  const activeTabId = getActiveTabId(get('tab'));
+  const ActiveSubTabComponent = TAB_COMPONENT_LIST[activeTabId];
   return (
     <>
       <Header title='가계부' />
-      <Tabs tabs={TAB_LIST} value='1' stickeyHeight={layout.headerHeight} />
-      {/* <AccountList /> */}
-      {/* <Suspense fallback={<RegularExpenditureSkeleton />}>
-        <RegularExpenditure />
-      </Suspense> */}
-      <Suspense fallback={<FullScreenLoading loading message='잠시만 기다려 주세요.' />}>
-        <StatisticTab />
-      </Suspense>
+      <Tabs tabs={TAB_LIST} value={activeTabId} stickeyHeight={layout.headerHeight} />
+      <ActiveSubTabComponent />
     </>
   );
 };
 
 export default AccountBookList;
+
+function getActiveTabId(tabId: string | null): TabType {
+  if (!tabId) {
+    return TabType.AccountList;
+  }
+
+  const is_exist_tab_type = Object.values(TabType).includes(tabId as TabType);
+
+  if (is_exist_tab_type) {
+    return tabId as TabType;
+  }
+
+  return TabType.AccountList;
+}

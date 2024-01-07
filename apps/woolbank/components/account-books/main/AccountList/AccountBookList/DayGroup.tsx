@@ -1,18 +1,17 @@
 import styled from '@emotion/styled';
 import { Text } from '@wds';
-import React, { FC } from 'react';
+import { FC, ReactNode } from 'react';
+
+interface Props {
+  days: string;
+  totalAmount: number;
+  children: ReactNode;
+}
 
 /**
  * 가게부 리스트 날짜 그룹
  * @component
  */
-
-interface Props {
-  days: string;
-  totalAmount: number;
-  children: React.ReactNode;
-}
-
 const DayGroup: FC<Props> = ({ days, totalAmount, children }) => {
   return (
     <SC.DayGroup>

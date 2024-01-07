@@ -1,12 +1,15 @@
+import { withSuspense } from '@common';
+import dynamic from 'next/dynamic';
+import FullScreenLoading from '../../../../components/common/FullScreenLoading';
+import FilterInfo from './FilterInfo';
+
+const StatisticChart = dynamic(() => import('./StatisticChart'), { ssr: false });
+
 /**
  * 가계부 통계 탭
  * @component
  */
-
-import FilterInfo from './FilterInfo';
-import StatisticChart from './StatisticChart';
-
-const StatisticTab = () => {
+const Statistic = () => {
   return (
     <>
       <FilterInfo />
@@ -15,4 +18,4 @@ const StatisticTab = () => {
   );
 };
 
-export default StatisticTab;
+export default withSuspense(Statistic, <FullScreenLoading loading message='잠시만 기다려 주세요.' />);

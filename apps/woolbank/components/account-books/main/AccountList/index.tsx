@@ -3,20 +3,28 @@ import AddButton from '../../../../components/common/AddButton';
 import AccountBookList from './AccountBookList';
 import MonthStatistics from './MonthStatistics';
 
+/**
+ * 가계부 리스트
+ * @component
+ */
 const AccountList = () => {
   return (
-    <SC.Container>
+    <>
       <MonthStatistics />
+      <SC.Line />
       <AccountBookList />
       <AddButton href='/account-books/save' />
-    </SC.Container>
+    </>
   );
 };
 
 export default AccountList;
 
 const SC = {
-  Container: styled.div`
-    padding: 0 1.6rem 20rem;
+  Line: styled.div`
+    background-color: ${({ theme }) => theme.colors.gray100};
+    height: 0.7rem;
+
+    margin: 2rem 0 3rem;
   `,
 };

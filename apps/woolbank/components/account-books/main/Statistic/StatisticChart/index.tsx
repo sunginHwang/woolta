@@ -90,6 +90,8 @@ const StatisticChart = () => {
   );
 };
 
+export default StatisticChart;
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getLabel(e: any) {
   const idLabel: string = e.id;
@@ -100,8 +102,6 @@ function getLabel(e: any) {
 function getInnerLabel(e: any) {
   return e.data.percentage;
 }
-
-export default StatisticChart;
 
 const SC = {
   Container: styled.div`

@@ -4,15 +4,14 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 import { AccountBook } from '../../hooks/useAccountBookList';
 
-/**
- * 가계부 리스트 아이템
- * @component
- */
-
 interface Props {
   accountBook: AccountBook;
 }
 
+/**
+ * 가계부 리스트 아이템
+ * @component
+ */
 const Item: FC<Props> = ({ accountBook }) => {
   const { category, title, amount, isRegularExpenditure, type, id } = accountBook;
 

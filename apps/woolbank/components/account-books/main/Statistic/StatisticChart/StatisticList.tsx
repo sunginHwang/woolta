@@ -26,7 +26,6 @@ interface Props {
  * 가계부 통계 - 통계 리스트
  * @component
  */
-
 const StatisticList: FC<Props> = ({ accountBookChartList }) => {
   const [activeSheetList, setActiveSheetList] = useState<IActiveSheet>(initActiveSheet);
   const { back, push } = useRouter();
@@ -39,7 +38,6 @@ const StatisticList: FC<Props> = ({ accountBookChartList }) => {
       <SC.Container>
         {accountBookChartList.map(({ label, percentage, value, color, list }) => {
           const handleItemClick = () => {
-            // const { pathname, search } = location;
             push(`${pathname}?tab=statistic&sheet=open`);
             setActiveSheetList({ color, label, list });
           };

@@ -2,7 +2,7 @@ import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { useCallback } from 'react';
 import { getData } from '../../../../utils/api';
-import { selectedAccountBookDateAtom } from '../store';
+import { selectedAccountBookDateAtom } from '../AccountList/store';
 
 export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';
 

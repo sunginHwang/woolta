@@ -6,6 +6,10 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
   text: string;
 }
 
+/**
+ * 가계부 레이블 필터 - 레이블 텍스트
+ * @component
+ */
 const Label: FC<Props> = ({ text, ...rest }) => {
   return (
     <SC.Label variant='small1Regular' color='gray900' as='span' {...rest}>

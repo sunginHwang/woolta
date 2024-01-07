@@ -30,7 +30,6 @@ interface Props {
  * 가계부 통계 상단 - 통계 범위 설정
  * @component
  */
-
 const DateRangeFilter: FC<Props> = ({ dateRange, onDateRangeChange }) => {
   const [isOpenPicker, togglePicker] = useToggle(false);
   const onPicker = () => togglePicker(true);

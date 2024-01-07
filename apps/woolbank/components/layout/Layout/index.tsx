@@ -12,11 +12,11 @@ interface Props extends PropsWithChildren {
  */
 const Layout: FC<Props> = ({ children, useNavBar = true }) => {
   return (
-    <>
+    <main>
       <Header title='뱅킷리스트' description='계좌 정보를 한곳에 모으고 도전하고 싶은 버킷리스트를 만들어봐요~' />
       {children}
       {useNavBar && <NavigationBar />}
-    </>
+    </main>
   );
 };
 

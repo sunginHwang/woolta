@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Text } from '@wds';
 import { Dayjs } from 'dayjs';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { DateRange } from '../../../../../utils/date';
 import { AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../store';
 import DateFilter from './DateFilter';
@@ -12,7 +12,6 @@ import TypeFilter from './TypeFilter';
  * 가계부 통계 - 팝 영역
  * @component
  */
-
 const FilterInfo = () => {
   const [{ dateRange, startDate, endDate, type }, setAccountBookStatisticFilter] =
     useAtom(AccountBookStatisticFilterAtom);

@@ -1,3 +1,4 @@
+import { withSuspense } from '@common';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
@@ -5,6 +6,7 @@ import EmptyData from '../../../../../components/common/EmptyInfo';
 import { AccountBook, useAccountBookList } from '../../hooks/useAccountBookList';
 import DayGroup from './DayGroup';
 import Item from './Item';
+import Skeleton from './Skeleton';
 
 /**
  * 가계부 리스트
@@ -12,10 +14,9 @@ import Item from './Item';
  */
 const AccountBookList = () => {
   const { accountBookList } = useAccountBookList();
+  const accountBookListGroupByDay = getAccountListGroupByDay(accountBookList);
 
-  const accountBookListGroupDays = groupBy(accountBookList, (item) => dayjs(item.registerDateTime).format('D'));
-
-  if (accountBookList.length === 0) {
+  if (accountBookListGroupByDay.length === 0) {
     return (
       <SC.AccountBookList>
         <EmptyData msg='작성한 소비 내역이 없습니다.' />
@@ -25,28 +26,24 @@ const AccountBookList = () => {
 
   return (
     <SC.AccountBookList>
-      {Object.entries(accountBookListGroupDays)
-        .map(([days, accountBookList]) => {
-          const totalAmount = getTotalAmount(accountBookList);
-
-          return (
-            <DayGroup key={days} days={days} totalAmount={totalAmount}>
-              {accountBookList.map((item) => (
-                <Item key={item.id} accountBook={item} />
-              ))}
-            </DayGroup>
-          );
-        })
-        .reverse()}
+      {accountBookListGroupByDay.map(({ totalAmount, accountBookList, days }) => {
+        return (
+          <DayGroup key={days} days={days} totalAmount={totalAmount}>
+            {accountBookList.map((item) => (
+              <Item key={item.id} accountBook={item} />
+            ))}
+          </DayGroup>
+        );
+      })}
     </SC.AccountBookList>
   );
 };
 
-export default AccountBookList;
+export default withSuspense(AccountBookList, <Skeleton />);
 
 const SC = {
   AccountBookList: styled.div`
-    margin-top: 3rem;
+    padding: 0 1.6rem;
     margin-bottom: 10rem;
   `,
 };
@@ -59,4 +56,19 @@ function getTotalAmount(accountBookList: AccountBook[]) {
     const addPrice = item.type === 'income' ? item.amount : -item.amount;
     return prev + addPrice;
   }, 0);
+}
+
+function getAccountListGroupByDay(accountBookList: AccountBook[]) {
+  const accountBookListGroupDays = groupBy(accountBookList, (item) => dayjs(item.registerDateTime).format('D'));
+  return Object.entries(accountBookListGroupDays)
+    .map(([days, accountBookList]) => {
+      const totalAmount = getTotalAmount(accountBookList);
+
+      return {
+        accountBookList,
+        totalAmount,
+        days,
+      };
+    })
+    .reverse();
 }

@@ -23,7 +23,7 @@ const OneWeekAgoList: FC<Props> = ({ regularExpenditureList }) => {
         일주일 이내 이체 예정 지출 목록
       </Text>
       {isEmptyList && (
-        <Text variant='small3Regular' color='black' alignment='center' as='p'>
+        <Text variant='small2Regular' color='gray600' as='p'>
           당분간 지출할 내역이 없어요. :)
         </Text>
       )}

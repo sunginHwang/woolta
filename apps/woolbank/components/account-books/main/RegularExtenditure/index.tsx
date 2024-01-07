@@ -1,5 +1,7 @@
+import { withSuspense } from '@common';
 import AddButton from '../../../../components/common/AddButton';
 import ExtentureTypeList from './ExtentureTypeList';
+import RegularExpenditureSkeleton from './RegularExpenditureSkeleton';
 import SummeryInfo from './SummeryInfo';
 
 /**
@@ -16,4 +18,4 @@ function RegularExpenditure() {
   );
 }
 
-export default RegularExpenditure;
+export default withSuspense(RegularExpenditure, <RegularExpenditureSkeleton />);

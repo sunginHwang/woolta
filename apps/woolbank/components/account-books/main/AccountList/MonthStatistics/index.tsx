@@ -1,14 +1,15 @@
-import { useToggle } from '@common';
+import { useToggle, withSuspense } from '@common';
 import styled from '@emotion/styled';
 import { Text } from '@wds';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
-import BotttomSheet from '../../../common/BotttomSheet';
-import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
-import DropdownTitle from '../../../common/DropdownTitle';
-import { useAccountBookList } from '../hooks/useAccountBookList';
+import BotttomSheet from '../../../../common/BotttomSheet';
+import { BottomMenu } from '../../../../common/BotttomSheet/MenuSheet';
+import DropdownTitle from '../../../../common/DropdownTitle';
+import { useAccountBookList } from '../../hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../store';
+import Skeleton from './Skeleton';
 
 const MONTH_FOR_5_YEAR = 60;
 
@@ -52,7 +53,6 @@ const MonthStatistics = () => {
           </Text>
         </SC.TotalSection>
       </SC.Container>
-      <SC.Line />
       <BotttomSheet.Menu
         title='월 선택하기'
         menus={fiveYearMonthList}
@@ -89,17 +89,11 @@ function getMonthLabelPrefix(selectedDate: string) {
 
 const SC = {
   Container: styled.div`
-    padding-top: 2rem;
+    padding: 2rem 1.6rem 0;
   `,
   TotalSection: styled.section`
     margin-top: 2rem;
   `,
-  Line: styled.div`
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 0.7rem;
-
-    margin-top: 2rem;
-  `,
 };
 
-export default MonthStatistics;
+export default withSuspense(MonthStatistics, <Skeleton />);
