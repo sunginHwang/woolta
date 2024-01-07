@@ -5,7 +5,7 @@ import { reset_style, theme } from 'libs/wds/src';
 import { ReactNode, Suspense } from 'react';
 import Layout from '../components/layout/Layout';
 import { setConfig } from '../utils/config';
-import { ConfirmProvider } from '../components/common/Confirm/ConfirmService';
+import { ConfirmProvider } from '../components/common/Confirm/ConfirmContext';
 import { AppRouterContext } from 'next/dist/shared/lib/app-router-context';
 
 setConfig();

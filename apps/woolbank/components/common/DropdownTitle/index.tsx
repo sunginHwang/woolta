@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Text } from '@wds';
 import { FC } from 'react';
-import { IconChevronDown } from '../Icon';
+import { IconChevronDown } from '../../atom/Icon';
 
 interface Props {
   onClick: () => void;

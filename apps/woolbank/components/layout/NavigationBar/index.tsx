@@ -10,7 +10,7 @@ import {
   IconHomeOutline,
   IconPigOutline,
   IconWalletOutline,
-} from '../../common/Icon';
+} from '../../atom/Icon';
 
 const navigations: { name: string; value: string; link: string; icon: ReactNode }[] = [
   {

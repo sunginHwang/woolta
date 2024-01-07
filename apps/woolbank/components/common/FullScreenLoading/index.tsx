@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 import { Text } from '@wds';
 import { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
-import Deem from '../Modal/Deem';
+import Deem from '../../atom/Deem';
 
 interface Props {
   loading: boolean;
   message?: string;
 }
 
-const Loading: FC<Props> = ({ loading, message }) => {
+const FullScreenLoading: FC<Props> = ({ loading, message }) => {
   const { colors } = useTheme();
 
   return (
@@ -42,4 +42,4 @@ const SC = {
   `,
 };
 
-export default Loading;
+export default FullScreenLoading;

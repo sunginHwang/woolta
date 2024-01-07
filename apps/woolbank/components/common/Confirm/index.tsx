@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Text, typography } from '@wds';
 import { FC, PropsWithChildren } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
-import Deem from '../Modal/Deem';
+import Deem from '../../atom/Deem';
 
 interface Props extends PropsWithChildren {
   isOpen?: boolean;

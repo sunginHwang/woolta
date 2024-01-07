@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { FC, useCallback } from 'react';
-import { IconChevronLeft } from '../Icon';
+import { IconChevronLeft } from '../../atom/Icon';
 
 interface Props {
   // 헤더 타이틀

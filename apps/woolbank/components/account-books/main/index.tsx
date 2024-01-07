@@ -1,8 +1,8 @@
 'use client';
 import { Suspense } from '@wds';
 import { layout } from '../../../style/layout';
+import FullScreenLoading from '../../common/FullScreenLoading';
 import Header from '../../common/Header';
-import Loading from '../../common/Loading';
 import Tabs from '../../common/Tabs';
 import AccountList from './AccountList';
 import RegularExpenditure from './RegularExtenditure';
@@ -36,7 +36,7 @@ const AccountBookList = () => {
       {/* <Suspense fallback={<RegularExpenditureSkeleton />}>
         <RegularExpenditure />
       </Suspense> */}
-      <Suspense fallback={<Loading loading message='잠시만 기다려 주세요.' />}>
+      <Suspense fallback={<FullScreenLoading loading message='잠시만 기다려 주세요.' />}>
         <StatisticTab />
       </Suspense>
     </>
