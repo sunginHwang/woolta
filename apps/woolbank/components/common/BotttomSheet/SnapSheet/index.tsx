@@ -16,7 +16,7 @@ interface Props extends PropsWithChildren {
   useDeem?: boolean;
 }
 
-const BottomSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true, header, onClose, children }) => {
+const SnapSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true, header, onClose, children }) => {
   const MAX_Y = window.innerHeight - 140; // 바텀시트가 최소로 내려갔을 때의 y 값
 
   React.useEffect(() => {
@@ -48,4 +48,4 @@ const BottomSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true,
   );
 };
 
-export default BottomSheet;
+export default SnapSheet;

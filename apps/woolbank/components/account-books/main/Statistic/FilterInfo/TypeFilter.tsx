@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { FC } from 'react';
-import Modal from '../../../../../components/common/Modal';
-import { BottomMenu } from '../../../../../components/common/Modal/ButtonSheet';
+import BotttomSheet from '../../../../../components/common/BotttomSheet';
+import { BottomMenu } from '../../../../common/BotttomSheet/MenuSheet';
 import { AccountBookCategoryType } from '../store';
 import Label from './Label';
 
@@ -39,7 +39,7 @@ const TypeFilter: FC<Props> = ({ activeType, onTypeChange }) => {
   return (
     <>
       <Label text={activeMenu?.[1].value || ''} onClick={() => toggleModal()} />
-      <Modal.BottomSheet
+      <BotttomSheet.Menu
         title='통계 종류를 선택해 주세요.'
         menus={CATEGORY_BOTTOM_MENU_LIST}
         activeMenuType={activeType}

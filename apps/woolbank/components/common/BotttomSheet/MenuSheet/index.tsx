@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { safeAreaInsetMarginBottom } from '@wds';
 import { FC } from 'react';
-import BottomModal from '../BottomModal';
+import DefaultBottomSheet from '../DefaultBottomSheet';
 import Menu from './Menu';
 
 export interface BottomMenu<T = string> {
@@ -22,20 +22,20 @@ interface Props {
  * 하단 메뉴 모달
  * @component
  */
-const BottomSheet: FC<Props> = ({ menus, title, activeMenuType = '', visible, oncloseModal, onEditClick }) => {
+const MenuSheet: FC<Props> = ({ menus, title, activeMenuType = '', visible, oncloseModal, onEditClick }) => {
   return (
-    <BottomModal title={title} visible={visible} oncloseModal={oncloseModal}>
+    <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
       <SC.List>
         {menus.map((menu) => {
           const isActive = activeMenuType === menu.type;
           return <Menu key={menu.type} menu={menu} isActive={isActive} onMenuSelect={onEditClick} />;
         })}
       </SC.List>
-    </BottomModal>
+    </DefaultBottomSheet>
   );
 };
 
-export default BottomSheet;
+export default MenuSheet;
 
 const SC = {
   List: styled.ul`

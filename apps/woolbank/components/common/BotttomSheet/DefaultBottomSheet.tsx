@@ -2,8 +2,8 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { safeAreaInsetMarginBottom } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
-import { IconClose } from '../Icon';
-import Deem from './Deem';
+import Deem from '../../atom/Deem';
+import { IconClose } from '../../atom/Icon';
 
 interface Props extends PropsWithChildren {
   title: string;
@@ -13,7 +13,7 @@ interface Props extends PropsWithChildren {
   oncloseModal: () => void;
 }
 
-const BottomModal: FC<Props> = ({ visible, title, showCloseBtn = true, children, oncloseModal }) => {
+const DefaultBottomSheet: FC<Props> = ({ visible, title, showCloseBtn = true, children, oncloseModal }) => {
   const {
     colors: { gray700 },
   } = useTheme();
@@ -80,4 +80,4 @@ const SC = {
   `,
 };
 
-export default BottomModal;
+export default DefaultBottomSheet;

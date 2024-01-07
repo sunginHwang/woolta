@@ -4,9 +4,9 @@ import { Text } from '@wds';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
+import BotttomSheet from '../../../common/BotttomSheet';
+import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
 import DropdownTitle from '../../../common/DropdownTitle';
-import Modal from '../../../common/Modal';
-import { BottomMenu } from '../../../common/Modal/ButtonSheet';
 import { useAccountBookList } from '../hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../store';
 
@@ -53,7 +53,7 @@ const MonthStatistics = () => {
         </SC.TotalSection>
       </SC.Container>
       <SC.Line />
-      <Modal.BottomSheet
+      <BotttomSheet.Menu
         title='월 선택하기'
         menus={fiveYearMonthList}
         activeMenuType={activeMonthMenu.type}

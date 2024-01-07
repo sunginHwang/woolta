@@ -1,9 +1,9 @@
 import { useToggle } from '@common';
 import dayjs, { Dayjs } from 'dayjs';
 import { FC } from 'react';
-import Modal from '../../../../../components/common/Modal';
-import { BottomMenu } from '../../../../../components/common/Modal/ButtonSheet';
+import BotttomSheet from '../../../../../components/common/BotttomSheet';
 import { DateRange, getDateRange } from '../../../../../utils/date';
+import { BottomMenu } from '../../../../common/BotttomSheet/MenuSheet';
 import Label from './Label';
 
 interface Props {
@@ -34,7 +34,7 @@ const DateFilter: FC<Props> = ({ startDate, endDate, dateRange, onDateChange }) 
   return (
     <>
       <Label text={labelText} onClick={() => toggleModal()} />
-      <Modal.BottomSheet
+      <BotttomSheet.Menu
         title='월 선택하기'
         menus={fiveYearMonthBottomMenuList}
         activeMenuType={startDate.format('YYYY-MM')}
@@ -42,7 +42,7 @@ const DateFilter: FC<Props> = ({ startDate, endDate, dateRange, onDateChange }) 
         oncloseModal={toggleModal}
         onEditClick={onDateModalClick}
       />
-      <Modal.BottomSheet
+      <BotttomSheet.Menu
         title='년도 선택하기'
         menus={tenYearList}
         activeMenuType={startDate.format('YYYY')}
@@ -50,7 +50,7 @@ const DateFilter: FC<Props> = ({ startDate, endDate, dateRange, onDateChange }) 
         oncloseModal={toggleModal}
         onEditClick={onDateModalClick}
       />
-      <Modal.DateSheet
+      <BotttomSheet.Date
         visible={isOpenModal && dateRange === 'week'}
         onModalclose={toggleModal}
         onDateChange={onDateModalClick}

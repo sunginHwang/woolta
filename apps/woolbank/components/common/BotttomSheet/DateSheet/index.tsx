@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
-import Deem from './Deem';
-import './customCalendar.css';
+import Deem from '../../../atom/Deem';
+import { calendarStyle } from './style';
 
 interface Props {
   visible: boolean;
@@ -26,10 +26,13 @@ const DateSheet: FC<Props> = ({ date, visible, onDateChange, onModalclose }) => 
   );
 };
 
+export default DateSheet;
+
 const SC = {
   DateModal: styled.div<{
     visible: boolean;
   }>`
+    ${calendarStyle}
     position: fixed;
     bottom: ${({ visible }) => (visible ? '0' : '-30rem')};
     width: 100%;
@@ -48,5 +51,3 @@ const SC = {
     }
   `,
 };
-
-export default DateSheet;
