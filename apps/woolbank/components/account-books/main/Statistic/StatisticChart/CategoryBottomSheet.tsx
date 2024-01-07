@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
-import BottomSheet from '../../../../../components/common/BotttonSheet';
+import BottomSheet from '../../../../common/BotttomSheet';
 import { AccountBookStatisticCategoryItem } from '../hooks/useAccountStatisticList';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
  */
 const CategoryBottomSheet: FC<Props> = ({ isOpen, title, titleColor, list, onClose }) => {
   return (
-    <BottomSheet useDeem isOpen={isOpen} onClose={onClose} snapPhase={1}>
+    <BottomSheet.Snap useDeem isOpen={isOpen} onClose={onClose} snapPhase={1}>
       <S.CategoryBottomSheet>
         <S.Title color={titleColor}>{title}</S.Title>
         <S.List>
@@ -32,7 +32,7 @@ const CategoryBottomSheet: FC<Props> = ({ isOpen, title, titleColor, list, onClo
           ))}
         </S.List>
       </S.CategoryBottomSheet>
-    </BottomSheet>
+    </BottomSheet.Snap>
   );
 };
 
