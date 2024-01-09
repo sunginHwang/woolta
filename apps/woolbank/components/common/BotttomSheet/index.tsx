@@ -1,4 +1,5 @@
 import { ComponentProps, FC } from 'react';
+import AmountSheet from './AmountSheet';
 import DateSheet from './DateSheet';
 import DefaultBottomSheet from './DefaultBottomSheet';
 import MenuSheet from './MenuSheet';
@@ -12,4 +13,5 @@ export default Object.assign(BotttomSheet, {
   Date: DateSheet,
   Menu: MenuSheet,
   Snap: SnapSheet,
+  Amount: AmountSheet,
 });

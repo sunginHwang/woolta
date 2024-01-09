@@ -11,6 +11,7 @@ import PigOutline from './PigOutline';
 import TrashCan from './TrashCan';
 import WalletOutline from './WalletOutline';
 import { IconProps } from '.';
+import CloseCircle from './CloseCircle';
 
 const ICON_COMPONENT_LIST = [
   AccountOutline,
@@ -18,6 +19,7 @@ const ICON_COMPONENT_LIST = [
   ChevronDown,
   ChevronLeft,
   Close,
+  CloseCircle,
   HomeOutline,
   PigOutline,
   TrashCan,
