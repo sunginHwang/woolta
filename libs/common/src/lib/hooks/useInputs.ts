@@ -1,16 +1,53 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { useCallback, useState, ChangeEvent } from 'react';
 
-export function useInputs<T>(initialValues: T) {
-  const [values, setValues] = useState(initialValues);
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
+export function useInputs<T extends object>(defaultValues: T) {
+  type NameType = keyof T;
+
+  const [inputs, setInputs] = useState(defaultValues);
+
+  const setInput = useCallback(
+    <T>(name: NameType, value: T) => {
+      setInputs((prevState) => {
+        return {
+          ...prevState,
+          [name]: value,
+        };
       });
     },
-    [initialValues],
+    [setInputs],
   );
 
-  return [values, onChange] as [T, typeof onChange];
+  // 인풋 이벤트 변경
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+
+      console.log('-s--');
+      console.log(name);
+      console.log(value);
+      console.log('-e--');
+      setInput(name as NameType, value);
+    },
+    [setInput],
+  );
+
+  const onClear = useCallback(
+    (type: NameType) => {
+      setInput(type, defaultValues[type]);
+    },
+    [defaultValues, setInput],
+  );
+
+  const onReset = useCallback(() => {
+    setInputs(Object.assign({}, defaultValues));
+  }, [setInputs, defaultValues]);
+
+  return {
+    inputs,
+    onChange,
+    onClear,
+    onReset,
+    setInput,
+    setInputs,
+  };
 }
