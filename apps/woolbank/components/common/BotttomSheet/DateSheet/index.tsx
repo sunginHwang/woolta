@@ -7,18 +7,18 @@ import { calendarStyle } from './style';
 
 interface Props {
   visible: boolean;
-  onModalclose: () => void;
+  onclose: () => void;
   onDateChange: (date: string) => void;
   date: Date;
 }
 
-const DateSheet: FC<Props> = ({ date, visible, onDateChange, onModalclose }) => {
+const DateSheet: FC<Props> = ({ date, visible, onDateChange, onclose }) => {
   const handleCalendarChange = (date: Value) => {
     onDateChange(String(date));
   };
 
   return (
-    <Deem visible={visible} onDeemClick={onModalclose}>
+    <Deem visible={visible} onDeemClick={onclose}>
       <SC.DateModal visible={visible}>
         <Calendar value={date} showFixedNumberOfWeeks onChange={handleCalendarChange} />
       </SC.DateModal>

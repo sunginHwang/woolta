@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Deem from './index';
+import FullScreenLoading from './index';
 
-const meta: Meta<typeof Deem> = { component: Deem };
+const meta: Meta<typeof FullScreenLoading> = { component: FullScreenLoading };
 export default meta;
 
-type Story = StoryObj<typeof Deem>;
+type Story = StoryObj<typeof FullScreenLoading>;
 
-export const 전체화면_딤_영역: Story = {
+export const 전체화면_로딩: Story = {
   args: {},
   parameters: {},
 };

@@ -2,14 +2,14 @@ import { useWindowDimensions } from '@common';
 import styled from '@emotion/styled';
 import { FC, useEffect, useState } from 'react';
 
-export interface ToggleTab<T = string> {
-  type: T;
+export interface ToggleTabItem {
+  type: string;
   name: string;
 }
 
 interface Props {
   // 탭 리스트
-  tabs: ToggleTab[];
+  tabs: ToggleTabItem[];
   // 황성화 탭
   value: string;
   // 경계선 사용 유무
@@ -17,7 +17,7 @@ interface Props {
   // 리스트 타입 사용 유무
   useListType?: boolean;
   // 탭 변경 이벤트
-  onChangeTab?: (tab: ToggleTab) => void;
+  onChangeTab?: (tab: ToggleTabItem) => void;
 }
 
 /**
@@ -37,7 +37,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
     setIndicatorLeftPosition(indicatorWidth * activeTabIndex);
   }, [value, indicatorWidth, activeTabIndex]);
 
-  const onTabClick = (tab: ToggleTab, index: number) => {
+  const onTabClick = (tab: ToggleTabItem, index: number) => {
     setIndicatorLeftPosition(indicatorWidth * index);
     onChangeTab && onChangeTab(tab);
   };

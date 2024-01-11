@@ -6,12 +6,12 @@ import BucketOutline from './BucketOutline';
 import ChevronDown from './ChevronDown';
 import ChevronLeft from './ChevronLeft';
 import Close from './Close';
+import CloseCircle from './CloseCircle';
 import HomeOutline from './HomeOutline';
 import PigOutline from './PigOutline';
 import TrashCan from './TrashCan';
 import WalletOutline from './WalletOutline';
 import { IconProps } from '.';
-import CloseCircle from './CloseCircle';
 
 const ICON_COMPONENT_LIST = [
   AccountOutline,

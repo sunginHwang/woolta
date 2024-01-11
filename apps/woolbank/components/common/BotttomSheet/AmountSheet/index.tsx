@@ -1,5 +1,6 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Text } from '@wds';
 import { FC, useCallback } from 'react';
 import { IconCloseCircle } from '../../../atom/Icon';
 import DefaultBottomSheet from '../DefaultBottomSheet';
@@ -31,7 +32,9 @@ const AmountSheet: FC<Props> = ({ title, visible, currentAmount, oncloseModal, o
   return (
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
       <SC.AmountDisplay>
-        <SC.Amount>{displayAmount}</SC.Amount>
+        <Text variant='title1Medium' color='black' as='p'>
+          {displayAmount}
+        </Text>
         <i onClick={initAmount}>
           <IconCloseCircle width={20} height={20} fill={gray150} />
         </i>
@@ -55,11 +58,5 @@ const SC = {
     justify-content: space-between;
     align-items: center;
     margin: 0 5rem 2rem 5rem;
-  `,
-  Amount: styled.p`
-    font-weight: bold;
-    color: ${({ theme }) => theme.colors.black};
-    text-align: left;
-    font-size: 2.8rem;
   `,
 };

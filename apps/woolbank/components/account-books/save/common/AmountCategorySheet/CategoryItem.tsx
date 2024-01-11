@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import React, { FC } from 'react';
+import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
 
 interface Props {
-  accountBookCategory: IAccountBookCategory;
+  accountBookCategory: AccountBookCategory;
   isActive: boolean;
-  onSelect: (accountBookCategory: IAccountBookCategory) => void;
+  onSelect: (accountBookCategory: AccountBookCategory) => void;
 }
 
 /**

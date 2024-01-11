@@ -1,8 +1,9 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 
 import styled from '@emotion/styled';
 import { typography } from '@wds';
-import React, { ButtonHTMLAttributes, ReactNode, useRef } from 'react';
+import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ClipLoader } from 'react-spinners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -60,7 +61,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const loading_ref = useRef<HTMLDivElement>(null);
+    const {
+      colors: { white },
+    } = useTheme();
 
     const buttonStyle = [
       css`
@@ -72,8 +75,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const buttonClassName = ['button-info', variant, size, className].join(' ');
 
     return (
-      <SC.BaseButton disabled={disabled} fill={fill} css={buttonStyle} {...props} ref={ref}>
-        <div className={buttonClassName}>
+      <SC.BaseButton fill={fill} css={buttonStyle}>
+        <button disabled={disabled} className={buttonClassName} ref={ref} {...props}>
           {!loading && (
             <>
               {startIcon}
@@ -83,17 +86,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           )}
           {loading && (
             <SC.Loading>
-              <div ref={loading_ref} />
+              <ClipLoader color={white} size={20} />
             </SC.Loading>
           )}
-        </div>
+        </button>
       </SC.BaseButton>
     );
   },
 );
 
 const SC = {
-  BaseButton: styled.button<{ fill?: boolean }>`
+  BaseButton: styled.div<{ fill?: boolean }>`
     ${({ fill }) => fill && 'width: 100%;'}
     .button-info {
       ${({ fill }) => fill && 'width: 100%;'}
@@ -207,6 +210,5 @@ const SC = {
     left: 50%;
     transform: translate(-50%);
     width: 40px;
-    margin-bottom: 10px;
   `,
 };

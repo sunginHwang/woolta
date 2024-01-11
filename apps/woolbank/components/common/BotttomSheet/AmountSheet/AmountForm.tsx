@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import { typography } from '@wds';
 import { MouseEvent, FC } from 'react';
+import { Button } from '../../../../components/atom/Button';
 
 interface Props {
   visible?: boolean;
@@ -66,7 +68,9 @@ const AmountForm: FC<Props> = ({
             {useCompleteBtn && (
               <SC.InputTd data-cy='numberComplete' isHide={isZeroAmount} isSmall={true} onClick={onRightBottomClick}>
                 {!isZeroAmount && (
-                  <SC.SaveButton>{/* <Button message='확인' color='red' size='full' /> */}</SC.SaveButton>
+                  <SC.SaveButton>
+                    <Button fill>확인</Button>
+                  </SC.SaveButton>
                 )}
               </SC.InputTd>
             )}
@@ -108,7 +112,7 @@ const SC = {
     height: 83%;
   `,
   InputTd: styled.td<InputTdProps>`
-    font-size: 1.8rem;
+    ${typography.title3Medium}
     width: 33.33333%;
     padding: ${({ isSmall }) => (isSmall ? '.3rem' : '1rem')} 0;
 

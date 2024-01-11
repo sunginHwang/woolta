@@ -17,6 +17,7 @@ const DefaultBottomSheet: FC<Props> = ({ visible, title, showCloseBtn = true, ch
   const {
     colors: { gray700 },
   } = useTheme();
+
   return (
     <Deem visible={visible} onDeemClick={oncloseModal}>
       <SC.BottomModal visible={visible}>
@@ -42,9 +43,9 @@ const SC = {
     align-items: center;
 
     p {
-      font-weight: bold;
+      font-weight: 500;
 
-      color: ${({ theme }) => theme.colors.black};
+      color: ${({ theme }) => theme.colors.gray800};
     }
   `,
   Content: styled.div`

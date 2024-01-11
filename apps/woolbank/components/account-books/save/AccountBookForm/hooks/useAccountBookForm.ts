@@ -1,5 +1,6 @@
 import { useInputs } from '@common';
 import dayjs, { Dayjs } from 'dayjs';
+import { ToggleTabItem } from '../../../../../components/common/ToggleTab';
 import getCategoryMsg, { AccountBookCategoryType } from '../../../../../utils/account-books';
 import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
 
@@ -60,13 +61,27 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     };
   };
 
-  // const setType = (tab: IAssetType) => {
-  //   setInputs((prev) => ({
-  //     ...prev,
-  //     type: '',
-  //     category: INIT_FORM_DATA.category,
-  //   }));
-  // };
+  const setAmount = (amount: number) => {
+    setInput('amount', amount);
+  };
+
+  const setRegisterDateTime = (date: Dayjs) => {
+    setInput('registerDateTime', date);
+  };
+
+  const setType = (tab: ToggleTabItem) => {
+    setInputs((prev) => ({
+      ...prev,
+      type: tab.type as AccountBookCategoryType,
+      category: INIT_FORM_DATA.category,
+    }));
+  };
+
+  const setAccountBookCategoryType = (accountBookCategory: AccountBookCategory) => {
+    setInput('category', accountBookCategory);
+  };
+
+  const isActiveSubmit = isValidSubmit(formData);
 
   return {
     formData,
@@ -74,6 +89,17 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     setInput,
     onClear,
     setInputs,
+    setAmount,
+    setType,
+    setRegisterDateTime,
+    setAccountBookCategoryType,
     validateForm,
+    isActiveSubmit,
   };
 };
+
+function isValidSubmit(form: AccountBookSaveForm) {
+  const { title, type, amount, category } = form;
+
+  return title.length > 0 && type.length > 0 && amount > 0 && category.id > 0;
+}

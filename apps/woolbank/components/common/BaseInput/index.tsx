@@ -6,13 +6,14 @@ import { IconCloseCircle } from '../../atom/Icon';
 interface Props
   extends Omit<
     HtmlHTMLAttributes<HTMLInputElement>,
-    'value' | 'type' | 'name' | 'maxLength' | 'onFocus' | 'onBlur' | 'onClick'
+    'value' | 'type' | 'name' | 'maxLength' | 'onFocus' | 'onBlur' | 'onClick' | 'readOnly'
   > {
   label?: string;
   value?: string | number;
   type?: 'text' | 'number' | 'date' | 'range';
   name?: string;
   maxLength?: number;
+  readOnly?: boolean;
   useLengthInfo?: boolean;
   disable?: boolean;
   dataType?: string;
@@ -38,6 +39,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
       maxLength = 999,
       useLengthInfo = false,
       dataType = '',
+      readOnly,
       isShowCloseBtn = true,
       disable = false,
       onClear,
@@ -54,7 +56,6 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
     const [focus, setFocus] = useState(false);
     const { onKeyUp, ...restInputProps } = rest;
 
-    console.log(restInputProps);
     const handleFocus = useCallback(() => {
       setFocus(true);
       onFocusIn && onFocusIn();
@@ -109,8 +110,10 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
+            onClick={onClick}
             autoComplete='off'
             disabled={disable}
+            readOnly={readOnly}
             {...defaultProps}
             {...restInputProps}
           />
