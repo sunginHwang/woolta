@@ -1,10 +1,13 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { FC, MouseEvent, useState } from 'react';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import BaseInput from '../../../../components/common/BaseInput';
 import ToggleTab from '../../../../components/common/ToggleTab';
 import getCategoryMsg from '../../../../utils/account-books';
+import { useAccountBookDetail, AccountBookDetail } from '../hooks/useAccountBookDetail';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
 
@@ -32,7 +35,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm }) => {
     setAccountBookCategoryType,
     setRegisterDateTime,
     onClear,
-  } = useAccountBookForm();
+  } = useAccountBookForm(accountBookForm);
   const [openModalName, setModalName] = useState('');
 
   const handleClearClick = (e: MouseEvent<HTMLLIElement>) => {

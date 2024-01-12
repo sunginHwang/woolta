@@ -19,7 +19,7 @@ const Item: FC<Props> = ({ accountBook }) => {
   const displayAmount = isIncomeType ? amount : -amount;
 
   return (
-    <Link href={`/account-books/${id}`}>
+    <Link href={`/account-books/save?id=${id}`}>
       <SC.Item>
         <div>
           <Text className='category' variant='small1Regular' color='gray600' as='p'>

@@ -44,7 +44,6 @@ const TAB_LIST = [
  */
 const AccountBookList = () => {
   const { get } = useSearchParams();
-  console.log(get('tab'));
   const activeTabId = getActiveTabId(get('tab'));
   const ActiveSubTabComponent = TAB_COMPONENT_LIST[activeTabId];
   return (

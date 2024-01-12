@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Text } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
 import { layout } from '../../../style/layout';
+import SubHeader from './SubHeader';
 
 interface Props extends PropsWithChildren {
   // 헤더 타이틀
@@ -58,4 +59,6 @@ const SC = {
   `,
 };
 
-export default Header;
+export default Object.assign(Header, {
+  Sub: SubHeader,
+});
