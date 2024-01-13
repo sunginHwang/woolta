@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { reset_style, theme } from '@wds';
 import { Provider } from 'jotai';
 import { Suspense } from 'react';
+import FullScreenLoading from '../components/common/FullScreenLoading';
 import Layout from '../components/layout/Layout';
 import { setConfig } from '../utils/config';
 
@@ -59,13 +60,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <QueryClientProvider client={queryClient}>
           <Provider>
             <ThemeProvider theme={theme.light}>
-              <Suspense fallback={<div>로딩중</div>}>
+              <Suspense fallback={<FullScreenLoading loading />}>
                 <Layout>{children}</Layout>
-                <div id='modalDeem' />
               </Suspense>
             </ThemeProvider>
           </Provider>
         </QueryClientProvider>
+        <div id='modalDeem' />
       </body>
     </html>
   );
