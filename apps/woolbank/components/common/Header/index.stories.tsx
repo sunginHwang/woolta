@@ -12,3 +12,9 @@ export const 헤더_기본: Story = {
     title: '헤더',
   },
 };
+
+export const 서브_헤더: Story = {
+  args: {},
+  parameters: {},
+  render: () => <Header.Sub title='서브헤더' />,
+};
