@@ -1,4 +1,5 @@
 import { DehydratedState, HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSearchParams } from 'next/navigation';
 import Header from '../../common/Header';
@@ -10,12 +11,17 @@ export const AccountBookSavePage: NextPage<{
   dehydratedState?: DehydratedState;
 }> = ({ dehydratedState }) => {
   const { get } = useSearchParams();
-  const { accountBookDetail } = useAccountBookDetail(get('id'));
+  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(get('id'));
   const accountBookForm = getAccountBookFrom(accountBookDetail);
+
   return (
     <HydrationBoundary state={dehydratedState}>
       <Header.Sub title={accountBookDetail ? accountBookDetail.title : '거래 내역 추가'} />
-      <AccountBookForm accountBookForm={accountBookForm} />
+      <AccountBookForm
+        accountBookForm={accountBookForm}
+        submitForm={upsertAccountBook}
+        removeAccountBookForm={removeAccountBook}
+      />
     </HydrationBoundary>
   );
 };
@@ -31,11 +37,11 @@ function getAccountBookFrom(accountBookDetail: AccountBookDetail | null): Accoun
     title,
     amount,
     memo,
-    registerDateTime,
+    registerDateTime: dayjs(registerDateTime),
     category: {
       ...category,
-      createdAt: category.createdAt.toDate(),
-      updatedAt: category.updatedAt.toDate(),
+      createdAt: category.createdAt,
+      updatedAt: category.updatedAt,
     },
     type,
   };

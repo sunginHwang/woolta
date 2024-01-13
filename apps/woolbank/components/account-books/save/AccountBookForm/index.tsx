@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
 import { FC, MouseEvent, useState } from 'react';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import BaseInput from '../../../../components/common/BaseInput';
 import ToggleTab from '../../../../components/common/ToggleTab';
 import getCategoryMsg from '../../../../utils/account-books';
-import { useAccountBookDetail, AccountBookDetail } from '../hooks/useAccountBookDetail';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
 
@@ -24,14 +21,18 @@ const TAB_LIST = [
 
 interface Props {
   accountBookForm?: AccountBookSaveForm;
+  submitForm: (accountForm: AccountBookSaveForm) => void;
+  removeAccountBookForm: (id: string) => void;
 }
-const AccountBookForm: FC<Props> = ({ accountBookForm }) => {
+
+const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccountBookForm }) => {
   const {
     formData,
     isActiveSubmit,
     onChange,
     setAmount,
     setType,
+    validateForm,
     setAccountBookCategoryType,
     setRegisterDateTime,
     onClear,
@@ -44,7 +45,24 @@ const AccountBookForm: FC<Props> = ({ accountBookForm }) => {
   };
 
   const handleSubmitClick = () => {
-    console.log(formData);
+    const { isValid, message } = validateForm();
+
+    if (!accountBookForm) {
+      return;
+    }
+
+    if (!isValid) {
+      alert(message);
+      return;
+    }
+
+    submitForm(accountBookForm);
+  };
+
+  const handleRemoveClick = () => {
+    if (accountBookForm?.id) {
+      removeAccountBookForm(String(accountBookForm.id));
+    }
   };
 
   const openModal = (e: MouseEvent<HTMLElement | HTMLDivElement>) => {
@@ -109,21 +127,11 @@ const AccountBookForm: FC<Props> = ({ accountBookForm }) => {
         />
         <SC.ButtonArea>
           {!isUpdateForm && (
-            <Button
-              variant='tertiaryGray'
-              // loading={addAccountBookMutation.isLoading}
-              // onClick={onSubmitClick}
-              disabled={!isActiveSubmit}
-            >
+            <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
               <IconTrashCan />
             </Button>
           )}
-          <Button
-            fill
-            // loading={addAccountBookMutation.isLoading}
-            onClick={handleSubmitClick}
-            disabled={!isActiveSubmit}
-          >
+          <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
             {isUpdateForm ? '작성하기' : '수정하기'}
           </Button>
         </SC.ButtonArea>

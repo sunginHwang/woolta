@@ -6,11 +6,11 @@ import { ClipLoader } from 'react-spinners';
 import Deem from '../../atom/Deem';
 
 interface Props {
-  loading: boolean;
+  loading?: boolean;
   message?: string;
 }
 
-const FullScreenLoading: FC<Props> = ({ loading, message }) => {
+const FullScreenLoading: FC<Props> = ({ loading = false, message }) => {
   const { colors } = useTheme();
 
   return (
