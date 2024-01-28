@@ -1,6 +1,4 @@
-import { css, useTheme } from '@emotion/react';
-
-import styled from '@emotion/styled';
+import { styled, useTheme } from 'styled-components';
 import { typography } from '@wds';
 import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import { ClipLoader } from 'react-spinners';
@@ -65,17 +63,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       colors: { white },
     } = useTheme();
 
-    const buttonStyle = [
-      css`
-        ${fill && 'width: 100%;'}
-        cursor: ${disabled ? 'not-allowed' : 'pointer'};
-      `,
-    ];
-
     const buttonClassName = ['button-info', variant, size, className].join(' ');
 
     return (
-      <SC.BaseButton fill={fill} css={buttonStyle}>
+      <SC.BaseButton fill={fill}>
         <button disabled={disabled} className={buttonClassName} ref={ref} {...props}>
           {!loading && (
             <>

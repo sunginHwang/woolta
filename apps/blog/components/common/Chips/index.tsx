@@ -1,6 +1,5 @@
 import { useMount } from '@common';
-import { SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
+import { styled, CSSProp } from 'styled-components';
 import { useStickeyScrollReset } from 'apps/blog/hooks/useStickeyScrollReset';
 import { FC, MouseEvent, useMemo, useRef } from 'react';
 import { white, SkeletonBar, invisibleScrollBar } from '@wds';
@@ -35,7 +34,7 @@ interface Props {
   /**
    * custom 스타일 css 를 정의합니다.
    */
-  custom_css?: SerializedStyles;
+  custom_css?: CSSProp;
   /**
    * aria-label 을 정의 합니다..
    */

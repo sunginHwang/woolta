@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
 import { Text } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
+import { styled } from 'styled-components';
 import { layout } from '../../../style/layout';
 import SubHeader from './SubHeader';
 

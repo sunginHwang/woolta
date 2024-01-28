@@ -1,5 +1,4 @@
-import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
+import { styled, useTheme } from 'styled-components';
 import { Text } from '@wds';
 import { FC } from 'react';
 import { ClipLoader } from 'react-spinners';

@@ -1,3 +1,5 @@
+'use client';
+
 import { withSuspense } from '@common';
 import dynamic from 'next/dynamic';
 import FullScreenLoading from '../../../../components/common/FullScreenLoading';

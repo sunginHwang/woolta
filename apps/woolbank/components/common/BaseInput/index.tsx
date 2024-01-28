@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Text, typography } from '@wds';
 import { HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { IconCloseCircle } from '../../atom/Icon';

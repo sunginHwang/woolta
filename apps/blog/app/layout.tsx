@@ -1,23 +1,23 @@
 'use client';
 
-import { Global, ThemeProvider, css } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { reset_style, theme } from '@wds';
+import { theme } from '@wds';
 import { Provider } from 'jotai';
+import { ThemeProvider } from 'styled-components';
 import Layout from '../components/layout';
 import { usePwa } from '../hooks/usePwa';
 import { settingAccessHeaderToken } from '../utils/api';
 import config, { setConfig } from '../utils/config';
 import { getCookie } from '../utils/cookie';
 
-const blog_reset_css = css`
-  ${reset_style}
-  .nanoBarLoading {
-    div {
-      background: $main-theme-color;
-    }
-  }
-`;
+// const blog_reset_css = css`
+//   ${reset_style}
+//   .nanoBarLoading {
+//     div {
+//       background: $main-theme-color;
+//     }
+//   }
+// `;
 
 setConfig();
 
@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css'
         />
       </head>
-      <Global styles={blog_reset_css} />
+      {/* <Global styles={blog_reset_css} /> */}
       <body>
         <QueryClientProvider client={queryClient}>
           <Provider>

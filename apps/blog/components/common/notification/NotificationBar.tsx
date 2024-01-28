@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { blogPrimary, white } from '@wds';
 import { useAtomValue } from 'jotai';
 import { MdNotificationsActive } from 'react-icons/md';

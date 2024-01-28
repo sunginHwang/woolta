@@ -1,8 +1,7 @@
-import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
 import { Text } from '@wds';
 import { useRouter } from 'next/navigation';
 import React, { FC, useCallback } from 'react';
+import { styled, useTheme } from 'styled-components';
 import { layout } from '../../../style/layout';
 import { IconChevronLeft } from '../../atom/Icon';
 

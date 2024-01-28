@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { FC, HTMLAttributes } from 'react';
 import animations from '../../style/animations';
 

@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { SkeletonBar } from '@wds';
 
 const LIST_ITEM_HEIGHT = '2.1rem';

@@ -1,6 +1,6 @@
+'use client';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
-import { useCallback } from 'react';
 import { getData } from '../../../../utils/api';
 import { selectedAccountBookDateAtom } from '../AccountList/store';
 
@@ -54,37 +54,25 @@ export const useAccountBookList = () => {
   const totalIncomeAmount = getTotalAmountbyType(accountBookList, 'income');
   const totalExpenditureAmount = getTotalAmountbyType(accountBookList, 'expenditure');
 
-  const set = useCallback(
-    (accountBookList: AccountBook[]) => {
-      queryClient.setQueryData<AccountBook[]>(queryKey, accountBookList);
-    },
-    [queryClient, queryKey],
-  );
+  const set = (accountBookList: AccountBook[]) => {
+    queryClient.setQueryData<AccountBook[]>(queryKey, accountBookList);
+  };
 
-  const add = useCallback(
-    (accountBook: AccountBook) => {
-      queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => [...prev, accountBook]);
-    },
-    [queryClient, queryKey],
-  );
+  const add = (accountBook: AccountBook) => {
+    queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => [...prev, accountBook]);
+  };
 
-  const update = useCallback(
-    (accountBook: AccountBook) => {
-      queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
-        return prev.map((item) => (accountBook.id === item.id ? accountBook : item));
-      });
-    },
-    [queryClient, queryKey],
-  );
+  const update = (accountBook: AccountBook) => {
+    queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
+      return prev.map((item) => (accountBook.id === item.id ? accountBook : item));
+    });
+  };
 
-  const remove = useCallback(
-    (removeId: number) => {
-      queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
-        return prev.filter((item) => removeId !== item.id);
-      });
-    },
-    [queryClient, queryKey],
-  );
+  const remove = (removeId: number) => {
+    queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
+      return prev.filter((item) => removeId !== item.id);
+    });
+  };
 
   return {
     accountBookList,
@@ -108,6 +96,6 @@ function getTotalAmountbyType(accountBookList: AccountBook[], type: AcccountBook
   }, 0);
 }
 
-function getQueryKey(selectedDate: string) {
-  return [ACCOUNT_BOOK_LIST_QUERY_KEY, selectedDate];
+export function getQueryKey(selectedDate: string) {
+  return [ACCOUNT_BOOK_LIST_QUERY_KEY];
 }

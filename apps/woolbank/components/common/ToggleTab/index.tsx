@@ -1,5 +1,5 @@
 import { useWindowDimensions } from '@common';
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { FC, useEffect, useState } from 'react';
 
 export interface ToggleTabItem {

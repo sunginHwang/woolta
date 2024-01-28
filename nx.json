@@ -52,7 +52,7 @@
     },
     "@nx/next": {
       "application": {
-        "style": "@emotion/styled",
+        "style": "styled-components",
         "linter": "eslint"
       }
     }

@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { FC } from 'react';
 import { getRemainDay } from '../../../../../utils/date';

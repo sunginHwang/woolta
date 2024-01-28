@@ -1,3 +1,5 @@
+'use client';
+
 export * from './useMount';
 export * from './useUpdateEffect';
 export * from './useInput';

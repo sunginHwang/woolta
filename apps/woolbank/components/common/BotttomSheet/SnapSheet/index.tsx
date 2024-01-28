@@ -1,7 +1,6 @@
-import React, { FC, PropsWithChildren, ReactNode } from 'react';
+'use client';
+import { useEffect, FC, PropsWithChildren, ReactNode } from 'react';
 import Sheet from 'react-modal-sheet';
-
-const BODY_ELEMENT = document.querySelector('body');
 
 interface Props extends PropsWithChildren {
   // 시트 열기 닫기
@@ -19,7 +18,9 @@ interface Props extends PropsWithChildren {
 const SnapSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true, header, onClose, children }) => {
   const MAX_Y = window.innerHeight - 140; // 바텀시트가 최소로 내려갔을 때의 y 값
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const BODY_ELEMENT = document.querySelector('body');
+
     if (!BODY_ELEMENT) {
       return;
     }

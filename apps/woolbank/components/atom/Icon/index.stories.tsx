@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Text } from '@wds';
 import AccountOutline from './AccountOutline';

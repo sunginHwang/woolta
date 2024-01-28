@@ -10,10 +10,15 @@ interface Props extends PropsWithChildren {
  * @component
  */
 export const Portal: FC<Props> = ({ targetId, children }) => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   const targetNode = document.getElementById(targetId);
 
   if (!targetNode) {
     return null;
   }
+
   return ReactDOM.createPortal(children, targetNode);
 };

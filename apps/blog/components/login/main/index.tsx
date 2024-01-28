@@ -1,5 +1,5 @@
 import { useInputs } from '@common';
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { useLogin } from 'apps/blog/hooks/queries/useLogin';
 import layouts from 'apps/blog/style/layouts';
 

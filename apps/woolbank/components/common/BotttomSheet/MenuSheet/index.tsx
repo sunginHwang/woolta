@@ -1,6 +1,8 @@
-import styled from '@emotion/styled';
+'use client';
+
 import { safeAreaInsetMarginBottom } from '@wds';
 import { FC } from 'react';
+import { styled } from 'styled-components';
 import DefaultBottomSheet from '../DefaultBottomSheet';
 import Menu from './Menu';
 

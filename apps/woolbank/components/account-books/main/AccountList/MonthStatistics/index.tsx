@@ -1,9 +1,10 @@
+'use client';
 import { useToggle, withSuspense } from '@common';
-import styled from '@emotion/styled';
 import { Text } from '@wds';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
+import { styled } from 'styled-components';
 import BotttomSheet from '../../../../common/BotttomSheet';
 import { BottomMenu } from '../../../../common/BotttomSheet/MenuSheet';
 import DropdownTitle from '../../../../common/DropdownTitle';

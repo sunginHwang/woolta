@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { FC, MouseEvent, useState } from 'react';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';

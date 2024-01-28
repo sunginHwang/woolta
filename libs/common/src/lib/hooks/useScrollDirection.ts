@@ -1,6 +1,8 @@
+'use client';
+
 import { useState } from 'react';
-import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 import { optimizeRaf } from '../utils/optimizeRaf';
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 type ScrollDirectionType = 'down' | 'up' | 'dafault';
 
@@ -13,7 +15,7 @@ type ScrollDirectionType = 'down' | 'up' | 'dafault';
  */
 export const useScrollDirection = () => {
   const [scroll_direction, setScrollDirection] = useState<ScrollDirectionType>('dafault');
-  
+
   useIsomorphicLayoutEffect(() => {
     let lastScrollY = window.scrollY;
 

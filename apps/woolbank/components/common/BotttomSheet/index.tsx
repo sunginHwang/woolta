@@ -1,3 +1,5 @@
+'use client';
+
 import { ComponentProps, FC } from 'react';
 import AmountSheet from './AmountSheet';
 import DateSheet from './DateSheet';

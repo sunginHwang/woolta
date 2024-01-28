@@ -1,3 +1,5 @@
+'use client';
+
 import { DehydratedState, HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { GetServerSideProps, NextPage } from 'next';

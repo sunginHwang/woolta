@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import layouts from '../../../style/layouts';
 import { Text } from '@wds';
 import { ComponentProps } from 'react';

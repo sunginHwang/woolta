@@ -1,5 +1,5 @@
 import { useInputs, useToggle } from '@common';
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { FC } from 'react';
 import { Button } from '../../../../components/atom/Button';
 

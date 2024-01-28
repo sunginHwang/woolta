@@ -1,5 +1,4 @@
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
+import { styled, css, CSSProp } from 'styled-components';
 import { typography, bgPrimary, border3, grayActive, graySecondary, pinkPrimary, white } from '@wds';
 import { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
 
@@ -88,7 +87,8 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     return (
       <SC.Chip
         ref={ref}
-        css={chip_style}
+        // 변경 필요
+        // css={chip_style}
         className={className}
         disabled={disabled}
         active={active && !disabled}
@@ -102,7 +102,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
   },
 );
 
-function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): SerializedStyles {
+function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): CSSProp {
   if (start_icon && end_icon) {
     return css`
       svg {
@@ -135,7 +135,7 @@ function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): SerializedS
   return css``;
 }
 
-function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVarient, SerializedStyles> {
+function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVarient, CSSProp> {
   switch (color) {
     case 'primary':
       return {
@@ -163,7 +163,7 @@ function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVari
   }
 }
 
-const chip_size_css: Record<ChipSize, SerializedStyles> = {
+const chip_size_css: Record<ChipSize, CSSProp> = {
   small: css`
     padding: 7px 12px 6px;
     height: 32px;

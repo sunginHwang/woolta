@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Text } from '@wds';
 import Image from 'next/image';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';

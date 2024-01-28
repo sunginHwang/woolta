@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { FC } from 'react';
 import BottomSheet from '../../../../common/BotttomSheet';
 import { AccountBookStatisticCategoryItem } from '../hooks/useAccountStatisticList';

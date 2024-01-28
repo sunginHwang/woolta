@@ -1,3 +1,5 @@
+'use client';
+
 import { withSuspense } from '@common';
 import AddButton from '../../../../components/common/AddButton';
 import ExtentureTypeList from './ExtentureTypeList';

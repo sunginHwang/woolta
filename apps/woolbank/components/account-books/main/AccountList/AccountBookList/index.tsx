@@ -1,7 +1,7 @@
 import { withSuspense } from '@common';
-import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
+import { styled } from 'styled-components';
 import EmptyData from '../../../../../components/common/EmptyInfo';
 import { AccountBook, useAccountBookList } from '../../hooks/useAccountBookList';
 import DayGroup from './DayGroup';

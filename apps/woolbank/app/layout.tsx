@@ -1,27 +1,11 @@
-'use client';
+/* @jsxImportSource react */
 
-import { Global, ThemeProvider, css } from '@emotion/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { reset_style, theme } from '@wds';
-import { Provider } from 'jotai';
-import { Suspense } from 'react';
-import FullScreenLoading from '../components/common/FullScreenLoading';
-import Layout from '../components/layout/Layout';
+import { Providers } from '../components/layout/Providers';
 import { setConfig } from '../utils/config';
 
-const blog_reset_css = css`
-  ${reset_style}
-  .nanoBarLoading {
-    div {
-      background: $main-theme-color;
-    }
-  }
-`;
 setConfig();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient();
-
   return (
     <html lang='ko'>
       <head>
@@ -55,17 +39,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css'
         />
       </head>
-      <Global styles={blog_reset_css} />
       <body>
-        <QueryClientProvider client={queryClient}>
-          <Provider>
-            <ThemeProvider theme={theme.light}>
-              <Suspense fallback={<FullScreenLoading loading />}>
-                <Layout>{children}</Layout>
-              </Suspense>
-            </ThemeProvider>
-          </Provider>
-        </QueryClientProvider>
+        <Providers>{children}</Providers>
         <div id='modalDeem' />
       </body>
     </html>

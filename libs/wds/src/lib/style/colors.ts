@@ -1,4 +1,4 @@
-import { Theme } from '@emotion/react';
+import { DefaultTheme } from 'styled-components';
 import { zIndex } from './zIndex';
 
 export const brandColor = '#E62F71';
@@ -239,7 +239,7 @@ export const colors: Record<ColorType, string> = {
 export type ThemeType = 'dark' | 'light';
 
 export const theme: {
-  [key in ThemeType]: Theme;
+  [key in ThemeType]: DefaultTheme;
 } = {
   light: {
     zIndex,
@@ -389,8 +389,8 @@ export const theme: {
   },
 };
 
-declare module '@emotion/react' {
-  export interface Theme {
+declare module 'styled-components' {
+  export interface DefaultTheme {
     colors: Record<ColorType, string>;
     zIndex: typeof zIndex;
   }

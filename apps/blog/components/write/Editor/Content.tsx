@@ -2,7 +2,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { languages } from '@codemirror/language-data';
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { useCodeMirror } from '@uiw/react-codemirror';
 import { splitWithIndex } from 'apps/blog/utils/string';
 import { useAtom } from 'jotai';
@@ -67,13 +67,14 @@ const Content = () => {
     }
   }, [editorRef.current]);
 
-  return <SC.Container css={themeCss} ref={editorRef} />;
+  return <SC.Container ref={editorRef} />;
 };
 
 export default Content;
 
 const SC = {
   Container: styled.div`
+    ${themeCss}
     width: 100%;
     height: 100%;
     text-align: left;

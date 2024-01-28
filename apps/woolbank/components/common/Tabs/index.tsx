@@ -1,9 +1,10 @@
+'use client';
+
 import { useWindowDimensions } from '@common';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { typography } from '@wds';
 import Link from 'next/link';
 import { FC, HTMLAttributes, useEffect, useState } from 'react';
+import { styled, css } from 'styled-components';
 
 export interface Tab {
   label: string;

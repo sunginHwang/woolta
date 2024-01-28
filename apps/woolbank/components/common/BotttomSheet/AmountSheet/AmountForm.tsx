@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { typography } from '@wds';
 import { MouseEvent, FC } from 'react';
 import { Button } from '../../../../components/atom/Button';

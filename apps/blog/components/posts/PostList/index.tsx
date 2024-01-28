@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import layouts from 'apps/blog/style/layouts';
 import { FC } from 'react';
 import PostListSkeleton from './Skeleton';

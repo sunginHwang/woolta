@@ -1,4 +1,4 @@
-import { css, SerializedStyles } from '@emotion/react';
+import { css, CSSProp } from 'styled-components';
 
 export type FontVarient =
   | 'title1Bold'
@@ -32,7 +32,7 @@ export type FontVarient =
   | 'small4Medium'
   | 'small4Regular';
 
-export const typography: Record<FontVarient, SerializedStyles> = {
+export const typography: Record<FontVarient, CSSProp> = {
   title1Bold: css`
     font-size: 24px;
     line-height: 31.2px;

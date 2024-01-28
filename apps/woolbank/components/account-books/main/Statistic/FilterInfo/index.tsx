@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';

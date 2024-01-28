@@ -1,6 +1,5 @@
 import { useScrollDirection } from '@common';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import { styled, css } from 'styled-components';
 import Link from 'next/link';
 import layouts from '../../../style/layouts';
 

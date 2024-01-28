@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { ChipItemWithLink } from '../common/Chips/Item';
 import RecentPostList from './RecentPostList';

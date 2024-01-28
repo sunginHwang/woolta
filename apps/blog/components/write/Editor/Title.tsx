@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { typography } from '@wds';
 import { postTitleAtom } from '../store';
 import { useAtom } from 'jotai';

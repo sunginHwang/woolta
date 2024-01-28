@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { typography } from '@wds';
 import { useAtomValue } from 'jotai';
 import MarkdownViewer from '../common/MarkdownViewer';

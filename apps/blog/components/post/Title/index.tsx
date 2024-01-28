@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import layouts from '../../../style/layouts';
 import { usePost } from '../hooks/usePost';
 import { useUserInfo } from 'apps/blog/hooks/queries/useUserInfo';

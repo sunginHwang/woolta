@@ -1,12 +1,10 @@
-import { Global, ThemeProvider, css } from '@emotion/react';
 import type { Preview } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { reset_style, theme } from 'libs/wds/src';
+import { AppRouterContext } from 'next/dist/shared/lib/app-router-context';
 import { ReactNode, Suspense } from 'react';
+import { ConfirmProvider } from '../components/common/Confirm/ConfirmContext';
 import Layout from '../components/layout/Layout';
 import { setConfig } from '../utils/config';
-import { ConfirmProvider } from '../components/common/Confirm/ConfirmContext';
-import { AppRouterContext } from 'next/dist/shared/lib/app-router-context';
 
 setConfig();
 
@@ -41,16 +39,6 @@ const withApp = (Story: ReactNode) => {
   return (
     <>
       <QueryClientProvider client={query_client}>
-        <Global
-          styles={css`
-            ${reset_style}
-
-            .sb-show-main.sb-main-padded {
-              padding: 0;
-              margin: 0;
-            }
-          `}
-        />
         <head>
           <meta charSet='utf-8' />
           <link rel='icon' href='/static/woolta.ico' type='icon' />
@@ -82,7 +70,7 @@ const withApp = (Story: ReactNode) => {
             href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css'
           />
         </head>
-        <ThemeProvider theme={theme.light}>
+        <>
           <Layout>
             <ConfirmProvider>
               <Suspense fallback={<div>로딩중</div>}>
@@ -91,7 +79,7 @@ const withApp = (Story: ReactNode) => {
               </Suspense>
             </ConfirmProvider>
           </Layout>
-        </ThemeProvider>
+        </>
       </QueryClientProvider>
     </>
   );

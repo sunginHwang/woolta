@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Text, safeAreaInsetMarginBottom } from '@wds';
 import { FC } from 'react';
 import { BottomMenu } from '.';

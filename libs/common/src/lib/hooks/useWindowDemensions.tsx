@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useMount } from './useMount';
 
@@ -7,6 +9,13 @@ type windowDemensionType = {
 };
 
 function getWindowDimensions(): windowDemensionType {
+  if (typeof window === 'undefined') {
+    return {
+      width: 0,
+      height: 0,
+    };
+  }
+
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,

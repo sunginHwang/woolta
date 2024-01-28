@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import dayjs, { Dayjs } from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';

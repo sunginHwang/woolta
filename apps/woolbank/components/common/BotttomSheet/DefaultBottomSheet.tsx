@@ -1,5 +1,4 @@
-import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
+import { styled, useTheme } from 'styled-components';
 import { safeAreaInsetMarginBottom } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
 import Deem from '../../atom/Deem';

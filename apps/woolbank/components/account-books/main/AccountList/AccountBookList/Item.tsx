@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Text } from '@wds';
 import Link from 'next/link';
 import React, { FC } from 'react';

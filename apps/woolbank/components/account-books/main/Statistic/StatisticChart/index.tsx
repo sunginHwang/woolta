@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { ResponsivePie } from '@nivo/pie';
 import EmptyData from '../../../../../components/common/EmptyInfo';
 import { AccountBookStatisticCategoryItem, useAccountStatisticList } from '../hooks/useAccountStatisticList';

@@ -8,7 +8,7 @@ export type APIResponse<T> = {
 };
 
 console.log(config);
-let apiCall = axios.create({
+const apiCall = axios.create({
   baseURL: config.blogApiUrl ?? 'https://api-blog.woolta.com',
   headers: {
     'Content-Type': 'application/json',
@@ -16,7 +16,8 @@ let apiCall = axios.create({
 });
 
 if (typeof Storage !== 'undefined') {
-  apiCall.defaults.headers.common[config.accessHeaderToken] = localStorage.getItem(config.accessToken);
+  apiCall.defaults.headers.common[config.accessHeaderToken] =
+    'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDU4NDIzMjgsImV4cCI6MTcwNjQ0NzEyOH0.85IZyPz3Ldi-m1gh17hm_wJikzA6BD1qkyu4L2P3EpZvErw41QAQJjT4twWoza_QFtQFyoFtywcirMaSsMk7qg';
 }
 
 apiCall.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
@@ -91,6 +92,7 @@ export const getData = async <T>(url: string, config?: AxiosRequestConfig): Prom
     const response = await apiCall.get<APIResponse<T>>(url, config);
     return response.data;
   } catch (error: unknown) {
+    console.log(error.message);
     throw new Error(getErrorMessage(error));
   }
 };

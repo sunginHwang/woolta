@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { gray400, green200 } from '@wds';
 import { FC } from 'react';
 import { HashLoader } from 'react-spinners';

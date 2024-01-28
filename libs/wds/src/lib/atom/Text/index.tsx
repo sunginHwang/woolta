@@ -1,6 +1,5 @@
-import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
 import React, { FC } from 'react';
+import { styled } from 'styled-components';
 import { ColorType, FontVarient, typography } from '../../style';
 
 type Alignment = 'left' | 'center' | 'right';
@@ -62,9 +61,8 @@ export const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseText
   children,
   ...props
 }) => {
-  const theme = useTheme();
   return (
-    <Base as={as} variant={variant} theme={theme} {...props}>
+    <Base as={as} variant={variant} {...props}>
       {children}
     </Base>
   );

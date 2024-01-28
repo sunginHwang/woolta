@@ -1,5 +1,7 @@
-'use client';
+/* @jsxImportSource react */
 
-import { AccountBookSavePage } from '../../../components/account-books/save';
+// import { AccountBookSavePage } from '../../../components/account-books/save';
 
-export default AccountBookSavePage;
+export default function AccountBookSavePage() {
+  return <>12</>;
+}

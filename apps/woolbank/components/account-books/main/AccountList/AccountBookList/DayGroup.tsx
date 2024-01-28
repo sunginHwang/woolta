@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
 import { Text } from '@wds';
 import { FC, ReactNode } from 'react';
+import { styled } from 'styled-components';
 
 interface Props {
   days: string;

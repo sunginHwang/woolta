@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import { Portal } from '@wds';
 import { FC, MouseEvent, PropsWithChildren, useCallback, useRef } from 'react';
 

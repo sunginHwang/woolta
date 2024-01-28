@@ -1,4 +1,6 @@
-import styled from '@emotion/styled';
+'use client';
+
+import { styled } from 'styled-components';
 import AddButton from '../../../../components/common/AddButton';
 import AccountBookList from './AccountBookList';
 import MonthStatistics from './MonthStatistics';

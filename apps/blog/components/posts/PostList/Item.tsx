@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Post } from '.';
-import styled from '@emotion/styled';
+import { styled } from 'styled-components';
 import layouts from 'apps/blog/style/layouts';
 import Link from 'next/link';
 import { Text } from '@wds';

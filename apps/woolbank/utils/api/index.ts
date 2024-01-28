@@ -19,10 +19,13 @@ const apiCall = axios.create({
   },
 });
 
-if (typeof Storage !== 'undefined') {
-  apiCall.defaults.headers.common[config.accessHeaderToken] =
-    'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDQ0MjM0OTksImV4cCI6MTcwNTAyODI5OX0.Jv2p72MNqqX16UqpX-8lNEEBYMXrv8AGtSW3J5_Vw_ptBNjPeEf6lMUWWqxLor7XutVuxX1ysIc6H6rLlv0L3A';
-}
+apiCall.defaults.headers.common['bearer-auth'] =
+  'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDY0NDczNDQsImV4cCI6MTcwNzA1MjE0NH0.NkKoU7_1B4Z1rgpm44FLpBuX9BlGFwwX4dX598FhSX--h8jjn5oYyDV0sk_-vFvtTE0wqehxU_v0WcARyuhzWA';
+
+// if (typeof Storage !== 'undefined') {
+//   apiCall.defaults.headers.common[config.accessHeaderToken] =
+//     'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDU4NDIzMjgsImV4cCI6MTcwNjQ0NzEyOH0.85IZyPz3Ldi-m1gh17hm_wJikzA6BD1qkyu4L2P3EpZvErw41QAQJjT4twWoza_QFtQFyoFtywcirMaSsMk7qg';
+// }
 
 apiCall.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 apiCall.defaults.headers.common['Access-Control-Allow-Methods'] = '*';
