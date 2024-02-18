@@ -1,3 +1,5 @@
+'use client';
+
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import AccountBookList from '../../components/account-books/main';
 import { getData } from '../../utils/api';
@@ -19,8 +21,6 @@ export default async function AccountBooks() {
       return data;
     },
   });
-
-  console.log('-refetch why?');
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

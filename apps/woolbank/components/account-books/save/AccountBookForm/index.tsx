@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { FC, MouseEvent, useState } from 'react';
+import { styled } from 'styled-components';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import BaseInput from '../../../../components/common/BaseInput';
@@ -47,7 +47,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   const handleSubmitClick = () => {
     const { isValid, message } = validateForm();
 
-    if (!accountBookForm) {
+    if (!formData) {
       return;
     }
 
@@ -56,7 +56,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
       return;
     }
 
-    submitForm(accountBookForm);
+    submitForm(formData);
   };
 
   const handleRemoveClick = () => {

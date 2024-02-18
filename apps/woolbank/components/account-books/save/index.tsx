@@ -1,13 +1,13 @@
 'use client';
 
-import { DehydratedState, HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useSearchParams } from 'next/navigation';
 import Header from '../../common/Header';
 import AccountBookForm from './AccountBookForm';
 import { AccountBookSaveForm } from './AccountBookForm/hooks/useAccountBookForm';
-import { AccountBookDetail, getAccountBookFetchInfo, useAccountBookDetail } from './hooks/useAccountBookDetail';
+import { AccountBookDetail, useAccountBookDetail } from './hooks/useAccountBookDetail';
 
 export const AccountBookSavePage: NextPage<{
   dehydratedState?: DehydratedState;
@@ -49,16 +49,16 @@ function getAccountBookFrom(accountBookDetail: AccountBookDetail | null): Accoun
   };
 }
 
-export const getServerSidePropsForAccountBookFormSave: GetServerSideProps = async ({ query: { id }, req }) => {
-  const queryClient = new QueryClient();
+// export const getServerSidePropsForAccountBookFormSave: GetServerSideProps = async ({ query: { id }, req }) => {
+//   const queryClient = new QueryClient();
 
-  if (id) {
-    await queryClient.prefetchQuery(getAccountBookFetchInfo(id as string));
-  }
+//   if (id) {
+//     await queryClient.prefetchQuery(getAccountBookFetchInfo(id as string));
+//   }
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// };
