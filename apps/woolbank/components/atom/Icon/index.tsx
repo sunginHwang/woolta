@@ -14,3 +14,4 @@ export { default as IconChevronDown } from './ChevronDown';
 export { default as IconClose } from './Close';
 export { default as IconCloseCircle } from './CloseCircle';
 export { default as IconTrashCan } from './TrashCan';
+export { default as IconCircleCheck } from './CircleCheck';
