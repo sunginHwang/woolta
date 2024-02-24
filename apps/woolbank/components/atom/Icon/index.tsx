@@ -15,3 +15,7 @@ export { default as IconClose } from './Close';
 export { default as IconCloseCircle } from './CloseCircle';
 export { default as IconTrashCan } from './TrashCan';
 export { default as IconCircleCheck } from './CircleCheck';
+export { default as IconCalendarMonthOutline } from './CalendarMonthOutline';
+export { default as IconDownHorizontal } from './DownHorizontal';
+export { default as IconBlackCircle } from './BlackCircle';
+export { default as IconPlus } from './Plus';

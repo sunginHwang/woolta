@@ -40,3 +40,22 @@ export const getRemainDays = (startDay: Date | string, endDay: Date | string): n
 
   return dayjs(startDay).diff(dayjs(endDay));
 };
+
+/* 시작일 ~ 종료일까지의 퍼센티지 구하기 */
+export const getRemainDatePercentage = (
+  startDay: Date | string,
+  endDay: Date | string,
+  today: Date | string = new Date(),
+): number => {
+  const totalDateCount = getRemainDays(startDay, endDay);
+  const passDateCount = getRemainDays(startDay, today);
+  const remainDate = (passDateCount / totalDateCount) * 100;
+
+  const remainPercent = parseInt(remainDate.toString(), 10);
+
+  if (isNaN(remainPercent)) {
+    return 0;
+  }
+
+  return remainPercent > 100 ? 100 : remainPercent;
+};

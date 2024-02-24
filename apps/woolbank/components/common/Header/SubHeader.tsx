@@ -34,7 +34,7 @@ const SubHeader: FC<Props> = ({ title, iconColor, useSkeleton = false, useBackBu
   }, [back, onBackClick]);
 
   return (
-    <SC.HeaderWithBack>
+    <SC.HeaderWithBack useSkeleton={useSkeleton}>
       {useBackButton && (
         <div className='side' onClick={handleBackClick}>
           <IconChevronLeft width={26} height={26} fill={iconColor ?? colors.pinkPrimary} />
@@ -49,14 +49,14 @@ const SubHeader: FC<Props> = ({ title, iconColor, useSkeleton = false, useBackBu
 };
 
 const SC = {
-  HeaderWithBack: styled.header`
+  HeaderWithBack: styled.header<{ useSkeleton?: boolean }>`
     position: sticky;
     left: 0;
     top: 0;
     width: 100%;
     z-index: ${({ theme }) => theme.zIndex.header};
-    background-color: ${({ theme }) => theme.colors.white};
-    border-bottom: 0.1rem solid #dcdce9;
+    background-color: ${({ useSkeleton, theme }) => (useSkeleton ? 'transparent' : theme.colors.white)};
+    border-bottom: ${({ useSkeleton }) => (useSkeleton ? 'none' : '0.1rem solid #dcdce9')};
     height: ${layout.headerHeight};
     display: flex;
     align-items: center;
