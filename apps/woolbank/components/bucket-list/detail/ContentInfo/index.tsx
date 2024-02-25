@@ -1,4 +1,4 @@
-import { SkeletonBar } from '@wds';
+import { SkeletonBar, Text } from '@wds';
 import dayjs from 'dayjs';
 import styled, { useTheme } from 'styled-components';
 import { IconCalendarMonthOutline } from '../../../../components/atom/Icon';
@@ -15,7 +15,7 @@ export const ContentInfo = () => {
     bucket: { description, completeDate },
   } = useBucket();
   const { colors } = useTheme();
-  const completedDateFormat = dayjs(completeDate).format('YYYY_MM_DD');
+  const completedDateFormat = dayjs(completeDate).format('YYYY-MM-DD');
 
   if (isFetching) {
     <SC.BucketListContentInfo>
@@ -25,7 +25,9 @@ export const ContentInfo = () => {
           <IconCalendarMonthOutline width={24} height={24} fill={colors.black} />
         </i>
         <div>
-          <SC.Title>목표 달성일</SC.Title>
+          <Text variant='title6Bold' color='gray900' as='p'>
+            목표 달성일
+          </Text>
           <SkeletonBar width='10rem' height='1.4rem' />
         </div>
       </SC.ContentItem>
@@ -35,15 +37,21 @@ export const ContentInfo = () => {
   return (
     <SC.BucketListContentInfo>
       <SC.ContentItem>
-        <SC.Message data-cy='description'>{description}</SC.Message>
+        <Text variant='body3' color='gray800' data-cy='description'>
+          {description}
+        </Text>
       </SC.ContentItem>
       <SC.ContentItem>
         <i>
           <IconCalendarMonthOutline fill={colors.black} />
         </i>
         <div>
-          <SC.Title>목표 달성일</SC.Title>
-          <span>{completedDateFormat}</span>
+          <Text variant='title6Bold' color='gray900' as='p'>
+            목표 달성일
+          </Text>
+          <Text variant='small1Regular' color='gray600'>
+            {completedDateFormat}
+          </Text>
         </div>
       </SC.ContentItem>
     </SC.BucketListContentInfo>
@@ -61,7 +69,7 @@ const SC = {
     justify-content: flex-start;
     align-items: flex-start;
     margin-bottom: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray400};
+    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray150};
     padding: 2rem 0;
     white-space: pre-wrap;
 
@@ -70,26 +78,11 @@ const SC = {
       line-height: 0;
     }
 
-    span {
-      font-size: 1.2rem;
-      line-height: 1.8rem;
-      color: ${({ theme }) => theme.colors.gray800};
-    }
-
     &:first-child {
       padding-top: 0;
     }
     &:last-child {
       margin-bottom: 0;
     }
-  `,
-  Message: styled.p`
-    line-height: 2rem;
-    color: ${({ theme }) => theme.colors.gray900};
-  `,
-  Title: styled.p`
-    line-height: 2rem;
-    color: ${({ theme }) => theme.colors.gray900};
-    font-weight: bold;
   `,
 };

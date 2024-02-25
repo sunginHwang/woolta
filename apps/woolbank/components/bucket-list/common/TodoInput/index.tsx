@@ -109,7 +109,7 @@ const S = {
       background-color: #f2f3f5;
       border-radius: 0.8rem;
       padding: 1rem 2rem;
-      border: 0.1rem solid ${({ theme }) => theme.colors.gray600};
+      border: 0.1rem solid rgb(238, 238, 238);
       font-size: 1.2rem;
       margin-right: 0.5rem;
 

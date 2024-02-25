@@ -41,5 +41,6 @@ const SC = {
     left: 2rem;
     width: calc(100% - 4rem);
     height: 5.5rem;
+    z-index: 100;
   `,
 };

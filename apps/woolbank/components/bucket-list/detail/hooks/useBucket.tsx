@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { deleteData, getData, postData, putData } from '../../../../utils/api';
-import { useConfirm } from 'apps/woolbank/components/common/Confirm/ConfirmContext';
+import { useConfirm } from '../../../common/Confirm/ConfirmContext';
+import { useBucketList } from '../../main/hooks/useBucketList';
 
 const ERROR_MSG = '다시 시도해 주세요.';
 
@@ -57,6 +58,15 @@ export const fetchBucket = async (bucketId: string) => {
   }
 };
 
+export const deleteBucket = async (bucketId: number) => {
+  const { data } = await deleteData<number>(`/bucket-list/${bucketId}`);
+  return data;
+};
+
+export const completeBucketState = (bucketId: number) => {
+  return putData(`/bucket-list/${bucketId}/complete`);
+};
+
 export const saveTodo = async (bucketId: string, todo: Todo): Promise<number> => {
   const { data } = await postData<{ todoId: number }>('/todo', {
     title: todo.title,
@@ -67,7 +77,7 @@ export const saveTodo = async (bucketId: string, todo: Todo): Promise<number> =>
   return data.todoId;
 };
 
-export const removeTodo = async (todoId: number) => {
+export const deleteTodo = async (todoId: number) => {
   const { data } = await deleteData<number>(`/todo/${todoId}`);
   return data;
 };
@@ -83,9 +93,11 @@ export const getBucketQueryKey = (id: string) => [BUCKET_QUERY_KEY, id];
 
 // TODO: todo 쪽 분리하자
 export const useBucket = () => {
-  const { openConfirm } = useConfirm();
   const queryClient = useQueryClient();
+  const { replace } = useRouter();
+  const { openConfirm, setConfirmLoading } = useConfirm();
   const { bucketId } = useParams() as { bucketId: string };
+  const { removeBucketById, updateBucketState } = useBucketList();
   const {
     data = initData,
     isError,
@@ -98,8 +110,17 @@ export const useBucket = () => {
 
   //TODO: toast 교체 필요
   const onError = () => alert(ERROR_MSG);
+  const onSettled = () => setConfirmLoading(false);
 
-  const removeMutation = useMutation({ mutationFn: (todoId: number) => removeTodo(todoId) });
+  const removeBucketMutate = useMutation({ mutationFn: deleteBucket });
+  const completeBucketMutation = useMutation({ mutationFn: completeBucketState });
+
+  const removeMutation = useMutation({
+    mutationFn: (todoId: number) => {
+      console.log('???' + todoId);
+      return deleteTodo(todoId);
+    },
+  });
   const saveMutation = useMutation({ mutationFn: (todo: Todo) => saveTodo(bucketId, todo) });
   const updateStateMutation = useMutation({
     mutationFn: ({ todoId, isComplete }: { todoId: number; isComplete: boolean }) => {
@@ -107,7 +128,6 @@ export const useBucket = () => {
     },
   });
 
-  // todo 생성
   const addTodo = async (todo: Todo) => {
     saveMutation.mutate(todo, {
       onSuccess: (todoId: number) => {
@@ -123,16 +143,10 @@ export const useBucket = () => {
     });
   };
 
-  // todo 삭제
   const removeTodo = async (todoId: number) => {
-    const isConfirm = await openConfirm({ message: '정말 삭제하시겠습니까?' });
-
-    if (!isConfirm) {
-      return;
-    }
-
     removeMutation.mutate(todoId, {
       onSuccess: () => {
+        console.log('???');
         queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketId), (prev) => {
           if (prev !== undefined) {
             prev.todoList = prev?.todoList.filter((todo) => todoId !== todo.id);
@@ -144,7 +158,6 @@ export const useBucket = () => {
     });
   };
 
-  // todo 완료 상태 변경
   const toggleTodoState = async (todo: Todo) => {
     const toggleTodo = Object.assign({}, todo);
     toggleTodo.isComplete = !toggleTodo.isComplete;
@@ -165,6 +178,48 @@ export const useBucket = () => {
     );
   };
 
+  const removeBucket = async () => {
+    const isConfirm = await openConfirm({ message: '정말 삭제하시겠습니까?', useAutoClose: false });
+
+    if (isConfirm) {
+      setConfirmLoading(true);
+      removeBucketMutate.mutate(Number(bucketId), {
+        onSuccess: () => {
+          // 상세 페이지 및 리스트 페이지 캐시 싱크조정
+          queryClient.setQueryData(getBucketQueryKey(bucketId), initData);
+          removeBucketById(Number(bucketId));
+          alert('삭제 되었습니다.');
+          replace('/bucket-list');
+        },
+        onError,
+        onSettled,
+      });
+    }
+  };
+
+  const completeBucket = async () => {
+    const isConfirm = await openConfirm({ message: '목표를 달성하시겠습니까?', useAutoClose: false });
+
+    if (isConfirm) {
+      setConfirmLoading(true);
+      completeBucketMutation.mutate(Number(bucketId), {
+        onSuccess: () => {
+          // 상세 페이지 및 리스트 페이지 캐시 싱크조정
+          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketId), (prev) => {
+            if (prev) {
+              prev.isComplete = true;
+            }
+            return prev;
+          });
+          updateBucketState(Number(bucketId));
+          alert('목표를 달성하신걸 축하드립니다. :)');
+        },
+        onError,
+        onSettled,
+      });
+    }
+  };
+
   return {
     bucket: data,
     ...rest,
@@ -173,6 +228,8 @@ export const useBucket = () => {
     addTodo,
     removeTodo,
     toggleTodoState,
+    removeBucket,
+    completeBucket,
     addLoading: saveMutation.isPending,
     updateLoading: updateStateMutation.isPending,
   };

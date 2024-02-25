@@ -1,9 +1,11 @@
+import { Text } from '@wds';
 import React, { FC, useCallback } from 'react';
-import styled, { useTheme } from 'styled-components';
 import { ClipLoader } from 'react-spinners';
+import styled, { useTheme } from 'styled-components';
+import { IconBlackCircle, IconCircleCheck, IconTrashCan } from '../../../../components/atom/Icon';
+import { useConfirm } from '../../../../components/common/Confirm/ConfirmContext';
 
 import { Todo } from '../../detail/hooks/useBucket';
-import { IconBlackCircle, IconCircleCheck, IconTrashCan } from 'apps/woolbank/components/atom/Icon';
 
 interface Props {
   todo: Todo;
@@ -19,8 +21,9 @@ interface Props {
  */
 export const TodoListItem: FC<Props> = ({ todo, isLoading = false, isFreeze = false, onToggleState, onRemove }) => {
   const { colors } = useTheme();
+  const { openConfirm } = useConfirm();
 
-  const onToggleStateClick = useCallback(
+  const handleToggleStateClick = useCallback(
     (e: React.MouseEvent<HTMLLIElement>) => {
       if (isLoading || isFreeze) {
         return;
@@ -31,9 +34,13 @@ export const TodoListItem: FC<Props> = ({ todo, isLoading = false, isFreeze = fa
     [todo, onToggleState, isLoading, isFreeze],
   );
 
-  const onRemoveClick = useCallback(() => {
-    onRemove(todo.id);
-  }, [todo, onRemove]);
+  const handleRemoveClick = async () => {
+    const isConfirm = await openConfirm({ message: '정말 삭제하시겠습니까?' });
+
+    if (isConfirm) {
+      onRemove(todo.id);
+    }
+  };
 
   const renderIsCompleteIcon = todo.isComplete ? (
     <IconCircleCheck fill={colors.red500} />
@@ -46,14 +53,16 @@ export const TodoListItem: FC<Props> = ({ todo, isLoading = false, isFreeze = fa
   return (
     <S.TodoListItem data-cy='todoListItem'>
       <div>
-        <i onClick={onToggleStateClick}>
+        <i onClick={handleToggleStateClick}>
           {isLoading ? <ClipLoader color={colors.red500} size={16} /> : renderIsCompleteIcon}
         </i>
-        <S.ListTitle isComplete={todo.isComplete}>{todo.title}</S.ListTitle>
+        <Text className='todo' variant='body3' color={todo.isComplete ? 'gray600' : 'gray900'} as='p'>
+          {todo.title}
+        </Text>
       </div>
       {showRemoveBtn && (
-        <div onClick={onRemoveClick}>
-          <IconTrashCan fill={colors.gray700} />
+        <div onClick={handleRemoveClick}>
+          <IconTrashCan fill={colors.gray600} />
         </div>
       )}
     </S.TodoListItem>
@@ -79,14 +88,10 @@ const S = {
     i {
       height: 2.4rem;
     }
-  `,
-  ListTitle: styled.div<{ isComplete: boolean }>`
-    font-size: 1.4rem;
-    margin-top: 0.1rem;
-    line-height: 1.2rem;
-    text-decoration: ${({ isComplete }) => (isComplete ? 'line-through' : 'none')};
-    color: ${({ isComplete, theme }) => (isComplete ? theme.colors.gray600 : theme.colors.black)};
-    font-weight: 500;
-    margin-left: 1rem;
+
+    .todo {
+      margin-top: 0.1rem;
+      margin-left: 1rem;
+    }
   `,
 };

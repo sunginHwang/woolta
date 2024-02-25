@@ -1,6 +1,9 @@
+import { Text } from '@wds';
+import { useSetAtom } from 'jotai';
 import { memo } from 'react';
 import styled from 'styled-components';
 import { useBucket } from '../hooks/useBucket';
+import { isShowCompleteButtonAtom } from '../store';
 import { AddTodo } from './AddTodo';
 import { Skeleton } from './Skeleton';
 import { TodoList } from './TodoList';
@@ -13,22 +16,24 @@ import { TodoList } from './TodoList';
 export const TodoInfo = memo(() => {
   const { bucket, isLoading } = useBucket();
   const { addTodo, removeTodo, toggleTodoState, addLoading, updateLoading } = useBucket();
-
+  const setIsShowCompleteButtonAtom = useSetAtom(isShowCompleteButtonAtom);
   if (bucket.id === -1) {
     return null;
   }
 
   const onTodoInputFocusIn = () => {
-    // onToggleShowCompleteButton(false);
+    setIsShowCompleteButtonAtom(false);
   };
 
   const onTodoInputFocusOut = () => {
-    // onToggleShowCompleteButton(true);
+    setIsShowCompleteButtonAtom(true);
   };
 
   return (
     <SC.BucketTodoInfo>
-      <SC.TodoTitle>할일목록</SC.TodoTitle>
+      <Text className='title' variant='title2Bold' color='gray800' as='h3'>
+        할일목록
+      </Text>
       {isLoading && <Skeleton />}
       {!isLoading && (
         <TodoList
@@ -55,11 +60,9 @@ const SC = {
   BucketTodoInfo: styled.div`
     padding: 2rem;
     background-color: ${({ theme }) => theme.colors.white};
-  `,
-  TodoTitle: styled.p`
-    color: ${({ theme }) => theme.colors.black};
-    font-weight: bold;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
+
+    .title {
+      margin-bottom: 2rem;
+    }
   `,
 };

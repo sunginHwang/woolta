@@ -2,17 +2,14 @@
 
 import { ChangeEvent, useCallback, useState } from 'react';
 
-export function useInput<T>(initialValues: T) {
-  const [values, setValues] = useState(initialValues);
+export function useInput(initialValues: string) {
+  const [value, setValue] = useState(initialValues);
   const onChange = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
+      setValue(e.target.value);
     },
     [initialValues],
   );
 
-  return [values, onChange] as [T, typeof onChange];
+  return [value, onChange] as [string, typeof onChange];
 }

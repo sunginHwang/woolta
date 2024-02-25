@@ -1,5 +1,5 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getData } from '../../../../utils/api';
 
 export const BUCKET_LIST_QUERY_KEY = 'getBucketList';
@@ -36,12 +36,32 @@ export const fetchBucketList = async () => {
 };
 
 export const useBucketList = () => {
+  const queryClient = useQueryClient();
   const { data, ...rest } = useQuery<BucketList[]>({
     queryKey: [BUCKET_LIST_QUERY_KEY],
     queryFn: fetchBucketList,
   });
 
+  const removeBucketById = (bucketId: number) => {
+    queryClient.setQueryData<BucketList[]>([BUCKET_LIST_QUERY_KEY], (prev = []) => {
+      return prev.filter((bucket) => bucket.id !== bucketId);
+    });
+  };
+
+  const updateBucketState = (bucketId: number) => {
+    queryClient.setQueryData<BucketList[]>([BUCKET_LIST_QUERY_KEY], (prev = []) => {
+      return prev.map((bucket) => {
+        if (bucket.id === bucketId) {
+          bucket.isComplete = true;
+        }
+        return bucket;
+      });
+    });
+  };
+
   return {
+    removeBucketById,
+    updateBucketState,
     bucketList: data ?? [],
     ...rest,
   };

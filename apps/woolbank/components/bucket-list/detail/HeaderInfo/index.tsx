@@ -3,9 +3,9 @@ import { SkeletonBar } from '@wds';
 import debounce from 'lodash-es/debounce';
 import { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import BotttomSheet from '../../../..//components/common/BotttomSheet';
 import { IconDownHorizontal } from '../../../../components/atom/Icon';
 
-import BotttomSheet from '../../../..//components/common/BotttomSheet';
 import Header from '../../../../components/common/Header';
 import { Progress } from '../../../../components/common/Progress';
 import { getRemainDatePercentage, getRemainDays } from '../../../../utils/date';
@@ -31,6 +31,7 @@ export const HeaderInfo = () => {
   const {
     bucket: { title, imageUrl, completeDate, createdAt, isComplete },
     isFetching,
+    removeBucket,
   } = useBucket();
   const { colors } = useTheme();
   const imgRef = useRef<HTMLDivElement>(null);
@@ -52,7 +53,7 @@ export const HeaderInfo = () => {
 
   // 우측 옵션 버튼 클릭
   const onMenuClick = (type: string) => {
-    // type === 'remove' && onRemoveBucket();
+    type === 'remove' && removeBucket();
     // type === 'edit' && history.push(`/bucket-list/save?bucketListId=${bucketId}`);
 
     offMenuModal();
@@ -77,6 +78,7 @@ export const HeaderInfo = () => {
             <IconDownHorizontal fill={headerIconColor} />
           </i>
         }
+        position='fixed'
         useSkeleton={!isShowFixedHeader}
       />
       <SC.ImageInfo ref={imgRef} imgUrl={imageUrl ?? ''}>
