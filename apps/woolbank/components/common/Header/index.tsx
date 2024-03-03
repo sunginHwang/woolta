@@ -1,4 +1,4 @@
-import { Text } from '@wds';
+import { Text, white } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 import { layout } from '../../../style/layout';
@@ -15,17 +15,16 @@ interface Props extends PropsWithChildren {
   onBackClick?: () => void;
   // 우측 영역 dom 추가
   right?: React.ReactNode | string;
-  // skeleton 모드 사용 유무
-  useSkeleton?: boolean;
+  bgColor?: string;
 }
 
 /**
  * 페이지 헤더 영역
  * @component
  */
-const Header: FC<Props> = ({ title, right }) => {
+const Header: FC<Props> = ({ title, right, bgColor = white }) => {
   return (
-    <SC.Container>
+    <SC.Container bgColor={bgColor}>
       <div className='inner'>
         <Text variant='title4Bold' color='grayPrimary' data-cy='title'>
           {title}
@@ -37,7 +36,7 @@ const Header: FC<Props> = ({ title, right }) => {
 };
 
 const SC = {
-  Container: styled.header`
+  Container: styled.header<{ bgColor: string }>`
     position: sticky;
     left: 0;
     top: 0;
@@ -50,7 +49,7 @@ const SC = {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: ${({ theme }) => theme.colors.white};
+      background-color: ${({ bgColor }) => bgColor};
     }
   `,
   rightHeader: styled.div`

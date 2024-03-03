@@ -9,7 +9,7 @@ import { styled, css } from 'styled-components';
 export interface Tab {
   label: string;
   value?: string;
-  link: string;
+  link?: string;
 }
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'value' | 'onChange'> {
   tabs: Tab[];
@@ -43,12 +43,24 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
   return (
     <SC.Tabs data-cy='tabs' stickeyHeight={stickeyHeight} {...rest}>
       {tabs.map((tab, index) => {
+        if (tab.link) {
+          return (
+            <Link replace href={tab?.link} key={tab.value}>
+              <SC.Tab active={tab.value === value} data-cy={tab.label} onClick={() => onTabClick(tab, index)}>
+                {tab.label}
+              </SC.Tab>
+            </Link>
+          );
+        }
         return (
-          <Link replace href={tab.link} key={tab.value}>
-            <SC.Tab active={tab.value === value} data-cy={tab.label} onClick={() => onTabClick(tab, index)}>
-              {tab.label}
-            </SC.Tab>
-          </Link>
+          <SC.Tab
+            key={tab.value}
+            active={tab.value === value}
+            data-cy={tab.label}
+            onClick={() => onTabClick(tab, index)}
+          >
+            {tab.label}
+          </SC.Tab>
         );
       })}
       <SC.BottomLine width={indicatorWidth} left={indicatorLeftPosition} />

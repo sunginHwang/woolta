@@ -22,3 +22,40 @@ export function getDateRange(rangeType: DateRange, date?: Dayjs | undefined) {
 
   return [rangeDate.startOf(rangeType), rangeDate.endOf(rangeType)];
 }
+
+/*
+ * 남은 일자를 구해준다. 시작일이 종료일 보다 클경우 남은 날짜는 x
+ * */
+export const getRemainDays = (startDay: Date | string, endDay: Date | string): number => {
+  if (!startDay || !endDay) {
+    return 0;
+  }
+
+  const firstTime = new Date(startDay).getTime();
+  const secondTime = new Date(endDay).getTime();
+
+  if (firstTime >= secondTime) {
+    return 0;
+  }
+
+  return dayjs(startDay).diff(dayjs(endDay));
+};
+
+/* 시작일 ~ 종료일까지의 퍼센티지 구하기 */
+export const getRemainDatePercentage = (
+  startDay: Date | string,
+  endDay: Date | string,
+  today: Date | string = new Date(),
+): number => {
+  const totalDateCount = getRemainDays(startDay, endDay);
+  const passDateCount = getRemainDays(startDay, today);
+  const remainDate = (passDateCount / totalDateCount) * 100;
+
+  const remainPercent = parseInt(remainDate.toString(), 10);
+
+  if (isNaN(remainPercent)) {
+    return 0;
+  }
+
+  return remainPercent > 100 ? 100 : remainPercent;
+};

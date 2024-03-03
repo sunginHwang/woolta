@@ -18,13 +18,22 @@ interface Props {
   right?: React.ReactNode | string;
   // skeleton 모드 사용 유무
   useSkeleton?: boolean;
+  position?: 'sticky' | 'fixed';
 }
 
 /**
  * 페이지 서브 헤더
  * @component
  */
-const SubHeader: FC<Props> = ({ title, iconColor, useSkeleton = false, useBackButton = true, onBackClick, right }) => {
+const SubHeader: FC<Props> = ({
+  title,
+  iconColor,
+  position = 'sticky',
+  useSkeleton = false,
+  useBackButton = true,
+  onBackClick,
+  right,
+}) => {
   const { colors } = useTheme();
   const { back } = useRouter();
 
@@ -34,39 +43,54 @@ const SubHeader: FC<Props> = ({ title, iconColor, useSkeleton = false, useBackBu
   }, [back, onBackClick]);
 
   return (
-    <SC.HeaderWithBack>
-      {useBackButton && (
-        <div className='side' onClick={handleBackClick}>
-          <IconChevronLeft width={26} height={26} fill={iconColor ?? colors.pinkPrimary} />
-        </div>
-      )}
-      <Text variant='title4Bold' color='black' data-cy='title' as='p'>
-        {title}
-      </Text>
-      <div className='side'>{right}</div>
+    <SC.HeaderWithBack position={position} useSkeleton={useSkeleton}>
+      <div className='inner'>
+        {useBackButton && (
+          <div className='side' onClick={handleBackClick}>
+            <IconChevronLeft width={26} height={26} fill={iconColor ?? colors.pinkPrimary} />
+          </div>
+        )}
+        <Text variant='title4Bold' className='title' color='black' data-cy='title' as='p' alignment='center'>
+          {title}
+        </Text>
+        <div className='side'>{right}</div>
+      </div>
     </SC.HeaderWithBack>
   );
 };
 
 const SC = {
-  HeaderWithBack: styled.header`
-    position: sticky;
+  HeaderWithBack: styled.header<{ useSkeleton?: boolean; position: string }>`
+    position: ${({ position }) => position};
     left: 0;
     top: 0;
     width: 100%;
     z-index: ${({ theme }) => theme.zIndex.header};
-    background-color: ${({ theme }) => theme.colors.white};
-    border-bottom: 0.1rem solid #dcdce9;
-    height: ${layout.headerHeight};
-    display: flex;
-    align-items: center;
-    padding: 0 1.6rem;
+
+    .inner {
+      padding: 0 1.6rem;
+      background-color: ${({ useSkeleton, theme }) => (useSkeleton ? 'transparent' : theme.colors.white)};
+      border-bottom: ${({ useSkeleton }) => (useSkeleton ? 'none' : '0.1rem solid #dcdce9')};
+      height: ${layout.headerHeight};
+      display: flex;
+      align-items: center;
+    }
 
     .side {
       width: 100%;
       flex: 1 1 0%;
       display: flex;
       align-items: center;
+
+      &:first-child {
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      &:last-child {
+        justify-content: flex-end;
+        text-align: right;
+      }
     }
 
     .title {

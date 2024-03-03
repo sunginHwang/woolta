@@ -6,6 +6,7 @@ import { theme } from 'libs/wds/src/lib/style/colors';
 import { Suspense, useState } from 'react';
 import Layout from '../Layout';
 import StyleRegistry from './StyleRegistry';
+import { ConfirmProvider } from '../../common/Confirm/ConfirmContext';
 
 const GlobalStyles = createGlobalStyle`
   html,
@@ -244,9 +245,11 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
           <StyleRegistry>
             <ThemeProvider theme={theme.light}>
               <GlobalStyles />
-              <Layout>
-                <>{children}</>
-              </Layout>
+              <ConfirmProvider>
+                <Layout>
+                  <>{children}</>
+                </Layout>
+              </ConfirmProvider>
             </ThemeProvider>
           </StyleRegistry>
         </JotaiProvider>

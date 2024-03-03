@@ -9,3 +9,4 @@ export * from './useScrollDirection';
 export * from './useIsMounted';
 export * from './useWindowDemensions';
 export * from './useToggle';
+export * from './useEventListener';

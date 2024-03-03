@@ -3,6 +3,9 @@
 import { FC, PropsWithChildren } from 'react';
 //import Header from '../Header';
 import NavigationBar from '../NavigationBar';
+import { usePathname, useRouter } from 'next/navigation';
+
+const NAVIGATION_PATHS = ['/account-books', '/bucket-list1'];
 
 interface Props extends PropsWithChildren {
   useNavBar?: boolean;
@@ -12,7 +15,9 @@ interface Props extends PropsWithChildren {
  * 레이아웃 영역
  * @component
  */
-const Layout: FC<Props> = ({ children, useNavBar = true }) => {
+const Layout: FC<Props> = ({ children }) => {
+  const pathname = usePathname();
+  const useNavBar = NAVIGATION_PATHS.find((path) => pathname.startsWith(path));
   return (
     <main>
       {/* 헤더가 inii ssr 시점에 문제가 존재. */}

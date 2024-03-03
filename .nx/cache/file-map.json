@@ -16,6 +16,7 @@
     "@types/codemirror": "^5.60.13",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash-es": "^4.17.12",
+    "@types/react-swipeable-views": "^0.13.5",
     "@types/react-syntax-highlighter": "^15.5.10",
     "@uiw/react-codemirror": "^4.21.20",
     "codemirror": "^6.0.1",
@@ -29,13 +30,16 @@
     "next": "13.4.1",
     "react": "18.2.0",
     "react-calendar": "^4.7.0",
+    "react-cropper": "^2.3.3",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0",
     "react-markdown": "^9.0.0",
     "react-modal-sheet": "^2.2.0",
     "react-spinners": "^0.13.8",
+    "react-swipeable-views": "^0.14.0",
     "react-syntax-highlighter": "^15.5.0",
     "styled-components": "^6.1.8",
+    "swiper": "^11.0.6",
     "tslib": "^2.3.0",
     "@nx/cypress": "16.5.0",
     "@nx/eslint-plugin": "16.5.0",
@@ -77,7 +81,7 @@
     "jest-environment-jsdom": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "nx": "16.5.0",
-    "nx-cloud": "latest",
+    "nx-cloud": "^18.0.0",
     "prettier": "^2.6.2",
     "sass": "1.62.1",
     "ts-jest": "^29.1.0",
@@ -100,438 +104,57 @@
   },
   "nxJsonPlugins": [],
   "projectFileMap": {
-    "woolta": [
+    "common-test": [
       {
-        "file": "apps/woolta/.eslintrc.json",
-        "hash": "11632106110783457985"
+        "file": "libs/common/test/.eslintrc.json",
+        "hash": "9703569748258640057"
       },
       {
-        "file": "apps/woolta/app/api/hello/route.ts",
-        "hash": "495073956729887886"
+        "file": "libs/common/test/.swcrc",
+        "hash": "2298411960666242159"
       },
       {
-        "file": "apps/woolta/app/layout.tsx",
-        "hash": "12352871071196690679"
+        "file": "libs/common/test/README.md",
+        "hash": "21321231201632678"
       },
       {
-        "file": "apps/woolta/app/page.tsx",
-        "hash": "9667791069299135431",
+        "file": "libs/common/test/jest.config.ts",
+        "hash": "11991275895879955594",
         "deps": [
-          "common",
-          "common-test",
-          "npm:styled-components"
+          "npm:fs"
         ]
       },
       {
-        "file": "apps/woolta/index.d.ts",
-        "hash": "5498222895072842432"
+        "file": "libs/common/test/package.json",
+        "hash": "15370104764922166228"
       },
       {
-        "file": "apps/woolta/jest.config.ts",
-        "hash": "13767938918866999701"
+        "file": "libs/common/test/project.json",
+        "hash": "16711502499179815277"
       },
       {
-        "file": "apps/woolta/next-env.d.ts",
-        "hash": "5909181270615354023"
+        "file": "libs/common/test/src/index.ts",
+        "hash": "5391623620685508318"
       },
       {
-        "file": "apps/woolta/next.config.js",
-        "hash": "5920765003977959354",
-        "deps": [
-          "npm:@nx/next"
-        ]
+        "file": "libs/common/test/src/lib/common-test.spec.ts",
+        "hash": "18125457241756606459"
       },
       {
-        "file": "apps/woolta/project.json",
-        "hash": "514833006443013654"
+        "file": "libs/common/test/src/lib/common-test.ts",
+        "hash": "10341883975061222690"
       },
       {
-        "file": "apps/woolta/public/.gitkeep",
-        "hash": "3244421341483603138"
+        "file": "libs/common/test/tsconfig.json",
+        "hash": "1098465750514412960"
       },
       {
-        "file": "apps/woolta/public/favicon.ico",
-        "hash": "9303420814833116677"
+        "file": "libs/common/test/tsconfig.lib.json",
+        "hash": "5554291030212586824"
       },
       {
-        "file": "apps/woolta/tsconfig.json",
-        "hash": "7132197433470047024"
-      },
-      {
-        "file": "apps/woolta/tsconfig.spec.json",
-        "hash": "6922413205408300107"
-      }
-    ],
-    "ssr-test-e2e": [
-      {
-        "file": "apps/ssr-test-e2e/.eslintrc.json",
-        "hash": "14060216369337943343"
-      },
-      {
-        "file": "apps/ssr-test-e2e/cypress.config.ts",
-        "hash": "15414076024138857470",
-        "deps": [
-          "npm:cypress",
-          "npm:@nx/cypress"
-        ]
-      },
-      {
-        "file": "apps/ssr-test-e2e/project.json",
-        "hash": "2775609006448685196"
-      },
-      {
-        "file": "apps/ssr-test-e2e/src/e2e/app.cy.ts",
-        "hash": "6106242941627915463"
-      },
-      {
-        "file": "apps/ssr-test-e2e/src/fixtures/example.json",
-        "hash": "11614668686582597233"
-      },
-      {
-        "file": "apps/ssr-test-e2e/src/support/app.po.ts",
-        "hash": "11157016311132186162"
-      },
-      {
-        "file": "apps/ssr-test-e2e/src/support/commands.ts",
-        "hash": "7314691991044890572"
-      },
-      {
-        "file": "apps/ssr-test-e2e/src/support/e2e.ts",
-        "hash": "3666078656922506009"
-      },
-      {
-        "file": "apps/ssr-test-e2e/tsconfig.json",
-        "hash": "1788248097864730386"
-      }
-    ],
-    "woolta-e2e": [
-      {
-        "file": "apps/woolta-e2e/.eslintrc.json",
-        "hash": "14060216369337943343"
-      },
-      {
-        "file": "apps/woolta-e2e/cypress.config.ts",
-        "hash": "15414076024138857470",
-        "deps": [
-          "npm:cypress",
-          "npm:@nx/cypress"
-        ]
-      },
-      {
-        "file": "apps/woolta-e2e/project.json",
-        "hash": "663907743981510587"
-      },
-      {
-        "file": "apps/woolta-e2e/src/e2e/app.cy.ts",
-        "hash": "14091257130574234910"
-      },
-      {
-        "file": "apps/woolta-e2e/src/fixtures/example.json",
-        "hash": "11614668686582597233"
-      },
-      {
-        "file": "apps/woolta-e2e/src/support/app.po.ts",
-        "hash": "11157016311132186162"
-      },
-      {
-        "file": "apps/woolta-e2e/src/support/commands.ts",
-        "hash": "7314691991044890572"
-      },
-      {
-        "file": "apps/woolta-e2e/src/support/e2e.ts",
-        "hash": "3666078656922506009"
-      },
-      {
-        "file": "apps/woolta-e2e/tsconfig.json",
-        "hash": "1788248097864730386"
-      }
-    ],
-    "ssr-test": [
-      {
-        "file": "apps/ssr-test/.eslintrc.json",
-        "hash": "12993240691655824998"
-      },
-      {
-        "file": "apps/ssr-test/app/api/hello/route.ts",
-        "hash": "495073956729887886"
-      },
-      {
-        "file": "apps/ssr-test/app/global.css",
-        "hash": "11996842458762640706"
-      },
-      {
-        "file": "apps/ssr-test/app/layout.tsx",
-        "hash": "13382285554156027580"
-      },
-      {
-        "file": "apps/ssr-test/app/page.tsx",
-        "hash": "17190457702201465323"
-      },
-      {
-        "file": "apps/ssr-test/index.d.ts",
-        "hash": "5498222895072842432"
-      },
-      {
-        "file": "apps/ssr-test/jest.config.ts",
-        "hash": "7741044900692238317"
-      },
-      {
-        "file": "apps/ssr-test/next-env.d.ts",
-        "hash": "5909181270615354023"
-      },
-      {
-        "file": "apps/ssr-test/next.config.js",
-        "hash": "17252635002163063865",
-        "deps": [
-          "npm:@nx/next"
-        ]
-      },
-      {
-        "file": "apps/ssr-test/project.json",
-        "hash": "11598131743691113061"
-      },
-      {
-        "file": "apps/ssr-test/public/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "apps/ssr-test/public/favicon.ico",
-        "hash": "9303420814833116677"
-      },
-      {
-        "file": "apps/ssr-test/tsconfig.json",
-        "hash": "10175225190558814528"
-      },
-      {
-        "file": "apps/ssr-test/tsconfig.spec.json",
-        "hash": "6922413205408300107"
-      }
-    ],
-    "woolbank-e2e": [
-      {
-        "file": "apps/woolbank-e2e/.eslintrc.json",
-        "hash": "14060216369337943343"
-      },
-      {
-        "file": "apps/woolbank-e2e/cypress.config.ts",
-        "hash": "15414076024138857470",
-        "deps": [
-          "npm:cypress",
-          "npm:@nx/cypress"
-        ]
-      },
-      {
-        "file": "apps/woolbank-e2e/project.json",
-        "hash": "9986581144402197351"
-      },
-      {
-        "file": "apps/woolbank-e2e/src/e2e/app.cy.ts",
-        "hash": "4548852766206569311"
-      },
-      {
-        "file": "apps/woolbank-e2e/src/fixtures/example.json",
-        "hash": "11614668686582597233"
-      },
-      {
-        "file": "apps/woolbank-e2e/src/support/app.po.ts",
-        "hash": "11157016311132186162"
-      },
-      {
-        "file": "apps/woolbank-e2e/src/support/commands.ts",
-        "hash": "7314691991044890572"
-      },
-      {
-        "file": "apps/woolbank-e2e/src/support/e2e.ts",
-        "hash": "3666078656922506009"
-      },
-      {
-        "file": "apps/woolbank-e2e/tsconfig.json",
-        "hash": "1788248097864730386"
-      }
-    ],
-    "blog-e2e": [
-      {
-        "file": "apps/blog-e2e/.eslintrc.json",
-        "hash": "14060216369337943343"
-      },
-      {
-        "file": "apps/blog-e2e/cypress.config.ts",
-        "hash": "15414076024138857470",
-        "deps": [
-          "npm:cypress",
-          "npm:@nx/cypress"
-        ]
-      },
-      {
-        "file": "apps/blog-e2e/project.json",
-        "hash": "10364665073123039076"
-      },
-      {
-        "file": "apps/blog-e2e/src/e2e/app.cy.ts",
-        "hash": "15282601582686733954"
-      },
-      {
-        "file": "apps/blog-e2e/src/fixtures/example.json",
-        "hash": "11614668686582597233"
-      },
-      {
-        "file": "apps/blog-e2e/src/support/app.po.ts",
-        "hash": "11157016311132186162"
-      },
-      {
-        "file": "apps/blog-e2e/src/support/commands.ts",
-        "hash": "7314691991044890572"
-      },
-      {
-        "file": "apps/blog-e2e/src/support/e2e.ts",
-        "hash": "3666078656922506009"
-      },
-      {
-        "file": "apps/blog-e2e/tsconfig.json",
-        "hash": "1788248097864730386"
-      }
-    ],
-    "common": [
-      {
-        "file": "libs/common/.eslintrc.json",
-        "hash": "11012487992710232822"
-      },
-      {
-        "file": "libs/common/README.md",
-        "hash": "17127957463758053849"
-      },
-      {
-        "file": "libs/common/project.json",
-        "hash": "14554197305336071759"
-      },
-      {
-        "file": "libs/common/src/index.ts",
-        "hash": "15957270993389356703"
-      },
-      {
-        "file": "libs/common/src/lib/common.module.css",
-        "hash": "125145030238681982"
-      },
-      {
-        "file": "libs/common/src/lib/common.spec.tsx",
-        "hash": "7164805927017533347",
-        "deps": [
-          "npm:@testing-library/react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/common.tsx",
-        "hash": "14449402250095358540"
-      },
-      {
-        "file": "libs/common/src/lib/constants/index.tsx",
-        "hash": "11092619937724108954"
-      },
-      {
-        "file": "libs/common/src/lib/hello-server.tsx",
-        "hash": "2397568674684759047"
-      },
-      {
-        "file": "libs/common/src/lib/hoc/index.tsx",
-        "hash": "17982703495390067806"
-      },
-      {
-        "file": "libs/common/src/lib/hoc/withSuspense.tsx",
-        "hash": "5878793582190762978",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/index.tsx",
-        "hash": "9673106824001511193"
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useInput.ts",
-        "hash": "5613515216451355012",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useInputs.ts",
-        "hash": "15982651964915818094",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useIsMounted.ts",
-        "hash": "7418322633673555895",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useIsomorphicLayoutEffect.ts",
-        "hash": "1576879174096932569",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useMount.ts",
-        "hash": "16655530051832628582",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useScrollDirection.ts",
-        "hash": "2885747246370690466",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useToggle.ts",
-        "hash": "9965855237356883553",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useUpdateEffect.ts",
-        "hash": "8086103187564028574",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/hooks/useWindowDemensions.tsx",
-        "hash": "16723321663828345673",
-        "deps": [
-          "npm:react"
-        ]
-      },
-      {
-        "file": "libs/common/src/lib/utils/device.ts",
-        "hash": "18333531240500082494"
-      },
-      {
-        "file": "libs/common/src/lib/utils/index.ts",
-        "hash": "7723756794579640043"
-      },
-      {
-        "file": "libs/common/src/lib/utils/optimizeRaf.ts",
-        "hash": "13321566432284479312"
-      },
-      {
-        "file": "libs/common/src/server.ts",
-        "hash": "8912437808649717296"
-      },
-      {
-        "file": "libs/common/tsconfig.json",
-        "hash": "14088618039610991405"
-      },
-      {
-        "file": "libs/common/tsconfig.lib.json",
-        "hash": "13659448806296398010"
+        "file": "libs/common/test/tsconfig.spec.json",
+        "hash": "9110660443763673899"
       }
     ],
     "woolbank": [
@@ -558,22 +181,37 @@
       },
       {
         "file": "apps/woolbank/app/account-books/page.tsx",
-        "hash": "5968371954410068385",
+        "hash": "10744259050936784850",
         "deps": [
           "npm:@tanstack/react-query"
         ]
       },
       {
         "file": "apps/woolbank/app/account-books/save/page.tsx",
-        "hash": "17511853610981736019"
+        "hash": "14583712717784837489"
       },
       {
         "file": "apps/woolbank/app/api/hello/route.ts",
         "hash": "495073956729887886"
       },
       {
+        "file": "apps/woolbank/app/bucket-list/[bucketId]/page.tsx",
+        "hash": "5090584927559537131"
+      },
+      {
+        "file": "apps/woolbank/app/bucket-list/page.tsx",
+        "hash": "17840872858523708314"
+      },
+      {
+        "file": "apps/woolbank/app/bucket-list/save/page.tsx",
+        "hash": "7440763385953121361"
+      },
+      {
         "file": "apps/woolbank/app/layout.tsx",
-        "hash": "711613765108819644"
+        "hash": "12509667138724644357",
+        "deps": [
+          "wds"
+        ]
       },
       {
         "file": "apps/woolbank/app/page.tsx",
@@ -874,10 +512,10 @@
       },
       {
         "file": "apps/woolbank/components/account-books/save/AccountBookForm/index.tsx",
-        "hash": "3958235934472996539",
+        "hash": "9700532625060532668",
         "deps": [
-          "npm:styled-components",
-          "npm:react"
+          "npm:react",
+          "npm:styled-components"
         ]
       },
       {
@@ -905,7 +543,7 @@
       },
       {
         "file": "apps/woolbank/components/account-books/save/hooks/useAccountBookDetail.ts",
-        "hash": "7813873404402618959",
+        "hash": "3321250948722999705",
         "deps": [
           "npm:@tanstack/react-query",
           "npm:dayjs",
@@ -915,7 +553,7 @@
       },
       {
         "file": "apps/woolbank/components/account-books/save/index.tsx",
-        "hash": "1905897954656301940",
+        "hash": "9108572589187362988",
         "deps": [
           "npm:@tanstack/react-query",
           "npm:dayjs",
@@ -963,8 +601,29 @@
         ]
       },
       {
+        "file": "apps/woolbank/components/atom/Icon/BlackCircle.tsx",
+        "hash": "2987588198773579224",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
         "file": "apps/woolbank/components/atom/Icon/BucketOutline.tsx",
         "hash": "10550888810079724569",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/atom/Icon/CalendarMonthOutline.tsx",
+        "hash": "15097557246187216085",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/atom/Icon/Camera.tsx",
+        "hash": "4574295705122296513",
         "deps": [
           "npm:react"
         ]
@@ -984,6 +643,13 @@
         ]
       },
       {
+        "file": "apps/woolbank/components/atom/Icon/CircleCheck.tsx",
+        "hash": "777771509617600629",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
         "file": "apps/woolbank/components/atom/Icon/Close.tsx",
         "hash": "679919445055689490",
         "deps": [
@@ -998,6 +664,13 @@
         ]
       },
       {
+        "file": "apps/woolbank/components/atom/Icon/DownHorizontal.tsx",
+        "hash": "8446221537278042192",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
         "file": "apps/woolbank/components/atom/Icon/HomeOutline.tsx",
         "hash": "8606542709060026961",
         "deps": [
@@ -1005,8 +678,22 @@
         ]
       },
       {
+        "file": "apps/woolbank/components/atom/Icon/Image.tsx",
+        "hash": "1746289465599665146",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
         "file": "apps/woolbank/components/atom/Icon/PigOutline.tsx",
         "hash": "6454710878056034467",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/atom/Icon/Plus.tsx",
+        "hash": "2926587666320648040",
         "deps": [
           "npm:react"
         ]
@@ -1036,7 +723,280 @@
       },
       {
         "file": "apps/woolbank/components/atom/Icon/index.tsx",
-        "hash": "7353687190451885972"
+        "hash": "631409272533187204"
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/common/TodoAddButton/index.tsx",
+        "hash": "6215250415831387623",
+        "deps": [
+          "npm:react",
+          "npm:react-spinners",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/common/TodoInput/index.tsx",
+        "hash": "4494954080631710754",
+        "deps": [
+          "common",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/common/TodoListItem/index.tsx",
+        "hash": "18278515090989635873",
+        "deps": [
+          "wds",
+          "npm:react",
+          "npm:react-spinners",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/CompleteButton/index.tsx",
+        "hash": "7026088549927844035",
+        "deps": [
+          "npm:jotai"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/ContentInfo/Skeleton.tsx",
+        "hash": "12680323493394057565",
+        "deps": [
+          "wds",
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/ContentInfo/index.tsx",
+        "hash": "9449305473905068864",
+        "deps": [
+          "wds",
+          "npm:dayjs",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/HeaderInfo/index.tsx",
+        "hash": "4789720043508312671",
+        "deps": [
+          "common",
+          "wds",
+          "npm:lodash-es",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/TodoInfo/AddTodo.tsx",
+        "hash": "15553940782962659006",
+        "deps": [
+          "npm:react",
+          "npm:styled-components",
+          "common"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/TodoInfo/Skeleton.tsx",
+        "hash": "9464240802398015267",
+        "deps": [
+          "wds"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/TodoInfo/TodoList.tsx",
+        "hash": "7974803492257192398",
+        "deps": [
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/TodoInfo/index.tsx",
+        "hash": "14417956211579178358",
+        "deps": [
+          "wds",
+          "npm:jotai",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/hooks/useBucket.tsx",
+        "hash": "12751736200831548206",
+        "deps": [
+          "npm:@tanstack/react-query",
+          "npm:next"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/index.tsx",
+        "hash": "17192375852691160886"
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/detail/store/index.tsx",
+        "hash": "16975366609713487681",
+        "deps": [
+          "npm:jotai"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/main/BucketListItem/BuckerListItem.spec.tsx",
+        "hash": "4764445908655442237",
+        "deps": [
+          "npm:react",
+          "npm:@components/bucketList/list/BucketListItem",
+          "npm:@support/test/withThemeRender",
+          "npm:@models/bucketList/IBucketList",
+          "npm:@support/util/date"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/main/BucketListItem/ItemSkeleton.tsx",
+        "hash": "8790778235104452889",
+        "deps": [
+          "wds",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/main/BucketListItem/index.tsx",
+        "hash": "4774606365699068326",
+        "deps": [
+          "wds",
+          "npm:next",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/main/BucketListSlideViewer/index.tsx",
+        "hash": "16678532780656062677",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/main/hooks/useBucketList.ts",
+        "hash": "1553955702152779245",
+        "deps": [
+          "npm:@tanstack/react-query"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/main/index.tsx",
+        "hash": "14340063763103682661"
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/CompleteDateForm/index.tsx",
+        "hash": "13495064263972494515",
+        "deps": [
+          "common",
+          "npm:dayjs",
+          "npm:jotai",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/ImageForm/ImageCrop.tsx",
+        "hash": "3452580997407660468",
+        "deps": [
+          "npm:react",
+          "npm:react-cropper",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/ImageForm/PrevImage.tsx",
+        "hash": "5646379159576692386",
+        "deps": [
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/ImageForm/index.tsx",
+        "hash": "10362971314784378329",
+        "deps": [
+          "npm:jotai",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/ImageForm/useImageFIle.ts",
+        "hash": "7397680698243235107",
+        "deps": [
+          "common",
+          "npm:dayjs",
+          "npm:jotai",
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/InfoForm/index.tsx",
+        "hash": "18155306229796803393",
+        "deps": [
+          "common",
+          "npm:jotai",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/LabelText/SubLabelText.tsx",
+        "hash": "3520882979336476842",
+        "deps": [
+          "wds",
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/LabelText/index.tsx",
+        "hash": "16900166574040799957",
+        "deps": [
+          "wds",
+          "npm:react"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/TodoListForm/index.tsx",
+        "hash": "2750170539865981410",
+        "deps": [
+          "common",
+          "npm:jotai",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/hooks/useBucketFormStep.ts",
+        "hash": "2821711818281218317",
+        "deps": [
+          "npm:jotai",
+          "npm:next"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/hooks/useUpsertBucket.ts",
+        "hash": "8564103123550104578",
+        "deps": [
+          "npm:@tanstack/react-query"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/index.tsx",
+        "hash": "12154876405711956993"
+      },
+      {
+        "file": "apps/woolbank/components/bucket-list/save/store/index.ts",
+        "hash": "12934261102304743449",
+        "deps": [
+          "npm:jotai"
+        ]
       },
       {
         "file": "apps/woolbank/components/common/AddButton/index.stories.tsx",
@@ -1064,11 +1024,19 @@
       },
       {
         "file": "apps/woolbank/components/common/BaseInput/index.tsx",
-        "hash": "10635472716145731907",
+        "hash": "11939567440072027666",
         "deps": [
-          "npm:styled-components",
           "wds",
-          "npm:react"
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/common/BottomFloatingButton/index.tsx",
+        "hash": "8832547399336588138",
+        "deps": [
+          "npm:react",
+          "npm:styled-components"
         ]
       },
       {
@@ -1181,8 +1149,25 @@
         ]
       },
       {
+        "file": "apps/woolbank/components/common/CardItem/CardItem.spec.tsx",
+        "hash": "17382154075747953412",
+        "deps": [
+          "npm:react",
+          "npm:@components/common/CardItem",
+          "npm:@support/test/withThemeRender"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/common/CardItem/index.tsx",
+        "hash": "1633720065012822528",
+        "deps": [
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
         "file": "apps/woolbank/components/common/Confirm/ConfirmContext.tsx",
-        "hash": "15814146600035905671",
+        "hash": "10692175854433159205",
         "deps": [
           "npm:react"
         ]
@@ -1242,6 +1227,17 @@
         ]
       },
       {
+        "file": "apps/woolbank/components/common/FormTemplate/index.tsx",
+        "hash": "9754378418018810124",
+        "deps": [
+          "wds",
+          "npm:jotai",
+          "npm:next",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
         "file": "apps/woolbank/components/common/FullScreenLoading/index.stories.tsx",
         "hash": "12897952627672427050",
         "deps": [
@@ -1260,7 +1256,7 @@
       },
       {
         "file": "apps/woolbank/components/common/Header/SubHeader.tsx",
-        "hash": "17928975808973530049",
+        "hash": "16436561535402225188",
         "deps": [
           "wds",
           "npm:next",
@@ -1277,10 +1273,44 @@
       },
       {
         "file": "apps/woolbank/components/common/Header/index.tsx",
-        "hash": "18405462436438369682",
+        "hash": "1832925825149811198",
         "deps": [
           "wds",
           "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/common/Progress/index.tsx",
+        "hash": "16678898190316514363",
+        "deps": [
+          "wds",
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/common/TabSlideViewer/Empty.tsx",
+        "hash": "10173152788693650899",
+        "deps": [
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/common/TabSlideViewer/Skeleton.tsx",
+        "hash": "17515626420540313912",
+        "deps": [
+          "npm:react",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolbank/components/common/TabSlideViewer/index.tsx",
+        "hash": "686836657834758762",
+        "deps": [
+          "npm:react",
+          "npm:react-swipeable-views",
           "npm:styled-components"
         ]
       },
@@ -1293,7 +1323,7 @@
       },
       {
         "file": "apps/woolbank/components/common/Tabs/index.tsx",
-        "hash": "4570150869215262573",
+        "hash": "14350031463467810045",
         "deps": [
           "common",
           "wds",
@@ -1322,9 +1352,10 @@
       },
       {
         "file": "apps/woolbank/components/layout/Layout/index.tsx",
-        "hash": "5484992710945650346",
+        "hash": "18217526639624234808",
         "deps": [
-          "npm:react"
+          "npm:react",
+          "npm:next"
         ]
       },
       {
@@ -1357,7 +1388,7 @@
       },
       {
         "file": "apps/woolbank/components/layout/Providers/index.tsx",
-        "hash": "5835119260656108574",
+        "hash": "15880735121952791161",
         "deps": [
           "npm:styled-components",
           "npm:@tanstack/react-query",
@@ -1571,7 +1602,7 @@
       },
       {
         "file": "apps/woolbank/utils/api/index.ts",
-        "hash": "11831996751347348773",
+        "hash": "13161683953616079052",
         "deps": [
           "npm:axios"
         ]
@@ -1582,10 +1613,56 @@
       },
       {
         "file": "apps/woolbank/utils/date.ts",
-        "hash": "7015973311801683697",
+        "hash": "3745570282856910926",
         "deps": [
           "npm:dayjs"
         ]
+      },
+      {
+        "file": "apps/woolbank/utils/file.ts",
+        "hash": "16133004463003821330"
+      }
+    ],
+    "woolbank-e2e": [
+      {
+        "file": "apps/woolbank-e2e/.eslintrc.json",
+        "hash": "14060216369337943343"
+      },
+      {
+        "file": "apps/woolbank-e2e/cypress.config.ts",
+        "hash": "15414076024138857470",
+        "deps": [
+          "npm:cypress",
+          "npm:@nx/cypress"
+        ]
+      },
+      {
+        "file": "apps/woolbank-e2e/project.json",
+        "hash": "9986581144402197351"
+      },
+      {
+        "file": "apps/woolbank-e2e/src/e2e/app.cy.ts",
+        "hash": "4548852766206569311"
+      },
+      {
+        "file": "apps/woolbank-e2e/src/fixtures/example.json",
+        "hash": "11614668686582597233"
+      },
+      {
+        "file": "apps/woolbank-e2e/src/support/app.po.ts",
+        "hash": "11157016311132186162"
+      },
+      {
+        "file": "apps/woolbank-e2e/src/support/commands.ts",
+        "hash": "7314691991044890572"
+      },
+      {
+        "file": "apps/woolbank-e2e/src/support/e2e.ts",
+        "hash": "3666078656922506009"
+      },
+      {
+        "file": "apps/woolbank-e2e/tsconfig.json",
+        "hash": "1788248097864730386"
       }
     ],
     "blog": [
@@ -2254,6 +2331,301 @@
         "hash": "316872087855884542"
       }
     ],
+    "woolta-e2e": [
+      {
+        "file": "apps/woolta-e2e/.eslintrc.json",
+        "hash": "14060216369337943343"
+      },
+      {
+        "file": "apps/woolta-e2e/cypress.config.ts",
+        "hash": "15414076024138857470",
+        "deps": [
+          "npm:cypress",
+          "npm:@nx/cypress"
+        ]
+      },
+      {
+        "file": "apps/woolta-e2e/project.json",
+        "hash": "663907743981510587"
+      },
+      {
+        "file": "apps/woolta-e2e/src/e2e/app.cy.ts",
+        "hash": "14091257130574234910"
+      },
+      {
+        "file": "apps/woolta-e2e/src/fixtures/example.json",
+        "hash": "11614668686582597233"
+      },
+      {
+        "file": "apps/woolta-e2e/src/support/app.po.ts",
+        "hash": "11157016311132186162"
+      },
+      {
+        "file": "apps/woolta-e2e/src/support/commands.ts",
+        "hash": "7314691991044890572"
+      },
+      {
+        "file": "apps/woolta-e2e/src/support/e2e.ts",
+        "hash": "3666078656922506009"
+      },
+      {
+        "file": "apps/woolta-e2e/tsconfig.json",
+        "hash": "1788248097864730386"
+      }
+    ],
+    "ssr-test-e2e": [
+      {
+        "file": "apps/ssr-test-e2e/.eslintrc.json",
+        "hash": "14060216369337943343"
+      },
+      {
+        "file": "apps/ssr-test-e2e/cypress.config.ts",
+        "hash": "15414076024138857470",
+        "deps": [
+          "npm:cypress",
+          "npm:@nx/cypress"
+        ]
+      },
+      {
+        "file": "apps/ssr-test-e2e/project.json",
+        "hash": "2775609006448685196"
+      },
+      {
+        "file": "apps/ssr-test-e2e/src/e2e/app.cy.ts",
+        "hash": "6106242941627915463"
+      },
+      {
+        "file": "apps/ssr-test-e2e/src/fixtures/example.json",
+        "hash": "11614668686582597233"
+      },
+      {
+        "file": "apps/ssr-test-e2e/src/support/app.po.ts",
+        "hash": "11157016311132186162"
+      },
+      {
+        "file": "apps/ssr-test-e2e/src/support/commands.ts",
+        "hash": "7314691991044890572"
+      },
+      {
+        "file": "apps/ssr-test-e2e/src/support/e2e.ts",
+        "hash": "3666078656922506009"
+      },
+      {
+        "file": "apps/ssr-test-e2e/tsconfig.json",
+        "hash": "1788248097864730386"
+      }
+    ],
+    "common": [
+      {
+        "file": "libs/common/.eslintrc.json",
+        "hash": "11012487992710232822"
+      },
+      {
+        "file": "libs/common/README.md",
+        "hash": "17127957463758053849"
+      },
+      {
+        "file": "libs/common/project.json",
+        "hash": "14554197305336071759"
+      },
+      {
+        "file": "libs/common/src/index.ts",
+        "hash": "15957270993389356703"
+      },
+      {
+        "file": "libs/common/src/lib/common.module.css",
+        "hash": "125145030238681982"
+      },
+      {
+        "file": "libs/common/src/lib/common.spec.tsx",
+        "hash": "7164805927017533347",
+        "deps": [
+          "npm:@testing-library/react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/common.tsx",
+        "hash": "14449402250095358540"
+      },
+      {
+        "file": "libs/common/src/lib/constants/index.tsx",
+        "hash": "11092619937724108954"
+      },
+      {
+        "file": "libs/common/src/lib/hello-server.tsx",
+        "hash": "2397568674684759047"
+      },
+      {
+        "file": "libs/common/src/lib/hoc/index.tsx",
+        "hash": "17982703495390067806"
+      },
+      {
+        "file": "libs/common/src/lib/hoc/withSuspense.tsx",
+        "hash": "5878793582190762978",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/index.tsx",
+        "hash": "11594284723665415766"
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useEventListener.ts",
+        "hash": "3283328761382379015",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useInput.ts",
+        "hash": "13525696047182969161",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useInputs.ts",
+        "hash": "15982651964915818094",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useIsMounted.ts",
+        "hash": "7418322633673555895",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useIsomorphicLayoutEffect.ts",
+        "hash": "1576879174096932569",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useMount.ts",
+        "hash": "16655530051832628582",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useScrollDirection.ts",
+        "hash": "2885747246370690466",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useToggle.ts",
+        "hash": "9965855237356883553",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useUpdateEffect.ts",
+        "hash": "8086103187564028574",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/hooks/useWindowDemensions.tsx",
+        "hash": "16723321663828345673",
+        "deps": [
+          "npm:react"
+        ]
+      },
+      {
+        "file": "libs/common/src/lib/utils/device.ts",
+        "hash": "18333531240500082494"
+      },
+      {
+        "file": "libs/common/src/lib/utils/index.ts",
+        "hash": "7723756794579640043"
+      },
+      {
+        "file": "libs/common/src/lib/utils/optimizeRaf.ts",
+        "hash": "13321566432284479312"
+      },
+      {
+        "file": "libs/common/src/server.ts",
+        "hash": "8912437808649717296"
+      },
+      {
+        "file": "libs/common/tsconfig.json",
+        "hash": "14088618039610991405"
+      },
+      {
+        "file": "libs/common/tsconfig.lib.json",
+        "hash": "13659448806296398010"
+      }
+    ],
+    "ssr-test": [
+      {
+        "file": "apps/ssr-test/.eslintrc.json",
+        "hash": "12993240691655824998"
+      },
+      {
+        "file": "apps/ssr-test/app/api/hello/route.ts",
+        "hash": "495073956729887886"
+      },
+      {
+        "file": "apps/ssr-test/app/global.css",
+        "hash": "11996842458762640706"
+      },
+      {
+        "file": "apps/ssr-test/app/layout.tsx",
+        "hash": "13382285554156027580"
+      },
+      {
+        "file": "apps/ssr-test/app/page.tsx",
+        "hash": "17190457702201465323"
+      },
+      {
+        "file": "apps/ssr-test/index.d.ts",
+        "hash": "5498222895072842432"
+      },
+      {
+        "file": "apps/ssr-test/jest.config.ts",
+        "hash": "7741044900692238317"
+      },
+      {
+        "file": "apps/ssr-test/next-env.d.ts",
+        "hash": "5909181270615354023"
+      },
+      {
+        "file": "apps/ssr-test/next.config.js",
+        "hash": "17252635002163063865",
+        "deps": [
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "apps/ssr-test/project.json",
+        "hash": "11598131743691113061"
+      },
+      {
+        "file": "apps/ssr-test/public/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "apps/ssr-test/public/favicon.ico",
+        "hash": "9303420814833116677"
+      },
+      {
+        "file": "apps/ssr-test/tsconfig.json",
+        "hash": "10175225190558814528"
+      },
+      {
+        "file": "apps/ssr-test/tsconfig.spec.json",
+        "hash": "6922413205408300107"
+      }
+    ],
     "wds": [
       {
         "file": "libs/wds/.eslintrc.json",
@@ -2385,57 +2757,108 @@
         "hash": "6514620907549802163"
       }
     ],
-    "common-test": [
+    "blog-e2e": [
       {
-        "file": "libs/common/test/.eslintrc.json",
-        "hash": "9703569748258640057"
+        "file": "apps/blog-e2e/.eslintrc.json",
+        "hash": "14060216369337943343"
       },
       {
-        "file": "libs/common/test/.swcrc",
-        "hash": "2298411960666242159"
-      },
-      {
-        "file": "libs/common/test/README.md",
-        "hash": "21321231201632678"
-      },
-      {
-        "file": "libs/common/test/jest.config.ts",
-        "hash": "11991275895879955594",
+        "file": "apps/blog-e2e/cypress.config.ts",
+        "hash": "15414076024138857470",
         "deps": [
-          "npm:fs"
+          "npm:cypress",
+          "npm:@nx/cypress"
         ]
       },
       {
-        "file": "libs/common/test/package.json",
-        "hash": "15370104764922166228"
+        "file": "apps/blog-e2e/project.json",
+        "hash": "10364665073123039076"
       },
       {
-        "file": "libs/common/test/project.json",
-        "hash": "16711502499179815277"
+        "file": "apps/blog-e2e/src/e2e/app.cy.ts",
+        "hash": "15282601582686733954"
       },
       {
-        "file": "libs/common/test/src/index.ts",
-        "hash": "5391623620685508318"
+        "file": "apps/blog-e2e/src/fixtures/example.json",
+        "hash": "11614668686582597233"
       },
       {
-        "file": "libs/common/test/src/lib/common-test.spec.ts",
-        "hash": "18125457241756606459"
+        "file": "apps/blog-e2e/src/support/app.po.ts",
+        "hash": "11157016311132186162"
       },
       {
-        "file": "libs/common/test/src/lib/common-test.ts",
-        "hash": "10341883975061222690"
+        "file": "apps/blog-e2e/src/support/commands.ts",
+        "hash": "7314691991044890572"
       },
       {
-        "file": "libs/common/test/tsconfig.json",
-        "hash": "1098465750514412960"
+        "file": "apps/blog-e2e/src/support/e2e.ts",
+        "hash": "3666078656922506009"
       },
       {
-        "file": "libs/common/test/tsconfig.lib.json",
-        "hash": "5554291030212586824"
+        "file": "apps/blog-e2e/tsconfig.json",
+        "hash": "1788248097864730386"
+      }
+    ],
+    "woolta": [
+      {
+        "file": "apps/woolta/.eslintrc.json",
+        "hash": "11632106110783457985"
       },
       {
-        "file": "libs/common/test/tsconfig.spec.json",
-        "hash": "9110660443763673899"
+        "file": "apps/woolta/app/api/hello/route.ts",
+        "hash": "495073956729887886"
+      },
+      {
+        "file": "apps/woolta/app/layout.tsx",
+        "hash": "12352871071196690679"
+      },
+      {
+        "file": "apps/woolta/app/page.tsx",
+        "hash": "9667791069299135431",
+        "deps": [
+          "common",
+          "common-test",
+          "npm:styled-components"
+        ]
+      },
+      {
+        "file": "apps/woolta/index.d.ts",
+        "hash": "5498222895072842432"
+      },
+      {
+        "file": "apps/woolta/jest.config.ts",
+        "hash": "13767938918866999701"
+      },
+      {
+        "file": "apps/woolta/next-env.d.ts",
+        "hash": "5909181270615354023"
+      },
+      {
+        "file": "apps/woolta/next.config.js",
+        "hash": "5920765003977959354",
+        "deps": [
+          "npm:@nx/next"
+        ]
+      },
+      {
+        "file": "apps/woolta/project.json",
+        "hash": "514833006443013654"
+      },
+      {
+        "file": "apps/woolta/public/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "apps/woolta/public/favicon.ico",
+        "hash": "9303420814833116677"
+      },
+      {
+        "file": "apps/woolta/tsconfig.json",
+        "hash": "7132197433470047024"
+      },
+      {
+        "file": "apps/woolta/tsconfig.spec.json",
+        "hash": "6922413205408300107"
       }
     ]
   }
