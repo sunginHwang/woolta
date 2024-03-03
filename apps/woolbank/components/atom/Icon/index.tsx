@@ -19,3 +19,5 @@ export { default as IconCalendarMonthOutline } from './CalendarMonthOutline';
 export { default as IconDownHorizontal } from './DownHorizontal';
 export { default as IconBlackCircle } from './BlackCircle';
 export { default as IconPlus } from './Plus';
+export { default as IconImage } from './Image';
+export { default as IconCamera } from './Camera';

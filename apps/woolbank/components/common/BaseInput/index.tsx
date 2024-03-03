@@ -1,12 +1,12 @@
-import { styled } from 'styled-components';
 import { Text, typography } from '@wds';
-import { HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import { styled } from 'styled-components';
 import { IconCloseCircle } from '../../atom/Icon';
 
 interface Props
   extends Omit<
     HtmlHTMLAttributes<HTMLInputElement>,
-    'value' | 'type' | 'name' | 'maxLength' | 'onFocus' | 'onBlur' | 'onClick' | 'readOnly'
+    'value' | 'type' | 'name' | 'maxLength' | 'onFocus' | 'onBlur' | 'onClick' | 'onChange' | 'readOnly'
   > {
   label?: string;
   value?: string | number;
@@ -22,6 +22,7 @@ interface Props
   onFocusIn?: () => void;
   onFocusOut?: () => void;
   onKeyPressEnter?: () => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
@@ -44,6 +45,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
       disable = false,
       onClear,
       onClick,
+      onChange,
       onKeyPressEnter,
       onFocusIn,
       onFocusOut,
@@ -110,7 +112,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
-            onClick={onClick}
+            onChange={onChange}
             autoComplete='off'
             disabled={disable}
             readOnly={readOnly}
