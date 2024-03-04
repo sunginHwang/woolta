@@ -40,7 +40,7 @@ export const CompleteDateForm: FC<Props> = memo(({ step }) => {
    * 목표일 변경
    */
   const onChangeCompleteDate = (completeDate: string) => {
-    setBucketCompleteDate({ completeDate });
+    setBucketCompleteDate({ completeDate: dayjs(completeDate).format('YYYY-MM-DD') });
     offDateModal();
     goNextStep();
   };
@@ -63,7 +63,7 @@ export const CompleteDateForm: FC<Props> = memo(({ step }) => {
             placeholder='클릭하여 날짜를 선택해 주세요.'
             dataType='startDate'
             name='completeDate'
-            value={completeDate === '' ? '' : dayjs(completeDate).format('YYYY-MM-DD')}
+            value={completeDate}
             onClick={onDateModal}
             onClear={onResetCompleteDate}
           />

@@ -1,7 +1,7 @@
-import { styled } from 'styled-components';
 import { safeAreaInsetBottom, typography } from '@wds';
 import Link from 'next/link';
 import { ComponentProps, FC } from 'react';
+import { styled } from 'styled-components';
 import { layout } from '../../../style/layout';
 
 interface Props extends ComponentProps<typeof Link> {}
@@ -33,7 +33,7 @@ const SC = {
     height: 5rem;
     color: ${({ theme }) => theme.colors.white};
     background-color: ${({ theme }) => theme.colors.red500};
-    border-radius: 100%;
+    border-radius: 100% !important;
     box-shadow: 0.2rem 0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.16);
     z-index: ${layout.zIndex.floatButton};
   `,

@@ -62,7 +62,7 @@ export const HeaderInfo = () => {
   const fixedHeaderMsg = isShowFixedHeader ? title : '';
   const headerIconColor = isShowFixedHeader ? colors.red500 : colors.white;
   // 목표 날짜 까지 남은 기간
-  const remainDay = getRemainDays(now, completeDate);
+  const remainDay = getRemainDays(new Date(now), new Date(completeDate));
   // 목표 날짜 까지 이룬 %
   const remainPercent = getRemainDatePercentage(createdAt, completeDate, now);
 

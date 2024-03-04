@@ -13,11 +13,15 @@ export const updateBucketList = async (bucketListForm: BucketForm) => {
   }
 
   if (bucketListForm?.id && bucketListForm?.id > 0) {
-    return postData(`/bucket-list/${bucketListForm.id}`, data);
+    return putData<{ bucketListId: number }>(`/bucket-list/${bucketListForm.id}`, data);
   }
 
   data.append('todoList', JSON.stringify(bucketListForm.todoList));
-  return postData('/bucket-list/', data);
+  return postData<{ bucketListId: number }>('/bucket-list', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const useUpsertBucket = () => {

@@ -31,7 +31,7 @@ export const FormTemplate: FC<Props> = ({
   onButtonClick,
   children,
 }) => {
-  const { back, push } = useRouter();
+  const { back, replace } = useRouter();
   const { currentStep, goNextStep, goPrevStep, isUpdateMode } = useBucketFormStep();
   const bucketForm = useAtomValue(bucketFormAtom);
   const { upsertBucketMutate } = useUpsertBucket();
@@ -58,17 +58,15 @@ export const FormTemplate: FC<Props> = ({
   };
 
   const upsertBucket = () => {
-    push('/bucket-list');
-    // upsertBucketMutate.mutate(bucketForm, {
-    //   onSuccess: () => {
-    //     window.history.go(-maxPhase);
-    //     push('/bucket-list');
-    //     alert(`${upsertText} 되었습니다.`);
-    //   },
-    //   onError: () => {
-    //     alert(`${upsertText}에 실패하였습니다. 다시 시도해주세요`);
-    //   },
-    // });
+    upsertBucketMutate.mutate(bucketForm, {
+      onSuccess: ({ data }) => {
+        replace(`/bucket-list/${data.bucketListId}`);
+        alert(`${upsertText} 되었습니다.`);
+      },
+      onError: () => {
+        alert(`${upsertText}에 실패하였습니다. 다시 시도해주세요`);
+      },
+    });
   };
 
   const isLastStep = currentStep === maxPhase;
