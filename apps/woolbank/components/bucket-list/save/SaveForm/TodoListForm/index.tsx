@@ -1,22 +1,18 @@
 import { useToggle } from '@common';
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { FC, useRef } from 'react';
+import React, { ComponentProps, FC, useRef } from 'react';
 import styled from 'styled-components';
-import { FormTemplate } from '../../../../components/common/FormTemplate';
-import { TodoAddButton } from '../../common/TodoAddButton';
-import TodoInput from '../../common/TodoInput';
-import { TodoListItem } from '../../common/TodoListItem';
-import { useBucketFormStep } from '../hooks/useBucketFormStep';
-import { LabelText } from '../LabelText';
-import { Todo, bucketFormAtom, setBucketTodoListAtom } from '../store';
+import { FormTemplate } from '../../FormTemplate';
+import { TodoAddButton } from '../../../common/TodoAddButton';
+import TodoInput from '../../../common/TodoInput';
+import { TodoListItem } from '../../../common/TodoListItem';
+import { LabelText } from '../../LabelText';
+import { Todo, bucketFormAtom, setBucketTodoListAtom } from '../../store';
 
-interface Props {
-  step: number;
-}
+interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
 
-export const TodoListForm: FC<Props> = ({ step }) => {
+export const TodoListForm: FC<Props> = ({ activeForm }) => {
   const { todoList } = useAtomValue(bucketFormAtom);
-  const { currentStep } = useBucketFormStep();
   const setBucketTodoList = useSetAtom(setBucketTodoListAtom);
   const [showAddInput, toggleAddInput] = useToggle(false);
   const [isFocusTodo, toggleFocusTodo] = useToggle(false);
@@ -74,17 +70,16 @@ export const TodoListForm: FC<Props> = ({ step }) => {
     setBucketTodoList(todoList.filter((todo) => todo.id !== id));
   };
 
-  const isActiveStep = currentStep === step;
-  const isValidComplete = isActiveStep && todoList.length > 0;
-  const isShowCompleteButton = !isFocusTodo && isActiveStep;
+  const isValidForm = activeForm && todoList.length > 0;
+  const isShowCompleteButton = !isFocusTodo && activeForm;
 
   return (
     <FormTemplate
       useScroll
       title='할일 작성'
       isShowButton={isShowCompleteButton}
-      isValidForm={isValidComplete}
-      active={isActiveStep}
+      isValidForm={isValidForm}
+      activeForm={activeForm}
       usePadding={false}
     >
       <SC.AccountInfoAddPhase>

@@ -92,20 +92,21 @@ export const updateTodoState = async (todoId: number, isComplete: boolean) => {
 export const getBucketQueryKey = (id: string) => [BUCKET_QUERY_KEY, id];
 
 // TODO: todo 쪽 분리하자
-export const useBucket = () => {
+export const useBucket = (id?: string | undefined) => {
   const queryClient = useQueryClient();
   const { replace } = useRouter();
   const { openConfirm, setConfirmLoading } = useConfirm();
   const { bucketId } = useParams() as { bucketId: string };
   const { removeBucketById, updateBucketState } = useBucketList();
+  const bucketIdByKey = id ?? bucketId;
   const {
     data = initData,
     isError,
     ...rest
   } = useQuery<Bucket>({
-    queryKey: getBucketQueryKey(bucketId),
-    queryFn: () => fetchBucket(bucketId),
-    enabled: !!bucketId,
+    queryKey: getBucketQueryKey(bucketIdByKey),
+    queryFn: () => fetchBucket(bucketIdByKey),
+    enabled: !!bucketIdByKey,
   });
 
   //TODO: toast 교체 필요
@@ -117,11 +118,10 @@ export const useBucket = () => {
 
   const removeMutation = useMutation({
     mutationFn: (todoId: number) => {
-      console.log('???' + todoId);
       return deleteTodo(todoId);
     },
   });
-  const saveMutation = useMutation({ mutationFn: (todo: Todo) => saveTodo(bucketId, todo) });
+  const saveMutation = useMutation({ mutationFn: (todo: Todo) => saveTodo(bucketIdByKey, todo) });
   const updateStateMutation = useMutation({
     mutationFn: ({ todoId, isComplete }: { todoId: number; isComplete: boolean }) => {
       return updateTodoState(todoId, isComplete);
@@ -132,7 +132,7 @@ export const useBucket = () => {
     saveMutation.mutate(todo, {
       onSuccess: (todoId: number) => {
         const savedTodo: Todo = Object.assign(todo, { id: todoId });
-        queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketId), (prev) => {
+        queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
           if (prev) {
             prev.todoList = [...prev.todoList, savedTodo];
           }
@@ -146,8 +146,7 @@ export const useBucket = () => {
   const removeTodo = async (todoId: number) => {
     removeMutation.mutate(todoId, {
       onSuccess: () => {
-        console.log('???');
-        queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketId), (prev) => {
+        queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
           if (prev !== undefined) {
             prev.todoList = prev?.todoList.filter((todo) => todoId !== todo.id);
           }
@@ -166,7 +165,7 @@ export const useBucket = () => {
       { todoId: toggleTodo.id, isComplete: !toggleTodo.isComplete },
       {
         onSuccess: () => {
-          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketId), (prev) => {
+          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
             if (prev) {
               prev.todoList = prev.todoList.map((todo) => (toggleTodo.id !== todo.id ? todo : toggleTodo));
             }
@@ -183,11 +182,11 @@ export const useBucket = () => {
 
     if (isConfirm) {
       setConfirmLoading(true);
-      removeBucketMutate.mutate(Number(bucketId), {
+      removeBucketMutate.mutate(Number(bucketIdByKey), {
         onSuccess: () => {
           // 상세 페이지 및 리스트 페이지 캐시 싱크조정
-          queryClient.setQueryData(getBucketQueryKey(bucketId), initData);
-          removeBucketById(Number(bucketId));
+          queryClient.setQueryData(getBucketQueryKey(bucketIdByKey), initData);
+          removeBucketById(Number(bucketIdByKey));
           alert('삭제 되었습니다.');
           replace('/bucket-list');
         },
@@ -202,16 +201,16 @@ export const useBucket = () => {
 
     if (isConfirm) {
       setConfirmLoading(true);
-      completeBucketMutation.mutate(Number(bucketId), {
+      completeBucketMutation.mutate(Number(bucketIdByKey), {
         onSuccess: () => {
           // 상세 페이지 및 리스트 페이지 캐시 싱크조정
-          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketId), (prev) => {
+          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
             if (prev) {
               prev.isComplete = true;
             }
             return prev;
           });
-          updateBucketState(Number(bucketId));
+          updateBucketState(Number(bucketIdByKey));
           alert('목표를 달성하신걸 축하드립니다. :)');
         },
         onError,
@@ -220,11 +219,19 @@ export const useBucket = () => {
     }
   };
 
+  const inValidQuery = (bucketId: string) => {
+    queryClient.invalidateQueries({
+      queryKey: getBucketQueryKey(bucketId),
+      exact: true,
+    });
+  };
+
   return {
     bucket: data,
     ...rest,
     isError,
     isEmpty: data.id === initData.id && !isError,
+    inValidQuery,
     addTodo,
     removeTodo,
     toggleTodoState,

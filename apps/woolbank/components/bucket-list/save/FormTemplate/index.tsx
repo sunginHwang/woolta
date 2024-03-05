@@ -3,15 +3,16 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { Button } from '../../atom/Button';
-import { useBucketFormStep } from '../../bucket-list/save/hooks/useBucketFormStep';
-import { useUpsertBucket } from '../../bucket-list/save/hooks/useUpsertBucket';
-import { bucketFormAtom } from '../../bucket-list/save/store';
-import Header from '../Header';
+import { Button } from '../../../atom/Button';
+import Header from '../../../common/Header';
+import { useBucket } from '../../detail/hooks/useBucket';
+import { useBucketList } from '../../main/hooks/useBucketList';
+import { useBucketFormStep } from '../hooks/useBucketFormStep';
+import { useUpsertBucket } from '../hooks/useUpsertBucket';
+import { bucketFormAtom } from '../store';
 
 interface Props {
-  // 헤더 사용 유무
-  active: boolean;
+  activeForm: boolean;
   title: string;
   usePadding?: boolean;
   useScroll?: boolean;
@@ -22,7 +23,7 @@ interface Props {
 }
 
 export const FormTemplate: FC<Props> = ({
-  active,
+  activeForm,
   title,
   isValidForm,
   usePadding = true,
@@ -35,6 +36,9 @@ export const FormTemplate: FC<Props> = ({
   const { currentStep, goNextStep, goPrevStep, isUpdateMode } = useBucketFormStep();
   const bucketForm = useAtomValue(bucketFormAtom);
   const { upsertBucketMutate } = useUpsertBucket();
+  const { inValidQuery } = useBucket();
+  const { refetch } = useBucketList();
+
   const maxPhase = isUpdateMode ? 3 : 4;
 
   const upsertText = `버킷리스트 ${isUpdateMode ? '수정' : '작성'}`;
@@ -60,6 +64,10 @@ export const FormTemplate: FC<Props> = ({
   const upsertBucket = () => {
     upsertBucketMutate.mutate(bucketForm, {
       onSuccess: ({ data }) => {
+        if (isUpdateMode) {
+          inValidQuery(String(bucketForm.id));
+        }
+        refetch();
         replace(`/bucket-list/${data.bucketListId}`);
         alert(`${upsertText} 되었습니다.`);
       },
@@ -72,8 +80,8 @@ export const FormTemplate: FC<Props> = ({
   const isLastStep = currentStep === maxPhase;
 
   return (
-    <SC.PhaseTemplate active={active}>
-      {active && (
+    <SC.PhaseTemplate active={activeForm}>
+      {activeForm && (
         <Header.Sub
           title={title}
           right={

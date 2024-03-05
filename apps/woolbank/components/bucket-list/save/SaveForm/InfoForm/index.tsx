@@ -1,39 +1,32 @@
-import { useInput } from '@common';
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { FC, KeyboardEvent, memo, useRef, useState } from 'react';
+import React, { ChangeEvent, ComponentProps, FC, KeyboardEvent, memo, useRef } from 'react';
 import styled from 'styled-components';
-import BaseInput from '../../../../components/common/BaseInput';
-import { FormTemplate } from '../../../../components/common/FormTemplate';
-import { useBucketFormStep } from '../hooks/useBucketFormStep';
-import { LabelText } from '../LabelText';
-import { bucketFormAtom, setBucketDefaultInfoAtom } from '../store';
+import BaseInput from '../../../../common/BaseInput';
+import { FormTemplate } from '../../FormTemplate';
+import { useBucketFormStep } from '../../hooks/useBucketFormStep';
+import { LabelText } from '../../LabelText';
+import { bucketFormAtom, setBucketDefaultInfoAtom } from '../../store';
 
-interface Props {
-  step: number;
-}
+interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
 
-export const InfoForm: FC<Props> = memo(({ step }) => {
+export const InfoForm: FC<Props> = memo(({ activeForm }) => {
   const { title, description } = useAtomValue(bucketFormAtom);
-  const { currentStep, goNextStep } = useBucketFormStep();
+  const { goNextStep } = useBucketFormStep();
   const setBucketDefaultInfo = useSetAtom(setBucketDefaultInfoAtom);
 
-  const [bucketListTitle, onBucketListTitleChange, onResetBucketListTitle] = useInput(title);
-  const [detail, setDetail] = useState(description);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const isActiveComplete = bucketListTitle.length > 0 && detail.length > 0;
+  const isValidForm = title.length > 0 && description.length > 0;
 
-  /**
-   * 상세 정보 변경
-   */
-  const onChangeDetail = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDetail(e.target.value);
+  const handleChangeDetail = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setBucketDefaultInfo({ description: e.target.value, title });
   };
 
-  /**
-   * 다음 단계(2/4) 이동
-   */
-  const onCompletePhaseClick = () => {
-    setBucketDefaultInfo({ title: bucketListTitle, description: detail });
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setBucketDefaultInfo({ description, title: e.target.value });
+  };
+
+  const handleClearTitle = () => {
+    setBucketDefaultInfo({ description, title: '' });
   };
 
   const handleTitleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -43,21 +36,13 @@ export const InfoForm: FC<Props> = memo(({ step }) => {
   };
 
   const handleDescriptionEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && isActiveComplete) {
+    if (e.key === 'Enter' && isValidForm) {
       goNextStep();
     }
   };
 
-  const isActiveStep = step === currentStep;
-
   return (
-    <FormTemplate
-      title='기본 정보 작성'
-      isValidForm={isActiveComplete}
-      active={isActiveStep}
-      usePadding={false}
-      onButtonClick={onCompletePhaseClick}
-    >
+    <FormTemplate title='기본 정보 작성' isValidForm={isValidForm} activeForm={activeForm} usePadding={false}>
       <SC.AccountInfoAddPhase>
         <SC.Content>
           <LabelText>어떤 것을 이루고 싶으신가요?</LabelText>
@@ -67,10 +52,10 @@ export const InfoForm: FC<Props> = memo(({ step }) => {
             dataType='text'
             name='title'
             maxLength={30}
-            value={bucketListTitle}
-            onClear={onResetBucketListTitle}
+            value={title}
+            onClear={handleClearTitle}
             onKeyDown={handleTitleEnter}
-            onChange={onBucketListTitleChange}
+            onChange={handleChangeTitle}
           />
           <SC.AddInfo>
             <LabelText>
@@ -88,10 +73,10 @@ export const InfoForm: FC<Props> = memo(({ step }) => {
                 ref={descriptionRef}
                 data-cy='name'
                 name='name'
-                value={detail}
+                value={description}
                 placeholder='내용을 입력하세요.'
                 onKeyDown={handleDescriptionEnter}
-                onChange={onChangeDetail}
+                onChange={handleChangeDetail}
               />
             </SC.BaseTextArea>
           </SC.AddInfo>

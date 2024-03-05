@@ -1,19 +1,18 @@
 import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
-import { CompleteDateForm } from './CompleteDateForm';
-import { ImageForm } from './ImageForm';
-import { InfoForm } from './InfoForm';
-import { bucketFormAtom } from './store';
-import { TodoListForm } from './TodoListForm';
+import { SaveForm } from './SaveForm';
+import { bucketFormAtom, bucketFormStepAtom } from './store';
 
 export const BucketSaveForm = () => {
   return (
     <Provider>
-      <HydrateAtoms initialValues={[[bucketFormAtom, initBucketForm]]}>
-        <InfoForm step={1} />
-        <CompleteDateForm step={2} />
-        <ImageForm step={3} />
-        <TodoListForm step={4} />
+      <HydrateAtoms
+        initialValues={[
+          [bucketFormAtom, initBucketForm],
+          [bucketFormStepAtom, 1],
+        ]}
+      >
+        <SaveForm />
       </HydrateAtoms>
     </Provider>
   );

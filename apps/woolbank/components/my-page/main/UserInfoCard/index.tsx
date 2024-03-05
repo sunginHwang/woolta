@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import Image from 'next/image';
+import { styled } from 'styled-components';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 
 const UserInfoCard = () => {
@@ -9,7 +9,6 @@ const UserInfoCard = () => {
   if (!userInfo) {
     return null;
   }
-  console.log(userInfo);
   return (
     <SC.Container>
       <Text variant='body3' color='graySecondary' as='h3' className='title'>

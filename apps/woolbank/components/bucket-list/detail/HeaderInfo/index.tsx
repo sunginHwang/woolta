@@ -1,6 +1,7 @@
 import { useEventListener, useToggle } from '@common';
 import { SkeletonBar } from '@wds';
 import debounce from 'lodash-es/debounce';
+import { useParams, useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import BotttomSheet from '../../../..//components/common/BotttomSheet';
@@ -34,7 +35,9 @@ export const HeaderInfo = () => {
     removeBucket,
   } = useBucket();
   const { colors } = useTheme();
+  const { push } = useRouter();
   const imgRef = useRef<HTMLDivElement>(null);
+  const { bucketId } = useParams() as { bucketId: string };
   const [showMenuModal, toggleMenuModal] = useToggle(false);
   const [isShowFixedHeader, setFixedHeader] = useState(false);
 
@@ -54,7 +57,7 @@ export const HeaderInfo = () => {
   // 우측 옵션 버튼 클릭
   const onMenuClick = (type: string) => {
     type === 'remove' && removeBucket();
-    // type === 'edit' && history.push(`/bucket-list/save?bucketListId=${bucketId}`);
+    type === 'edit' && push(`/bucket-list/save?bucketId=${bucketId}`);
 
     offMenuModal();
   };

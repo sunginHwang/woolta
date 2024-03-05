@@ -1,9 +1,9 @@
 import { useToggle } from '@common';
 import dayjs from 'dayjs';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useState } from 'react';
-import { dataURLtoFile, getExtensionByDataURL, resizeImage } from '../../../..//utils/file';
-import { bucketFormAtom, setBucketImgAtom } from '../store';
+import { useEffect, useState } from 'react';
+import { dataURLtoFile, getExtensionByDataURL, resizeImage } from '../../../../../utils/file';
+import { bucketFormAtom, setBucketImgAtom } from '../../store';
 
 export const useImageFile = () => {
   const { imageUrl } = useAtomValue(bucketFormAtom);
@@ -12,6 +12,10 @@ export const useImageFile = () => {
   const [previewImage, setPreviewImage] = useState<string>(imageUrl ?? '');
   const [cropImage, setCropImage] = useState<string>('');
   const [useCrop, toggleCrop] = useToggle(false);
+
+  useEffect(() => {
+    setPreviewImage(imageUrl ?? '');
+  }, [imageUrl]);
 
   const setCrop = (cropImage: string) => {
     toggleCrop(true);

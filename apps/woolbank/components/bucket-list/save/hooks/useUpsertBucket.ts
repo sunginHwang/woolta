@@ -2,6 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { postData, putData } from '../../../../utils/api';
 import { BucketForm } from '../store';
 
+const FILE_HEADER = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+};
+
 export const updateBucketList = async (bucketListForm: BucketForm) => {
   const data = await new FormData();
   data.append('title', bucketListForm.title);
@@ -13,15 +19,11 @@ export const updateBucketList = async (bucketListForm: BucketForm) => {
   }
 
   if (bucketListForm?.id && bucketListForm?.id > 0) {
-    return putData<{ bucketListId: number }>(`/bucket-list/${bucketListForm.id}`, data);
+    return putData<{ bucketListId: number }>(`/bucket-list/${bucketListForm.id}`, data, FILE_HEADER);
   }
 
   data.append('todoList', JSON.stringify(bucketListForm.todoList));
-  return postData<{ bucketListId: number }>('/bucket-list', data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return postData<{ bucketListId: number }>('/bucket-list', data, FILE_HEADER);
 };
 
 export const useUpsertBucket = () => {

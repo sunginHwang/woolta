@@ -23,11 +23,6 @@ export function useInputs<T extends object>(defaultValues: T) {
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-
-      console.log('-s--');
-      console.log(name);
-      console.log(value);
-      console.log('-e--');
       setInput(name as NameType, value);
     },
     [setInput],
