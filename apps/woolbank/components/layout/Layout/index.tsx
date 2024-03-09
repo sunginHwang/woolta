@@ -1,11 +1,11 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 //import Header from '../Header';
 import NavigationBar from '../NavigationBar';
-import { usePathname, useRouter } from 'next/navigation';
 
-const NAVIGATION_PATHS = ['/account-books', '/bucket-list1'];
+const NAVIGATION_PATHS = ['/account-books', '/bucket-list'];
 
 interface Props extends PropsWithChildren {
   useNavBar?: boolean;

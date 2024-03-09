@@ -1,3 +1,4 @@
+import { mergeRefs } from '@common';
 import { Text, typography } from '@wds';
 import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { styled } from 'styled-components';
@@ -103,7 +104,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             </Text>
           )}
           <input
-            ref={inputRef}
+            ref={mergeRefs([inputRef, parentRef])}
             data-cy={name}
             type={type}
             name={name}
