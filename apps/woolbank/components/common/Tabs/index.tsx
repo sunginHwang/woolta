@@ -41,12 +41,12 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
   };
 
   return (
-    <SC.Tabs data-cy='tabs' stickeyHeight={stickeyHeight} {...rest}>
+    <SC.Tabs data-cy='tabs' stickeyheight={stickeyHeight} {...rest}>
       {tabs.map((tab, index) => {
         if (tab.link) {
           return (
             <Link replace href={tab?.link} key={tab.value}>
-              <SC.Tab active={tab.value === value} data-cy={tab.label} onClick={() => onTabClick(tab, index)}>
+              <SC.Tab $isActive={tab.value === value} data-cy={tab.label} onClick={() => onTabClick(tab, index)}>
                 {tab.label}
               </SC.Tab>
             </Link>
@@ -55,7 +55,7 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
         return (
           <SC.Tab
             key={tab.value}
-            active={tab.value === value}
+            $isActive={tab.value === value}
             data-cy={tab.label}
             onClick={() => onTabClick(tab, index)}
           >
@@ -71,17 +71,17 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
 export default Tabs;
 
 const SC = {
-  Tabs: styled.div<{ stickeyHeight?: string }>`
+  Tabs: styled.div<{ stickeyheight?: string }>`
     width: 100%;
     height: 4.8rem;
     background-color: ${({ theme }) => theme.colors.white};
     position: relative;
     display: flex;
-    ${({ stickeyHeight }) =>
-      stickeyHeight &&
+    ${({ stickeyheight }) =>
+      stickeyheight &&
       css`
         position: sticky;
-        top: ${stickeyHeight};
+        top: ${stickeyheight};
         z-index: 10;
       `}
 
@@ -90,12 +90,12 @@ const SC = {
       cursor: pointer;
     }
   `,
-  Tab: styled.button<{ active: boolean }>`
+  Tab: styled.button<{ $isActive: boolean }>`
     ${typography.title5Medium}
     width: 100%;
     height: 100%;
-    border-bottom: ${({ active, theme }) => (active ? '' : `.2rem solid ${theme.colors.gray300}`)};
-    color: ${({ active, theme }) => (active ? theme.colors.orangePrimary : theme.colors.grayInactive)};
+    border-bottom: ${({ $isActive, theme }) => ($isActive ? '' : `.2rem solid ${theme.colors.gray300}`)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.grayInactive)};
   `,
   BottomLine: styled.span<{
     width: number;

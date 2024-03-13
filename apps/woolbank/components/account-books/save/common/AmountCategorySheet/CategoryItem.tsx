@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { FC } from 'react';
+import { styled } from 'styled-components';
 import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
 
 interface Props {
@@ -19,18 +19,18 @@ const CategoryItem: FC<Props> = ({ accountBookCategory, isActive, onSelect }) =>
   };
 
   return (
-    <SC.AccountBookCategoryItem isActive={isActive} onClick={handleCategoryClick}>
+    <SC.AccountBookCategoryItem $isActive={isActive} onClick={handleCategoryClick}>
       {accountBookCategory.name}
     </SC.AccountBookCategoryItem>
   );
 };
 
 const SC = {
-  AccountBookCategoryItem: styled.div<{ isActive: boolean }>`
+  AccountBookCategoryItem: styled.div<{ $isActive: boolean }>`
     height: 6rem;
     font-size: 1.2rem;
     color: ${({ theme }) => theme.colors.gray800};
-    background-color: ${({ theme, isActive }) => (isActive ? theme.colors.gray100 : theme.colors.white)};
+    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.gray100 : theme.colors.white)};
     display: flex;
     justify-content: center;
     align-items: center;

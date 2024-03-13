@@ -1,6 +1,6 @@
-import { styled, useTheme } from 'styled-components';
 import { safeAreaInsetMarginBottom } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
+import { styled, useTheme } from 'styled-components';
 import Deem from '../../atom/Deem';
 import { IconClose } from '../../atom/Icon';
 
@@ -19,7 +19,7 @@ const DefaultBottomSheet: FC<Props> = ({ visible, title, showCloseBtn = true, ch
 
   return (
     <Deem visible={visible} onDeemClick={oncloseModal}>
-      <SC.BottomModal visible={visible}>
+      <SC.BottomModal $isActive={visible}>
         <SC.Header>
           <p>{title}</p>
           {showCloseBtn && (
@@ -52,14 +52,14 @@ const SC = {
     max-height: 27rem;
     overflow-y: scroll;
   `,
-  BottomModal: styled.div<{ visible: boolean }>`
+  BottomModal: styled.div<{ $isActive: boolean }>`
     position: fixed;
     width: 100%;
     transition: all 0.3s ease;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     text-align: center;
-    transform: translateY(${({ visible }) => (visible ? '0' : '40rem')});
+    transform: translateY(${({ $isActive }) => ($isActive ? '0' : '40rem')});
     background-color: ${({ theme }) => theme.colors.white};
     z-index: ${({ theme }) => theme.zIndex.modalDeem + 1};
     box-shadow: 0.1rem 0.3rem 1rem 0.2rem rgba(0, 0, 0, 0.2);

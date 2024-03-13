@@ -60,7 +60,7 @@ export const TodoInput: FC<Props> = ({ onAdd, onClose, onFocusIn, onFocusOut }) 
       </S.Input>
       <S.Footer>
         <S.Button onClick={onAddTodo}>작업 추가</S.Button>
-        <S.Button onClick={onClose} isCancel>
+        <S.Button onClick={onClose} $isCancel>
           취소
         </S.Button>
       </S.Footer>
@@ -69,15 +69,15 @@ export const TodoInput: FC<Props> = ({ onAdd, onClose, onFocusIn, onFocusOut }) 
 };
 
 type ButtonProps = {
-  isCancel?: boolean;
+  $isCancel?: boolean;
 };
 const S = {
   Button: styled.button<ButtonProps>`
     padding: 0.7rem 1rem;
     border-radius: 0.5rem;
     font-size: 1.2rem;
-    background-color: ${({ theme, isCancel }) => (isCancel ? theme.colors.white : theme.colors.red500)};
-    color: ${({ theme, isCancel }) => (isCancel ? theme.colors.black : theme.colors.white)};
+    background-color: ${({ theme, $isCancel }) => ($isCancel ? theme.colors.white : theme.colors.red500)};
+    color: ${({ theme, $isCancel }) => ($isCancel ? theme.colors.black : theme.colors.white)};
   `,
   Footer: styled.div`
     display: flex;

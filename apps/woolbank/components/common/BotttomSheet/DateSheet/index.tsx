@@ -19,7 +19,7 @@ const DateSheet: FC<Props> = ({ date, visible, onDateChange, onclose }) => {
 
   return (
     <Deem visible={visible} onDeemClick={onclose}>
-      <SC.DateModal visible={visible}>
+      <SC.DateModal $isActive={visible}>
         <Calendar value={date} showFixedNumberOfWeeks onChange={handleCalendarChange} />
       </SC.DateModal>
     </Deem>
@@ -30,11 +30,11 @@ export default DateSheet;
 
 const SC = {
   DateModal: styled.div<{
-    visible: boolean;
+    $isActive: boolean;
   }>`
     ${calendarStyle}
     position: fixed;
-    bottom: ${({ visible }) => (visible ? '0' : '-30rem')};
+    bottom: ${({ $isActive }) => ($isActive ? '0' : '-30rem')};
     width: 100%;
     transition: all 0.3s ease;
     border-top-left-radius: 2rem;

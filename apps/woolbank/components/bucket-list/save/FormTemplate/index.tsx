@@ -80,7 +80,7 @@ export const FormTemplate: FC<Props> = ({
   const isLastStep = currentStep === maxPhase;
 
   return (
-    <SC.PhaseTemplate active={activeForm}>
+    <SC.PhaseTemplate $isActive={activeForm}>
       {activeForm && (
         <Header.Sub
           title={title}
@@ -92,7 +92,7 @@ export const FormTemplate: FC<Props> = ({
           onBackClick={handleBackClick}
         />
       )}
-      <SC.Content useScroll={useScroll} usePadding={usePadding}>
+      <SC.Content $useScroll={useScroll} $usePadding={usePadding}>
         {children}
       </SC.Content>
       {isShowButton && (
@@ -113,22 +113,22 @@ export const FormTemplate: FC<Props> = ({
 };
 
 type ContentProps = {
-  usePadding: boolean;
-  useScroll: boolean;
+  $usePadding: boolean;
+  $useScroll: boolean;
 };
 const SC = {
-  PhaseTemplate: styled.div<{ active: boolean }>`
+  PhaseTemplate: styled.div<{ $isActive: boolean }>`
     width: 100%;
     position: relative;
     position: fixed;
     top: 0;
-    right: ${({ active }) => (active ? 0 : '-100%')};
+    right: ${({ $isActive }) => ($isActive ? 0 : '-100%')};
     z-index: ${({ theme }) => theme.zIndex.phase};
     transition: all 0.3s ease 0s;
   `,
   Content: styled.div<ContentProps>`
-    padding: ${({ usePadding }) => (usePadding ? '0 2rem 0 2rem' : '0 0 0 0')};
-    overflow-y: ${({ useScroll }) => (useScroll ? 'scroll' : 'hidden')};
+    padding: ${({ $usePadding }) => ($usePadding ? '0 2rem 0 2rem' : '0 0 0 0')};
+    overflow-y: ${({ $useScroll }) => ($useScroll ? 'scroll' : 'hidden')};
     min-height: calc(100vh - 5.5rem);
     height: 100%;
     background-color: ${({ theme }) => theme.colors.white};

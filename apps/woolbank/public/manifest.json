@@ -39,7 +39,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "https://banketlist.woolta.com",
+  "start_url": "http://localhost:4200/",
   "description": "혜진이랑 성인이랑 만든 부부앱!!",
   "display": "fullscreen",
   "orientation": "portrait",

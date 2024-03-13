@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { Text, safeAreaInsetMarginBottom } from '@wds';
 import { FC } from 'react';
+import { styled } from 'styled-components';
 import { BottomMenu } from '.';
 
 interface Props {
@@ -25,7 +25,7 @@ const Menu: FC<Props> = ({ menu, isActive, onMenuSelect }) => {
       color='gray700'
       alignment='left'
       key={menu.type}
-      isActive={isActive}
+      $isActive={isActive}
       onClick={onClick}
       as='li'
     >
@@ -37,9 +37,9 @@ const Menu: FC<Props> = ({ menu, isActive, onMenuSelect }) => {
 export default Menu;
 
 const SC = {
-  Menu: styled(Text)<{ isActive: boolean }>`
+  Menu: styled(Text)<{ $isActive: boolean }>`
     padding: 1.4rem;
-    background-color: ${({ isActive, theme }) => (isActive ? theme.colors.gray200 : theme.colors.white)};
+    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.gray200 : theme.colors.white)};
     border-radius: 0.8rem;
 
     &:last-child {

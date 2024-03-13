@@ -66,7 +66,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const buttonClassName = ['button-info', variant, size, className].join(' ');
 
     return (
-      <SC.BaseButton fill={fill}>
+      <SC.BaseButton $isFull={fill}>
         <button disabled={disabled} className={buttonClassName} ref={ref} {...props}>
           {!loading && (
             <>
@@ -87,10 +87,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 const SC = {
-  BaseButton: styled.div<{ fill?: boolean }>`
-    ${({ fill }) => fill && 'width: 100%;'}
+  BaseButton: styled.div<{ $isFull?: boolean }>`
+    ${({ $isFull }) => $isFull && 'width: 100%;'}
     .button-info {
-      ${({ fill }) => fill && 'width: 100%;'}
+      ${({ $isFull }) => $isFull && 'width: 100%;'}
       border-radius: 0.8rem;
       display: inline-flex;
       align-items: center;

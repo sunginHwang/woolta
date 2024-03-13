@@ -94,10 +94,11 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             pattern: '[0-9]*',
           }
         : {};
+    const valueProps = onChange ? { value, onChange } : { defaultValue: value };
 
     return (
       <>
-        <SC.Container ref={parentRef} focus={focus} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+        <SC.Container ref={parentRef} $isFocus={focus} onClick={onClick} data-type={dataType === '' ? name : dataType}>
           {label && (
             <Text variant='small1Regular' color={focus ? 'orangePrimary' : 'gray600'} as='label' mb={8}>
               {label}
@@ -108,15 +109,14 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             data-cy={name}
             type={type}
             name={name}
-            value={value}
             maxLength={maxLength}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
-            onChange={onChange}
             autoComplete='off'
             disabled={disable}
             readOnly={readOnly}
+            {...valueProps}
             {...defaultProps}
             {...restInputProps}
           />
@@ -137,7 +137,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
 );
 
 const SC = {
-  Container: styled.div<{ focus: boolean }>`
+  Container: styled.div<{ $isFocus: boolean }>`
     display: flex;
     flex-direction: column;
     position: relative;
@@ -146,7 +146,7 @@ const SC = {
     input {
       ${typography.body4Regular}
       border: 0.1rem solid ${({ theme }) => theme.colors.gray150};
-      background-color: ${({ focus, theme }) => (focus ? '#F5EFF4' : theme.colors.gray150)};
+      background-color: ${({ $isFocus, theme }) => ($isFocus ? '#F5EFF4' : theme.colors.gray150)};
       border-radius: 0.8rem;
       padding: 0 1rem;
       height: 4rem;

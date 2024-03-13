@@ -24,7 +24,7 @@ interface Props extends PropsWithChildren {
  */
 const Header: FC<Props> = ({ title, right, bgColor = white }) => {
   return (
-    <SC.Container bgColor={bgColor}>
+    <SC.Container color={bgColor}>
       <div className='inner'>
         <Text variant='title4Bold' color='grayPrimary' data-cy='title'>
           {title}
@@ -36,7 +36,7 @@ const Header: FC<Props> = ({ title, right, bgColor = white }) => {
 };
 
 const SC = {
-  Container: styled.header<{ bgColor: string }>`
+  Container: styled.header<{ color: string }>`
     position: sticky;
     left: 0;
     top: 0;
@@ -49,7 +49,7 @@ const SC = {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: ${({ bgColor }) => bgColor};
+      background-color: ${({ color }) => color};
     }
   `,
   rightHeader: styled.div`

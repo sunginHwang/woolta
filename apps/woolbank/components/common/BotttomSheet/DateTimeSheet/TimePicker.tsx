@@ -45,10 +45,10 @@ const TimePicker: FC<Props> = ({ time, onChangeTime }) => {
     <SC.TimePicker>
       <div>
         <SC.AmPm>
-          <SC.AmPmItem isActive={isAm} onClick={() => toggleAm(true)}>
+          <SC.AmPmItem $isActive={isAm} onClick={() => toggleAm(true)}>
             오전
           </SC.AmPmItem>
-          <SC.AmPmItem isActive={!isAm} onClick={() => toggleAm(false)}>
+          <SC.AmPmItem $isActive={!isAm} onClick={() => toggleAm(false)}>
             오후
           </SC.AmPmItem>
         </SC.AmPm>
@@ -83,10 +83,10 @@ const TimePicker: FC<Props> = ({ time, onChangeTime }) => {
 };
 
 const SC = {
-  AmPmItem: styled.span<{ isActive: boolean }>`
-    color: ${({ isActive, theme }) => (isActive ? theme.colors.black : theme.colors.gray150)};
-    font-weight: ${({ isActive }) => (isActive ? 700 : 400)};
-    font-size: ${({ isActive }) => (isActive ? '2rem' : '1.6rem')};
+  AmPmItem: styled.span<{ $isActive: boolean }>`
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.black : theme.colors.gray150)};
+    font-weight: ${({ $isActive }) => ($isActive ? 700 : 400)};
+    font-size: ${({ $isActive }) => ($isActive ? '2rem' : '1.6rem')};
   `,
   TimePicker: styled.div`
     padding: 0 2rem;

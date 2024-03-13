@@ -84,7 +84,7 @@ export const HeaderInfo = () => {
         position='fixed'
         useSkeleton={!isShowFixedHeader}
       />
-      <SC.ImageInfo ref={imgRef} imgUrl={imageUrl ?? ''}>
+      <SC.ImageInfo ref={imgRef} $imgUrl={imageUrl ?? ''}>
         <div>
           {isFetching ? <SkeletonBar width='15rem' height='4.4rem' /> : <h2>{title}</h2>}
           <Progress label={remainDay} labelPrefix='D-' percent={remainPercent} color={colors.red500} />
@@ -110,9 +110,9 @@ function getScrollTop() {
 }
 
 const SC = {
-  ImageInfo: styled.div<{ imgUrl: string }>`
+  ImageInfo: styled.div<{ $imgUrl: string }>`
     background-color: ${({ theme }) => theme.colors.gray800};
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url(${({ imgUrl }) => imgUrl}), no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url(${({ $imgUrl }) => $imgUrl}), no-repeat;
     background-size: cover;
     width: 100%;
     height: 40vh;
