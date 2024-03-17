@@ -42,11 +42,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Suspense fallback={<div></div>}>
           <Providers>{children}</Providers>
-          <div id='modalDeem' />
         </Suspense>
+        <div id='modalDeem' />
       </body>
     </html>
   );
 }
-
-//가계부리스트에서 상세 가계부 가고 뒤로가기 하면 suspenses동작으로 인한 부자연스러움 처리 필요
