@@ -1,7 +1,7 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
+import { styled } from 'styled-components';
 import { DateRange } from '../../../../../utils/date';
 import { AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../store';
 import DateFilter from './DateFilter';
@@ -64,11 +64,5 @@ const SC = {
     height: 0.7rem;
 
     margin-top: 2rem;
-  `,
-  Label: styled(Text)`
-    border-radius: 1.3rem;
-    padding: 0.8rem 1.5rem;
-    background-color: ${({ theme }) => theme.colors.gray150};
-    margin-right: 1rem;
   `,
 };

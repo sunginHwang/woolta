@@ -106,6 +106,5 @@ function getInnerLabel(e: any) {
 const SC = {
   Container: styled.div`
     height: 30rem;
-    margin: 0 -2rem;
   `,
 };

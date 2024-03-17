@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { FC, HTMLAttributes } from 'react';
+import { styled } from 'styled-components';
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
   text: string;
@@ -12,8 +12,10 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
  */
 const Label: FC<Props> = ({ text, ...rest }) => {
   return (
-    <SC.Label variant='small1Regular' color='gray900' as='span' {...rest}>
-      {text}
+    <SC.Label>
+      <Text variant='small1Regular' color='gray900' as='span' {...rest}>
+        {text}
+      </Text>
     </SC.Label>
   );
 };
@@ -21,7 +23,8 @@ const Label: FC<Props> = ({ text, ...rest }) => {
 export default Label;
 
 const SC = {
-  Label: styled(Text)`
+  Label: styled.div`
+    display: inline;
     border-radius: 1.3rem;
     padding: 0.8rem 1.5rem;
     background-color: ${({ theme }) => theme.colors.gray150};

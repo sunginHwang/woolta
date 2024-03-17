@@ -52,7 +52,7 @@ const DateFilter: FC<Props> = ({ startDate, endDate, dateRange, onDateChange }) 
       />
       <BotttomSheet.Date
         visible={isOpenModal && dateRange === 'week'}
-        onModalclose={toggleModal}
+        onclose={toggleModal}
         onDateChange={onDateModalClick}
         date={startDate.toDate()}
       />
