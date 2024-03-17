@@ -68,15 +68,23 @@ export const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseText
   children,
 }) => {
   return (
-    <Base as={as} variant={variant} color={color} alignment={alignment} mt={mt} mb={mb} ml={ml} mr={mr}>
+    <Base as={as} $variant={variant} $color={color} $alignment={alignment} $mt={mt} $mb={mb} $ml={ml} $mr={mr}>
       {children}
     </Base>
   );
 };
 
-const Base = styled.span<Required<Pick<BaseTextProps, 'variant' | 'color' | 'alignment' | 'mt' | 'ml' | 'mr' | 'mb'>>>`
-  ${({ variant }) => typography[variant]};
-  ${({ color, theme }) => color && `color: ${theme.colors[color]}`};
-  ${({ alignment }) => `text-align: ${alignment}`};
-  ${({ mt, ml, mb, mr }) => `margin: ${mt}px ${mr}px ${mb}px ${ml}px;`}
+const Base = styled.span<{
+  $mt: number;
+  $mb: number;
+  $ml: number;
+  $mr: number;
+  $color: ColorType;
+  $variant: FontVarient;
+  $alignment: Alignment;
+}>`
+  ${({ $variant }) => typography[$variant]};
+  ${({ $color, theme }) => $color && `color: ${theme.colors[$color]}`};
+  ${({ $alignment }) => `text-align: ${$alignment}`};
+  ${({ $mt, $ml, $mb, $mr }) => `margin: ${$mt}px ${$mr}px ${$mb}px ${$ml}px;`}
 `;

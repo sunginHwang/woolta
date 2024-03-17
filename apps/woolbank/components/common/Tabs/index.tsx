@@ -41,7 +41,7 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
   };
 
   return (
-    <SC.Tabs data-cy='tabs' stickeyheight={stickeyHeight} {...rest}>
+    <SC.Tabs data-cy='tabs' $stickeyheight={stickeyHeight} {...rest}>
       {tabs.map((tab, index) => {
         if (tab.link) {
           return (
@@ -63,7 +63,7 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
           </SC.Tab>
         );
       })}
-      <SC.BottomLine width={indicatorWidth} left={indicatorLeftPosition} />
+      <SC.BottomLine $width={indicatorWidth} $left={indicatorLeftPosition} />
     </SC.Tabs>
   );
 };
@@ -71,17 +71,17 @@ const Tabs: FC<Props> = ({ tabs, value, stickeyHeight, onChange, ...rest }) => {
 export default Tabs;
 
 const SC = {
-  Tabs: styled.div<{ stickeyheight?: string }>`
+  Tabs: styled.div<{ $stickeyheight?: string }>`
     width: 100%;
     height: 4.8rem;
     background-color: ${({ theme }) => theme.colors.white};
     position: relative;
     display: flex;
-    ${({ stickeyheight }) =>
-      stickeyheight &&
+    ${({ $stickeyheight }) =>
+      $stickeyheight &&
       css`
         position: sticky;
-        top: ${stickeyheight};
+        top: ${$stickeyheight};
         z-index: 10;
       `}
 
@@ -98,12 +98,12 @@ const SC = {
     color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.grayInactive)};
   `,
   BottomLine: styled.span<{
-    width: number;
-    left: number;
+    $width: number;
+    $left: number;
   }>`
     bottom: -0.1rem;
-    width: ${({ width }) => width}px;
-    left: ${({ left }) => left}px;
+    width: ${({ $width }) => $width}px;
+    left: ${({ $left }) => $left}px;
     height: 0.2rem;
     position: absolute;
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;

@@ -31,7 +31,7 @@ export const TodoInfo = memo(() => {
 
   return (
     <SC.BucketTodoInfo>
-      <Text className='title' variant='title2Bold' color='gray800' as='h3'>
+      <Text className='title' variant='title2Bold' color='gray800' as='h3' mb={20}>
         할일목록
       </Text>
       {isLoading && <Skeleton />}
@@ -60,9 +60,5 @@ const SC = {
   BucketTodoInfo: styled.div`
     padding: 2rem;
     background-color: ${({ theme }) => theme.colors.white};
-
-    .title {
-      margin-bottom: 2rem;
-    }
   `,
 };

@@ -43,7 +43,7 @@ const SubHeader: FC<Props> = ({
   }, [back, onBackClick]);
 
   return (
-    <SC.HeaderWithBack position={position} $useSkeleton={useSkeleton}>
+    <SC.HeaderWithBack $position={position} $useSkeleton={useSkeleton}>
       <div className='inner'>
         {useBackButton && (
           <div className='side' onClick={handleBackClick}>
@@ -60,8 +60,8 @@ const SubHeader: FC<Props> = ({
 };
 
 const SC = {
-  HeaderWithBack: styled.header<{ $useSkeleton?: boolean; position: string }>`
-    position: ${({ position }) => position};
+  HeaderWithBack: styled.header<{ $useSkeleton?: boolean; $position: string }>`
+    position: ${({ $position }) => $position};
     left: 0;
     top: 0;
     width: 100%;
