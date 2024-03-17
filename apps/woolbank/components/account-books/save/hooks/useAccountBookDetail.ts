@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
+import { useToast } from '../../../../hooks/useToast';
 import { deleteData, getData, postData, putData } from '../../../../utils/api';
 import { selectedAccountBookDateAtom } from '../../main/AccountList/store';
-import { AccountBook, useAccountBookList } from '../../main/hooks/useAccountBookList';
+import { useAccountBookList } from '../../main/hooks/useAccountBookList';
 import { AccountBookSaveForm } from '../AccountBookForm/hooks/useAccountBookForm';
 import { AccountBookCategoryType } from './useAccountBookCategories';
 
@@ -84,6 +85,7 @@ export const fetchAccountBookDetail = async (id: string | null) => {
 
 export const useAccountBookDetail = (id: string | null) => {
   const { back } = useRouter();
+  const { onToast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({ mutationFn: deleteAccountBook });
   const updateMutation = useMutation({ mutationFn: updateAccountBook });
@@ -109,7 +111,7 @@ export const useAccountBookDetail = (id: string | null) => {
           }
           back();
         },
-        onError: () => alert('다시 시도해 주세요.'),
+        onError: () => onToast('다시 시도해 주세요.'),
       });
     } else {
       updateMutation.mutate(accountBookForm, {
@@ -117,9 +119,9 @@ export const useAccountBookDetail = (id: string | null) => {
           // 수정 후 상세 및 리스트 갱신
           queryClient.setQueryData<AccountBookDetail>(getQueryKey(id), () => convertDate(updatedAccountBook));
           updateAccountBookList(convertDate(updatedAccountBook));
-          alert('수정되었습니다.');
+          onToast('수정되었습니다.');
         },
-        onError: () => alert('다시 시도해 주세요.'),
+        onError: () => onToast('다시 시도해 주세요.'),
       });
     }
   };
@@ -132,10 +134,10 @@ export const useAccountBookDetail = (id: string | null) => {
         queryClient.setQueryData(getQueryKey(id), () => {
           return null;
         });
-        alert('정상적으로 삭제되었습니다.');
+        onToast('정상적으로 삭제되었습니다.');
         back();
       },
-      onError: () => alert('다시 시도해 주세요.'),
+      onError: () => onToast('다시 시도해 주세요.'),
     });
   };
 

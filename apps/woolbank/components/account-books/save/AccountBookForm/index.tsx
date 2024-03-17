@@ -1,9 +1,11 @@
 import { FC, MouseEvent, useEffect, useRef, KeyboardEvent, useState } from 'react';
 import { styled } from 'styled-components';
+import { useConfirm } from '../../../..//components/common/Confirm/ConfirmContext';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import BaseInput from '../../../../components/common/BaseInput';
 import ToggleTab from '../../../../components/common/ToggleTab';
+import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import FormModal from './FormModal';
@@ -38,6 +40,8 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     setRegisterDateTime,
     onClear,
   } = useAccountBookForm(accountBookForm);
+  const { openConfirm } = useConfirm();
+  const { onToast } = useToast();
   const { is_insert_mode } = useAccountBookSaveRouterProps();
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
@@ -61,7 +65,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
 
     if (!isValid) {
-      alert(message);
+      onToast(message);
       return;
     }
 
@@ -75,8 +79,14 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
-  const handleRemoveClick = () => {
-    if (accountBookForm?.id) {
+  const handleRemoveClick = async () => {
+    if (!accountBookForm?.id) {
+      return;
+    }
+
+    const isConfirm = await openConfirm({ message: '정말 삭제 하시겠습니까?' });
+
+    if (isConfirm) {
       removeAccountBookForm(String(accountBookForm.id));
     }
   };

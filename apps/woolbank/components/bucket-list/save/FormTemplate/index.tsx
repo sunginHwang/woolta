@@ -3,6 +3,7 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { useToast } from '../../../../hooks/useToast';
 import { Button } from '../../../atom/Button';
 import Header from '../../../common/Header';
 import { useBucket } from '../../detail/hooks/useBucket';
@@ -38,6 +39,7 @@ export const FormTemplate: FC<Props> = ({
   const { upsertBucketMutate } = useUpsertBucket();
   const { inValidQuery } = useBucket();
   const { refetch } = useBucketList();
+  const { onToast } = useToast();
 
   const maxPhase = isUpdateMode ? 3 : 4;
 
@@ -69,10 +71,10 @@ export const FormTemplate: FC<Props> = ({
         }
         refetch();
         replace(`/bucket-list/${data.bucketListId}`);
-        alert(`${upsertText} 되었습니다.`);
+        onToast(`${upsertText} 되었습니다.`);
       },
       onError: () => {
-        alert(`${upsertText}에 실패하였습니다. 다시 시도해주세요`);
+        onToast(`${upsertText}에 실패하였습니다. 다시 시도해주세요`);
       },
     });
   };

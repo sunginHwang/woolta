@@ -1,6 +1,7 @@
-import { styled, useTheme } from 'styled-components';
 import { Text } from '@wds';
 import { FC } from 'react';
+import { styled, useTheme } from 'styled-components';
+import { useToast } from '../../../../../hooks/useToast';
 import { getRemainDay } from '../../../../../utils/date';
 import { IconTrashCan } from '../../../../atom/Icon';
 import { useConfirm } from '../../../../common/Confirm/ConfirmContext';
@@ -25,6 +26,7 @@ const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
   const isAccentRemainDay = remainDay <= 3;
 
   const { colors } = useTheme();
+  const { onToast } = useToast();
   const { openConfirm, setConfirmLoading } = useConfirm();
   const { removeRegularExtentureItem, removeeRegularExtentureMutate } = useRegularExtentureList();
   const { moveX, setMoveX, handleTouchStart, handleTouchMove, handleTouchEnd } = useTouchSlide();
@@ -41,11 +43,10 @@ const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
       setConfirmLoading(true);
       removeeRegularExtentureMutate.mutate(id, {
         onSuccess: () => {
-          //TODO: toast 교체 필요
-          alert('삭제 되었습니다.');
+          onToast('삭제 되었습니다.');
           removeRegularExtentureItem(type, id);
         },
-        onError: () => alert('다시 시도해 주세요.'),
+        onError: () => onToast('다시 시도해 주세요.'),
         onSettled: () => setConfirmLoading(false),
       });
     }

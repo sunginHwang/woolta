@@ -2,16 +2,18 @@ import { useToggle } from '@common';
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { ComponentProps, FC, useRef } from 'react';
 import styled from 'styled-components';
-import { FormTemplate } from '../../FormTemplate';
+import { useToast } from '../../../../../hooks/useToast';
 import { TodoAddButton } from '../../../common/TodoAddButton';
 import TodoInput from '../../../common/TodoInput';
 import { TodoListItem } from '../../../common/TodoListItem';
+import { FormTemplate } from '../../FormTemplate';
 import { LabelText } from '../../LabelText';
 import { Todo, bucketFormAtom, setBucketTodoListAtom } from '../../store';
 
 interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
 
 export const TodoListForm: FC<Props> = ({ activeForm }) => {
+  const { onToast } = useToast();
   const { todoList } = useAtomValue(bucketFormAtom);
   const setBucketTodoList = useSetAtom(setBucketTodoListAtom);
   const [showAddInput, toggleAddInput] = useToggle(false);
@@ -30,8 +32,7 @@ export const TodoListForm: FC<Props> = ({ activeForm }) => {
     const isExistTodo = todoList.some((todo) => todo.title === title);
 
     if (isExistTodo) {
-      // TODO: toast 치환 필요
-      alert('동일한 할일이 존재합니다.');
+      onToast('동일한 할일이 존재합니다.');
       return;
     }
 

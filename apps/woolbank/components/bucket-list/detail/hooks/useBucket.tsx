@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
+import { useToast } from '../../../../hooks/useToast';
 import { deleteData, getData, postData, putData } from '../../../../utils/api';
 import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { useBucketList } from '../../main/hooks/useBucketList';
@@ -95,6 +96,7 @@ export const getBucketQueryKey = (id: string) => [BUCKET_QUERY_KEY, id];
 export const useBucket = (id?: string | undefined) => {
   const queryClient = useQueryClient();
   const { replace } = useRouter();
+  const { onToast } = useToast();
   const { openConfirm, setConfirmLoading } = useConfirm();
   const { bucketId } = useParams() as { bucketId: string };
   const { removeBucketById, updateBucketState } = useBucketList();
@@ -109,8 +111,7 @@ export const useBucket = (id?: string | undefined) => {
     enabled: !!bucketIdByKey,
   });
 
-  //TODO: toast 교체 필요
-  const onError = () => alert(ERROR_MSG);
+  const onError = () => onToast(ERROR_MSG);
   const onSettled = () => setConfirmLoading(false);
 
   const removeBucketMutate = useMutation({ mutationFn: deleteBucket });
@@ -187,7 +188,7 @@ export const useBucket = (id?: string | undefined) => {
           // 상세 페이지 및 리스트 페이지 캐시 싱크조정
           queryClient.setQueryData(getBucketQueryKey(bucketIdByKey), initData);
           removeBucketById(Number(bucketIdByKey));
-          alert('삭제 되었습니다.');
+          onToast('삭제 되었습니다.');
           replace('/bucket-list');
         },
         onError,
@@ -211,7 +212,7 @@ export const useBucket = (id?: string | undefined) => {
             return prev;
           });
           updateBucketState(Number(bucketIdByKey));
-          alert('목표를 달성하신걸 축하드립니다. :)');
+          onToast('목표를 달성하신걸 축하드립니다. :)');
         },
         onError,
         onSettled,
