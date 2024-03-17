@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx serve woolbank",
+    "startTime": "2024-03-17T01:39:39.035Z",
+    "endTime": "2024-03-17T01:39:39.833Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "woolbank:serve:development",
+      "target": "serve",
+      "projectName": "woolbank",
+      "hash": "2643695967225996963",
+      "startTime": "2024-03-17T01:39:39.040Z",
+      "endTime": "2024-03-17T01:39:39.833Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
+}
