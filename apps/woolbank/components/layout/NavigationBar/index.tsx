@@ -39,7 +39,7 @@ const navigations: { name: string; value: string; link: string; icon: ReactNode 
   {
     name: '내 정보',
     value: 'me',
-    link: '/mypage',
+    link: '/my-page',
     icon: <IconAccountOutline />,
   },
 ];
