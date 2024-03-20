@@ -1,10 +1,10 @@
 'use client';
 
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import AccountBookList from '../components/account-books/main';
-import { getData } from '../utils/api';
+import { Statistic } from '../..//components/account-book-statistic/Statistic';
+import { getData } from '../../utils/api';
 
-export default async function AccountBooks() {
+export default async function RegularExtenditurePage() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['getAccountBookCategories'],
@@ -24,7 +24,7 @@ export default async function AccountBooks() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AccountBookList />
+      <Statistic />
     </HydrationBoundary>
   );
 }

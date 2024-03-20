@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { FC } from 'react';
-import BotttomSheet from '../../../../../components/common/BotttomSheet';
-import { BottomMenu } from '../../../../common/BotttomSheet/MenuSheet';
+import BotttomSheet from '../../../common/BotttomSheet';
+import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
 import { AccountBookCategoryType } from '../store';
 import Label from './Label';
 

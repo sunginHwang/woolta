@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { atom } from 'jotai';
-import { DateRange } from '../../../../../utils/date';
+import { DateRange } from '../../../../utils/date';
 export type AccountBookCategoryType = 'expenditure' | 'income';
 
 export interface AccountStatisticFilter {

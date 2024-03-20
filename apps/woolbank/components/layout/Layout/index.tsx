@@ -7,7 +7,14 @@ import { Alert } from '../Alert';
 import NavigationBar from '../NavigationBar';
 import { Toast } from '../Toast';
 
-const NAVIGATION_PATHS = ['/account-books', '/bucket-list', '/my-page'];
+const NAVIGATION_PATHS = [
+  '/',
+  '/regular-extenditure',
+  '/account-book-statistic',
+  '/account-books',
+  '/bucket-list',
+  '/my-page',
+];
 
 interface Props extends PropsWithChildren {
   useNavBar?: boolean;
@@ -19,7 +26,8 @@ interface Props extends PropsWithChildren {
  */
 const Layout: FC<Props> = ({ children }) => {
   const pathname = usePathname();
-  const useNavBar = NAVIGATION_PATHS.find((path) => pathname.startsWith(path));
+  console.log(pathname);
+  const useNavBar = NAVIGATION_PATHS.find((path) => pathname === path);
   return (
     <main>
       {/* 헤더가 inii ssr 시점에 문제가 존재. */}

@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAtomValue } from 'jotai';
-import { getData } from '../../../../../utils/api';
+import { getData } from '../../../../utils/api';
 import { AccountBookStatisticFilterAtom, AccountStatisticFilter } from '../store';
 
 export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';

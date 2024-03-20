@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { SkeletonBar } from '@wds';
+import { styled } from 'styled-components';
 
 /**
  * 정기 지출 리스트 -> 리스트 페이지 로딩 스켈레톤

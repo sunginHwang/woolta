@@ -1,40 +1,34 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
-import { styled, useTheme } from 'styled-components';
+import { styled } from 'styled-components';
 
-import {
-  IconAccountOutline,
-  IconBucketOutline,
-  IconHomeOutline,
-  IconPigOutline,
-  IconWalletOutline,
-} from '../../atom/Icon';
+import { IconAccountOutline, IconBucketOutline, IconPigOutline, IconWalletOutline } from '../../atom/Icon';
 
 const navigations: { name: string; value: string; link: string; icon: ReactNode }[] = [
   {
-    name: '홈',
+    name: '가계부',
     value: 'home',
     link: '/',
-    icon: <IconHomeOutline />,
+    icon: <IconPigOutline />,
   },
   {
-    name: '자산관리',
-    value: 'accounts',
-    link: '/accounts',
+    name: '정기지출',
+    value: 'regular-extenditure',
+    link: '/regular-extenditure',
     icon: <IconWalletOutline />,
+  },
+  {
+    name: '가계부 통계',
+    value: 'account-book-statistic',
+    link: '/account-book-statistic',
+    icon: <IconAccountOutline />,
   },
   {
     name: '버킷리스트',
     value: 'bucketList',
     link: '/bucket-list',
     icon: <IconBucketOutline />,
-  },
-  {
-    name: '가계부',
-    value: 'accountBooks',
-    link: '/account-books',
-    icon: <IconPigOutline />,
   },
   {
     name: '내 정보',

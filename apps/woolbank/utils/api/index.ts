@@ -20,7 +20,7 @@ const apiCall = axios.create({
 });
 
 apiCall.defaults.headers.common['bearer-auth'] =
-  'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDY0NDczNDQsImV4cCI6MTcwNzA1MjE0NH0.NkKoU7_1B4Z1rgpm44FLpBuX9BlGFwwX4dX598FhSX--h8jjn5oYyDV0sk_-vFvtTE0wqehxU_v0WcARyuhzWA';
+  'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MTA5MjYzNzIsImV4cCI6MTcxMTUzMTE3Mn0.NQBdoU_lpCD9tvnVbkKNu4SSRHoOsaaz7mPH5wmRjEB45xMvDFCu14U59QuQ9fme2zHVZZRCWRfB11LglKUfcg';
 
 // if (typeof Storage !== 'undefined') {
 //   apiCall.defaults.headers.common[config.accessHeaderToken] =

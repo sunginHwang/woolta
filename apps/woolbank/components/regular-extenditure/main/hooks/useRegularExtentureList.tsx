@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { deleteData, getData } from '../../../../../utils/api';
+import { deleteData, getData } from '../../../../utils/api';
 
 export const REGULAR_EXTENTIRE_LIST_QUERY_KEY = 'getRegularExtentireList';
 

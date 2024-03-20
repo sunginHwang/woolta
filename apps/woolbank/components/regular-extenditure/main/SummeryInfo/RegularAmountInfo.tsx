@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { FC } from 'react';
+import { styled } from 'styled-components';
 
 interface Props {
   // 이달의 지출 금액

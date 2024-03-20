@@ -1,9 +1,9 @@
 import { useToggle } from '@common';
 import dayjs, { Dayjs } from 'dayjs';
 import { FC } from 'react';
-import BotttomSheet from '../../../../../components/common/BotttomSheet';
-import { DateRange, getDateRange } from '../../../../../utils/date';
-import { BottomMenu } from '../../../../common/BotttomSheet/MenuSheet';
+import BotttomSheet from '../../../common/BotttomSheet';
+import { DateRange, getDateRange } from '../../../../utils/date';
+import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
 import Label from './Label';
 
 interface Props {

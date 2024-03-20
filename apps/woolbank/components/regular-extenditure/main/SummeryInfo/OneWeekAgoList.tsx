@@ -1,7 +1,7 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { FC } from 'react';
-import { getRemainDay } from '../../../../../utils/date';
+import { styled } from 'styled-components';
+import { getRemainDay } from '../../../../utils/date';
 import { RegularExpenditure } from '../hooks/useRegularExtentureList';
 
 interface Props {

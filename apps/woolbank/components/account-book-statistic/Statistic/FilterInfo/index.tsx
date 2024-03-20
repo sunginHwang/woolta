@@ -2,7 +2,7 @@ import { Text } from '@wds';
 import { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { styled } from 'styled-components';
-import { DateRange } from '../../../../../utils/date';
+import { DateRange } from '../../../../utils/date';
 import { AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../store';
 import DateFilter from './DateFilter';
 import DateRangeFilter from './DateRangeFilter';

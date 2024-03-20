@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
+import { styled } from 'styled-components';
 import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
 import ExpenditureTypeItem from './RegularExpenditureItem';
 

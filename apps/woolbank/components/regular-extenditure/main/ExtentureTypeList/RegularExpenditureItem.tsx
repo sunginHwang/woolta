@@ -1,10 +1,10 @@
 import { Text } from '@wds';
 import { FC } from 'react';
 import { styled, useTheme } from 'styled-components';
-import { useToast } from '../../../../../hooks/useToast';
-import { getRemainDay } from '../../../../../utils/date';
-import { IconTrashCan } from '../../../../atom/Icon';
-import { useConfirm } from '../../../../common/Confirm/ConfirmContext';
+import { useToast } from '../../../../hooks/useToast';
+import { getRemainDay } from '../../../../utils/date';
+import { IconTrashCan } from '../../../atom/Icon';
+import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { RegularExpenditure, useRegularExtentureList } from '../hooks/useRegularExtentureList';
 import { useTouchSlide } from './hooks/useTouchSlide';
 
@@ -98,7 +98,7 @@ const SC = {
     overflow: hidden;
     white-space: nowrap;
   `,
-  Wrap: styled.div`
+  Wrap: styled.div<{ x: number }>`
     width: auto;
     display: block;
     align-items: center;
@@ -106,7 +106,7 @@ const SC = {
     padding: 1.2rem 1.5rem;
     transition: transform 300ms ease;
     position: relative;
-    transform: translateX(-${({ x }: { x: number }) => x * 0.1}%);
+    transform: translateX(-${({ x }) => x * 0.1}%);
 
     > div {
       display: inline-block;
