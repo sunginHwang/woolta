@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getData } from '../../utils/api';
 
 export const USER_INFO_QUERY_KEY = 'getUserInfo';
@@ -43,7 +43,7 @@ const fetchUserInfo = async () => {
 };
 
 export const useUserInfo = () => {
-  const { data, ...rest } = useSuspenseQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: fetchUserInfo });
+  const { data, ...rest } = useQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: fetchUserInfo });
   return {
     userInfo: data ?? null,
     ...rest,

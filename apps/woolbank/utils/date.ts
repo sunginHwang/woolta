@@ -38,7 +38,7 @@ export const getRemainDays = (startDay: Date | string, endDay: Date | string): n
     return 0;
   }
 
-  return dayjs(startDay).diff(dayjs(endDay));
+  return dayjs(endDay).diff(dayjs(startDay), 'day');
 };
 
 /* 시작일 ~ 종료일까지의 퍼센티지 구하기 */

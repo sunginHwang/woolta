@@ -1,29 +1,20 @@
-import { useAtomValue } from 'jotai';
-import React, { FC, useRef } from 'react';
+import React, { ComponentProps, FC, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { IconCamera, IconImage } from '../../../../components/atom/Icon';
-import { FormTemplate } from '../../../../components/common/FormTemplate';
-import { useBucketFormStep } from '../hooks/useBucketFormStep';
-import { LabelText } from '../LabelText';
-import { bucketFormStepAtom } from '../store';
+import { IconCamera, IconImage } from '../../../../atom/Icon';
+import { FormTemplate } from '../../FormTemplate';
+import { LabelText } from '../../LabelText';
 import ImageCrop from './ImageCrop';
 import { PrevImage } from './PrevImage';
 import { useImageFile } from './useImageFIle';
 
-interface Props {
-  step: number;
-}
+interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
 
-// 개인 속성값 삭제 시켜버리자
-export const ImageForm: FC<Props> = ({ step }: Props) => {
+export const ImageForm: FC<Props> = ({ activeForm }) => {
   const { useCrop, previewImage, cropImage, setCrop, initImage, clearCrop, imageCrop } = useImageFile();
-  const { currentStep } = useBucketFormStep();
   const { colors } = useTheme();
   const inputAlbumRef = useRef<HTMLInputElement>(null);
   const inputCameraRef = useRef<HTMLInputElement>(null);
-  /**
-   * 이미지 변경 이벤트
-   */
+
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -63,10 +54,10 @@ export const ImageForm: FC<Props> = ({ step }: Props) => {
     }
   };
 
-  const isActivePhase = step === currentStep;
   const showPrevImage = !useCrop && previewImage.length > 0;
+
   return (
-    <FormTemplate useScroll title='이미지 설정' isValidForm={showPrevImage} active={isActivePhase}>
+    <FormTemplate useScroll title='이미지 설정' isValidForm activeForm={activeForm}>
       <SC.BucketListPicturePhase>
         <LabelText>
           이루고 싶은 목표가 연상되는 <br />

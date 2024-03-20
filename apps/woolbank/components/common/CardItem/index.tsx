@@ -11,13 +11,13 @@ interface Props extends PropsWithChildren {
  */
 
 export const CardItem: FC<Props> = ({ children, useSideMargin = false }) => {
-  return <SC.CardItem useSideMargin={useSideMargin}>{children}</SC.CardItem>;
+  return <SC.CardItem $useSideMargin={useSideMargin}>{children}</SC.CardItem>;
 };
 
 const SC = {
-  CardItem: styled.div<{ useSideMargin: boolean }>`
+  CardItem: styled.div<{ $useSideMargin: boolean }>`
     padding: 2rem;
-    ${({ useSideMargin }) => useSideMargin && 'margin: 0 2rem'};
+    ${({ $useSideMargin }) => $useSideMargin && 'margin: 0 2rem'};
     background-color: ${({ theme }) => theme.colors.white};
     display: flex;
     flex-direction: column;

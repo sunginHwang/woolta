@@ -30,15 +30,15 @@ export const Progress: FC<Props> = ({
 }) => {
   return (
     <SC.ProgressWrapper>
-      <SC.Label percent={percent}>
+      <SC.Label $percent={percent}>
         {labelPrefix}
         {label}
         {labelSuffix}
       </SC.Label>
       <SC.Progress>
-        <SC.Bar percent={percent} color={color} />
+        <SC.Bar $percent={percent} $color={color} />
       </SC.Progress>
-      <SC.Info color={messageColor}>
+      <SC.Info $color={messageColor}>
         <span>{startMessage}</span>
         <span>{endMessage}</span>
       </SC.Info>
@@ -50,11 +50,11 @@ const SC = {
   ProgressWrapper: styled.div`
     width: 100%;
   `,
-  Label: styled.span<{ percent: number }>`
+  Label: styled.span<{ $percent: number }>`
     width: 5rem;
     max-width: 6rem;
     height: 3rem;
-    left: ${({ percent }) => percent}%;
+    left: ${({ $percent }) => $percent}%;
     top: -1.2rem;
     line-height: 3rem;
     text-align: center;
@@ -87,15 +87,15 @@ const SC = {
     border-radius: 1.2rem;
   `,
   Bar: styled.div<{
-    percent: number;
-    color: string;
+    $percent: number;
+    $color: string;
   }>`
     height: 0.5rem;
     border-radius: 1.2rem;
-    width: ${({ percent }) => percent}%;
-    background-color: ${({ color }) => color};
+    width: ${({ $percent }) => $percent}%;
+    background-color: ${({ $color }) => $color};
   `,
-  Info: styled.div<{ color: string }>`
+  Info: styled.div<{ $color: string }>`
     display: flex;
     width: 100%;
     margin-top: 0.5rem;
@@ -103,7 +103,7 @@ const SC = {
 
     > span {
       font-size: 1.2rem;
-      color: ${({ color }) => color};
+      color: ${({ $color }) => $color};
     }
   `,
 };

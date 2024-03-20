@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { typography } from '@wds';
 import { MouseEvent, FC } from 'react';
+import { styled } from 'styled-components';
 import { Button } from '../../../../components/atom/Button';
 
 interface Props {
@@ -59,14 +59,14 @@ const AmountForm: FC<Props> = ({
             </SC.InputTd>
           </tr>
           <tr>
-            <SC.InputTd data-cy='numberBack' isHide={isZeroAmount} onClick={onBackNumberClick}>
+            <SC.InputTd data-cy='numberBack' $isHide={isZeroAmount} onClick={onBackNumberClick}>
               {!isZeroAmount && '←'}
             </SC.InputTd>
             <SC.InputTd data-cy='number_0' data-number={0} onClick={onNumberClick}>
               0
             </SC.InputTd>
             {useCompleteBtn && (
-              <SC.InputTd data-cy='numberComplete' isHide={isZeroAmount} isSmall={true} onClick={onRightBottomClick}>
+              <SC.InputTd data-cy='numberComplete' $isHide={isZeroAmount} $isSmall={true} onClick={onRightBottomClick}>
                 {!isZeroAmount && (
                   <SC.SaveButton>
                     <Button fill>확인</Button>
@@ -75,7 +75,7 @@ const AmountForm: FC<Props> = ({
               </SC.InputTd>
             )}
             {!useCompleteBtn && (
-              <SC.InputTd data-cy='numberX' isHide={isZeroAmount} onClick={onRightBottomClick}>
+              <SC.InputTd data-cy='numberX' $isHide={isZeroAmount} onClick={onRightBottomClick}>
                 {!isZeroAmount && 'x'}
               </SC.InputTd>
             )}
@@ -89,8 +89,8 @@ const AmountForm: FC<Props> = ({
 export default AmountForm;
 
 type InputTdProps = {
-  isHide?: boolean;
-  isSmall?: boolean;
+  $isHide?: boolean;
+  $isSmall?: boolean;
 };
 const SC = {
   SaveButton: styled.div`
@@ -114,11 +114,11 @@ const SC = {
   InputTd: styled.td<InputTdProps>`
     ${typography.title3Medium}
     width: 33.33333%;
-    padding: ${({ isSmall }) => (isSmall ? '.3rem' : '1rem')} 0;
+    padding: ${({ $isSmall }) => ($isSmall ? '.3rem' : '1rem')} 0;
 
     &:active {
       border-radius: 1.6rem;
-      background-color: ${({ isHide, theme }) => (isHide ? theme.colors.white : theme.colors.gray150)};
+      background-color: ${({ $isHide, theme }) => ($isHide ? theme.colors.white : theme.colors.gray150)};
     }
   `,
 };

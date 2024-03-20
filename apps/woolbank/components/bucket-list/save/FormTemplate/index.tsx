@@ -3,15 +3,17 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { Button } from '../../atom/Button';
-import { useBucketFormStep } from '../../bucket-list/save/hooks/useBucketFormStep';
-import { useUpsertBucket } from '../../bucket-list/save/hooks/useUpsertBucket';
-import { bucketFormAtom } from '../../bucket-list/save/store';
-import Header from '../Header';
+import { useToast } from '../../../../hooks/useToast';
+import { Button } from '../../../atom/Button';
+import Header from '../../../common/Header';
+import { useBucket } from '../../detail/hooks/useBucket';
+import { useBucketList } from '../../main/hooks/useBucketList';
+import { useBucketFormStep } from '../hooks/useBucketFormStep';
+import { useUpsertBucket } from '../hooks/useUpsertBucket';
+import { bucketFormAtom } from '../store';
 
 interface Props {
-  // 헤더 사용 유무
-  active: boolean;
+  activeForm: boolean;
   title: string;
   usePadding?: boolean;
   useScroll?: boolean;
@@ -22,7 +24,7 @@ interface Props {
 }
 
 export const FormTemplate: FC<Props> = ({
-  active,
+  activeForm,
   title,
   isValidForm,
   usePadding = true,
@@ -31,10 +33,14 @@ export const FormTemplate: FC<Props> = ({
   onButtonClick,
   children,
 }) => {
-  const { back, push } = useRouter();
+  const { back, replace } = useRouter();
   const { currentStep, goNextStep, goPrevStep, isUpdateMode } = useBucketFormStep();
   const bucketForm = useAtomValue(bucketFormAtom);
   const { upsertBucketMutate } = useUpsertBucket();
+  const { inValidQuery } = useBucket();
+  const { refetch } = useBucketList();
+  const { onToast } = useToast();
+
   const maxPhase = isUpdateMode ? 3 : 4;
 
   const upsertText = `버킷리스트 ${isUpdateMode ? '수정' : '작성'}`;
@@ -58,24 +64,26 @@ export const FormTemplate: FC<Props> = ({
   };
 
   const upsertBucket = () => {
-    push('/bucket-list');
-    // upsertBucketMutate.mutate(bucketForm, {
-    //   onSuccess: () => {
-    //     window.history.go(-maxPhase);
-    //     push('/bucket-list');
-    //     alert(`${upsertText} 되었습니다.`);
-    //   },
-    //   onError: () => {
-    //     alert(`${upsertText}에 실패하였습니다. 다시 시도해주세요`);
-    //   },
-    // });
+    upsertBucketMutate.mutate(bucketForm, {
+      onSuccess: ({ data }) => {
+        if (isUpdateMode) {
+          inValidQuery(String(bucketForm.id));
+        }
+        refetch();
+        replace(`/bucket-list/${data.bucketListId}`);
+        onToast(`${upsertText} 되었습니다.`);
+      },
+      onError: () => {
+        onToast(`${upsertText}에 실패하였습니다. 다시 시도해주세요`);
+      },
+    });
   };
 
   const isLastStep = currentStep === maxPhase;
 
   return (
-    <SC.PhaseTemplate active={active}>
-      {active && (
+    <SC.PhaseTemplate $isActive={activeForm}>
+      {activeForm && (
         <Header.Sub
           title={title}
           right={
@@ -86,7 +94,7 @@ export const FormTemplate: FC<Props> = ({
           onBackClick={handleBackClick}
         />
       )}
-      <SC.Content useScroll={useScroll} usePadding={usePadding}>
+      <SC.Content $useScroll={useScroll} $usePadding={usePadding}>
         {children}
       </SC.Content>
       {isShowButton && (
@@ -107,22 +115,22 @@ export const FormTemplate: FC<Props> = ({
 };
 
 type ContentProps = {
-  usePadding: boolean;
-  useScroll: boolean;
+  $usePadding: boolean;
+  $useScroll: boolean;
 };
 const SC = {
-  PhaseTemplate: styled.div<{ active: boolean }>`
+  PhaseTemplate: styled.div<{ $isActive: boolean }>`
     width: 100%;
     position: relative;
     position: fixed;
     top: 0;
-    right: ${({ active }) => (active ? 0 : '-100%')};
+    right: ${({ $isActive }) => ($isActive ? 0 : '-100%')};
     z-index: ${({ theme }) => theme.zIndex.phase};
     transition: all 0.3s ease 0s;
   `,
   Content: styled.div<ContentProps>`
-    padding: ${({ usePadding }) => (usePadding ? '0 2rem 0 2rem' : '0 0 0 0')};
-    overflow-y: ${({ useScroll }) => (useScroll ? 'scroll' : 'hidden')};
+    padding: ${({ $usePadding }) => ($usePadding ? '0 2rem 0 2rem' : '0 0 0 0')};
+    overflow-y: ${({ $useScroll }) => ($useScroll ? 'scroll' : 'hidden')};
     min-height: calc(100vh - 5.5rem);
     height: 100%;
     background-color: ${({ theme }) => theme.colors.white};

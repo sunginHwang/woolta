@@ -1,6 +1,7 @@
 import { useEventListener, useToggle } from '@common';
 import { SkeletonBar } from '@wds';
 import debounce from 'lodash-es/debounce';
+import { useParams, useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import BotttomSheet from '../../../..//components/common/BotttomSheet';
@@ -34,7 +35,9 @@ export const HeaderInfo = () => {
     removeBucket,
   } = useBucket();
   const { colors } = useTheme();
+  const { push } = useRouter();
   const imgRef = useRef<HTMLDivElement>(null);
+  const { bucketId } = useParams() as { bucketId: string };
   const [showMenuModal, toggleMenuModal] = useToggle(false);
   const [isShowFixedHeader, setFixedHeader] = useState(false);
 
@@ -54,7 +57,7 @@ export const HeaderInfo = () => {
   // 우측 옵션 버튼 클릭
   const onMenuClick = (type: string) => {
     type === 'remove' && removeBucket();
-    // type === 'edit' && history.push(`/bucket-list/save?bucketListId=${bucketId}`);
+    type === 'edit' && push(`/bucket-list/save?bucketId=${bucketId}`);
 
     offMenuModal();
   };
@@ -62,7 +65,7 @@ export const HeaderInfo = () => {
   const fixedHeaderMsg = isShowFixedHeader ? title : '';
   const headerIconColor = isShowFixedHeader ? colors.red500 : colors.white;
   // 목표 날짜 까지 남은 기간
-  const remainDay = getRemainDays(now, completeDate);
+  const remainDay = getRemainDays(new Date(now), new Date(completeDate));
   // 목표 날짜 까지 이룬 %
   const remainPercent = getRemainDatePercentage(createdAt, completeDate, now);
 
@@ -81,7 +84,7 @@ export const HeaderInfo = () => {
         position='fixed'
         useSkeleton={!isShowFixedHeader}
       />
-      <SC.ImageInfo ref={imgRef} imgUrl={imageUrl ?? ''}>
+      <SC.ImageInfo ref={imgRef} $imgUrl={imageUrl ?? ''}>
         <div>
           {isFetching ? <SkeletonBar width='15rem' height='4.4rem' /> : <h2>{title}</h2>}
           <Progress label={remainDay} labelPrefix='D-' percent={remainPercent} color={colors.red500} />
@@ -107,9 +110,9 @@ function getScrollTop() {
 }
 
 const SC = {
-  ImageInfo: styled.div<{ imgUrl: string }>`
+  ImageInfo: styled.div<{ $imgUrl: string }>`
     background-color: ${({ theme }) => theme.colors.gray800};
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url(${({ imgUrl }) => imgUrl}), no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url(${({ $imgUrl }) => $imgUrl}), no-repeat;
     background-size: cover;
     width: 100%;
     height: 40vh;

@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { ResponsivePie } from '@nivo/pie';
+import { styled } from 'styled-components';
 import EmptyData from '../../../../../components/common/EmptyInfo';
 import { AccountBookStatisticCategoryItem, useAccountStatisticList } from '../hooks/useAccountStatisticList';
 import StatisticList from './StatisticList';
@@ -106,6 +106,5 @@ function getInnerLabel(e: any) {
 const SC = {
   Container: styled.div`
     height: 30rem;
-    margin: 0 -2rem;
   `,
 };

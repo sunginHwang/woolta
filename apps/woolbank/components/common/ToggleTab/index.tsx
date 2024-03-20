@@ -1,6 +1,6 @@
 import { useWindowDimensions } from '@common';
-import { styled } from 'styled-components';
 import { FC, useEffect, useState } from 'react';
+import { styled } from 'styled-components';
 
 export interface ToggleTabItem {
   type: string;
@@ -46,7 +46,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
   if (useListType) {
     renderTabs = tabs.map((tab) => {
       return (
-        <S.ListTab key={tab.type} active={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
+        <S.ListTab key={tab.type} $isActive={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
           {tab.name}
         </S.ListTab>
       );
@@ -59,7 +59,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
         useOutline &&
         tabs.map((tab, index) => {
           return (
-            <S.TabOutLine key={tab.type} active={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
+            <S.TabOutLine key={tab.type} $isActive={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
               {tab.name}
             </S.TabOutLine>
           );
@@ -68,7 +68,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
       // 라인 없는 탭 구조
       renderTabs = tabs.map((tab, index) => {
         return (
-          <S.Tab key={tab.type} active={tab.type === value} onClick={() => onTabClick(tab, index)}>
+          <S.Tab key={tab.type} $isActive={tab.type === value} onClick={() => onTabClick(tab, index)}>
             {tab.name}
           </S.Tab>
         );
@@ -77,7 +77,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
   }
 
   return (
-    <S.ToggleTab useOutline={useOutline} useListType={useListType}>
+    <S.ToggleTab $useOutline={useOutline} $useListType={useListType}>
       {renderTabs}
       {!useListType && !useOutline && <S.BottomLine width={indicatorWidth} left={indicatorLeftPosition} />}
     </S.ToggleTab>
@@ -85,8 +85,8 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
 };
 
 type ToggleTabSProps = {
-  useOutline: boolean;
-  useListType: boolean;
+  $useOutline: boolean;
+  $useListType: boolean;
 };
 
 type BottomLineProps = { width: number; left: number };
@@ -95,13 +95,13 @@ const S = {
   ToggleTab: styled.div<ToggleTabSProps>`
     width: 100%;
     position: relative;
-    height: ${({ useOutline }) => (useOutline ? '4' : '5')}rem;
+    height: ${({ $useOutline }) => ($useOutline ? '4' : '5')}rem;
     display: flex;
-    justify-content: ${({ useListType }) => (useListType ? 'flex-start' : 'space-around')};
+    justify-content: ${({ $useListType }) => ($useListType ? 'flex-start' : 'space-around')};
     margin-bottom: 1rem;
-    ${({ useListType, useOutline }) =>
-      !useListType &&
-      !useOutline &&
+    ${({ $useListType, $useOutline }) =>
+      !$useListType &&
+      !$useOutline &&
       'box-shadow: 0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14),\n      0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12);'};
 
     button {
@@ -118,11 +118,11 @@ const S = {
     font-weight: 800;
     color: ${({ active, theme }) => (active ? theme.colors.gray800 : theme.colors.gray600)};
   `,
-  TabOutLine: styled.button<{ active: boolean }>`
+  TabOutLine: styled.button<{ $isActive: boolean }>`
     width: 100%;
-    border: 0.1rem solid ${({ active, theme }) => (active ? theme.colors.orangePrimary : theme.colors.gray300)};
-    background-color: ${({ active, theme }) => (active ? theme.colors.orangePrimary : theme.colors.white)};
-    color: ${({ active, theme }) => (active ? theme.colors.white : theme.colors.gray600)};
+    border: 0.1rem solid ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.gray300)};
+    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.white)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.white : theme.colors.gray600)};
 
     &:first-child {
       border-bottom-left-radius: 1.3rem;

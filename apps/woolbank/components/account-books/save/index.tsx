@@ -3,17 +3,17 @@
 import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { NextPage } from 'next';
-import { useSearchParams } from 'next/navigation';
 import Header from '../../common/Header';
 import AccountBookForm from './AccountBookForm';
 import { AccountBookSaveForm } from './AccountBookForm/hooks/useAccountBookForm';
 import { AccountBookDetail, useAccountBookDetail } from './hooks/useAccountBookDetail';
+import { useAccountBookSaveRouterProps } from './hooks/useAccountBookSaveRouterProps';
 
 export const AccountBookSavePage: NextPage<{
   dehydratedState?: DehydratedState;
 }> = ({ dehydratedState }) => {
-  const { get } = useSearchParams();
-  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(get('id'));
+  const { account_book_id } = useAccountBookSaveRouterProps();
+  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(account_book_id);
   const accountBookForm = getAccountBookFrom(accountBookDetail);
 
   return (

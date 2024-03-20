@@ -1,10 +1,13 @@
-import { FC, MouseEvent, useState } from 'react';
+import { FC, MouseEvent, useEffect, useRef, KeyboardEvent, useState } from 'react';
 import { styled } from 'styled-components';
+import { useConfirm } from '../../../..//components/common/Confirm/ConfirmContext';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import BaseInput from '../../../../components/common/BaseInput';
 import ToggleTab from '../../../../components/common/ToggleTab';
+import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
+import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
 
@@ -37,7 +40,17 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     setRegisterDateTime,
     onClear,
   } = useAccountBookForm(accountBookForm);
+  const { openConfirm } = useConfirm();
+  const { onToast } = useToast();
+  const { is_insert_mode } = useAccountBookSaveRouterProps();
   const [openModalName, setModalName] = useState('');
+  const title_ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (is_insert_mode) {
+      setModalName('amount');
+    }
+  }, [is_insert_mode]);
 
   const handleClearClick = (e: MouseEvent<HTMLLIElement>) => {
     const type = e.currentTarget.dataset.type || '';
@@ -52,16 +65,35 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
 
     if (!isValid) {
-      alert(message);
+      onToast(message);
       return;
     }
 
     submitForm(formData);
   };
 
-  const handleRemoveClick = () => {
-    if (accountBookForm?.id) {
+  const handleAmountClick = (amount: number) => {
+    setAmount(amount);
+    if (is_insert_mode && formData.title === '') {
+      title_ref.current?.focus();
+    }
+  };
+
+  const handleRemoveClick = async () => {
+    if (!accountBookForm?.id) {
+      return;
+    }
+
+    const isConfirm = await openConfirm({ message: '정말 삭제 하시겠습니까?' });
+
+    if (isConfirm) {
       removeAccountBookForm(String(accountBookForm.id));
+    }
+  };
+
+  const handleTitleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && is_insert_mode && formData.category.name === '') {
+      setModalName('category');
     }
   };
 
@@ -90,6 +122,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           onClear={handleClearClick}
         />
         <BaseInput
+          ref={title_ref}
           name='title'
           label={`${typeMsg}처`}
           placeholder={`${typeMsg}처를 선택해 주세요.`}
@@ -97,6 +130,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           value={formData.title}
           onChange={onChange}
           onClear={handleClearClick}
+          onKeyDown={handleTitleEnter}
         />
         <BaseInput
           readOnly
@@ -140,7 +174,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         openModalName={openModalName}
         formData={formData}
         onCloseModal={closeModal}
-        onChangeAmount={setAmount}
+        onChangeAmount={handleAmountClick}
         onChangeCategory={setAccountBookCategoryType}
         onChangeDateTime={setRegisterDateTime}
       />

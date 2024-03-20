@@ -42,8 +42,6 @@ export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   const onCancel = () => {
-    console.log('onCancel');
-
     if (awaitingPromiseRef.current) {
       awaitingPromiseRef.current.resolve(false);
     }
@@ -52,7 +50,6 @@ export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   const onConfirm = () => {
-    console.log('onConfirm');
     if (awaitingPromiseRef.current) {
       awaitingPromiseRef.current.resolve(true);
     }
@@ -76,10 +73,6 @@ export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   const { useAutoClose, ...confirmProps } = confirmServiceState;
-
-  console.log('-s-');
-  console.log(confirmProps);
-  console.log('-e-');
 
   return (
     <>

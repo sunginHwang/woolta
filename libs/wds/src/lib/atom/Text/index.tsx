@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { styled } from 'styled-components';
 import { ColorType, FontVarient, typography } from '../../style';
 
@@ -9,7 +9,7 @@ type TextElement = keyof Pick<
   'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span' | 'li' | 'label'
 >;
 
-export interface BaseTextProps extends React.Attributes {
+export interface BaseTextProps {
   /**
    * text 위치를 설정 합니다.
    * @default 'left'
@@ -49,6 +49,7 @@ export interface BaseTextProps extends React.Attributes {
    * @default 0
    */
   ml?: number;
+  children?: ReactNode;
 }
 
 /**
@@ -57,20 +58,33 @@ export interface BaseTextProps extends React.Attributes {
  */
 export const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseTextProps['as']>]> = ({
   as = 'span',
+  alignment = 'left',
+  mt = 0,
+  mb = 0,
+  ml = 0,
+  mr = 0,
+  color = 'black',
   variant,
   children,
-  ...props
 }) => {
   return (
-    <Base as={as} variant={variant} {...props}>
+    <Base as={as} $variant={variant} $color={color} $alignment={alignment} $mt={mt} $mb={mb} $ml={ml} $mr={mr}>
       {children}
     </Base>
   );
 };
 
-const Base = styled.span<BaseTextProps>`
-  ${({ variant }) => typography[variant]};
-  ${({ color, theme }) => color && `color: ${theme.colors[color]}`};
-  ${({ alignment = 'left' }) => `text-align: ${alignment}`};
-  ${({ mt = 0, ml = 0, mb = 0, mr = 0 }) => `margin: ${mt}px ${mr}px ${mb}px ${ml}px;`}
+const Base = styled.span<{
+  $mt: number;
+  $mb: number;
+  $ml: number;
+  $mr: number;
+  $color: ColorType;
+  $variant: FontVarient;
+  $alignment: Alignment;
+}>`
+  ${({ $variant }) => typography[$variant]};
+  ${({ $color, theme }) => $color && `color: ${theme.colors[$color]}`};
+  ${({ $alignment }) => `text-align: ${$alignment}`};
+  ${({ $mt, $ml, $mb, $mr }) => `margin: ${$mt}px ${$mr}px ${$mb}px ${$ml}px;`}
 `;

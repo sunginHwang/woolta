@@ -1,7 +1,6 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
-import Image from 'next/image';
 import { FC } from 'react';
+import { styled } from 'styled-components';
 import noData from './images/no_data.svg';
 
 interface Props {
@@ -16,7 +15,7 @@ interface Props {
 const EmptyData: FC<Props> = ({ msg }) => {
   return (
     <SC.EmptyData>
-      <Image src={noData} alt='emptyDataImg' style={{ width: '60%', margin: '4rem 0', height: 'auto' }} />
+      <img src={noData} alt='emptyDataImg' style={{ width: '60%', margin: '4rem 0', height: 'auto' }} />
       <Text variant='body1' color='grayInactive' as='p' alignment='center'>
         {msg}
       </Text>

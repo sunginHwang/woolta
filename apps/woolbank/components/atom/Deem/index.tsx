@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { Portal } from '@wds';
 import { FC, MouseEvent, PropsWithChildren, useCallback, useRef } from 'react';
+import { styled } from 'styled-components';
 
 interface Props extends PropsWithChildren {
   visible: boolean;
@@ -21,7 +21,7 @@ const Deem: FC<Props> = ({ visible, children, onDeemClick }) => {
 
   return (
     <Portal targetId='modalDeem'>
-      <SC.Deem ref={modalDeemRef} visible={visible} onClick={onModalDeemClick}>
+      <SC.Deem ref={modalDeemRef} $isActive={visible} onClick={onModalDeemClick}>
         {children}
       </SC.Deem>
     </Portal>
@@ -31,9 +31,9 @@ const Deem: FC<Props> = ({ visible, children, onDeemClick }) => {
 export default Deem;
 
 const SC = {
-  Deem: styled.div<{ visible: boolean }>`
+  Deem: styled.div<{ $isActive: boolean }>`
     position: fixed;
-    visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+    visibility: ${({ $isActive }) => ($isActive ? 'visible' : 'hidden')};
     width: 100%;
     height: 100%;
     top: 0;
