@@ -15,6 +15,9 @@ export interface AccountBook {
     id: number;
     name: string;
     type: AcccountBookType;
+    accountBookCategoryImage: {
+      imageUrl: string;
+    };
     createdAt: Date;
     updatedAt: Date;
   };
@@ -97,5 +100,5 @@ function getTotalAmountbyType(accountBookList: AccountBook[], type: AcccountBook
 }
 
 export function getQueryKey(selectedDate: string) {
-  return [ACCOUNT_BOOK_LIST_QUERY_KEY];
+  return [ACCOUNT_BOOK_LIST_QUERY_KEY, selectedDate];
 }

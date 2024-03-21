@@ -1,7 +1,7 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import Link from 'next/link';
 import React, { FC } from 'react';
+import { styled } from 'styled-components';
 import { AccountBook } from '../../hooks/useAccountBookList';
 
 interface Props {
@@ -17,21 +17,26 @@ const Item: FC<Props> = ({ accountBook }) => {
 
   const isIncomeType = type === 'income';
   const displayAmount = isIncomeType ? amount : -amount;
+  const iconImage = category.accountBookCategoryImage.imageUrl;
 
   return (
     <Link href={`/account-books/save?id=${id}`}>
       <SC.Item>
-        <div>
-          <Text className='category' variant='small1Regular' color='gray600' as='p'>
-            {category.name}
-          </Text>
-          <SC.Info>
+        <SC.Left>
+          <SC.IconWrapper>
+            <img src={iconImage} alt='' />
+          </SC.IconWrapper>
+          <div>
             <Text className='title' variant='small1Regular' color='grayPrimary' as='p'>
               {title}
             </Text>
-            {isRegularExpenditure && <SC.Label>매월</SC.Label>}
-          </SC.Info>
-        </div>
+            <SC.Info>
+              <Text className='category' variant='small3Regular' color='gray600' as='p'>
+                {category.name} {isRegularExpenditure && ' | 매월'}
+              </Text>
+            </SC.Info>
+          </div>
+        </SC.Left>
         <Text className='price' variant='body3' color={isIncomeType ? 'red500' : 'gray700'} as='p'>
           {displayAmount.toLocaleString('ko-KR')}원
         </Text>
@@ -41,11 +46,28 @@ const Item: FC<Props> = ({ accountBook }) => {
 };
 
 const SC = {
+  Left: styled.div`
+    display: flex;
+    align-items: center;
+  `,
+  IconWrapper: styled.div`
+    width: 30px;
+    height: 30px;
+    background-color: ${({ theme }) => theme.colors.red150};
+    border-radius: 30px;
+    margin-right: 10px;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+    }
+  `,
   Item: styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
 
     .category {
       width: 7.5rem;
@@ -65,9 +87,7 @@ const SC = {
   `,
   Info: styled.div`
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 2.1rem;
 
     span {
       text-overflow: ellipsis;

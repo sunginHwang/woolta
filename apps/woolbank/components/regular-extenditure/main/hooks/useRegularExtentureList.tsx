@@ -12,6 +12,11 @@ export interface RegularExpenditure {
   userId: number;
   expenditureTypeId: number;
   regularExpenditureDay: string;
+  accountBookCategory: {
+    accountBookCategoryImage: {
+      imageUrl: string;
+    };
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -19,6 +24,7 @@ export interface RegularExpenditure {
 export interface RegularExpenditureListItem {
   type: string;
   name: string;
+  imageUrl: string;
   list: RegularExpenditure[];
 }
 
@@ -38,12 +44,12 @@ const removeRegularExpenditure = async (id: number) => {
 
 export const useRegularExtentureList = () => {
   const queryClient = useQueryClient();
-  const removeeRegularExtentureMutate = useMutation({
-    mutationFn: (removeId: number) => removeRegularExpenditure(removeId),
-  });
   const { data, ...rest } = useSuspenseQuery({
     queryKey: [REGULAR_EXTENTIRE_LIST_QUERY_KEY],
     queryFn: fetchRegularExtentureList,
+  });
+  const removeeRegularExtentureMutate = useMutation({
+    mutationFn: (removeId: number) => removeRegularExpenditure(removeId),
   });
 
   const regularExpenditureTypeList = data ?? [];

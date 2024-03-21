@@ -16,15 +16,18 @@ const ExtentureTypeList = () => {
 
   return (
     <SC.Container>
-      {regularExpenditureTypeList.map(({ name, type, list }, index) => {
+      {regularExpenditureTypeList.map(({ name, type, imageUrl, list }, index) => {
         const totalAmount = list.reduce((acc, item) => item.amount + acc, 0);
 
         return (
           <SC.ExpenditureType key={`${name}-${index}`}>
             <SC.TypeInfo>
-              <Text variant='title4Bold' color='gray600'>
-                {name}
-              </Text>
+              <div className='left'>
+                <img src={imageUrl} alt={`${name} 아이콘`} />
+                <Text ml={6} variant='title4Bold' color='gray600' as='p'>
+                  {name}
+                </Text>
+              </div>
               <Text variant='title5Medium' color='gray800'>
                 {totalAmount.toLocaleString('ko-KR')} 원
               </Text>
@@ -60,8 +63,25 @@ const SC = {
   `,
   TypeInfo: styled.div`
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 0.5rem;
+
+    .left {
+      display: flex;
+      align-items: center;
+
+      p {
+        display: flex;
+        height: 30px;
+        line-height: 32px;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
   `,
 };
 

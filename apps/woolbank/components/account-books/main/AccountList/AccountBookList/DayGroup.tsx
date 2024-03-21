@@ -13,13 +13,14 @@ interface Props {
  * @component
  */
 const DayGroup: FC<Props> = ({ days, totalAmount, children }) => {
+  const is_saved_amount = totalAmount > 0;
   return (
     <SC.DayGroup>
       <SC.DayInfo>
         <Text variant='body3' color='gray600'>
           {days}일
         </Text>
-        <Text variant='title5Medium' color='gray900'>
+        <Text variant='title5Medium' color={is_saved_amount ? 'red500' : 'gray900'}>
           {totalAmount.toLocaleString('ko-JR')}원
         </Text>
       </SC.DayInfo>

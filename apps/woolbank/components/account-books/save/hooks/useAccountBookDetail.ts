@@ -16,6 +16,9 @@ export interface AccountBookDetail {
     id: number;
     name: string;
     type: AccountBookCategoryType;
+    accountBookCategoryImage: {
+      imageUrl: string;
+    };
     createdAt: Date;
     updatedAt: Date;
   };
