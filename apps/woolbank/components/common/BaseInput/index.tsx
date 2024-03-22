@@ -94,7 +94,6 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             pattern: '[0-9]*',
           }
         : {};
-    const valueProps = onChange ? { value, onChange } : { defaultValue: value };
 
     return (
       <>
@@ -116,7 +115,8 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
             autoComplete='off'
             disabled={disable}
             readOnly={readOnly}
-            {...valueProps}
+            value={value}
+            onChange={onChange}
             {...defaultProps}
             {...restInputProps}
           />

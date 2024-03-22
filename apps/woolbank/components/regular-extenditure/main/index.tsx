@@ -16,7 +16,7 @@ export const RegularExpenditure = withSuspense(() => {
     <>
       <SummeryInfo />
       <ExtentureTypeList />
-      <AddButton href='/account-books/save/regular-expenditure' />
+      <AddButton href='/regular-extenditure/save' />
     </>
   );
 }, <RegularExpenditureSkeleton />);
