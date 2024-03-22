@@ -1,14 +1,11 @@
+import { useLongPress } from '@common';
 import { Text } from '@wds';
 import { FC } from 'react';
-import { styled, useTheme } from 'styled-components';
+import { styled } from 'styled-components';
 import { useToast } from '../../../../hooks/useToast';
 import { getRemainDay } from '../../../../utils/date';
-import { IconTrashCan } from '../../../atom/Icon';
 import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { RegularExpenditure, useRegularExtentureList } from '../hooks/useRegularExtentureList';
-import { useTouchSlide } from './hooks/useTouchSlide';
-
-const ICON_SIZE = 26;
 
 interface Props {
   type: string;
@@ -25,36 +22,34 @@ const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
   const { remainDayKo, remainDay } = getRemainDay(regularExpenditureDay, { completeMsg: '지출일' });
   const isAccentRemainDay = remainDay <= 3;
 
-  const { colors } = useTheme();
   const { onToast } = useToast();
   const { openConfirm, setConfirmLoading } = useConfirm();
-  const { removeRegularExtentureItem, removeeRegularExtentureMutate } = useRegularExtentureList();
-  const { moveX, setMoveX, handleTouchStart, handleTouchMove, handleTouchEnd } = useTouchSlide();
-
-  const handleRemoveClick = async () => {
-    setMoveX(0);
-
-    const isConfirm = await openConfirm({
-      message: '정말 삭제하시겠습니까?',
-      useAutoClose: false,
-    });
-
-    if (isConfirm) {
-      setConfirmLoading(true);
-      removeeRegularExtentureMutate.mutate(id, {
-        onSuccess: () => {
-          onToast('삭제 되었습니다.');
-          removeRegularExtentureItem(type, id);
-        },
-        onError: () => onToast('다시 시도해 주세요.'),
-        onSettled: () => setConfirmLoading(false),
+  const longPressAction = useLongPress({
+    ms: 700,
+    onLongPress: async () => {
+      const isConfirm = await openConfirm({
+        message: '정말 삭제하시겠습니까?',
+        useAutoClose: false,
       });
-    }
-  };
+
+      if (isConfirm) {
+        setConfirmLoading(true);
+        removeeRegularExtentureMutate.mutate(id, {
+          onSuccess: () => {
+            onToast('삭제 되었습니다.');
+            removeRegularExtentureItem(type, id);
+          },
+          onError: () => onToast('다시 시도해 주세요.'),
+          onSettled: () => setConfirmLoading(false),
+        });
+      }
+    },
+  });
+  const { removeRegularExtentureItem, removeeRegularExtentureMutate } = useRegularExtentureList();
 
   return (
-    <SC.ExpenditureTypeItem onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-      <SC.Wrap x={moveX}>
+    <SC.ExpenditureTypeItem {...longPressAction}>
+      <SC.Wrap>
         <SC.Content>
           <div>
             <SC.Left>
@@ -77,11 +72,6 @@ const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
             </Text>
           </div>
         </SC.Content>
-        <SC.Remove>
-          <div onClick={handleRemoveClick}>
-            <IconTrashCan width={ICON_SIZE} height={ICON_SIZE} fill={colors.orangePrimary} />
-          </div>
-        </SC.Remove>
       </SC.Wrap>
     </SC.ExpenditureTypeItem>
   );
@@ -98,15 +88,13 @@ const SC = {
     overflow: hidden;
     white-space: nowrap;
   `,
-  Wrap: styled.div<{ x: number }>`
+  Wrap: styled.div`
     width: auto;
     display: block;
     align-items: center;
     height: 100%;
     padding: 1.2rem 1.5rem;
-    transition: transform 300ms ease;
     position: relative;
-    transform: translateX(-${({ x }) => x * 0.1}%);
 
     > div {
       display: inline-block;
@@ -120,17 +108,6 @@ const SC = {
     > div {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-    }
-  `,
-  Remove: styled.div`
-    width: 20%;
-    margin-left: 0.5rem;
-
-    > div {
-      display: flex;
-      height: 100%;
-      justify-content: center;
       align-items: center;
     }
   `,
