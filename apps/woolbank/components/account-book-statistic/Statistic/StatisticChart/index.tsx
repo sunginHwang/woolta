@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import EmptyData from '../../../common/EmptyInfo';
 import { AccountBookStatisticCategoryItem, useAccountStatisticList } from '../hooks/useAccountStatisticList';
 import StatisticList from './StatisticList';
+import { Text } from '@wds';
 
 const PIE_CHART_COLOR_LIST: string[] = [
   '#F47560',
@@ -63,27 +64,32 @@ const StatisticChart = () => {
   return (
     <>
       <SC.Container>
-        <ResponsivePie
-          data={accountBookChartList}
-          colors={{ datum: 'data.color' }}
-          margin={{ top: 60, right: 40, bottom: 60, left: 40 }}
-          innerRadius={0.4}
-          padAngle={3}
-          cornerRadius={3}
-          activeOuterRadiusOffset={8}
-          borderWidth={1}
-          arcLinkLabel={getLabel}
-          arcLabel={getInnerLabel}
-          borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
-          arcLinkLabelsSkipAngle={10}
-          arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
-          arcLinkLabelsThickness={1}
-          arcLinkLabelsStraightLength={6}
-          arcLinkLabelsDiagonalLength={10}
-          arcLinkLabelsColor={{ from: 'color' }}
-          arcLabelsSkipAngle={10}
-          arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
-        />
+        <Text variant='title2Bold' color='gray900' ml={16} mt={20} as='h3'>
+          카테고리 통계
+        </Text>
+        <div className='piechart'>
+          <ResponsivePie
+            data={accountBookChartList}
+            colors={{ datum: 'data.color' }}
+            margin={{ top: 60, right: 40, bottom: 60, left: 40 }}
+            innerRadius={0.4}
+            padAngle={3}
+            cornerRadius={3}
+            activeOuterRadiusOffset={8}
+            borderWidth={1}
+            arcLinkLabel={getLabel}
+            arcLabel={getInnerLabel}
+            borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
+            arcLinkLabelsSkipAngle={10}
+            arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
+            arcLinkLabelsThickness={1}
+            arcLinkLabelsStraightLength={6}
+            arcLinkLabelsDiagonalLength={10}
+            arcLinkLabelsColor={{ from: 'color' }}
+            arcLabelsSkipAngle={10}
+            arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
+          />
+        </div>
       </SC.Container>
       <StatisticList accountBookChartList={accountBookChartList} />
     </>
@@ -106,5 +112,11 @@ function getInnerLabel(e: any) {
 const SC = {
   Container: styled.div`
     height: 30rem;
+
+    .piechart {
+      width: 100%;
+      height: 100%;
+      margin-top: -3rem;
+    }
   `,
 };

@@ -5,6 +5,8 @@ import { FC, useState } from 'react';
 import { AccountBookStatisticCategoryItem } from '../hooks/useAccountStatisticList';
 import CategoryBottomSheet from './CategoryBottomSheet';
 import { AccountBookChartData } from '.';
+import { Button } from '../../../../components/atom/Button';
+import { useToggle } from '@common';
 
 interface IActiveSheet {
   color: string;
@@ -18,6 +20,8 @@ const initActiveSheet: IActiveSheet = {
   list: [],
 };
 
+const FLIP_COUNT = 4;
+
 interface Props {
   accountBookChartList: AccountBookChartData[];
 }
@@ -27,16 +31,18 @@ interface Props {
  * @component
  */
 const StatisticList: FC<Props> = ({ accountBookChartList }) => {
+  const [isAllView, toggleIsAllView] = useToggle(false);
   const [activeSheetList, setActiveSheetList] = useState<IActiveSheet>(initActiveSheet);
   const { back, push } = useRouter();
   const { get } = useSearchParams();
   const pathname = usePathname();
   const isSheetOpen = get('sheet') === 'open';
+  const chartList = isAllView ? accountBookChartList : accountBookChartList.filter((_, index) => index < FLIP_COUNT);
 
   return (
     <>
       <SC.Container>
-        {accountBookChartList.map(({ label, percentage, value, color, list }) => {
+        {chartList.map(({ label, percentage, value, color, list }) => {
           const handleItemClick = () => {
             push(`${pathname}?tab=statistic&sheet=open`);
             setActiveSheetList({ color, label, list });
@@ -55,6 +61,9 @@ const StatisticList: FC<Props> = ({ accountBookChartList }) => {
             </SC.Item>
           );
         })}
+        <Button className='more' variant='tertiaryGray' fill onClick={() => toggleIsAllView()}>
+          {isAllView ? '접기' : '전체보기'}
+        </Button>
       </SC.Container>
       <CategoryBottomSheet
         isOpen={isSheetOpen}
@@ -71,8 +80,12 @@ export default StatisticList;
 
 const SC = {
   Container: styled.div`
-    padding-bottom: 10rem;
-    margin: 1rem 1.6rem 0;
+    padding-bottom: 1rem;
+    margin: 0 1.6rem;
+
+    .more {
+      margin-top: 1.6rem;
+    }
   `,
   Item: styled.div`
     display: flex;

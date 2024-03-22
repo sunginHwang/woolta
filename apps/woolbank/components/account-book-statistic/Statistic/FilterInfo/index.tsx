@@ -1,4 +1,3 @@
-import { Text } from '@wds';
 import { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { styled } from 'styled-components';
@@ -37,16 +36,13 @@ const FilterInfo = () => {
   };
 
   return (
-    <>
-      <SC.Container>
-        <DateRangeFilter dateRange={dateRange} onDateRangeChange={setDateRange} />
-        <SC.DateLabel>
-          <DateFilter startDate={startDate} endDate={endDate} dateRange={dateRange} onDateChange={setDate} />
-          <TypeFilter activeType={type} onTypeChange={setType} />
-        </SC.DateLabel>
-      </SC.Container>
-      <SC.Line />
-    </>
+    <SC.Container>
+      <DateRangeFilter dateRange={dateRange} onDateRangeChange={setDateRange} />
+      <SC.DateLabel>
+        <DateFilter startDate={startDate} endDate={endDate} dateRange={dateRange} onDateChange={setDate} />
+        <TypeFilter activeType={type} onTypeChange={setType} />
+      </SC.DateLabel>
+    </SC.Container>
   );
 };
 
@@ -54,15 +50,9 @@ export default FilterInfo;
 
 const SC = {
   Container: styled.section`
-    padding: 2rem 1.6rem;
+    padding: 2rem 1.6rem 0;
   `,
   DateLabel: styled.div`
     margin: 2rem 0;
-  `,
-  Line: styled.div`
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 0.7rem;
-
-    margin-top: 2rem;
   `,
 };
