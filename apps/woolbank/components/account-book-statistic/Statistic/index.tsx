@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic';
 import { styled } from 'styled-components';
 import FullScreenLoading from '../../common/FullScreenLoading';
 import FilterInfo from './FilterInfo';
+import { LineChart } from './LineChart';
 
 const StatisticChart = dynamic(() => import('./StatisticChart'), { ssr: false });
-const LineChart = dynamic(() => import('./LineChart'), { ssr: false });
 
 /**
  * 가계부 통계

@@ -1,14 +1,13 @@
 import 'chart.js/auto';
+import { Text, gray200 } from '@wds';
+import dayjs from 'dayjs';
+import { useAtomValue } from 'jotai';
+import { groupBy, sortBy } from 'lodash-es';
 import { Line } from 'react-chartjs-2';
 import { styled } from 'styled-components';
-import {
-  AccountBookStatistic,
-  AccountBookStatisticCategoryItem,
-  useAccountStatisticList,
-} from '../hooks/useAccountStatisticList';
-import dayjs from 'dayjs';
-import { groupBy, sortBy } from 'lodash-es';
-import { Text, gray200, gray400 } from '@wds';
+import { DateRange } from '../../../../utils/date';
+import { AccountBookStatisticCategoryItem, useAccountStatisticList } from '../hooks/useAccountStatisticList';
+import { AccountBookStatisticFilterAtom } from '../store';
 
 export interface AccountBookChartData {
   id: string;
@@ -22,7 +21,7 @@ const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
 interface Pa {
   value: number;
-  date: string;
+  label: string;
 }
 export const data = {
   labels,
@@ -37,13 +36,14 @@ export const data = {
   ],
 };
 
-const LineChart = () => {
+export const LineChart = () => {
   const { accountBookStatisticList } = useAccountStatisticList();
+  const { dateRange } = useAtomValue(AccountBookStatisticFilterAtom);
 
   const a = accountBookStatisticList.flatMap((item) =>
     item.list.map((i) => ({
       value: i.amount,
-      date: dayjs(i.registerDateTime).format('M.DD'),
+      date: dayjs(i.registerDateTime).format('M.D'),
     })),
   );
 
@@ -56,10 +56,9 @@ const LineChart = () => {
 
   const d = sortBy(c, (item) => new Date(item.label));
   const avgAmount = Math.floor(d.reduce((acc, i) => (acc += i.value), 0) / d.length);
-  console.log(avgAmount);
 
   const chartData = {
-    labels: d.map((item, index) => (index % 3 === 0 ? item.label : '')),
+    labels: getLabel(d, dateRange),
     datasets: [
       {
         data: d.map((item) => item.value),
@@ -79,7 +78,7 @@ const LineChart = () => {
   return (
     <>
       <SC.Container>
-        <Text variant='title2Bold' color='gray900' ml={16} mt={20} as='h3'>
+        <Text variant='title3Bold' color='gray900' mt={20} as='h3'>
           일자별 통계
         </Text>
         <div className='linechart'>
@@ -120,17 +119,27 @@ const LineChart = () => {
             }}
           />
         </div>
+        <Text variant='body3' color='gray900' as='p' alignment='right'>
+          일 평균: {avgAmount.toLocaleString('ko-KR')}원 사용
+        </Text>
       </SC.Container>
     </>
   );
 };
 
-export default LineChart;
+function getLabel(list: Pa[], dateRange: DateRange) {
+  const mapLoopup = {
+    month: (item: Pa, index: number) => (index % 3 === 0 ? `${item.label.split('.')[1]}일` : ''),
+    year: (item: Pa) => (item.label.endsWith('.1') ? item.label : ''),
+    week: (item: Pa) => `${item.label.split('.')[1]}일`,
+  };
 
+  return list.map(mapLoopup[dateRange]);
+}
 const SC = {
   Container: styled.div`
     height: 30rem;
-    padding: 0 1rem 10rem;
+    padding: 0 1.6rem 10rem;
 
     .linechart {
       padding: 1.6rem;

@@ -1,0 +1,117 @@
+import { useInput } from '@common';
+import { Text } from '@wds';
+import React, { FC, useState } from 'react';
+import styled from 'styled-components';
+import BaseInput from '../../../../..//components/common/BaseInput';
+import getCategoryMsg, { AccountBookCategoryType } from '../../../../..//utils/account-books';
+import { BottomFloatingButton } from '../../../../../components/common/BottomFloatingButton';
+import Header from '../../../../../components/common/Header';
+import { useToast } from '../../../../../hooks/useToast';
+import { SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';
+import { useAccountBookCategoryImages } from '../../hooks/useAccountBookCategoryImages';
+
+interface Props {
+  type: AccountBookCategoryType;
+  isLoading: boolean;
+  saveAccountBookCategory: (props: SaveAccountBookCategoryForm) => void;
+  onClose: () => void;
+}
+
+/**
+ * 가계부 지출/수입 카테고리 작성 폼
+ * @component
+ */
+
+export const CategorySaveForm: FC<Props> = ({ type, onClose, isLoading, saveAccountBookCategory }) => {
+  const [categoryName, onChangeCategoryName, onReset] = useInput('');
+  const { accountBookCategoryImages } = useAccountBookCategoryImages();
+  const [iconId, setIconId] = useState(0);
+  const { onToast } = useToast();
+
+  const typeMsg = getCategoryMsg(type);
+
+  const onAddCategoryClick = () => {
+    if (categoryName.length >= 20) {
+      onToast('최대 20글자 까지 가능합니다.');
+      return;
+    }
+    saveAccountBookCategory({
+      name: categoryName,
+      type,
+      imageId: iconId,
+      onSuccessCb: () => onClose(),
+    });
+  };
+
+  return (
+    <SC.CategorySave>
+      <Header title={`${typeMsg} 카테고리 작성`} onBackClick={onClose} />
+      <SC.InputArea>
+        <BaseInput
+          label={`${typeMsg} 카테고리`}
+          placeholder={`추가하실 ${typeMsg} 카테고리를 작성해 주세요.`}
+          value={categoryName}
+          onChange={onChangeCategoryName}
+          onClear={onReset}
+        />
+        <Text variant='small1Regular' color='gray600' as='label' mb={8}>
+          아이콘
+        </Text>
+        <SC.IconList>
+          {accountBookCategoryImages.map(({ id, name, imageUrl }) => (
+            <SC.IconInfo $isActive={iconId === id} key={name}>
+              <img src={imageUrl} alt={name} onClick={() => setIconId(id)} />
+            </SC.IconInfo>
+          ))}
+        </SC.IconList>
+      </SC.InputArea>
+
+      <BottomFloatingButton
+        isShow
+        loading={isLoading}
+        disabled={categoryName.length === 0 || iconId === 0}
+        onClick={onAddCategoryClick}
+      >
+        추가하기
+      </BottomFloatingButton>
+    </SC.CategorySave>
+  );
+};
+
+export default CategorySaveForm;
+
+const SC = {
+  CategorySave: styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: ${({ theme }) => theme.colors.white};
+    z-index: ${({ theme }) => theme.zIndex.fullDeem};
+  `,
+  InputArea: styled.div`
+    margin-top: 2.5rem;
+    padding: 0 1.6rem;
+  `,
+  IconList: styled.section`
+    display: grid;
+    overflow: scroll;
+    grid-template-columns: repeat(4, 1fr);
+    max-height: 40rem;
+    margin-top: 0.8rem;
+  `,
+  IconInfo: styled.div<{ $isActive: boolean }>`
+    img {
+      width: 40px;
+      height: 40px;
+    }
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSecondary : theme.colors.white)};
+  `,
+};

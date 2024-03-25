@@ -1,5 +1,7 @@
-import { styled } from 'styled-components';
+import { useToggle } from '@common';
 import { FC } from 'react';
+import { styled } from 'styled-components';
+import { Button } from '../../../../../components/atom/Button';
 import BotttomSheet from '../../../../../components/common/BotttomSheet';
 import {
   AccountBookCategory,
@@ -7,6 +9,7 @@ import {
   useAccountBookCategories,
 } from '../../hooks/useAccountBookCategories';
 import CategoryItem from './CategoryItem';
+import CategorySaveForm from './CategorySaveForm';
 
 interface Props {
   open: boolean;
@@ -21,7 +24,10 @@ interface Props {
  */
 
 const AmountCategorySheet: FC<Props> = ({ open, onClose, type, selectCategoryId, onCategorySelect }) => {
-  const { accountBookCategories } = useAccountBookCategories();
+  const { accountBookCategories, saveAccountBookCategory, saveLoading } = useAccountBookCategories();
+  const [isOpenSaveForm, toggleOpenSaveForm] = useToggle(false);
+  const onOpenSaveForm = () => toggleOpenSaveForm(true);
+  const onCloseSaveForm = () => toggleOpenSaveForm(false);
 
   const categories = accountBookCategories.filter((a) => a.type === type);
   const titleMsg = `${type === 'income' ? '수입' : '지출'} 카테고리 추가`;
@@ -43,32 +49,30 @@ const AmountCategorySheet: FC<Props> = ({ open, onClose, type, selectCategoryId,
             })}
           </SC.CategoryList>
           <SC.Footer>
-            {/* <Button message={`+ ${titleMsg}`} color='red' size='full' onClick={onOpenSaveForm} /> */}
+            <Button color='red' fill onClick={onOpenSaveForm}>
+              + {titleMsg}
+            </Button>
           </SC.Footer>
         </SC.CategorySelectBox>
       </BotttomSheet>
       {/* 카테고리 추가 여기서 버튼 클릭하면 바로 할수 있게 사용성 개선 하자 */}
-      {/* {isOpenSaveForm && (
+      {isOpenSaveForm && (
         <CategorySaveForm
           type={type}
           isLoading={saveLoading}
           saveAccountBookCategory={saveAccountBookCategory}
           onClose={onCloseSaveForm}
         />
-      )} */}
+      )}
     </>
   );
 };
 
 const SC = {
-  CategorySelectBox: styled.div`
-    overflow-y: scroll;
-    max-height: 45rem;
-  `,
+  CategorySelectBox: styled.div``,
   CategoryList: styled.section`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    max-height: 40rem;
   `,
   Footer: styled.div`
     margin: 1.5rem 2rem 0 2rem;
