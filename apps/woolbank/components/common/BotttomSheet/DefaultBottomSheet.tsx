@@ -1,3 +1,4 @@
+import { usePreventScroll } from '@common';
 import { safeAreaInsetMarginBottom } from '@wds';
 import React, { FC, PropsWithChildren } from 'react';
 import { styled, useTheme } from 'styled-components';
@@ -5,30 +6,41 @@ import Deem from '../../atom/Deem';
 import { IconClose } from '../../atom/Icon';
 
 interface Props extends PropsWithChildren {
-  title: string;
+  title?: string;
   visible: boolean;
+  contentHeight?: number;
   showCloseBtn?: boolean;
   children: React.ReactNode;
   oncloseModal: () => void;
 }
 
-const DefaultBottomSheet: FC<Props> = ({ visible, title, showCloseBtn = true, children, oncloseModal }) => {
+const DefaultBottomSheet: FC<Props> = ({
+  visible,
+  title,
+  contentHeight = 270,
+  showCloseBtn = true,
+  children,
+  oncloseModal,
+}) => {
   const {
     colors: { gray700 },
   } = useTheme();
+  usePreventScroll(visible);
 
   return (
     <Deem visible={visible} onDeemClick={oncloseModal}>
       <SC.BottomModal $isActive={visible}>
-        <SC.Header>
-          <p>{title}</p>
-          {showCloseBtn && (
-            <i onClick={oncloseModal}>
-              <IconClose width={24} height={30} fill={gray700} />
-            </i>
-          )}
-        </SC.Header>
-        <SC.Content>{children}</SC.Content>
+        {title && (
+          <SC.Header>
+            <p>{title}</p>
+            {showCloseBtn && (
+              <i onClick={oncloseModal}>
+                <IconClose width={24} height={30} fill={gray700} />
+              </i>
+            )}
+          </SC.Header>
+        )}
+        <SC.Content $maxHeight={contentHeight / 10}>{children}</SC.Content>
       </SC.BottomModal>
     </Deem>
   );
@@ -47,9 +59,9 @@ const SC = {
       color: ${({ theme }) => theme.colors.gray800};
     }
   `,
-  Content: styled.div`
+  Content: styled.div<{ $maxHeight: number }>`
     margin-bottom: 2.5rem;
-    max-height: 27rem;
+    max-height: ${({ $maxHeight }) => $maxHeight}rem;
     overflow-y: scroll;
   `,
   BottomModal: styled.div<{ $isActive: boolean }>`

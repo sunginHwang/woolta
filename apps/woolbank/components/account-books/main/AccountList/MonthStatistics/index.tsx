@@ -35,7 +35,6 @@ const MonthStatistics = () => {
   };
 
   const titleMsg = useMemo(() => getTitleMsg(selectedDate), [selectedDate]);
-  const monthLabelPrefix = useMemo(() => getMonthLabelPrefix(selectedDate), [selectedDate]);
   const activeMonthMenu = getMonthMenu(dayjs(selectedDate));
 
   return (
@@ -43,9 +42,6 @@ const MonthStatistics = () => {
       <SC.Container>
         <DropdownTitle title={titleMsg} onClick={openMonthPicker} />
         <SC.TotalSection>
-          <Text variant='small1Medium' color='gray500' as='p'>
-            {monthLabelPrefix}
-          </Text>
           <Text variant='title6Bold' color='red500' mt={5} as='p'>
             지출 : {totalExpenditureAmount.toLocaleString('ko-KR')}원
           </Text>
@@ -81,19 +77,12 @@ function getTitleMsg(selectedDate: string) {
     : `${dayjs(selectedDate).format('YYYY년 M월')} ${subFix}`;
 }
 
-function getMonthLabelPrefix(selectedDate: string) {
-  const isCurrentYearOfMonth =
-    dayjs().isSame(dayjs(selectedDate), 'month') && dayjs().isSame(dayjs(selectedDate), 'year');
-  const subFix = '지출 / 수입 내역';
-  return isCurrentYearOfMonth ? `오늘까지 ${subFix}` : `${dayjs().format('M월')} ${subFix}`;
-}
-
 const SC = {
   Container: styled.div`
     padding: 2rem 1.6rem 0;
   `,
   TotalSection: styled.section`
-    margin-top: 2rem;
+    margin-top: 1.6rem;
   `,
 };
 

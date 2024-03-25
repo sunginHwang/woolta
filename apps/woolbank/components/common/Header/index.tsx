@@ -1,12 +1,12 @@
 import { Text, white } from '@wds';
-import React, { FC, PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'styled-components';
 import { layout } from '../../../style/layout';
 import SubHeader from './SubHeader';
 
 interface Props extends PropsWithChildren {
   // 헤더 타이틀
-  title: string;
+  title: string | ReactNode;
   // 아이콘 색상
   iconColor?: string;
   // 뒤로가기 버튼 사용 우무
@@ -23,12 +23,16 @@ interface Props extends PropsWithChildren {
  * @component
  */
 const Header: FC<Props> = ({ title, right, bgColor = white }) => {
+  const isTextTitle = typeof title === 'string';
   return (
     <SC.Container color={bgColor}>
       <div className='inner'>
-        <Text variant='title4Bold' color='grayPrimary' data-cy='title'>
-          {title}
-        </Text>
+        {isTextTitle && (
+          <Text variant='title4Bold' color='grayPrimary' data-cy='title'>
+            {title}
+          </Text>
+        )}
+        {!isTextTitle && title}
         <SC.rightHeader>{right}</SC.rightHeader>
       </div>
     </SC.Container>

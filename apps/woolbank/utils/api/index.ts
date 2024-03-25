@@ -13,7 +13,7 @@ export interface TokenInfo {
 }
 
 const apiCall = axios.create({
-  baseURL: 'https://banketlist-api.woolta.com',
+  baseURL: 'http://localhost:4000',
   headers: {
     'Content-Type': 'application/json',
   },

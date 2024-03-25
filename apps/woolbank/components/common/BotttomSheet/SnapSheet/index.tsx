@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, FC, PropsWithChildren, ReactNode } from 'react';
 import Sheet from 'react-modal-sheet';
+import styled from 'styled-components';
 
 interface Props extends PropsWithChildren {
   // 시트 열기 닫기
@@ -33,20 +34,42 @@ const SnapSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true, h
   }, [isOpen, useDeem]);
 
   return (
-    <Sheet isOpen={isOpen} onClose={onClose} snapPoints={[MAX_Y, 600, 400, 300, 100, 0]} initialSnap={snapPhase}>
-      <>
-        <Sheet.Container>
-          {header || <Sheet.Header />}
-          <Sheet.Content>{children}</Sheet.Content>
-        </Sheet.Container>
-        {useDeem && (
-          <div onClick={onClose}>
-            <Sheet.Backdrop />
-          </div>
-        )}
-      </>
+    <Sheet
+      disableScrollLocking={true}
+      isOpen={isOpen}
+      onClose={() => {
+        console.log('12122');
+        onClose();
+      }}
+      snapPoints={[MAX_Y, 600, 400, 300, 100, 0]}
+      initialSnap={snapPhase}
+    >
+      <Sheet.Container>
+        {header || <Sheet.Header />}
+        <Sheet.Content>{children}</Sheet.Content>
+      </Sheet.Container>
+      <SC.backdrop
+        onClick={() => {
+          console.log('먹나?');
+          onClose();
+        }}
+      ></SC.backdrop>
     </Sheet>
   );
 };
 
 export default SnapSheet;
+
+const SC = {
+  backdrop: styled.div`
+    z-index: 1;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(51, 51, 51, 0.5);
+    touch-action: none;
+    opacity: 1;
+  `,
+};

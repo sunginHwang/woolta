@@ -1,17 +1,20 @@
-import { styled } from 'styled-components';
+import { useToggle } from '@common';
 import { Text } from '@wds';
+import dayjs from 'dayjs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
-import { AccountBookStatisticCategoryItem } from '../hooks/useAccountStatisticList';
-import CategoryBottomSheet from './CategoryBottomSheet';
-import { AccountBookChartData } from '.';
+import { styled } from 'styled-components';
+import {
+  AccountBookSheetItem,
+  AccountbookBottomSheet,
+} from '../../../..//components/account-books/common/AccountbookBottomSheet';
 import { Button } from '../../../../components/atom/Button';
-import { useToggle } from '@common';
+import { AccountBookChartData } from '.';
 
 interface IActiveSheet {
   color: string;
   label: string;
-  list: AccountBookStatisticCategoryItem[];
+  list: AccountBookSheetItem[];
 }
 
 const initActiveSheet: IActiveSheet = {
@@ -33,19 +36,26 @@ interface Props {
 const StatisticList: FC<Props> = ({ accountBookChartList }) => {
   const [isAllView, toggleIsAllView] = useToggle(false);
   const [activeSheetList, setActiveSheetList] = useState<IActiveSheet>(initActiveSheet);
-  const { back, push } = useRouter();
-  const { get } = useSearchParams();
-  const pathname = usePathname();
-  const isSheetOpen = get('sheet') === 'open';
   const chartList = isAllView ? accountBookChartList : accountBookChartList.filter((_, index) => index < FLIP_COUNT);
+  const isOpenSheet = activeSheetList.list.length !== 0;
 
+  const handleCloseSheetClick = () => {
+    setActiveSheetList(initActiveSheet);
+  };
   return (
     <>
       <SC.Container>
         {chartList.map(({ label, percentage, value, color, list }) => {
           const handleItemClick = () => {
-            push(`${pathname}?tab=statistic&sheet=open`);
-            setActiveSheetList({ color, label, list });
+            setActiveSheetList({
+              color,
+              label,
+              list: list.map(({ title, amount, registerDateTime }) => ({
+                title,
+                amount,
+                registerDateTime: dayjs(registerDateTime),
+              })),
+            });
           };
           return (
             <SC.Item key={label} onClick={handleItemClick}>
@@ -65,12 +75,12 @@ const StatisticList: FC<Props> = ({ accountBookChartList }) => {
           {isAllView ? '접기' : '전체보기'}
         </Button>
       </SC.Container>
-      <CategoryBottomSheet
-        isOpen={isSheetOpen}
-        title={activeSheetList.label}
-        titleColor={activeSheetList.color}
-        list={activeSheetList.list}
-        onClose={back}
+      <AccountbookBottomSheet
+        isOpen={isOpenSheet}
+        title={activeSheetList?.label ?? ''}
+        titleColor={activeSheetList?.color ?? ''}
+        list={activeSheetList?.list ?? []}
+        onClose={handleCloseSheetClick}
       />
     </>
   );

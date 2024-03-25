@@ -11,3 +11,4 @@ export * from './useWindowDemensions';
 export * from './useToggle';
 export * from './useEventListener';
 export * from './useLongPress';
+export * from './usePreventScroll';
