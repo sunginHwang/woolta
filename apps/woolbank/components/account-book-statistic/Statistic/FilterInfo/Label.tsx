@@ -10,9 +10,9 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
  * 가계부 레이블 필터 - 레이블 텍스트
  * @component
  */
-const Label: FC<Props> = ({ text, ...rest }) => {
+const Label: FC<Props> = ({ text, onClick, ...rest }) => {
   return (
-    <SC.Label>
+    <SC.Label onClick={onClick}>
       <Text variant='small1Regular' color='gray900' as='span' {...rest}>
         {text}
       </Text>
