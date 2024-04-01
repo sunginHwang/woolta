@@ -79,7 +79,7 @@ function getTitleMsg(selectedDate: string) {
 
 const SC = {
   Container: styled.div`
-    padding: 2rem 1.6rem 0;
+    padding: 1rem 1.6rem 0;
   `,
   TotalSection: styled.section`
     margin-top: 1.6rem;

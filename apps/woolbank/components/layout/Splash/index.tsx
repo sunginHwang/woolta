@@ -1,7 +1,7 @@
+import { useInterval } from '@common';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { useInterval } from '@support/hooks/useInterval';
 import mainImage from '@/image/main_image.svg';
 
 const INTERVAL_TIME = 500;
@@ -19,19 +19,16 @@ function Splash() {
   }, INTERVAL_TIME);
 
   return (
-    <S.Splash>
+    <SC.Splash>
       <img src={mainImage} alt='스플래시이미지' />
-      <S.Text>
+      <SC.Text>
         <p>잠시만 기다려주세요{dot}</p>
-      </S.Text>
-    </S.Splash>
+      </SC.Text>
+    </SC.Splash>
   );
 }
 
-const S: {
-  Splash: any;
-  Text: any;
-} = {
+const SC = {
   Splash: styled.div`
     width: 100%;
     height: 100%;
@@ -53,8 +50,8 @@ const S: {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: ${({ theme }) => theme.colors.blackL2};
-  `
+    color: ${({ theme }) => theme.colors.gray700};
+  `,
 };
 
 export default Splash;

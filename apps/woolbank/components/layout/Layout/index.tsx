@@ -1,8 +1,11 @@
 'use client';
 
+import { LoadingAtom } from 'apps/woolbank/store/layout';
+import { useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 //import Header from '../Header';
+import FullScreenLoading from '../../common/FullScreenLoading';
 import { Alert } from '../Alert';
 import NavigationBar from '../NavigationBar';
 import { Toast } from '../Toast';
@@ -26,7 +29,8 @@ interface Props extends PropsWithChildren {
  */
 const Layout: FC<Props> = ({ children }) => {
   const pathname = usePathname();
-  console.log(pathname);
+  const { isLoading, message } = useAtomValue(LoadingAtom);
+
   const useNavBar = NAVIGATION_PATHS.find((path) => pathname === path);
   return (
     <main>
@@ -34,6 +38,7 @@ const Layout: FC<Props> = ({ children }) => {
       {/* <Header title='뱅킷리스트' description='계좌 정보를 한곳에 모으고 도전하고 싶은 버킷리스트를 만들어봐요~' /> */}
       {children}
       {useNavBar && <NavigationBar />}
+      <FullScreenLoading loading={isLoading} message={message} />
       <Toast />
       <Alert />
     </main>

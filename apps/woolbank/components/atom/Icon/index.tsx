@@ -21,3 +21,6 @@ export { default as IconBlackCircle } from './BlackCircle';
 export { default as IconPlus } from './Plus';
 export { default as IconImage } from './Image';
 export { default as IconCamera } from './Camera';
+export { KakaoTalk as IconKakaoTalk } from './KakaoTalk';
+export { Facebook as IconFacebook } from './Facebook';
+export { Google as IconGoogle } from './Google';

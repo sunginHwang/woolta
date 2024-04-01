@@ -37,7 +37,7 @@ const Item: FC<Props> = ({ accountBook }) => {
             </SC.Info>
           </div>
         </SC.Left>
-        <Text className='price' variant='body3' color={isIncomeType ? 'red500' : 'gray700'} as='p'>
+        <Text className='price' variant='body3' color={isIncomeType ? 'red500' : 'gray600'} as='p'>
           {displayAmount.toLocaleString('ko-KR')}원
         </Text>
       </SC.Item>

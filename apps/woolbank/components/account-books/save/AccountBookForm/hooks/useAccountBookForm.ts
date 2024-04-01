@@ -21,6 +21,9 @@ const INIT_FORM_DATA: AccountBookSaveForm = {
     id: -1,
     name: '',
     type: 'income',
+    accountBookCategoryImage: {
+      imageUrl: '',
+    },
     createdAt: new Date(),
     updatedAt: new Date(),
   },

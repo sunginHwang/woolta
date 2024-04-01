@@ -14,6 +14,7 @@ export interface TokenInfo {
 
 const apiCall = axios.create({
   baseURL: 'http://localhost:4000',
+  withCredentials: true, // 쿠키 공유를 위해 필요
   headers: {
     'Content-Type': 'application/json',
   },

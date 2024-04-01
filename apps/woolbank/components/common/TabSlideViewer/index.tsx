@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { BucketListItem } from '../../bucket-list/main/BucketListItem';
 import Tabs, { Tab } from '../Tabs';
 import { Empty } from './Empty';
-import { Skeleton } from './Skeleton';
 
 interface Props {
   tabs: Tab[];
@@ -57,14 +56,18 @@ export const TabSlideViewer = Object.assign(
     }
     const SwipeableViewsStyle = { height: '100%' };
 
+    const renderContent = () => {
+      return slideViewList.map((view, index) => <SC.ListContent key={index}>{view}</SC.ListContent>);
+    };
+
     return (
       <>
         <Tabs tabs={tabs} value={activeTab.value ?? ''} onChange={onTabChange} />
         <SC.ListWrapper>
           <SwipeableViews index={tabIndex} onChangeIndex={onSlideTo} style={SwipeableViewsStyle}>
-            {slideViewList.map((view, index) => (
-              <SC.ListContent key={index}>{view}</SC.ListContent>
-            ))}
+            {/* @eslint-disable-next-line @typescript-eslint/ban-ts-comment
+             * @ts-ignore */}
+            {renderContent}
           </SwipeableViews>
         </SC.ListWrapper>
       </>

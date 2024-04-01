@@ -1,5 +1,6 @@
 import { Text } from '@wds';
 import Image from 'next/image';
+import Link from 'next/link';
 import { styled } from 'styled-components';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 
@@ -37,6 +38,18 @@ const UserInfoCard = () => {
               &gt;
             </Text>
           </SC.DefaultItem>
+        </SC.Item>
+        <SC.Item>
+          <Link className='link' href='my-page/share-code'>
+            <SC.DefaultItem>
+              <Text variant='body4Regular' color='grayPrimary'>
+                가계부 공유하기
+              </Text>
+              <Text variant='body4Regular' color='grayPrimary'>
+                &gt;
+              </Text>
+            </SC.DefaultItem>
+          </Link>
         </SC.Item>
       </div>
     </SC.Container>
@@ -78,6 +91,12 @@ const SC = {
     height: 4.8rem;
     display: flex;
     padding: 0 2rem;
+
+    .link {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
   `,
   DefaultItem: styled.div`
     display: flex;

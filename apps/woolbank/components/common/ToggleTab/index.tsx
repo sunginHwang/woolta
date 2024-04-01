@@ -108,15 +108,15 @@ const S = {
       font-size: 1.3rem;
     }
   `,
-  Tab: styled.button<{ active: boolean }>`
+  Tab: styled.button<{ $isActive: boolean }>`
     width: 100%;
     font-weight: bold;
-    color: ${({ active, theme }) => (active ? theme.colors.grayPrimary : theme.colors.gray150)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.grayPrimary : theme.colors.gray150)};
   `,
-  ListTab: styled.button<{ active: boolean }>`
+  ListTab: styled.button<{ $isActive: boolean }>`
     margin-right: 2.5rem;
     font-weight: 800;
-    color: ${({ active, theme }) => (active ? theme.colors.gray800 : theme.colors.gray600)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.gray800 : theme.colors.gray600)};
   `,
   TabOutLine: styled.button<{ $isActive: boolean }>`
     width: 100%;

@@ -20,5 +20,7 @@ export const Portal: FC<Props> = ({ targetId, children }) => {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   return ReactDOM.createPortal(children, targetNode);
 };

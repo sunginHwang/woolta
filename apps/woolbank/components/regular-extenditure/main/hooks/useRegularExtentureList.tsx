@@ -65,6 +65,7 @@ export const useRegularExtentureList = () => {
           const updatedItem = {
             type,
             name: item.name,
+            imageUrl: item.imageUrl,
             list: item.list.filter(({ id }) => id !== removeId),
           };
 

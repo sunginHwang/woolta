@@ -17,7 +17,7 @@ const Skeleton = () => {
 
 const SC = {
   Container: styled.section`
-    padding: 2rem 1.6rem 0;
+    padding: 1rem 1.6rem 0;
     .title {
       margin-bottom: 1.6rem;
     }

@@ -72,7 +72,7 @@ export const ImageForm: FC<Props> = ({ activeForm }) => {
             <div onClick={onPictureClick}>
               <IconCamera width={40} height={40} fill={colors.red500} />
             </div>
-            <input type='file' ref={inputCameraRef} onChange={onChangeImage} accept='image/*' capture='camera' />
+            <input type='file' ref={inputCameraRef} onChange={onChangeImage} accept='image/*' capture='environment' />
           </SC.Img>
           <SC.Img>
             <div onClick={onAlbumClick}>
