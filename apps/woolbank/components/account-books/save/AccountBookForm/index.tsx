@@ -10,6 +10,7 @@ import getCategoryMsg from '../../../../utils/account-books';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
+import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 
 const TAB_LIST = [
   {
@@ -42,6 +43,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   } = useAccountBookForm(accountBookForm);
   const { openConfirm } = useConfirm();
   const { onToast } = useToast();
+  const { isShareUser } = useUserInfo();
   const { is_insert_mode } = useAccountBookSaveRouterProps();
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
@@ -114,6 +116,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         <ToggleTab tabs={TAB_LIST} value={formData.type} onChangeTab={setType} />
         <BaseInput
           readOnly
+          disable={isShareUser}
           dataType='amount'
           label={`${typeMsg}금액`}
           placeholder={`${typeMsg}금액을 입력해 주세요.`}
@@ -124,6 +127,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         <BaseInput
           ref={title_ref}
           name='title'
+          disable={isShareUser}
           label={`${typeMsg}처`}
           placeholder={`${typeMsg}처를 선택해 주세요.`}
           maxLength={20}
@@ -134,6 +138,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         />
         <BaseInput
           readOnly
+          disable={isShareUser}
           dataType='registerDateTime'
           label={`${typeMsg}일시`}
           placeholder={`${typeMsg}일시를 선택해 주세요.`}
@@ -143,6 +148,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         />
         <BaseInput
           readOnly
+          disable={isShareUser}
           dataType='category'
           label={`${typeMsg}카테고리`}
           placeholder={`${typeMsg} 카테고리를 선택해 주세요.`}
@@ -153,22 +159,25 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         <BaseInput
           name='memo'
           label='메모'
+          disable={isShareUser}
           placeholder='메모를 입력해주세요.'
           maxLength={20}
           value={formData.memo}
           onChange={onChange}
           onClear={handleClearClick}
         />
-        <SC.ButtonArea>
-          {!isUpdateForm && (
-            <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
-              <IconTrashCan />
+        {!isShareUser && (
+          <SC.ButtonArea>
+            {!isUpdateForm && (
+              <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
+                <IconTrashCan />
+              </Button>
+            )}
+            <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
+              {isUpdateForm ? '작성하기' : '수정하기'}
             </Button>
-          )}
-          <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
-            {isUpdateForm ? '작성하기' : '수정하기'}
-          </Button>
-        </SC.ButtonArea>
+          </SC.ButtonArea>
+        )}
       </SC.Form>
       <FormModal
         openModalName={openModalName}

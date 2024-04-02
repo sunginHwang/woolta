@@ -2,10 +2,22 @@ import { Text } from '@wds';
 import Image from 'next/image';
 import Link from 'next/link';
 import { styled } from 'styled-components';
+import { useConfirm } from '../../../..//components/common/Confirm/ConfirmContext';
+import { postData } from '../../../..//utils/api';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 
 const UserInfoCard = () => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, isShareUser } = useUserInfo();
+  const { openConfirm } = useConfirm();
+
+  const handleLogoutClick = async () => {
+    const isOK = await openConfirm({ message: '정말 로그아웃 하시겠습니까?' });
+
+    if (isOK) {
+      await postData('/user/logout');
+      location.reload();
+    }
+  };
 
   if (!userInfo) {
     return null;
@@ -16,20 +28,33 @@ const UserInfoCard = () => {
         내 정보
       </Text>
       <div>
-        <SC.Item>
-          <SC.DefaultItem>
-            <div className='user'>
-              <Image src={userInfo.imageUrl} width={24} height={24} alt={`${name}_유저_이미지`} />
-              <Text variant='body4Regular' as='p' ml={6}>
-                {userInfo.name}
+        {isShareUser && (
+          <SC.Item>
+            <SC.DefaultItem>
+              <div className='user'>
+                <Text variant='body4Regular' as='p' ml={6}>
+                  공유코드 유저
+                </Text>
+              </div>
+            </SC.DefaultItem>
+          </SC.Item>
+        )}
+        {!isShareUser && (
+          <SC.Item>
+            <SC.DefaultItem>
+              <div className='user'>
+                <Image src={userInfo.imageUrl} width={24} height={24} alt={`${name}_유저_이미지`} />
+                <Text variant='body4Regular' as='p' ml={6}>
+                  {userInfo.name}
+                </Text>
+              </div>
+              <Text variant='body4Regular' color='grayPrimary'>
+                &gt;
               </Text>
-            </div>
-            <Text variant='body4Regular' color='grayPrimary'>
-              &gt;
-            </Text>
-          </SC.DefaultItem>
-        </SC.Item>
-        <SC.Item>
+            </SC.DefaultItem>
+          </SC.Item>
+        )}
+        <SC.Item onClick={handleLogoutClick}>
           <SC.DefaultItem>
             <Text variant='body4Regular' color='grayPrimary'>
               로그아웃
@@ -39,18 +64,20 @@ const UserInfoCard = () => {
             </Text>
           </SC.DefaultItem>
         </SC.Item>
-        <SC.Item>
-          <Link className='link' href='my-page/share-code'>
-            <SC.DefaultItem>
-              <Text variant='body4Regular' color='grayPrimary'>
-                가계부 공유하기
-              </Text>
-              <Text variant='body4Regular' color='grayPrimary'>
-                &gt;
-              </Text>
-            </SC.DefaultItem>
-          </Link>
-        </SC.Item>
+        {!isShareUser && (
+          <SC.Item>
+            <Link className='link' href='my-page/share-code'>
+              <SC.DefaultItem>
+                <Text variant='body4Regular' color='grayPrimary'>
+                  가계부 공유하기
+                </Text>
+                <Text variant='body4Regular' color='grayPrimary'>
+                  &gt;
+                </Text>
+              </SC.DefaultItem>
+            </Link>
+          </SC.Item>
+        )}
       </div>
     </SC.Container>
   );

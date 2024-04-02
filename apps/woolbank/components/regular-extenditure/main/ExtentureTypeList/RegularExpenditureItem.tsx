@@ -11,13 +11,14 @@ interface Props {
   type: string;
   // 정기지출 아이템
   regularExpenditure: RegularExpenditure;
+  hasDeleteAuth: boolean;
 }
 
 /**
  * 정기 지출 리스트 -> 정기 지출 리스트 아이탬
  * @component
  */
-const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
+const RegularExpenditureItem: FC<Props> = ({ type, hasDeleteAuth, regularExpenditure }) => {
   const { title, isAutoExpenditure, amount, id, regularExpenditureDay } = regularExpenditure;
   const { remainDayKo, remainDay } = getRemainDay(regularExpenditureDay, { completeMsg: '지출일' });
   const isAccentRemainDay = remainDay <= 3;
@@ -27,6 +28,10 @@ const RegularExpenditureItem: FC<Props> = ({ type, regularExpenditure }) => {
   const longPressAction = useLongPress({
     ms: 700,
     onLongPress: async () => {
+      if (!hasDeleteAuth) {
+        return;
+      }
+
       const isConfirm = await openConfirm({
         message: '정말 삭제하시겠습니까?',
         useAutoClose: false,

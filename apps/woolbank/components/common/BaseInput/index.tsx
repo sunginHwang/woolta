@@ -54,7 +54,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
     },
     parentRef,
   ) => {
-    const isExistInputValue = value !== '' && isShowCloseBtn;
+    const isExistInputValue = value !== '' && isShowCloseBtn && !disable;
     const inputRef = useRef<HTMLInputElement>(null);
     const [focus, setFocus] = useState(false);
     const { onKeyUp, ...restInputProps } = rest;

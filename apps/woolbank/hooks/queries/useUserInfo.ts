@@ -8,44 +8,47 @@ export interface UserInfo {
   name: string;
   email: string;
   imageUrl: string;
-  authToken: string;
+  loginType: string;
+  authType: string;
 }
 
 interface ApiUserInfo {
-  authTokens: {
-    accessToken: string;
-    refreshToken: string;
-  };
-  userInfo: {
-    id: string;
-    name: string;
-    email: string;
-    loginType: string;
-    profileImg: string;
-    socialId: string;
-    updatedAt: string;
-  };
+  id: string;
+  name: string;
+  email: string;
+  loginType: string;
+  profileImg: string;
+  socialId: string;
+  updatedAt: string;
+  authType: string;
 }
 
 const fetchUserInfo = async () => {
   try {
-    const res = await getData<ApiUserInfo>('/auth/check');
-    return {
-      id: res.data.userInfo.id,
-      name: res.data.userInfo.name,
-      email: res.data.userInfo.email,
-      imageUrl: res.data.userInfo.profileImg,
-      authToken: res.data.authTokens.accessToken,
-    } as UserInfo;
-  } catch {
+    const { data } = await getData<ApiUserInfo>('/user/');
+    const userInfo: UserInfo = {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      imageUrl: data.profileImg,
+      loginType: data.loginType,
+      authType: data.authType,
+    };
+    return userInfo;
+  } catch (e) {
     return null;
   }
 };
 
 export const useUserInfo = () => {
-  const { data, ...rest } = useQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: fetchUserInfo });
+  const { data, ...rest } = useQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: () => fetchUserInfo() });
+
+  const userInfo = data ?? null;
+  const isShareUser = userInfo?.authType !== 'share';
+
   return {
-    userInfo: data ?? null,
+    userInfo,
+    isShareUser,
     ...rest,
   };
 };

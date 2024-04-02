@@ -1,5 +1,6 @@
 import { Text } from '@wds';
 import { styled } from 'styled-components';
+import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
 import ExpenditureTypeItem from './RegularExpenditureItem';
 
@@ -8,6 +9,7 @@ import ExpenditureTypeItem from './RegularExpenditureItem';
  * @component
  */
 const ExtentureTypeList = () => {
+  const { isShareUser } = useUserInfo();
   const { regularExpenditureTypeList } = useRegularExtentureList();
 
   if (regularExpenditureTypeList.length === 0) {
@@ -34,7 +36,14 @@ const ExtentureTypeList = () => {
             </SC.TypeInfo>
             <ul>
               {list.map((item) => {
-                return <ExpenditureTypeItem key={item.id} type={type} regularExpenditure={item} />;
+                return (
+                  <ExpenditureTypeItem
+                    hasDeleteAuth={!isShareUser}
+                    key={item.id}
+                    type={type}
+                    regularExpenditure={item}
+                  />
+                );
               })}
             </ul>
           </SC.ExpenditureType>

@@ -2,8 +2,6 @@
 
 import { Suspense } from '@wds';
 import { Text } from '@wds';
-import { postData } from 'apps/woolbank/utils/api';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { styled } from 'styled-components';
@@ -11,6 +9,7 @@ import AddButton from '../../common/AddButton';
 import { AccountBookCalendar } from './AccountBookCalendar';
 import AccountBookList from './AccountList/AccountBookList';
 import MonthStatistics from './AccountList/MonthStatistics';
+import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 
 const TAB_LIST = [
   { label: '리스트', value: 'list', link: '/?type=list' },
@@ -22,16 +21,13 @@ const TAB_LIST = [
  * @component
  */
 const AccountBookListPage = () => {
+  const { isShareUser } = useUserInfo();
   const { get } = useSearchParams();
   const active_tab = get('type') ?? 'list';
 
-  const test = () => {
-    postData('/user/login/social');
-  };
   return (
     <>
       <MonthStatistics />
-      <button onClick={test}>zmffl</button>
       <SC.ToggleWrapper>
         <SC.ToggleTabs>
           {TAB_LIST.map((tab) => (
@@ -52,7 +48,7 @@ const AccountBookListPage = () => {
         </Suspense>
       )}
       <SC.Footer />
-      <AddButton href='/account-books/save' />
+      {!isShareUser && <AddButton href='/account-books/save' />}
     </>
   );
 };
