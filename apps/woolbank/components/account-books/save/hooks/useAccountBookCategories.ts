@@ -19,6 +19,7 @@ export interface AccountBookCategory {
 export interface AccountBookCategoryForm {
   name: string;
   type: AccountBookCategoryType;
+  useStatistic: boolean;
   imageId: number;
 }
 
@@ -41,8 +42,14 @@ export const addAccountBookCategory = async ({
   name,
   type,
   imageId,
+  useStatistic,
 }: AccountBookCategoryForm): Promise<AccountBookCategory> => {
-  const { data } = await postData<AccountBookCategory>('account-book-categories', { type, name, imageId });
+  const { data } = await postData<AccountBookCategory>('account-book-categories', {
+    type,
+    useStatistic,
+    name,
+    imageId,
+  });
   return data;
 };
 
@@ -54,9 +61,9 @@ export const useAccountBookCategories = () => {
   });
   const saveCategoryMutation = useMutation({ mutationFn: addAccountBookCategory });
 
-  const saveAccountBookCategory = ({ onSuccessCb, name, type, imageId }: SaveAccountBookCategoryForm) => {
+  const saveAccountBookCategory = ({ onSuccessCb, name, type, imageId, useStatistic }: SaveAccountBookCategoryForm) => {
     saveCategoryMutation.mutate(
-      { name, type, imageId },
+      { name, type, imageId, useStatistic },
       {
         onSuccess: () => {
           onToast('카테고리가 생성되었습니다.');

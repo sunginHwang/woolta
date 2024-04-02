@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { styled } from 'styled-components';
 import { DateRange } from '../../../../utils/date';
 import { AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../store';
+import { CategoryOptionFilter } from './CategoryOptionFilter';
 import DateFilter from './DateFilter';
 import DateRangeFilter from './DateRangeFilter';
 import TypeFilter from './TypeFilter';
@@ -41,6 +42,7 @@ const FilterInfo = () => {
       <SC.DateLabel>
         <DateFilter startDate={startDate} endDate={endDate} dateRange={dateRange} onDateChange={setDate} />
         <TypeFilter activeType={type} onTypeChange={setType} />
+        <CategoryOptionFilter />
       </SC.DateLabel>
     </SC.Container>
   );

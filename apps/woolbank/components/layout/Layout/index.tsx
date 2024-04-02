@@ -1,10 +1,10 @@
 'use client';
 
-import { LoadingAtom } from 'apps/woolbank/store/layout';
 import { useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 //import Header from '../Header';
+import { LoadingAtom } from '../../../store/layout';
 import FullScreenLoading from '../../common/FullScreenLoading';
 import { Alert } from '../Alert';
 import NavigationBar from '../NavigationBar';

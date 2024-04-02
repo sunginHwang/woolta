@@ -6,10 +6,15 @@ import BaseInput from '../../../../..//components/common/BaseInput';
 import getCategoryMsg, { AccountBookCategoryType } from '../../../../..//utils/account-books';
 import { BottomFloatingButton } from '../../../../../components/common/BottomFloatingButton';
 import Header from '../../../../../components/common/Header';
+import ToggleTab, { ToggleTabItem } from '../../../../../components/common/ToggleTab';
 import { useToast } from '../../../../../hooks/useToast';
 import { SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';
 import { useAccountBookCategoryImages } from '../../hooks/useAccountBookCategoryImages';
 
+const TAB_LIST: ToggleTabItem[] = [
+  { type: 'ok', name: '포함' },
+  { type: 'none', name: '불포함' },
+];
 interface Props {
   type: AccountBookCategoryType;
   isLoading: boolean;
@@ -24,11 +29,16 @@ interface Props {
 
 export const CategorySaveForm: FC<Props> = ({ type, onClose, isLoading, saveAccountBookCategory }) => {
   const [categoryName, onChangeCategoryName, onReset] = useInput('');
+  const [useStatistic, setUseStatistic] = useState(TAB_LIST[0].type);
   const { accountBookCategoryImages } = useAccountBookCategoryImages();
   const [iconId, setIconId] = useState(0);
   const { onToast } = useToast();
 
   const typeMsg = getCategoryMsg(type);
+
+  const handleStatisticToggleClick = (tab: ToggleTabItem) => {
+    setUseStatistic(tab.type);
+  };
 
   const onAddCategoryClick = () => {
     if (categoryName.length >= 20) {
@@ -39,6 +49,7 @@ export const CategorySaveForm: FC<Props> = ({ type, onClose, isLoading, saveAcco
       name: categoryName,
       type,
       imageId: iconId,
+      useStatistic: useStatistic === 'ok',
       onSuccessCb: () => onClose(),
     });
   };
@@ -54,7 +65,11 @@ export const CategorySaveForm: FC<Props> = ({ type, onClose, isLoading, saveAcco
           onChange={onChangeCategoryName}
           onClear={onReset}
         />
-        <Text variant='small1Regular' color='gray600' as='label' mb={8}>
+        <Text variant='small1Regular' color='gray600' as='p' mb={16} mt={16}>
+          통계포함 유무
+        </Text>
+        <ToggleTab tabs={TAB_LIST} value={useStatistic} onChangeTab={handleStatisticToggleClick} />
+        <Text variant='small1Regular' color='gray600' as='p' mb={16} mt={24}>
           아이콘
         </Text>
         <SC.IconList>

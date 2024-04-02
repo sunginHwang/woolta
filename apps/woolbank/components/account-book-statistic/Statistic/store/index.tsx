@@ -1,5 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import { DateRange } from '../../../../utils/date';
 export type AccountBookCategoryType = 'expenditure' | 'income';
 
@@ -15,3 +16,5 @@ export const AccountBookStatisticFilterAtom = atom<AccountStatisticFilter>({
   type: 'expenditure',
   dateRange: 'month',
 });
+
+export const allVisibilityStatisticAtom = atomWithStorage('allVisibilityStatistic', false);

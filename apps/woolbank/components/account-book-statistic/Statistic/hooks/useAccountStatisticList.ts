@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { getData } from '../../../../utils/api';
-import { AccountBookStatisticFilterAtom, AccountStatisticFilter } from '../store';
+import { AccountBookStatisticFilterAtom, AccountStatisticFilter, allVisibilityStatisticAtom } from '../store';
 
 export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';
 
@@ -10,6 +10,7 @@ export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';
 export interface AccountBookStatistic {
   categoryId: number;
   categoryName: string;
+  useStatistic: boolean;
   amount: number;
   percentage: number;
   list: AccountBookStatisticCategoryItem[];
@@ -46,6 +47,7 @@ export const fetchAccountBookStatistics = async (filter: AccountStatisticFilter)
 };
 
 export const useAccountStatisticList = () => {
+  const allVisibilityStatistic = useAtomValue(allVisibilityStatisticAtom);
   const AccountBookStatisticFilter = useAtomValue(AccountBookStatisticFilterAtom);
   const queryKey = getQueryKey(AccountBookStatisticFilter);
 
@@ -54,7 +56,7 @@ export const useAccountStatisticList = () => {
     queryFn: () => fetchAccountBookStatistics(AccountBookStatisticFilter),
   });
 
-  const accountBookStatisticList = data ?? [];
+  const accountBookStatisticList = data?.filter((item) => allVisibilityStatistic || item.useStatistic) ?? [];
 
   return {
     accountBookStatisticList,

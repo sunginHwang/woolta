@@ -127,6 +127,7 @@ const SC = {
     border-radius: 5px;
     width: 100%;
     margin: 0 auto;
+    margin-top: 1rem;
   `,
   DaysContainer: styled.div`
     display: grid;
