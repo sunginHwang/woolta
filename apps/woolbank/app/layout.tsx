@@ -1,11 +1,6 @@
-'use client';
-import { Suspense } from '@wds';
 import { Providers } from '../components/layout/Providers';
-import { setConfig } from '../utils/config';
 
-setConfig();
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko'>
       <head>
@@ -40,9 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Suspense fallback={<div></div>}>
-          <Providers>{children}</Providers>
-        </Suspense>
+        <Providers>{children}</Providers>
         <div id='modalDeem' />
       </body>
     </html>
