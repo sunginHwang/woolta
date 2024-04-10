@@ -1,6 +1,6 @@
+import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from '@dump-work/react-google-login';
 import { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-facebook-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import KaKaoLogin from 'react-kakao-login';
 
 import { useAlert } from '../../../..//hooks/useAlert';
@@ -27,10 +27,7 @@ function SocialLogin() {
     onAlert('로그인 실패');
   };
 
-  /**
-   * facebook 간편 로그인 성공 콜백
-   */
-  const onFacebookLogin = (facebookResponse: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
+  const handleFacebookLogin = (facebookResponse: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
     const response = facebookResponse as ReactFacebookLoginInfo;
 
     const isFacebookLoginSuccess = (response: ReactFacebookLoginInfo) => {
@@ -51,10 +48,7 @@ function SocialLogin() {
     });
   };
 
-  /**
-   * google 간편 로그인 성공 콜백
-   */
-  const onGoogleLogin = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+  const handleGoogleLogin = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     const response = googleResponse as GoogleLoginResponse;
     const isGoogleLoginSuccess = (response: GoogleLoginResponse) => {
       return response.tokenId !== undefined;
@@ -76,19 +70,18 @@ function SocialLogin() {
 
   return (
     <LoginBox title='소셜 로그인 하기' type='social'>
-      <FacebookLogin
+      {/* //TODO facebook 로그인 추후 추가 */}
+      {/* <FacebookLogin
         appId={socialAuthKey.facebook}
         fields='name,email,picture'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-expect-error
         render={(renderProps) => <SocialLoginButton provider='facebook' handleLoginClick={renderProps.onClick} />}
-        callback={onFacebookLogin}
-      />
+        callback={handleFacebookLogin}
+      /> */}
       <GoogleLogin
         clientId={socialAuthKey.google}
         cookiePolicy='single_host_origin'
         render={(renderProps) => <SocialLoginButton provider='google' handleLoginClick={renderProps.onClick} />}
-        onSuccess={onGoogleLogin}
+        onSuccess={handleGoogleLogin}
         onFailure={onLoginFailure}
       />
       <KaKaoLogin

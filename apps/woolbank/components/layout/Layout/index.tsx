@@ -37,10 +37,10 @@ const Layout: FC<Props> = ({ children }) => {
       {/* 헤더가 inii ssr 시점에 문제가 존재. */}
       {/* <Header title='뱅킷리스트' description='계좌 정보를 한곳에 모으고 도전하고 싶은 버킷리스트를 만들어봐요~' /> */}
       {children}
-      {/* {useNavBar && <NavigationBar />}
+      {useNavBar && <NavigationBar />}
       <FullScreenLoading loading={isLoading} message={message} />
       <Toast />
-      <Alert /> */}
+      <Alert />
     </main>
   );
 };
