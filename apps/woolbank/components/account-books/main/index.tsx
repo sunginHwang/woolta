@@ -5,11 +5,11 @@ import { Text } from '@wds';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { styled } from 'styled-components';
+import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 import AddButton from '../../common/AddButton';
 import { AccountBookCalendar } from './AccountBookCalendar';
 import AccountBookList from './AccountList/AccountBookList';
 import MonthStatistics from './AccountList/MonthStatistics';
-import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 
 const TAB_LIST = [
   { label: '리스트', value: 'list', link: '/?type=list' },
@@ -22,8 +22,8 @@ const TAB_LIST = [
  */
 const AccountBookListPage = () => {
   const { isShareUser } = useUserInfo();
-  const { get } = useSearchParams();
-  const active_tab = get('type') ?? 'list';
+  const searchParams = useSearchParams();
+  const active_tab = searchParams.get('type') ?? 'list';
 
   return (
     <>

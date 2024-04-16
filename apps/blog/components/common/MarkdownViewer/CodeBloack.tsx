@@ -1,15 +1,15 @@
+import { FC } from 'react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
+import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
+import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
+import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
+import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss';
 import tsx from 'react-syntax-highlighter/dist/cjs/languages/prism/tsx';
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
-import scss from 'react-syntax-highlighter/dist/cjs/languages/prism/scss';
-import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
-import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
-import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
-import javascript from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import java from 'react-syntax-highlighter/dist/esm/languages/hljs/java';
-import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
+import javascript from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import style from 'react-syntax-highlighter/dist/esm/styles/hljs/darcula';
-import { FC } from 'react';
 
 SyntaxHighlighter.registerLanguage('tsx', tsx);
 SyntaxHighlighter.registerLanguage('jsx', jsx);
@@ -28,7 +28,6 @@ interface Props {
 }
 
 const CodeBlock: FC<Props> = ({ value, language }) => {
-  console.log(value);
   return (
     <SyntaxHighlighter language={language} style={style}>
       {value === undefined ? '' : value}

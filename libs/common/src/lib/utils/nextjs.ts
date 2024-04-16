@@ -1,15 +1,15 @@
 import { AxiosRequestConfig } from 'axios';
-import { cookies } from 'next/headers';
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
-export function makeServerContext(): AxiosRequestConfig {
-  const cookiesToString = cookies()
+export function makeServerContext(nextCookies: ReadonlyRequestCookies): AxiosRequestConfig {
+  const cookieToString = nextCookies
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join('; ');
 
   return {
     headers: {
-      'Cookie': cookiesToString,
+      'Cookie': cookieToString,
       'Content-Type': 'application/json',
     },
     withCredentials: true,

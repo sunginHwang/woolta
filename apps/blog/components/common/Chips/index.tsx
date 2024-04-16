@@ -1,8 +1,8 @@
 import { useMount } from '@common';
-import { styled, CSSProp } from 'styled-components';
+import { white, SkeletonBar, invisibleScrollBar } from '@wds';
 import { useStickeyScrollReset } from 'apps/blog/hooks/useStickeyScrollReset';
 import { FC, MouseEvent, useMemo, useRef } from 'react';
-import { white, SkeletonBar, invisibleScrollBar } from '@wds';
+import { styled, CSSProp } from 'styled-components';
 import Item, { ChipItemWithLink } from './Item';
 
 interface Props {
@@ -61,12 +61,12 @@ const Chips = ({
   onChipClick,
 }: Props) => {
   const chip_list_ref = useRef<HTMLUListElement>(null);
-  const chip_item_ref = useRef<Array<HTMLElement | null>>([]);
+  const chip_item_ref = useRef<any[]>([]);
   const use_stickey = stickey_height !== undefined;
   const { scroll_target_ref, resetScrollTo } = useStickeyScrollReset();
 
   const selected_id = useMemo(() => {
-    return chips.findIndex((item) => item.value === active_chip_value);
+    return
   }, [chips, active_chip_value]);
 
   useMount(() => {

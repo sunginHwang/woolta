@@ -1,8 +1,8 @@
 import { useSearchParams } from 'next/navigation';
 
 export const useAccountBookSaveRouterProps = () => {
-  const { get } = useSearchParams();
-  const account_book_id = get('id');
+  const searchParams = useSearchParams();
+  const account_book_id = searchParams.get('id');
   const is_insert_mode = account_book_id === null;
 
   return {
