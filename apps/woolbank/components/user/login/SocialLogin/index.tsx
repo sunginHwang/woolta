@@ -50,8 +50,9 @@ function SocialLogin() {
 
   const handleGoogleLogin = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     const response = googleResponse as GoogleLoginResponse;
+
     const isGoogleLoginSuccess = (response: GoogleLoginResponse) => {
-      return response.tokenId !== undefined;
+      return response.tokenId !== undefined || response.tokenObj.id_token !== undefined;
     };
 
     if (!isGoogleLoginSuccess(response)) {

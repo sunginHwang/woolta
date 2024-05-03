@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
 export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
   try {
-    const response = await fetch('http://localhost:4000/user', {
+    const response = await fetch('https://bank.woolta.com/user', {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
