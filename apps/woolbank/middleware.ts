@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
 export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
   try {
-    const response = await fetch('https://bank.woolta.com/user', {
+    const response = await fetch('https://bank-api.woolta.com/user', {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -31,9 +31,7 @@ export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
     });
 
     const info = await response.json();
-
     const isLoggendIn = info.status === 200 && !!info.data;
-
     if (isLoggendIn) {
       return NextResponse.next();
     }
