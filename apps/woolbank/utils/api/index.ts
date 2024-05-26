@@ -13,20 +13,12 @@ export interface TokenInfo {
 }
 
 const apiCall = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: config.apiUrl,
   withCredentials: true, // 쿠키 공유를 위해 필요
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
-apiCall.defaults.headers.common['bearer-auth'] =
-  'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MTA5MjYzNzIsImV4cCI6MTcxMTUzMTE3Mn0.NQBdoU_lpCD9tvnVbkKNu4SSRHoOsaaz7mPH5wmRjEB45xMvDFCu14U59QuQ9fme2zHVZZRCWRfB11LglKUfcg';
-
-// if (typeof Storage !== 'undefined') {
-//   apiCall.defaults.headers.common[config.accessHeaderToken] =
-//     'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDU4NDIzMjgsImV4cCI6MTcwNjQ0NzEyOH0.85IZyPz3Ldi-m1gh17hm_wJikzA6BD1qkyu4L2P3EpZvErw41QAQJjT4twWoza_QFtQFyoFtywcirMaSsMk7qg';
-// }
 
 apiCall.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 apiCall.defaults.headers.common['Access-Control-Allow-Methods'] = '*';

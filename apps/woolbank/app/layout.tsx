@@ -1,11 +1,12 @@
 'use client';
-import { Suspense } from '@wds';
+import { ReactNode } from 'react';
 import { Providers } from '../components/layout/Providers';
 import { setConfig } from '../utils/config';
+import { Suspense } from '@wds';
 
 setConfig();
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='ko'>
       <head>

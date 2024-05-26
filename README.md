@@ -61,3 +61,21 @@ Nx comes with local caching already built-in (check your `nx.json`). On CI you m
 - [Join the community](https://nx.dev/community)
 - [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
 - [Follow us on Twitter](https://twitter.com/nxdevtools)
+
+
+## 프로젝트 구성
+* blog (https://blog.woolta.com/)
+* woolbank (가계부):  (https://bank.woolta.com/)
+
+## 프로젝트 요구사항
+* yarn (1.x 사용 불가 berry로 설치)
+* node version: 18.0.0 이상
+
+## 프로젝트 설치
+* yarn install
+
+## 프로젝트 실행
+* nx serve {blog | woolbank}
+
+## 프로젝트 빌드
+* nx build {blog | woolbank}
