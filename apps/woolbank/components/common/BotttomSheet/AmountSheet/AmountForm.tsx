@@ -26,7 +26,7 @@ const AmountForm: FC<Props> = ({
       <SC.InputTable>
         <tbody>
           <tr>
-            <SC.InputTd data-cy='number_1' data-number={1} onClick={(e) => e}>
+            <SC.InputTd data-cy='number_1' data-number={1} onClick={onNumberClick}>
               1
             </SC.InputTd>
             <SC.InputTd data-cy='number_2' data-number={2} onClick={onNumberClick}>
