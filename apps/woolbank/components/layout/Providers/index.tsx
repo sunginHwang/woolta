@@ -3,10 +3,14 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider as JotaiProvider } from 'jotai';
 import { theme } from 'libs/wds/src/lib/style/colors';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import Layout from '../Layout';
 import StyleRegistry from './StyleRegistry';
 import { ConfirmProvider } from '../../common/Confirm/ConfirmContext';
+import { setConfig } from '../../../utils/config';
+import { Suspense } from '@wds';
+
+setConfig();
 
 const GlobalStyles = createGlobalStyle`
   html,
@@ -247,7 +251,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
               <GlobalStyles />
               <ConfirmProvider>
                 <Layout>
-                  <>{children}</>
+                  <Suspense fallback={<main></main>}>{children}</Suspense>
                 </Layout>
               </ConfirmProvider>
             </ThemeProvider>

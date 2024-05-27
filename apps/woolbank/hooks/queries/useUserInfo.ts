@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { AxiosRequestConfig } from 'axios';
 import { getData } from '../../utils/api';
 
 export const USER_INFO_QUERY_KEY = 'getUserInfo';
@@ -23,9 +24,9 @@ interface ApiUserInfo {
   authType: string;
 }
 
-const fetchUserInfo = async () => {
+export const fetchUserInfo = async (req?: AxiosRequestConfig) => {
   try {
-    const { data } = await getData<ApiUserInfo>('/user/');
+    const { data } = await getData<ApiUserInfo>('/user', req);
     const userInfo: UserInfo = {
       id: data.id,
       name: data.name,
@@ -44,7 +45,7 @@ export const useUserInfo = () => {
   const { data, ...rest } = useQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: () => fetchUserInfo() });
 
   const userInfo = data ?? null;
-  const isShareUser = userInfo?.authType !== 'share';
+  const isShareUser = userInfo?.authType === 'share';
 
   return {
     userInfo,

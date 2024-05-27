@@ -7,7 +7,6 @@ export type APIResponse<T> = {
   message: string;
 };
 
-console.log(config);
 const apiCall = axios.create({
   baseURL: config.blogApiUrl ?? 'https://api-blog.woolta.com',
   headers: {

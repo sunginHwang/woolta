@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { IdLogin } from './IdLogin';
 import { LoginTitle } from './LoginTitle';
-// import SocialLogin from './SocialLogin';
+import SocialLogin from './SocialLogin';
 
 export const Login = () => {
   return (
     <SC.Container>
       <LoginTitle />
       <IdLogin />
-      {/* <SocialLogin /> */}
+      <SocialLogin />
     </SC.Container>
   );
 };

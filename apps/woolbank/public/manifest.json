@@ -39,10 +39,21 @@
       "type": "image/png"
     }
   ],
-  "start_url": "http://localhost:4200/",
+  "screenshots": [
+    {
+      "src": "/screen1.png",
+      "sizes": "1280x720",
+      "platform": "wide",
+      "label": "메인 화면"
+    }
+  ],
+  "start_url": "https://bank.woolta.com",
   "description": "혜진이랑 성인이랑 만든 부부앱!!",
   "display": "fullscreen",
-  "orientation": "portrait",
+  "orientation": "any",
   "theme_color": "#ffffff",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "dir": "auto",
+  "scope": "https://bank.woolta.com",
+  "lang": "ko"
 }
