@@ -335,3 +335,22 @@
 [NX Daemon Server] - 2024-04-16T00:47:06.585Z - [WATCHER]: Stopping the watcher for /Users/bmo.star/study/woolta (sources)
 [NX Daemon Server] - 2024-04-16T00:47:06.585Z - [WATCHER]: Stopping the watcher for /Users/bmo.star/study/woolta (outputs)
 [NX Daemon Server] - 2024-04-16T00:47:06.585Z - Server stopped because: "10800000ms of inactivity"
+[NX Daemon Server] - 2024-05-27T00:58:08.532Z - Started listening on: /var/folders/bb/cz0js7951jq0xqz2ff7sjw0w0000gp/T/0db454de69d1f8ef2fca/d.sock
+[NX Daemon Server] - 2024-05-27T00:58:08.535Z - [WATCHER]: Subscribed to changes within: /Users/bmo.star/study/woolta (native)
+[NX Daemon Server] - 2024-05-27T00:58:08.544Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-05-27T00:58:08.544Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-05-27T00:58:08.545Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-05-27T00:58:08.547Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-05-27T00:58:08.560Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-05-27T00:58:08.560Z - [REQUEST]: 
+[NX Daemon Server] - 2024-05-27T00:58:08.560Z - [REQUEST]: 
+[NX Daemon Server] - 2024-05-27T00:58:09.815Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-05-27T00:58:09.816Z - Time taken for 'total for creating and serializing project graph' 1267.7086250782013ms
+[NX Daemon Server] - 2024-05-27T00:58:09.819Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-05-27T00:58:09.819Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 1267. Response time: 5.
+[NX Daemon Server] - 2024-05-27T00:58:09.826Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-05-27T00:58:09.826Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-05-27T00:58:09.828Z - Time taken for 'total for creating and serializing project graph' 0.12749993801116943ms
+[NX Daemon Server] - 2024-05-27T00:58:09.831Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-05-27T00:58:09.831Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 5.
+[NX Daemon Server] - 2024-05-27T00:58:09.835Z - Established a connection. Number of open connections: 2
