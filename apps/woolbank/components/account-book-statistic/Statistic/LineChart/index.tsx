@@ -139,10 +139,14 @@ function getLabel(list: Pa[], dateRange: DateRange) {
 const SC = {
   Container: styled.div`
     height: 30rem;
-    padding: 0 1.6rem 10rem;
+    padding: 0 1.6rem 0;
 
     .linechart {
       padding: 1.6rem;
+    }
+
+    p {
+      padding-bottom: 15rem;
     }
   `,
 };

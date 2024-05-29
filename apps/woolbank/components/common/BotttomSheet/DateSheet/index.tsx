@@ -32,7 +32,7 @@ const SC = {
   DateModal: styled.div<{
     $isActive: boolean;
   }>`
-    ${calendarStyle}
+    ${calendarStyle};
     position: fixed;
     bottom: ${({ $isActive }) => ($isActive ? '0' : '-30rem')};
     width: 100%;

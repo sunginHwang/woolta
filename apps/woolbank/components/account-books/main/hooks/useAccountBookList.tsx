@@ -100,9 +100,9 @@ function getDayAmountInfo(accountBookList: AccountBook[]) {
   return accountBookList.reduce(
     (prev, item) => {
       if (item.type === 'income') {
-        prev.incomeAmount = item.amount;
+        prev.incomeAmount += item.amount;
       } else {
-        prev.expenditureAmount = item.amount;
+        prev.expenditureAmount += item.amount;
       }
       return prev;
     },
@@ -114,6 +114,7 @@ function getAccountListGroupByDay(accountBookList: AccountBook[]) {
   const accountBookListGroupDays = groupBy(accountBookList, (item) => dayjs(item.registerDateTime).format('D'));
   return Object.entries(accountBookListGroupDays)
     .map(([days, accountBookList]) => {
+
       const { incomeAmount, expenditureAmount } = getDayAmountInfo(accountBookList);
 
       return {

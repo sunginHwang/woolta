@@ -1,16 +1,17 @@
 import { FC, MouseEvent, useEffect, useRef, KeyboardEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { useConfirm } from '../../../..//components/common/Confirm/ConfirmContext';
-import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import BaseInput from '../../../../components/common/BaseInput';
 import ToggleTab from '../../../../components/common/ToggleTab';
+import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
+import { Button } from '../../../atom/Button';
+import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
-import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
+import { useDetectKeyboardOpen } from '@common';
 
 const TAB_LIST = [
   {
@@ -45,6 +46,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   const { onToast } = useToast();
   const { isShareUser } = useUserInfo();
   const { is_insert_mode } = useAccountBookSaveRouterProps();
+  const isKeyboardOpen = useDetectKeyboardOpen();
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
 
@@ -100,6 +102,10 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   };
 
   const openModal = (e: MouseEvent<HTMLElement | HTMLDivElement>) => {
+    if (isKeyboardOpen) {
+      return;
+    }
+
     const type = e.currentTarget.dataset.type || '';
     setModalName(type);
   };
@@ -142,7 +148,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           dataType='registerDateTime'
           label={`${typeMsg}일시`}
           placeholder={`${typeMsg}일시를 선택해 주세요.`}
-          value={formData.registerDateTime.format('YYYY-MM-DD HH:mm')}
+          value={formData.registerDateTime.format('YYYY-MM-DD')}
           onClick={openModal}
           onClear={handleClearClick}
         />

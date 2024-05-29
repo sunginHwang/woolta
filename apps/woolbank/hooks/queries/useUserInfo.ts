@@ -44,7 +44,7 @@ export const useUserInfo = () => {
   const { data, ...rest } = useQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: () => fetchUserInfo() });
 
   const userInfo = data ?? null;
-  const isShareUser = userInfo?.authType !== 'share';
+  const isShareUser = userInfo?.authType === 'share';
 
   return {
     userInfo,

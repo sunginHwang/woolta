@@ -13,3 +13,4 @@ export * from './useEventListener';
 export * from './useLongPress';
 export * from './usePreventScroll';
 export * from './useInterval';
+export * from './useDetectKeyboardOpen';

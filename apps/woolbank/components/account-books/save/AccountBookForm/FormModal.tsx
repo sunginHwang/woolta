@@ -26,7 +26,7 @@ const FormModal: FC<Props> = ({
   onChangeCategory,
   formData,
 }) => {
-  const handleDateTimeClick = (date: Date) => {
+  const handleDateTimeClick = (date: string) => {
     onChangeDateTime(dayjs(date));
     onCloseModal();
   };
@@ -42,11 +42,11 @@ const FormModal: FC<Props> = ({
   };
   return (
     <>
-      <BotttomSheet.DateTime
+      <BotttomSheet.Date
         visible={openModalName === 'registerDateTime'}
-        onClose={onCloseModal}
-        onChangeDateTime={handleDateTimeClick}
-        date={formData.registerDateTime}
+        onclose={onCloseModal}
+        onDateChange={handleDateTimeClick}
+        date={formData.registerDateTime.toDate()}
       />
       <AmountCategorySheet
         open={openModalName === 'category'}

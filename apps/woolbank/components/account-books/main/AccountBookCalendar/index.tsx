@@ -16,7 +16,6 @@ export const AccountBookCalendar = () => {
   const { accountBookListGroupByDay } = useAccountBookList();
   const selectedAccountBookDate = useAtomValue(selectedAccountBookDateAtom);
   const [accountBookSheetItemList, setAccountBookSheetItemList] = useState<AccountBookSheetItem[]>([]);
-
   const renderCalendar = () => {
     const totalDays = dayjs(selectedAccountBookDate).daysInMonth();
     const firstDay = dayjs(`${selectedAccountBookDate}-01`).day();
@@ -32,7 +31,7 @@ export const AccountBookCalendar = () => {
     });
 
     // 각 주차별로 Day 컴포넌트 렌더링
-    const renderedCalendar = calendarDays.map((weekDays, index) => {
+    return calendarDays.map((weekDays, index) => {
       const accountBookListByWeek = accountBookListGroupByDay.filter((accountBook) =>
         weekDays.some((day) => Number(accountBook.days) === day),
       );
@@ -60,7 +59,7 @@ export const AccountBookCalendar = () => {
               }
               const accountBookByDay = accountBookListByWeek.find((accountBook) => Number(accountBook.days) === day);
 
-              const handledayClick = () => {
+              const handleDayClick = () => {
                 setAccountBookSheetItemList(
                   accountBookByDay?.accountBookList.map((item) => ({
                     title: item.title,
@@ -76,7 +75,7 @@ export const AccountBookCalendar = () => {
                   day={day}
                   income_amount={accountBookByDay?.incomeAmount}
                   expenditure_amount={accountBookByDay?.expenditureAmount}
-                  onDayClick={handledayClick}
+                  onDayClick={handleDayClick}
                 />
               );
             })}
@@ -85,8 +84,6 @@ export const AccountBookCalendar = () => {
         </div>
       );
     });
-
-    return renderedCalendar;
   };
 
   return (

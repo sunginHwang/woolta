@@ -224,6 +224,26 @@ const GlobalStyles = createGlobalStyle`
     -moz-user-select: none;
     -ms-user-select: none;
   }
+
+  /* a 태그와 button 태그 클릭 시 나타나는 스타일 제거 */
+  a, button {
+    outline: none; /* 포커스 아웃라인 제거 */
+  }
+
+  a:focus, button:focus {
+    outline: none; /* 포커스 상태에서 아웃라인 제거 */
+  }
+
+  a:active, button:active {
+    background-color: transparent; /* 활성화 상태 배경색 제거 */
+    border: none; /* 활성화 상태 테두리 제거 */
+    box-shadow: none; /* 활성화 상태 박스 쉐도우 제거 */
+  }
+
+  /* 추가적으로 웹 브라우저 기본 스타일 제거 */
+  a:focus-visible, button:focus-visible {
+    outline: none; /* 포커스 상태에서 보이는 아웃라인 제거 */
+  }
 `;
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
