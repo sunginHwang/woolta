@@ -2,11 +2,12 @@
 import { ReactNode } from 'react';
 import { Providers } from '../components/layout/Providers';
 import { setConfig } from '../utils/config';
-import { Suspense } from '@wds';
 
 setConfig();
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+
   return (
     <html lang='ko'>
       <head>
@@ -41,9 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <Suspense fallback={<div></div>}>
-          <Providers>{children}</Providers>
-        </Suspense>
+        <Providers>{children}</Providers>
         <div id='modalDeem' />
       </body>
     </html>

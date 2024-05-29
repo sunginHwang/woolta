@@ -108,7 +108,7 @@ export const useAccountBookDetail = (id: string | null) => {
     if (isSaveAction) {
       addMutation.mutate(accountBookForm, {
         onSuccess: (accountBook: AccountBookDetail) => {
-          const registerDateMonth = dayjs(convertDate(accountBook).registerDateTime).format('yyyy-MM');
+          const registerDateMonth = dayjs(convertDate(accountBook).registerDateTime).format('YYYY-MM');
           if (registerDateMonth === selectedAccountBookDate) {
             addAccountBookItem(convertDate(accountBook));
           }

@@ -12,7 +12,10 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-
+    images: {
+    disableStaticImages: true,
+    domains: ['lh6.googleusercontent.com'],
+  },
   compiler: {
     styledComponents: true,
   },

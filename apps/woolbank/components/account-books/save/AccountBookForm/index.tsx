@@ -83,6 +83,13 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
+  const handleTitleKeyDownEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    // 아이폰 용인데 조치 필요 (AOS에서 가상 키보드가 안꺼지는 이슈 존재)
+    // if (e.key === 'Enter' && is_insert_mode && formData.category.name === '') {
+    //   setModalName('category');
+    // }
+  };
+
   const handleRemoveClick = async () => {
     if (!accountBookForm?.id) {
       return;
@@ -95,9 +102,14 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
-  const handleTitleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && is_insert_mode && formData.category.name === '') {
-      setModalName('category');
+  const preventEvent = (e: KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+  };
+
+  const handleTitleEnter = () => {
+    if (is_insert_mode && formData.category.name === '') {
+      title_ref.current?.blur();
+      setTimeout(() => setModalName('category'), 200);
     }
   };
 
@@ -140,7 +152,9 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           value={formData.title}
           onChange={onChange}
           onClear={handleClearClick}
-          onKeyDown={handleTitleEnter}
+          onInput={preventEvent}
+          onKeyDown={handleTitleKeyDownEnter}
+          onCompositionEndCapture={handleTitleEnter}
         />
         <BaseInput
           readOnly
@@ -171,6 +185,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           value={formData.memo}
           onChange={onChange}
           onClear={handleClearClick}
+          onInput={preventEvent}
         />
         {!isShareUser && (
           <SC.ButtonArea>
