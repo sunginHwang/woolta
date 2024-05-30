@@ -83,6 +83,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
+  // AOS에서는 이 이벤트 가 동작하지 않는다
   const handleTitleKeyDownEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     // 아이폰 용인데 조치 필요 (AOS에서 가상 키보드가 안꺼지는 이슈 존재)
     if (e.key === 'Enter' && is_insert_mode && formData.category.name === '') {
