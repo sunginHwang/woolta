@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import config from '../config';
 
 export type APIResponse<T> = {
   data: T;

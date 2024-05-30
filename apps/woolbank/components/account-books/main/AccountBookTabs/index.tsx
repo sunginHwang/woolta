@@ -1,18 +1,19 @@
+'use client';
+
+import { Text } from '@wds';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { styled } from 'styled-components';
 import { useAccountBookListRouterQuery } from '../hooks/useAccountBookListRouterQuery';
-import { Text } from '@wds';
 
 const TAB_LIST = [
   { label: '리스트', value: 'list', link: '/?type=list' },
   { label: '캘린더', value: 'calendar', link: '/?type=calendar' },
 ];
 
-
 export const AccountBookTabs = () => {
-  const {activeTab} = useAccountBookListRouterQuery();
-  const selectedIndex = TAB_LIST.findIndex(tab => tab.value === activeTab);
+  const { activeTab } = useAccountBookListRouterQuery();
+  const selectedIndex = TAB_LIST.findIndex((tab) => tab.value === activeTab);
 
   return (
     <SC.Container>
@@ -20,7 +21,7 @@ export const AccountBookTabs = () => {
         {TAB_LIST.map(({ link, value, label }) => {
           const isActive = activeTab === value;
           return (
-            <SC.Item key={label} >
+            <SC.Item key={label}>
               <Link replace href={link}>
                 <Text variant='title6Bold' color={isActive ? 'gray900' : 'gray500'} as='p'>
                   {label}
@@ -71,7 +72,7 @@ const SC = {
       display: flex;
       align-items: center;
       justify-content: center;
-     }
+    }
   `,
   Animate: styled(motion.div)`
     position: absolute;

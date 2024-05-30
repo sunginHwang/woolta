@@ -11,7 +11,7 @@ import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
-import { useDetectKeyboardOpen } from '@common';
+import { delay, useDetectKeyboardOpen } from '@common';
 
 const TAB_LIST = [
   {
@@ -109,7 +109,16 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   const handleTitleEnter = () => {
     if (is_insert_mode && formData.category.name === '') {
       title_ref.current?.blur();
-      setTimeout(() => setModalName('category'), 200);
+      const delayOpenCateogry = async () => {
+        if (isKeyboardOpen) {
+          await delay(300);
+          delayOpenCateogry();
+        } else {
+          setModalName('category');
+        }
+      };
+
+      delayOpenCateogry();
     }
   };
 

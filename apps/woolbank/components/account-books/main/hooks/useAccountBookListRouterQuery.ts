@@ -1,10 +1,12 @@
+'use client';
+
 import { useSearchParams } from 'next/navigation';
 
-
 export const useAccountBookListRouterQuery = () => {
-  const { get } = useSearchParams();
-  const activeTab = get('type') ?? 'list';
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get('type') ?? 'list';
+
   return {
     activeTab,
-  }
-}
+  };
+};
