@@ -86,7 +86,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   const handleTitleKeyDownEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     // 아이폰 용인데 조치 필요 (AOS에서 가상 키보드가 안꺼지는 이슈 존재)
     if (e.key === 'Enter' && is_insert_mode && formData.category.name === '') {
-      handleTitleEnter();
+      // handleTitleEnter();
     }
   };
 
@@ -106,26 +106,31 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     e.preventDefault();
   };
 
-  const handleTitleEnter = () => {
+  const handleTitleEnter = async () => {
     if (is_insert_mode && formData.category.name === '') {
       title_ref.current?.blur();
-      const delayOpenCateogry = async () => {
-        if (isKeyboardOpen) {
-          await delay(300);
-          delayOpenCateogry();
-        } else {
-          setModalName('category');
-        }
-      };
+      await delay(400);
+      setModalName('category');
+      // const delayOpenCateogry = async () => {
+      //   console.log('-s--=isKeyboardOpen-');
+      //   console.log(isKeyboardOpen);
+      //   console.log('-e--isKeyboardOpen-');
+      //   if (isKeyboardOpen) {
+      //     await delay(300);
+      //     delayOpenCateogry();
+      //   } else {
+      //     setModalName('category');
+      //   }
+      // };
 
-      delayOpenCateogry();
+      // delayOpenCateogry();
     }
   };
 
   const openModal = (e: MouseEvent<HTMLElement | HTMLDivElement>) => {
-    if (isKeyboardOpen) {
-      return;
-    }
+    // if (isKeyboardOpen) {
+    //   return;
+    // }
 
     const type = e.currentTarget.dataset.type || '';
     setModalName(type);
@@ -163,6 +168,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           onClear={handleClearClick}
           onInput={preventEvent}
           onKeyDown={handleTitleKeyDownEnter}
+          onCompositionEndCapture={handleTitleEnter}
         />
         <BaseInput
           readOnly
@@ -190,6 +196,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
           disable={isShareUser}
           placeholder='메모를 입력해주세요.'
           maxLength={20}
+          tabIndex={-1}
           value={formData.memo}
           onChange={onChange}
           onClear={handleClearClick}
