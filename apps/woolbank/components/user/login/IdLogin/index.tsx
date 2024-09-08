@@ -6,13 +6,16 @@ import BaseInput from '../../../../components/common/BaseInput';
 import { useToast } from '../../../../hooks/useToast';
 import { postData } from '../../../../utils/api';
 import { LoginBox } from '../LoginBox';
+
 export const IdLogin = () => {
   const [id, setId] = useInput('');
   const { onToast } = useToast();
   const router = useRouter();
   const shareCodeLoginMutation = useMutation({
     mutationFn: (shareCode: string) => postData('/user/share-code-login', { shareCode }),
-    onSuccess: () => router.replace('/'),
+    onSuccess: () => {
+      //router.replace('/')
+    },
     onError: () => onToast('잘못된 공유 코드 입니다.'),
   });
 

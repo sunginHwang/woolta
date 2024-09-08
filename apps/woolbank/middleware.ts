@@ -14,13 +14,15 @@ export async function middleware(request: NextRequest) {
   if (isNoneAuthPage) {
     return NextResponse.next();
   }
-
+  return NextResponse.next();
   return await withoutAuth(request, loginUrl);
 }
 
 export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
   try {
-    const response = await fetch('https://bank-api.woolta.com/user', {
+    console.log('init');
+    console.log(req.cookies);
+    const response = await fetch('http://bank-api-local.woolta.com:4000/user', {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -29,7 +31,7 @@ export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
         'Content-Type': 'application/json',
       },
     });
-
+    console.log(response);
     const info = await response.json();
     const isLoggendIn = info.status === 200 && !!info.data;
     if (isLoggendIn) {
@@ -38,6 +40,7 @@ export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
 
     return NextResponse.redirect(loginUrl);
   } catch (error) {
+    console.log(error);
     return NextResponse.redirect(loginUrl);
   }
 }

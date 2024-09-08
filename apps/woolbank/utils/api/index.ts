@@ -12,7 +12,7 @@ export interface ContextConfig extends AxiosRequestConfig {
 }
 
 const apiCall = axios.create({
-  baseURL: config.apiUrl,
+  baseURL: 'http://bank-api-local.woolta.com:4000',
   withCredentials: true, // 쿠키 공유를 위해 필요
   headers: {
     'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export const deleteData = async <T>(url: string, config?: AxiosRequestConfig): P
 function getErrorMessage(error: unknown) {
   const isBrowser = typeof window !== 'undefined';
   if (axios.isAxiosError(error) && error.response?.status === 401) {
-    window;
+    // window;
   }
   console.log(error);
   if (error instanceof Error) {
