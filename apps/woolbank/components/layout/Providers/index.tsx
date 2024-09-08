@@ -1,6 +1,6 @@
 'use client';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider as JotaiProvider } from 'jotai';
 import { theme } from 'libs/wds/src/lib/style/colors';
 import { useState } from 'react';
@@ -9,7 +9,8 @@ import StyleRegistry from './StyleRegistry';
 import { ConfirmProvider } from '../../common/Confirm/ConfirmContext';
 import { setConfig } from '../../../utils/config';
 import { Suspense } from '@wds';
-
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
 setConfig();
 
 const GlobalStyles = createGlobalStyle`
@@ -250,33 +251,46 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+let browserQueryClient: QueryClient | undefined = undefined;
+
+function makeQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+      },
+    },
+  });
+}
+
+function getQueryClient() {
+  if (isServer) {
+    return makeQueryClient();
+  } else {
+    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+    return browserQueryClient;
+  }
+}
+
 export const Providers = ({ children }: { children: React.ReactNode }) => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000,
-          },
-        },
-      }),
-  );
+  const queryClient = getQueryClient();
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <JotaiProvider>
-          <StyleRegistry>
-            <ThemeProvider theme={theme.light}>
-              <GlobalStyles />
-              <ConfirmProvider>
-                <Layout>
-                  <Suspense fallback={<main></main>}>{children}</Suspense>
-                </Layout>
-              </ConfirmProvider>
-            </ThemeProvider>
-          </StyleRegistry>
-        </JotaiProvider>
+        <ReactQueryStreamedHydration>
+          <ReactQueryDevtools />
+          <JotaiProvider>
+            <StyleRegistry>
+              <ThemeProvider theme={theme.light}>
+                <GlobalStyles />
+                <ConfirmProvider>
+                  <Layout>{children}</Layout>
+                </ConfirmProvider>
+              </ThemeProvider>
+            </StyleRegistry>
+          </JotaiProvider>
+        </ReactQueryStreamedHydration>
       </QueryClientProvider>
     </>
   );

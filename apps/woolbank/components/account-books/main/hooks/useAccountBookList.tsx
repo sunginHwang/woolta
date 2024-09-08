@@ -1,4 +1,5 @@
 'use client';
+import { delay } from '@common';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
@@ -34,7 +35,7 @@ export interface AccountBook {
  * 가계부 리스트 조회
  * */
 export const fetchAccountBookList = async (searchDate: string) => {
-  const date = new Date(searchDate);
+  const date = new Date('2024-07');
   const { data } = await getData<AccountBook[]>(`/account-books?dateTime=${date}`);
 
   return data.map((item) => {
@@ -114,7 +115,6 @@ function getAccountListGroupByDay(accountBookList: AccountBook[]) {
   const accountBookListGroupDays = groupBy(accountBookList, (item) => dayjs(item.registerDateTime).format('D'));
   return Object.entries(accountBookListGroupDays)
     .map(([days, accountBookList]) => {
-
       const { incomeAmount, expenditureAmount } = getDayAmountInfo(accountBookList);
 
       return {
