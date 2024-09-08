@@ -1,4 +1,4 @@
-import { useIsMounted } from '@common';
+'use client';
 import * as React from 'react';
 import Confirm from './index';
 
@@ -27,7 +27,6 @@ const initState: ConfirmServiceProps = {
 export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => {
   const [confirmServiceState, setConfirmServiceState] = React.useState<ConfirmServiceProps>(initState);
   const awaitingPromiseRef = React.useRef<{ resolve: (value: boolean) => void }>();
-  const isMounted = useIsMounted();
 
   const openConfirm = (confirmProps: ConfirmServiceProps) => {
     setConfirmServiceState((prev) => {
@@ -75,10 +74,6 @@ export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   const { useAutoClose, ...confirmProps } = confirmServiceState;
-
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <>

@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
 import { Text } from '@wds';
 import { FC } from 'react';
+import { styled } from 'styled-components';
 import { IconChevronDown } from '../../atom/Icon';
 
 interface Props {

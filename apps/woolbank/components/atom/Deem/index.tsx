@@ -1,3 +1,5 @@
+'use client';
+
 import { Portal } from '@wds';
 import { FC, MouseEvent, PropsWithChildren, useCallback, useRef } from 'react';
 import { styled } from 'styled-components';

@@ -1,3 +1,5 @@
+'use client';
+
 import { withSuspense } from '@common';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';

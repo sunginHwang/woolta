@@ -1,3 +1,5 @@
+'use client';
+
 import { Text } from '@wds';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';

@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { FC, HTMLAttributes } from 'react';
+import { styled } from 'styled-components';
 import animations from '../../style/animations';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

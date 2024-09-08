@@ -1,5 +1,3 @@
-'use client';
-
 import { Text } from '@wds';
 import { motion } from 'framer-motion';
 import Link from 'next/link';

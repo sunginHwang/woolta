@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC, ReactNode } from 'react';
 import { styled } from 'styled-components';
 import { ColorType, FontVarient, typography } from '../../style';

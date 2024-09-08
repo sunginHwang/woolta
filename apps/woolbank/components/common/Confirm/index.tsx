@@ -1,7 +1,7 @@
-import { styled, useTheme } from 'styled-components';
 import { Text, typography } from '@wds';
 import { FC, PropsWithChildren } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { styled, useTheme } from 'styled-components';
 import Deem from '../../atom/Deem';
 
 interface Props extends PropsWithChildren {

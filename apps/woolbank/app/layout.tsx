@@ -1,13 +1,10 @@
-'use client';
 import { ReactNode } from 'react';
 import { Providers } from '../components/layout/Providers';
 import { setConfig } from '../utils/config';
 
 setConfig();
 
-
 export default async function RootLayout({ children }: { children: ReactNode }) {
-
   return (
     <html lang='ko'>
       <head>

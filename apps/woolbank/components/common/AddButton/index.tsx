@@ -4,7 +4,7 @@ import { ComponentProps, FC } from 'react';
 import { styled } from 'styled-components';
 import { layout } from '../../../style/layout';
 
-interface Props extends ComponentProps<typeof Link> {}
+type Props = ComponentProps<typeof Link>;
 
 /**
  * 추가버튼 -  우측 하단 고정

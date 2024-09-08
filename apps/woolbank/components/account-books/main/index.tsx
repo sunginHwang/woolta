@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from '@wds';
 import { styled } from 'styled-components';
 import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 import AddButton from '../../common/AddButton';
@@ -8,8 +9,6 @@ import { AccountBookTabs } from './AccountBookTabs';
 import AccountBookList from './AccountList/AccountBookList';
 import MonthStatistics from './AccountList/MonthStatistics';
 import { useAccountBookListRouterQuery } from './hooks/useAccountBookListRouterQuery';
-import { Suspense } from '@wds';
-
 
 /**
  * 가계부
@@ -17,7 +16,7 @@ import { Suspense } from '@wds';
  */
 const AccountBookListPage = () => {
   const { isShareUser } = useUserInfo();
-  const {activeTab } = useAccountBookListRouterQuery();
+  const { activeTab } = useAccountBookListRouterQuery();
 
   return (
     <>
