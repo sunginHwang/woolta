@@ -2,9 +2,10 @@
 
 import dayjs from 'dayjs';
 import { styled } from 'styled-components';
-import { RegularExpenditure, useRegularExtentureList } from '../hooks/useRegularExtentureList';
+import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
 import OneWeekAgoList from './OneWeekAgoList';
 import RegularAmountInfo from './RegularAmountInfo';
+import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
 const ONE_WEEK_DAY = 7;
 

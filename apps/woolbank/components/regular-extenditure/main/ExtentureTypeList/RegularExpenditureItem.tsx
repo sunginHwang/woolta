@@ -5,7 +5,8 @@ import { styled } from 'styled-components';
 import { useToast } from '../../../../hooks/useToast';
 import { getRemainDay } from '../../../../utils/date';
 import { useConfirm } from '../../../common/Confirm/ConfirmContext';
-import { RegularExpenditure, useRegularExtentureList } from '../hooks/useRegularExtentureList';
+import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
+import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
 interface Props {
   type: string;

@@ -2,7 +2,7 @@ import { Text } from '@wds';
 import { FC } from 'react';
 import { styled } from 'styled-components';
 import { getRemainDay } from '../../../../utils/date';
-import { RegularExpenditure } from '../hooks/useRegularExtentureList';
+import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
 interface Props {
   // 일주일 안남은 정기지출 리스트
