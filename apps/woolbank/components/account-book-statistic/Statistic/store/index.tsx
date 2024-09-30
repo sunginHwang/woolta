@@ -11,8 +11,8 @@ export interface AccountStatisticFilter {
   dateRange: DateRange;
 }
 export const AccountBookStatisticFilterAtom = atom<AccountStatisticFilter>({
-  startDate: dayjs('2024-01-01 00:00:00'),
-  endDate: dayjs('2024-01-31 23:59:59'),
+  startDate: dayjs().startOf('month'),
+  endDate: dayjs().endOf('month'),
   type: 'expenditure',
   dateRange: 'month',
 });

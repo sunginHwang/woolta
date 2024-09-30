@@ -1,41 +1,10 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { deleteData, getData } from '../../../../utils/api';
-
-export const REGULAR_EXTENTIRE_LIST_QUERY_KEY = 'getRegularExtentireList';
-
-export interface RegularExpenditure {
-  id: number;
-  title: string;
-  amount: number;
-  regularDate: number;
-  isAutoExpenditure: boolean;
-  userId: number;
-  expenditureTypeId: number;
-  regularExpenditureDay: string;
-  accountBookCategory: {
-    accountBookCategoryImage: {
-      imageUrl: string;
-    };
-  };
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface RegularExpenditureListItem {
-  type: string;
-  name: string;
-  imageUrl: string;
-  list: RegularExpenditure[];
-}
-
-const fetchRegularExtentureList = async () => {
-  try {
-    const res = await getData<RegularExpenditureListItem[]>('/regular-expenditures');
-    return res.data;
-  } catch {
-    return [];
-  }
-};
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteData } from '../../../../utils/api';
+import {
+  REGULAR_EXTENTIRE_LIST_QUERY_KEY,
+  RegularExpenditureListItem,
+  useRegularExtentureListQuery,
+} from './useRegularExtentureListQuery';
 
 const removeRegularExpenditure = async (id: number) => {
   const res = await deleteData(`/regular-expenditures/${id}`);
@@ -44,15 +13,11 @@ const removeRegularExpenditure = async (id: number) => {
 
 export const useRegularExtentureList = () => {
   const queryClient = useQueryClient();
-  const { data, ...rest } = useSuspenseQuery({
-    queryKey: [REGULAR_EXTENTIRE_LIST_QUERY_KEY],
-    queryFn: fetchRegularExtentureList,
-  });
+  const { regularExpenditureTypeList, ...rest } = useRegularExtentureListQuery();
   const removeeRegularExtentureMutate = useMutation({
     mutationFn: (removeId: number) => removeRegularExpenditure(removeId),
   });
 
-  const regularExpenditureTypeList = data ?? [];
   const flatRegularExpenditureTypeList = regularExpenditureTypeList.flatMap((item) => item.list);
   const totalAmount = flatRegularExpenditureTypeList.reduce((acc, item) => {
     return acc + item.amount;

@@ -6,8 +6,9 @@ import { groupBy, sortBy } from 'lodash-es';
 import { Line } from 'react-chartjs-2';
 import { styled } from 'styled-components';
 import { DateRange } from '../../../../utils/date';
-import { AccountBookStatisticCategoryItem, useAccountStatisticList } from '../hooks/useAccountStatisticList';
+import { useAccountStatisticList } from '../hooks/useAccountStatisticList';
 import { AccountBookStatisticFilterAtom } from '../store';
+import { AccountBookStatisticCategoryItem } from '../hooks/useAccountStatisticListQuery';
 
 export interface AccountBookChartData {
   id: string;

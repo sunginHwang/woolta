@@ -1,5 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import config from '../config';
+import config, { setConfig } from '../config';
+
+// 개발 환경에서만 SSL 인증서 검증 비활성화
+if (process.env.NODE_ENV === 'development') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
+setConfig();
 
 export type APIResponse<T> = {
   data: T;
@@ -12,7 +19,7 @@ export interface ContextConfig extends AxiosRequestConfig {
 }
 
 const apiCall = axios.create({
-  baseURL: 'http://bank-api-local.woolta.com:4000',
+  baseURL: config.apiUrl,
   withCredentials: true, // 쿠키 공유를 위해 필요
   headers: {
     'Content-Type': 'application/json',
@@ -67,7 +74,7 @@ function getErrorMessage(error: unknown) {
   if (axios.isAxiosError(error) && error.response?.status === 401) {
     // window;
   }
-  console.log(error);
+
   if (error instanceof Error) {
     return error.message;
   }

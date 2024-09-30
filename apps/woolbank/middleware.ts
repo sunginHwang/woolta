@@ -1,6 +1,11 @@
 import { NextURL } from 'next/dist/server/web/next-url';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import appConfig, { setConfig } from './utils/config';
+
+setConfig();
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const ALLOW_ALL_USER_PAGE_LIST = ['/user/login'];
 
@@ -14,33 +19,35 @@ export async function middleware(request: NextRequest) {
   if (isNoneAuthPage) {
     return NextResponse.next();
   }
-  return NextResponse.next();
+
   return await withoutAuth(request, loginUrl);
 }
 
 export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
   try {
-    console.log('init');
-    console.log(req.cookies);
-    const response = await fetch('http://bank-api-local.woolta.com:4000/user', {
+    // 개발 환경에서만 SSL 인증서 검증 비활성화
+    if (process.env.NODE_ENV === 'development') {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    }
+
+    const fetchOptions: RequestInit = {
       method: 'GET',
-      mode: 'cors',
-      credentials: 'include',
       headers: {
         'Cookie': req.cookies.toString(),
         'Content-Type': 'application/json',
       },
-    });
-    console.log(response);
+    };
+
+    const response = await fetch(`${appConfig.apiUrl}/user`, fetchOptions);
     const info = await response.json();
     const isLoggendIn = info.status === 200 && !!info.data;
+
     if (isLoggendIn) {
       return NextResponse.next();
     }
 
     return NextResponse.redirect(loginUrl);
   } catch (error) {
-    console.log(error);
     return NextResponse.redirect(loginUrl);
   }
 }
@@ -57,6 +64,6 @@ export const config = {
      * - service-worker.js
      * - android-chrome-*
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|service-worker|manifest|android-chrome-*).*)',
+    '/((?!api|_next/static|static|_next/image|favicon.ico|service-worker|manifest|android-chrome-*).*)',
   ],
 };

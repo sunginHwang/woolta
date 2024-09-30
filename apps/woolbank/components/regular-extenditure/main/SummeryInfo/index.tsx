@@ -1,3 +1,5 @@
+'use client';
+
 import dayjs from 'dayjs';
 import { styled } from 'styled-components';
 import { RegularExpenditure, useRegularExtentureList } from '../hooks/useRegularExtentureList';

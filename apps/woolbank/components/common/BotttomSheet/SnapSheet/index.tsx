@@ -48,12 +48,7 @@ const SnapSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true, h
         {header || <Sheet.Header />}
         <Sheet.Content>{children}</Sheet.Content>
       </Sheet.Container>
-      <SC.backdrop
-        onClick={() => {
-          console.log('먹나?');
-          onClose();
-        }}
-      ></SC.backdrop>
+      <SC.backdrop onClick={onClose}></SC.backdrop>
     </Sheet>
   );
 };

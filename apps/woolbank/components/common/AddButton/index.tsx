@@ -1,3 +1,5 @@
+'use client';
+
 import { safeAreaInsetBottom, typography } from '@wds';
 import Link from 'next/link';
 import { ComponentProps, FC } from 'react';

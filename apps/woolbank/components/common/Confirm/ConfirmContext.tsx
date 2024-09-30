@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import Confirm from './index';
+import { useIsMounted } from '@common';
 
 interface ConfirmServiceProps extends React.ComponentProps<typeof Confirm> {
   // 확인 버튼 누를시 자동 컴펌 종료 옵션
@@ -27,6 +28,7 @@ const initState: ConfirmServiceProps = {
 export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => {
   const [confirmServiceState, setConfirmServiceState] = React.useState<ConfirmServiceProps>(initState);
   const awaitingPromiseRef = React.useRef<{ resolve: (value: boolean) => void }>();
+  const isMounted = useIsMounted();
 
   const openConfirm = (confirmProps: ConfirmServiceProps) => {
     setConfirmServiceState((prev) => {
@@ -78,7 +80,7 @@ export const ConfirmProvider = ({ children }: { children: React.ReactNode }) => 
   return (
     <>
       <ConfirmationServiceContext.Provider value={providerValue}>{children}</ConfirmationServiceContext.Provider>
-      <Confirm onConfirm={onConfirm} onCancel={onCancel} {...confirmProps} />
+      {isMounted && <Confirm onConfirm={onConfirm} onCancel={onCancel} {...confirmProps} />}
     </>
   );
 };

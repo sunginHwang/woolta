@@ -7,7 +7,6 @@ function useWaitQuery(props: { wait: number }) {
     queryKey: ['wait'],
     queryFn: async () => {
       await delay(3000);
-      console.log('run');
       return 'done';
     },
   });

@@ -1,3 +1,5 @@
+'use client';
+
 import { Text } from '@wds';
 import { styled } from 'styled-components';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';

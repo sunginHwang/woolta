@@ -2,8 +2,9 @@ import { ResponsivePie } from '@nivo/pie';
 import { Text } from '@wds';
 import { styled } from 'styled-components';
 import EmptyData from '../../../common/EmptyInfo';
-import { AccountBookStatisticCategoryItem, useAccountStatisticList } from '../hooks/useAccountStatisticList';
+import { useAccountStatisticList } from '../hooks/useAccountStatisticList';
 import StatisticList from './StatisticList';
+import { AccountBookStatisticCategoryItem } from '../hooks/useAccountStatisticListQuery';
 
 const PIE_CHART_COLOR_LIST: string[] = [
   '#F47560',

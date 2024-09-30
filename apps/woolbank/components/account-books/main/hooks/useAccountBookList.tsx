@@ -1,13 +1,10 @@
 'use client';
-import { delay } from '@common';
-import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import groupBy from 'lodash-es/groupBy';
-import { getData } from '../../../../utils/api';
 import { selectedAccountBookDateAtom } from '../AccountList/store';
-
-export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';
+import { getAccountBookListQueryKey, useAccountBookListQuery } from './useAccountBookListQuery';
 
 export type AcccountBookType = 'expenditure' | 'income';
 
@@ -31,31 +28,11 @@ export interface AccountBook {
   registerDateTime: Date;
 }
 
-/*
- * 가계부 리스트 조회
- * */
-export const fetchAccountBookList = async (searchDate: string) => {
-  const date = new Date('2024-07');
-  const { data } = await getData<AccountBook[]>(`/account-books?dateTime=${date}`);
-
-  return data.map((item) => {
-    return {
-      ...item,
-      registerDateTime: new Date(item.registerDateTime),
-    };
-  });
-};
-
 export const useAccountBookList = () => {
   const queryClient = useQueryClient();
   const selectedAccountBookDate = useAtomValue(selectedAccountBookDateAtom);
-  const queryKey = getQueryKey(selectedAccountBookDate);
-
-  const { data, ...rest } = useSuspenseQuery<AccountBook[]>({
-    queryKey,
-    queryFn: () => fetchAccountBookList(selectedAccountBookDate),
-  });
-  const accountBookList = data ?? [];
+  const queryKey = getAccountBookListQueryKey(selectedAccountBookDate);
+  const { accountBookList, ...rest } = useAccountBookListQuery(selectedAccountBookDate);
 
   const accountBookListGroupByDay = getAccountListGroupByDay(accountBookList);
   const totalIncomeAmount = getTotalAmountbyType(accountBookList, 'income');
@@ -136,8 +113,4 @@ function getTotalAmountbyType(accountBookList: AccountBook[], type: AcccountBook
 
     return prev;
   }, 0);
-}
-
-export function getQueryKey(selectedDate: string) {
-  return [ACCOUNT_BOOK_LIST_QUERY_KEY, selectedDate];
 }

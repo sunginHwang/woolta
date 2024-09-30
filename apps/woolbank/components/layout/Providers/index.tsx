@@ -3,14 +3,13 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider as JotaiProvider } from 'jotai';
 import { theme } from 'libs/wds/src/lib/style/colors';
-import { useState } from 'react';
 import Layout from '../Layout';
 import StyleRegistry from './StyleRegistry';
 import { ConfirmProvider } from '../../common/Confirm/ConfirmContext';
 import { setConfig } from '../../../utils/config';
-import { Suspense } from '@wds';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
+
 setConfig();
 
 const GlobalStyles = createGlobalStyle`
@@ -130,10 +129,7 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
-  body > div:first-of-type,
-  #__next {
-    height: 100%;
-  }
+
 
   ::-webkit-scrollbar {
     display: none;

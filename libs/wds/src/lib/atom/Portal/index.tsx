@@ -1,3 +1,4 @@
+import { useIsMounted } from '@common';
 import { FC, PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,7 +11,9 @@ interface Props extends PropsWithChildren {
  * @component
  */
 export const Portal: FC<Props> = ({ targetId, children }) => {
-  if (typeof window === 'undefined') {
+  const isMounted = useIsMounted();
+
+  if (!isMounted) {
     return null;
   }
 
