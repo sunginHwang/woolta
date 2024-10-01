@@ -1,3 +1,5 @@
+'use client';
+
 import { styled } from 'styled-components';
 import Header from '../../common/Header';
 import UserInfoCard from './UserInfoCard';

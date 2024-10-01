@@ -1,8 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
 import AccountBookList from '../components/account-books/main';
-import { getData } from '../utils/api';
 import { prefetchAccountBookList } from '../components/account-books/main/hooks/useAccountBookListQuery';
+import { getData } from '../utils/api';
 
 export default async function AccountBooks() {
   const headers = {

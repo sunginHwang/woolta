@@ -1,5 +1,6 @@
 import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
+import { Suspense } from 'react';
 import { SaveForm } from './SaveForm';
 import { bucketFormAtom, bucketFormStepAtom } from './store';
 
@@ -12,7 +13,9 @@ export const BucketSaveForm = () => {
           [bucketFormStepAtom, 1],
         ]}
       >
-        <SaveForm />
+        <Suspense>
+          <SaveForm />
+        </Suspense>
       </HydrateAtoms>
     </Provider>
   );

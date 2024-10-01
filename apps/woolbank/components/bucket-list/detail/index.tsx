@@ -1,3 +1,4 @@
+'use client';
 import { CompleteButton } from './CompleteButton';
 import { ContentInfo } from './ContentInfo';
 import { HeaderInfo } from './HeaderInfo';

@@ -1,4 +1,4 @@
-'use client';
+export const dynamic = 'force-dynamic';
 
 import MyPageMain from '../../components/my-page/main';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { Text } from '@wds';
 import { styled } from 'styled-components';
 import { useToast } from '../../../hooks/useToast';

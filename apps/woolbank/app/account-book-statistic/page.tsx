@@ -1,11 +1,13 @@
+export const dynamic = 'force-dynamic';
+
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
+import dayjs from 'dayjs';
 import { cookies } from 'next/headers';
 import { Statistic } from '../..//components/account-book-statistic/Statistic';
-import { getData } from '../../utils/api';
-import { prefetchAccountBookList } from '../../components/account-books/main/hooks/useAccountBookListQuery';
 import { prefetchAccountStatisticListQuery } from '../../components/account-book-statistic/Statistic/hooks/useAccountStatisticListQuery';
-import dayjs from 'dayjs';
+import { prefetchAccountBookList } from '../../components/account-books/main/hooks/useAccountBookListQuery';
+import { getData } from '../../utils/api';
 
 export default async function RegularExtenditurePage() {
   const config: AxiosRequestConfig = {

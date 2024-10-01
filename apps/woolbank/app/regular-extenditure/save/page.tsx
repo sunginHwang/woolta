@@ -1,7 +1,12 @@
-'use client';
+export const dynamic = 'force-dynamic';
 
+import { Suspense } from 'react';
 import { RegularExtenditureSavePage } from '../../../components/regular-extenditure/save';
 
 export default function SaveRegularExtenditure() {
-  return <RegularExtenditureSavePage />;
+  return (
+    <Suspense>
+      <RegularExtenditureSavePage />
+    </Suspense>
+  );
 }

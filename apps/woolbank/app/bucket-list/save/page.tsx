@@ -1,4 +1,5 @@
-'use client';
+export const dynamic = 'force-dynamic';
+
 import { BucketSaveForm } from '../../../components/bucket-list/save';
 
 const BucketSavePage = () => {
