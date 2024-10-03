@@ -1,6 +1,7 @@
-// @ts-ignore
-import Nano from 'nanobar';
 import { useMount } from '@common';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import Nano from 'nanobar';
 
 const CLASS_NAME = 'nanoBarLoading';
 

@@ -26,7 +26,7 @@ export const useTempSavePost = () => {
     return () => {
       clearInterval(autoSaveInterval);
     };
-  }, [title, content, category]);
+  }, [title, content, postNo, category]);
 
   const loadTempPost = () => {
     try {

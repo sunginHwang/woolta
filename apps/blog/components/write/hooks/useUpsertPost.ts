@@ -1,9 +1,9 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import useToast from 'apps/blog/hooks/useToast';
-import apiCall, { APIResponse } from 'apps/blog/utils/api';
 import { useRouter } from 'next/navigation';
+import useToast from '../../../hooks/useToast';
+import apiCall, { APIResponse } from '../../../utils/api';
+import config from '../../../utils/config';
 import { getPostQueryKey } from '../../post/hooks/usePost';
-import config from 'apps/blog/utils/config';
 
 type UpsertPost = { id: number; title: string; contents: string; categoryNo: number; isUpdate: boolean };
 
@@ -30,7 +30,7 @@ export const useUpsertPost = () => {
       localStorage.removeItem(config.tempPostAutoSave);
 
       if (isUpdate) {
-        queryClient.invalidateQueries({ queryKey: getPostQueryKey(categoryNo, postNo) });
+        queryClient.invalidateQueries({ queryKey: getPostQueryKey(String(categoryNo), String(postNo)) });
       }
 
       showToast(`글 ${isUpdate ? '수정' : '작성'}이 완료되었습니다.`);

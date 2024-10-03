@@ -1,9 +1,7 @@
-'use client';
-
-import Write from 'apps/blog/components/write';
+import { PostWrite } from '../../components/write/PostWrite';
 
 const WritePage = () => {
-  return <Write />;
+  return <PostWrite />;
 };
 
 export default WritePage;

@@ -11,7 +11,7 @@ export const saveImageAndGetImageUrl = async (imageFile: File) => {
     const result = await apiCall.post('/file/upload/image', data);
 
     if (result.status === 200 && result.data.code === 'SUCCESS') {
-      const savedImageUrl: string = `${config.imageApiUrl}/${result.data.data.originFileName}`;
+      const savedImageUrl = `${config.imageApiUrl}/${result.data.data.originFileName}`;
       return savedImageUrl;
     } else {
       alert('이미지 업로드에 실패하였습니다.');

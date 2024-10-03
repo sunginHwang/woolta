@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import Cookies from 'js-cookie';
-import config from 'apps/blog/utils/config';
+import { useState } from 'react';
+import config from '../../utils/config';
 
 export default function useDarkMode(defaultTheme?: string) {
   let initTheme = defaultTheme;

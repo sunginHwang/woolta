@@ -1,12 +1,12 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { ICategory } from 'apps/blog/types/post/ICategory';
-import { getData } from 'apps/blog/utils/api';
+import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { ICategory } from '../../../types/post/ICategory';
+import { getData } from '../../../utils/api';
 
-const CATEGORIES_QUERY_KEY: string = 'getCategories';
+const CATEGORIES_QUERY_KEY = 'getCategories';
 
 export const allCategory: ICategory = {
   value: -1,
-  label: '전체',
+  label: '최신',
 };
 
 export async function fetchCategories() {
@@ -25,3 +25,10 @@ export const useCategories = () => {
     ...rest,
   };
 };
+
+export function prefetchCategories(queryClient: QueryClient) {
+  return queryClient.prefetchQuery({
+    queryKey: [CATEGORIES_QUERY_KEY],
+    queryFn: fetchCategories,
+  });
+}

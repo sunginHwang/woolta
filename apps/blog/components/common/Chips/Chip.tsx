@@ -1,6 +1,6 @@
-import { styled, css, CSSProp } from 'styled-components';
 import { typography, bgPrimary, border3, grayActive, graySecondary, pinkPrimary, white } from '@wds';
 import { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
+import { styled, css, CSSProp } from 'styled-components';
 
 type ChipVarient = 'filled' | 'outlined' | 'event';
 type ChipColor = 'primary';
@@ -87,11 +87,11 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     return (
       <SC.Chip
         ref={ref}
-        // 변경 필요
-        // css={chip_style}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
+        css={chip_style}
         className={className}
-        disabled={disabled}
-        active={active && !disabled}
+        $disabled={disabled}
         {...props}
       >
         {start_icon}
@@ -180,9 +180,9 @@ const event_style = css`
 `;
 
 const SC = {
-  Chip: styled.button<{ active?: boolean; disabled: boolean }>`
+  Chip: styled.button<{ $disabled: boolean }>`
     ${typography.body4Medium}
-    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+    cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
     border-radius: 18px;
     display: inline-flex;
     align-items: center;
@@ -190,7 +190,7 @@ const SC = {
     box-sizing: border-box;
     position: relative;
     vertical-align: middle;
-    opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
+    opacity: ${({ $disabled }) => ($disabled ? '0.5' : '1')};
 
     svg path {
       pointer-events: none;

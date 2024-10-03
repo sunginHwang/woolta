@@ -1,25 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
-import { IPost } from 'apps/blog/types/post/IPost';
-import { getData } from 'apps/blog/utils/api';
-import { useParams } from 'next/navigation';
 
-const POST_QUERY_KEY: string = 'getPost';
+import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { getData } from '../../..//utils/api';
+import { IPost } from '../../../types/post/IPost';
 
-export async function fetchPost(categoryNo: number, postNo: number) {
+const POST_QUERY_KEY = 'getPost';
+
+export async function fetchPost(categoryNo: string, postNo: string) {
   try {
-    const { data } = await getData<IPost>(`/post/categories/${categoryNo}/posts/${postNo}`);
+    const { data } = await getData<IPost>(`/post/categories/${Number(categoryNo)}/posts/${Number(postNo)}`);
     return data;
   } catch {
     return null;
   }
 }
 
-export const usePost = () => {
-  const { categoryNo, postNo } = useParams() as { categoryNo: string; postNo: string };
-
-  const { data, ...rest } = useQuery({
-    queryKey: getPostQueryKey(Number(categoryNo), Number(postNo)),
-    queryFn: () => fetchPost(Number(categoryNo), Number(postNo)),
+export const usePost = (categoryNo: string, postNo: string) => {
+  const { data, ...rest } = useSuspenseQuery({
+    queryKey: getPostQueryKey(categoryNo, postNo),
+    queryFn: () => fetchPost(categoryNo, postNo),
   });
 
   return {
@@ -28,6 +26,16 @@ export const usePost = () => {
   };
 };
 
-export function getPostQueryKey(categoryNo: number, postNo: number) {
+export function getPostQueryKey(categoryNo: string, postNo: string) {
   return [POST_QUERY_KEY, categoryNo, postNo];
 }
+
+export const prefetchPost = (
+  queryClient: QueryClient,
+  { categoryNo, postNo }: { categoryNo: string; postNo: string },
+) => {
+  return queryClient.prefetchQuery({
+    queryKey: getPostQueryKey(categoryNo, postNo),
+    queryFn: () => fetchPost(categoryNo, postNo),
+  });
+};

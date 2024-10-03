@@ -1,11 +1,11 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import { IUserInfo } from 'apps/blog/types/user/IUserInfo';
-import apiCall, { APIResponse, settingAccessHeaderToken } from 'apps/blog/utils/api';
-import config from 'apps/blog/utils/config';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { IUserInfo } from '../../types/user/IUserInfo';
+import apiCall, { APIResponse, settingAccessHeaderToken } from '../../utils/api';
+import config from '../../utils/config';
 
-const USER_INFO_QUERY_KEY: string = 'getUserInfo';
+const USER_INFO_QUERY_KEY = 'getUserInfo';
 
 const initValue: IUserInfo = {
   no: 0,
@@ -15,7 +15,7 @@ const initValue: IUserInfo = {
 };
 
 export function userLogin({ id, password }: { id: string; password: string }) {
-  let data = new FormData();
+  const data = new FormData();
   data.append('id', id);
   data.append('password', password);
 

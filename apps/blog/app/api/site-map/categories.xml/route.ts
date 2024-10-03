@@ -1,4 +1,4 @@
-import { makeCategoriesSiteMap } from 'apps/blog/utils/blog/siteMapGenerator';
+import { makeCategoriesSiteMap } from '../../../../utils/blog/siteMapGenerator';
 
 export async function GET() {
   const xml = await makeCategoriesSiteMap();

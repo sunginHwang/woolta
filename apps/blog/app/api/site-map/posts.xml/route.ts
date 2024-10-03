@@ -1,4 +1,4 @@
-import { makePostsSiteMap } from 'apps/blog/utils/blog/siteMapGenerator';
+import { makePostsSiteMap } from '../../../../utils/blog/siteMapGenerator';
 
 export async function GET() {
   const xml = await makePostsSiteMap();

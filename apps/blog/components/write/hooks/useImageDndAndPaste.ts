@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useImageUpload from '../../../hooks/useImageUpload';
 
 type Props = {
@@ -9,47 +9,53 @@ type Props = {
 export const useImageDndAndPaste = ({ onUpdating, onUpdateImage }: Props) => {
   const { onImageUpload } = useImageUpload();
 
-  const onPaste = async (e: ClipboardEvent) => {
-    e.preventDefault();
-    const { items } = e.clipboardData || { items: null };
+  const onPaste = useCallback(
+    async (e: ClipboardEvent) => {
+      e.preventDefault();
+      const { items } = e.clipboardData || { items: null };
 
-    if (!items) {
-      return;
-    }
+      if (!items) {
+        return;
+      }
 
-    const uploadItem = items[0];
-    if (uploadItem.kind !== 'file') {
-      return;
-    }
+      const uploadItem = items[0];
+      if (uploadItem.kind !== 'file') {
+        return;
+      }
 
-    const file = uploadItem.getAsFile();
+      const file = uploadItem.getAsFile();
 
-    if (!file) {
-      return;
-    }
+      if (!file) {
+        return;
+      }
 
-    onUpdating();
-    const markdownImg = await onImageUpload(file);
-    onUpdateImage(markdownImg);
-  };
+      onUpdating();
+      const markdownImg = await onImageUpload(file);
+      onUpdateImage(markdownImg);
+    },
+    [onImageUpload, onUpdating, onUpdateImage],
+  );
 
-  const onDnd = async (e: DragEvent) => {
-    e.preventDefault();
+  const onDnd = useCallback(
+    async (e: DragEvent) => {
+      e.preventDefault();
 
-    const { files } = e.dataTransfer || { files: null };
-    if (!files) return;
-    const imagePromises = [];
-    for (let i = 0; i < files.length; i++) {
-      imagePromises.push(onImageUpload(files[i]));
-    }
+      const { files } = e.dataTransfer || { files: null };
+      if (!files) return;
+      const imagePromises = [];
+      for (let i = 0; i < files.length; i++) {
+        imagePromises.push(onImageUpload(files[i]));
+      }
 
-    onUpdating();
-    const images = await Promise.all(imagePromises);
-    const markDownImages = images.reduce((prev, image) => {
-      return `${prev}${convertImageToCodeImage(image)}`;
-    }, '');
-    onUpdateImage(markDownImages);
-  };
+      onUpdating();
+      const images = await Promise.all(imagePromises);
+      const markDownImages = images.reduce((prev, image) => {
+        return `${prev}${convertImageToCodeImage(image)}`;
+      }, '');
+      onUpdateImage(markDownImages);
+    },
+    [onImageUpload, onUpdating, onUpdateImage],
+  );
 
   useEffect(() => {
     window && window.addEventListener('drop', onDnd); //dnd Event

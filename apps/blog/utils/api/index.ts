@@ -53,9 +53,7 @@ let timerId: any = null;
 
 function setProgress(value: number) {
   progress = value;
-  // @ts-ignore
   if (typeof window !== 'undefined' && window.nanoBarLoading) {
-    // @ts-ignore
     window.nanoBarLoading.go(progress);
   }
 }
@@ -91,7 +89,6 @@ export const getData = async <T>(url: string, config?: AxiosRequestConfig): Prom
     const response = await apiCall.get<APIResponse<T>>(url, config);
     return response.data;
   } catch (error: unknown) {
-    console.log(error.message);
     throw new Error(getErrorMessage(error));
   }
 };
