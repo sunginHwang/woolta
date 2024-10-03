@@ -1,20 +1,29 @@
 'use client';
 
-import { blogPrimary, white } from '@wds';
-import { useAtomValue } from 'jotai';
+import { white } from '@wds';
+import { useAtom } from 'jotai';
 import { MdNotificationsActive } from 'react-icons/md';
 import { styled } from 'styled-components';
 import { toastMessageAtom } from '../../layout/store';
+import { useEffect } from 'react';
+
+const NOTIFICATION_ANIMATION_DURATION = 1_500;
 
 function NotificationBar() {
-  const toastMessage = useAtomValue(toastMessageAtom);
+  const [toastMessage, setToastMessage] = useAtom(toastMessageAtom);
+
+  useEffect(() => {
+    if (toastMessage !== '') {
+      setTimeout(() => setToastMessage(''), NOTIFICATION_ANIMATION_DURATION);
+    }
+  }, [toastMessage, setToastMessage]);
 
   if (toastMessage === '') {
     return null;
   }
 
   return (
-    <SC.Container isShow>
+    <SC.Container id='test'>
       <MdNotificationsActive />
       <SC.NotificationBarTitle>{toastMessage}</SC.NotificationBarTitle>
     </SC.Container>
@@ -24,12 +33,12 @@ function NotificationBar() {
 export default NotificationBar;
 
 const SC = {
-  Container: styled.div<{ isShow: boolean }>`
+  Container: styled.div`
     position: fixed;
     bottom: 0.5rem;
     right: 0.5rem;
     color: ${white};
-    background-color: ${blogPrimary};
+    background-color: rgb(110, 130, 127);
     padding: 0.5rem 1rem;
     border-radius: 0.8rem;
     font-size: 1.8rem;

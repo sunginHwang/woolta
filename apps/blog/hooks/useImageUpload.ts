@@ -8,7 +8,11 @@ export const saveImageAndGetImageUrl = async (imageFile: File) => {
   data.append('imageFile', imageFile);
 
   try {
-    const result = await apiCall.post('/file/upload/image', data);
+    const result = await apiCall.post('/file/upload/image', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
     if (result.status === 200 && result.data.code === 'SUCCESS') {
       const savedImageUrl = `${config.imageApiUrl}/${result.data.data.originFileName}`;

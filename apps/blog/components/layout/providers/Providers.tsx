@@ -6,6 +6,11 @@ import { Provider as JotaiProvider } from 'jotai';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Layout from '../Layout';
 import StyleRegistry from './StyledComponentsRegistry';
+import config, { setConfig } from '../../../utils/config';
+import { getCookie } from '../../../utils/cookie';
+import { settingAccessHeaderToken } from '../../../utils/api';
+
+setConfig();
 
 const GlobalStyles = createGlobalStyle`
   html,
@@ -265,6 +270,10 @@ function getQueryClient() {
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient();
+  const accessToken = getCookie(config.accessToken);
+  if (accessToken) {
+    settingAccessHeaderToken(accessToken);
+  }
 
   return (
     <>

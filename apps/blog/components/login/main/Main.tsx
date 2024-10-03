@@ -1,3 +1,5 @@
+'use client';
+
 import { useInputs } from '@common';
 import { styled } from 'styled-components';
 import { useLogin } from '../../../hooks/queries/useLogin';

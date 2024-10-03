@@ -6,10 +6,7 @@ import { getCookie } from '../utils/cookie';
 setConfig();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const accessToken = getCookie(config.accessToken);
-  if (accessToken) {
-    settingAccessHeaderToken(accessToken);
-  }
+  
 
   return (
     <html lang='ko'>

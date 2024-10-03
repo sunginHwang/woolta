@@ -2,13 +2,15 @@ import { useMount } from '@common';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { WritePost, postAtom, setPostAtom } from '../store';
+import { toastMessageAtom } from '../../layout/store';
 
 const TEMP_POST_AUTO_SAVE = 'TEMP_POST_AUTO_SAVE';
-export const FIVE_MIN: number = 1000 * 60 * 5;
+export const FIVE_MIN: number = 1_000 * 60 * 5;
 
 export const useTempSavePost = () => {
   const { content, title, category, postNo } = useAtomValue(postAtom);
   const setPost = useSetAtom(setPostAtom);
+  const setToastMessage = useSetAtom(toastMessageAtom);
 
   useMount(() => {
     loadTempPost();
@@ -19,7 +21,7 @@ export const useTempSavePost = () => {
       if (content !== '') {
         const tempPost = { postNo, category, title, content };
         localStorage.setItem(TEMP_POST_AUTO_SAVE, JSON.stringify(tempPost));
-        alert('임시저장 되었습니다.');
+        setToastMessage('임시저장 되었습니다.');
       }
     }, FIVE_MIN);
 

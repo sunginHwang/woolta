@@ -55,7 +55,7 @@ export const Title = () => {
             {categoryLabel} | {createdAt}
           </Text>
         </div>
-        {!isLogin && (
+        {isLogin && (
           <div>
             <SC.TitleButton onClick={handleModifyClick}>수정</SC.TitleButton>
             <SC.TitleButton onClick={handleDeleteClick}>삭제</SC.TitleButton>

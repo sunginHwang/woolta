@@ -11,6 +11,7 @@ export interface Config {
   pwaLog: string;
   cookieConfig: {
     expires: number;
+    domain: string;
   };
 }
 
@@ -30,6 +31,7 @@ export function setConfig() {
     pwaLog: process.env.NEXT_PUBLIC_PWA_LOG ?? '',
     cookieConfig: {
       expires: 180,
+      domain: '.woolta.com',
     },
   });
 }

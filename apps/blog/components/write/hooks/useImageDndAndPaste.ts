@@ -69,5 +69,5 @@ export const useImageDndAndPaste = ({ onUpdating, onUpdateImage }: Props) => {
 };
 
 function convertImageToCodeImage(imageUrl: string) {
-  return `![](${imageUrl})\n`;
+  return `![${imageUrl}](${imageUrl})\n`;
 }

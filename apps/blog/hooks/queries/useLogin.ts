@@ -19,12 +19,17 @@ export function userLogin({ id, password }: { id: string; password: string }) {
   data.append('id', id);
   data.append('password', password);
 
-  return apiCall.post<APIResponse<IUserInfo>>('/user/login', data);
+  return apiCall.post<APIResponse<IUserInfo>>('/user/login', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 }
 
 export const useLogin = () => {
   const queryClient = new QueryClient();
   const { push } = useRouter();
+
   const loginMutate = useMutation({
     mutationFn: userLogin,
     onSuccess: (res) => {

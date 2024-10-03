@@ -36,7 +36,9 @@ export const useUpsertPost = () => {
       showToast(`글 ${isUpdate ? '수정' : '작성'}이 완료되었습니다.`);
       router.push(`categories/${categoryNo}/posts/${postNo}`);
     },
-    onError: alert,
+    onError: (error) => {
+      showToast(error.message);
+    },
   });
 
   // 글 생성 or 업데이트
