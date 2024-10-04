@@ -160,7 +160,7 @@ export const RegularExtenditureForm: FC<Props> = ({ submitForm }) => {
 };
 
 const SC = {
-  Form: styled.div`
+  Form: styled.main`
     margin-top: 2rem;
     padding: 0 1.6rem;
 

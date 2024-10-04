@@ -231,7 +231,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
 export default AccountBookForm;
 
 const SC = {
-  Form: styled.div`
+  Form: styled.main`
     margin-top: 2rem;
     padding: 0 1.6rem;
 

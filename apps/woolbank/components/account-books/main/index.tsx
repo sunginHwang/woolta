@@ -1,6 +1,6 @@
+import { AccountBookActiveTab } from './account-book-active-tab/AccountBookActiveTab';
 import { AccountBookTabs } from './AccountBookTabs';
 import MonthStatistics from './AccountList/MonthStatistics';
-import { AccountBookActiveTab } from './account-book-active-tab/AccountBookActiveTab';
 import { AddAccountBookButton } from './add-account-book-button/AddAccountBookButton';
 import { Footer } from './footer/Footer';
 
@@ -12,8 +12,10 @@ const AccountBookListPage = () => {
   return (
     <>
       <MonthStatistics />
-      <AccountBookTabs />
-      <AccountBookActiveTab />
+      <main>
+        <AccountBookTabs />
+        <AccountBookActiveTab />
+      </main>
       <Footer />
       <AddAccountBookButton />
     </>

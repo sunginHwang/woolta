@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import AccountBookList from '../components/account-books/main';
 import { prefetchAccountBookList } from '../components/account-books/main/hooks/useAccountBookListQuery';
 import { getData } from '../utils/api';
+import dayjs from 'dayjs';
 
 export default async function AccountBooks() {
   const headers = {
@@ -19,7 +20,7 @@ export default async function AccountBooks() {
       return data;
     },
   });
-  await prefetchAccountBookList(queryClient, { selectedDate: '2024-09', config: { headers } });
+  await prefetchAccountBookList(queryClient, { selectedDate: dayjs().format('YYYY-MM'), config: { headers } });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

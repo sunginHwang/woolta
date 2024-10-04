@@ -48,17 +48,3 @@ function getAccountBookFrom(accountBookDetail: AccountBookDetail | null): Accoun
     type,
   };
 }
-
-// export const getServerSidePropsForAccountBookFormSave: GetServerSideProps = async ({ query: { id }, req }) => {
-//   const queryClient = new QueryClient();
-
-//   if (id) {
-//     await queryClient.prefetchQuery(getAccountBookFetchInfo(id as string));
-//   }
-
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//     },
-//   };
-// };

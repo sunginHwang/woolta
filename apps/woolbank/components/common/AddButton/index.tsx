@@ -14,9 +14,11 @@ type Props = ComponentProps<typeof Link>;
  */
 const AddButton: FC<Props> = ({ ...rest }) => {
   return (
-    <SC.Container {...rest} data-cy='addButton'>
-      +
-    </SC.Container>
+    <aside>
+      <SC.Container {...rest} data-cy='addButton'>
+        +
+      </SC.Container>
+    </aside>
   );
 };
 

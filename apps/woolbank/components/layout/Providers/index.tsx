@@ -226,25 +226,12 @@ const GlobalStyles = createGlobalStyle`
     -ms-user-select: none;
   }
 
-  /* a 태그와 button 태그 클릭 시 나타나는 스타일 제거 */
-  a, button {
-    outline: none; /* 포커스 아웃라인 제거 */
+  /* 모든 DOM 요소에 대해 클릭 및 포커스 시 스타일 제거 */
+  * {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  a:focus, button:focus {
-    outline: none; /* 포커스 상태에서 아웃라인 제거 */
-  }
-
-  a:active, button:active {
-    background-color: transparent; /* 활성화 상태 배경색 제거 */
-    border: none; /* 활성화 상태 테두리 제거 */
-    box-shadow: none; /* 활성화 상태 박스 쉐도우 제거 */
-  }
-
-  /* 추가적으로 웹 브라우저 기본 스타일 제거 */
-  a:focus-visible, button:focus-visible {
-    outline: none; /* 포커스 상태에서 보이는 아웃라인 제거 */
-  }
 `;
 
 let browserQueryClient: QueryClient | undefined = undefined;
@@ -272,22 +259,20 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient();
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryStreamedHydration>
-          <ReactQueryDevtools />
-          <JotaiProvider>
-            <StyleRegistry>
-              <ThemeProvider theme={theme.light}>
-                <GlobalStyles />
-                <ConfirmProvider>
-                  <Layout>{children}</Layout>
-                </ConfirmProvider>
-              </ThemeProvider>
-            </StyleRegistry>
-          </JotaiProvider>
-        </ReactQueryStreamedHydration>
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryStreamedHydration>
+        {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
+        <JotaiProvider>
+          <StyleRegistry>
+            <ThemeProvider theme={theme.light}>
+              <GlobalStyles />
+              <ConfirmProvider>
+                <Layout>{children}</Layout>
+              </ConfirmProvider>
+            </ThemeProvider>
+          </StyleRegistry>
+        </JotaiProvider>
+      </ReactQueryStreamedHydration>
+    </QueryClientProvider>
   );
 };

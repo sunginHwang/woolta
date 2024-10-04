@@ -1,6 +1,18 @@
+import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import { Providers } from '../components/layout/Providers';
 import { setConfig } from '../utils/config';
+
+export const metadata: Metadata = {
+  title: '뱅킷리스트',
+  description: '계좌 정보를 한곳에 모으고 도전하고 싶은 버킷리스트를 만들어봐요~',
+  keywords: '자산, 버킷리스트, 토이프로젝트',
+  authors: {
+    name: 'sungin hwang',
+    url: 'https://blog.woolta.com/',
+  },
+  applicationName: 'BanketList',
+};
 
 setConfig();
 
@@ -23,9 +35,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <meta name='theme-color' content='#fff' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-status-bar-style' content='white' />
-        <meta name='description' content='woolta 블로그 ver2.0 기술 개발 블로그' />
-        <meta property='og:description' content='woolta 블로그 ver2.0 기술 개발 블로그' />
-        <meta property='og:site_name' content='woolta Blog' />
         <meta
           name='viewport'
           content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover'

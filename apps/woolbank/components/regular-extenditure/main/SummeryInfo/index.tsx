@@ -21,13 +21,13 @@ const SummeryInfo = () => {
     .sort((a, b) => a.regularDate - b.regularDate);
 
   return (
-    <>
+    <header>
       <SC.Container>
         <RegularAmountInfo amount={totalAmount} />
         <OneWeekAgoList regularExpenditureList={oneWeekRemainList} />
       </SC.Container>
       <SC.Line />
-    </>
+    </header>
   );
 };
 

@@ -6,10 +6,10 @@ import { FC, PropsWithChildren } from 'react';
 import { LoadingAtom } from '../../../store/layout';
 import FullScreenLoading from '../../common/FullScreenLoading';
 import { Alert } from '../Alert';
-import Header from '../Header';
 import NavigationBar from '../NavigationBar';
 import { Toast } from '../Toast';
 import { useIsMounted } from '@common';
+import styled from 'styled-components';
 
 const NAVIGATION_PATHS = [
   '/',
@@ -35,8 +35,7 @@ const Layout: FC<Props> = ({ children }) => {
 
   const useNavBar = NAVIGATION_PATHS.find((path) => pathname === path);
   return (
-    <main>
-      <Header title='뱅킷리스트' description='계좌 정보를 한곳에 모으고 도전하고 싶은 버킷리스트를 만들어봐요~' />
+    <SC.Container>
       {children}
       {useNavBar && <NavigationBar />}
       {isMounted && (
@@ -46,8 +45,24 @@ const Layout: FC<Props> = ({ children }) => {
           <Toast />
         </>
       )}
-    </main>
+    </SC.Container>
   );
 };
 
 export default Layout;
+
+const SC = {
+  Container: styled.div`
+    width: 100%;
+    min-width: 320px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding-bottom: 0;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0px);
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 0px);
+    background-color: white;
+  `,
+};

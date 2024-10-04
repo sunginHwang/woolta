@@ -18,7 +18,7 @@ const MyPageMain = () => {
 export default MyPageMain;
 
 const SC = {
-  Container: styled.div`
+  Container: styled.main`
     padding: 0 1.6rem;
   `,
 };

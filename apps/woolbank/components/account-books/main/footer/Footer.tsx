@@ -17,7 +17,7 @@ const SC = {
 
     margin: 2rem 0 1rem;
   `,
-  Footer: styled.div`
+  Footer: styled.footer`
     width: 100%;
     height: 18rem;
     background-color: ${({ theme }) => theme.colors.white};

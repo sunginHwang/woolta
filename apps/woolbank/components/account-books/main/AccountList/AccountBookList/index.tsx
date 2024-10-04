@@ -8,7 +8,7 @@ import EmptyData from '../../../../../components/common/EmptyInfo';
 import { AccountBook, useAccountBookList } from '../../hooks/useAccountBookList';
 import DayGroup from './DayGroup';
 import Item from './Item';
-import Skeleton from './Skeleton';
+import { AccountBookListSkeleton } from './AccountBookListSkeleton';
 
 /**
  * 가계부 리스트
@@ -41,7 +41,7 @@ const AccountBookList = () => {
   );
 };
 
-export default withSuspense(AccountBookList, <Skeleton />);
+export default withSuspense(AccountBookList, <AccountBookListSkeleton />);
 
 const SC = {
   AccountBookList: styled.div`

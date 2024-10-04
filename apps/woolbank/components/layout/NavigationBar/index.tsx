@@ -46,31 +46,37 @@ const NavigationBar = () => {
   const pathname = usePathname();
 
   return (
-    <SC.NavigationBar data-cy='navigationBar'>
-      {navigations.map((navigation) => {
-        return (
-          <SC.NavigationBarTag
-            key={navigation.name}
-            data-cy={navigation.name}
-            className={navigation.link === pathname ? 'active' : ''}
-          >
-            <Link href={navigation.link}>
-              {navigation.icon}
-              <span>{navigation.name}</span>
-            </Link>
-          </SC.NavigationBarTag>
-        );
-      })}
-    </SC.NavigationBar>
+    <SC.Container>
+      <SC.NavigationBar>
+        {navigations.map((navigation) => {
+          return (
+            <SC.NavigationBarTag
+              key={navigation.name}
+              data-cy={navigation.name}
+              className={navigation.link === pathname ? 'active' : ''}
+            >
+              <Link href={navigation.link}>
+                {navigation.icon}
+                <span>{navigation.name}</span>
+              </Link>
+            </SC.NavigationBarTag>
+          );
+        })}
+      </SC.NavigationBar>
+    </SC.Container>
   );
 };
 
 export default NavigationBar;
 
 const SC = {
+  Container: styled.nav`
+    position: relative;
+    z-index: 100;
+  `,
   NavigationBar: styled.div`
     display: flex;
-    align-items: 'center';
+    align-items: center;
     justify-content: center;
     position: fixed;
     bottom: 0;
@@ -78,11 +84,13 @@ const SC = {
     right: 0;
     width: 100%;
     height: 5.5rem;
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(env(safe-area-inset-bottom) + 5.5rem);
+    height: calc(constant(safe-area-inset-bottom) + 5.5rem);
+    padding-bottom: 2px;
+    padding-bottom: calc(constant(safe-area-inset-bottom) +2px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 2px);
     border-top: 0.1rem solid ${({ theme }) => theme.colors.gray300};
     background-color: ${({ theme }) => theme.colors.white};
-    z-index: 100;
 
     .active {
       color: ${({ theme }) => theme.colors.grayPrimary};

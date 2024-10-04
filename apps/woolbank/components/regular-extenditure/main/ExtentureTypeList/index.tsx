@@ -56,7 +56,7 @@ const ExtentureTypeList = () => {
 };
 
 const SC = {
-  Container: styled.section`
+  Container: styled.main`
     padding: 0 1.6rem;
   `,
   ExpenditureType: styled.div`

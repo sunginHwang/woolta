@@ -44,6 +44,7 @@ const FilterInfo = () => {
         <TypeFilter activeType={type} onTypeChange={setType} />
         <CategoryOptionFilter />
       </SC.DateLabel>
+      <SC.Line />
     </SC.Container>
   );
 };
@@ -51,10 +52,15 @@ const FilterInfo = () => {
 export default FilterInfo;
 
 const SC = {
-  Container: styled.section`
+  Container: styled.header`
     padding: 2rem 1.6rem 0;
   `,
   DateLabel: styled.div`
     margin: 2rem 0;
+  `,
+  Line: styled.div`
+    background-color: ${({ theme }) => theme.colors.gray100};
+    height: 0.7rem;
+    margin: 0 -1.6rem;
   `,
 };

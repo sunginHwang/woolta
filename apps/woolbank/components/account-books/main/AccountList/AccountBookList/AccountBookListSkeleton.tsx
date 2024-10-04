@@ -7,7 +7,7 @@ const LIST_ITEM_HEIGHT = '2.1rem';
  * 가계부 리스트 스켈레톤
  * @component
  */
-const Skeleton = () => {
+export const AccountBookListSkeleton = () => {
   return (
     <SC.Container>
       {[...Array(5)].map((_, index) => (
@@ -50,5 +50,3 @@ const SC = {
     }
   `,
 };
-
-export default Skeleton;

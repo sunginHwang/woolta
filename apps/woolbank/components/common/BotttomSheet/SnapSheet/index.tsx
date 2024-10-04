@@ -38,7 +38,6 @@ const SnapSheet: FC<Props> = ({ isOpen = false, snapPhase = 1, useDeem = true, h
       disableScrollLocking={true}
       isOpen={isOpen}
       onClose={() => {
-        console.log('12122');
         onClose();
       }}
       snapPoints={[MAX_Y, 600, 400, 300, 100, 0]}
