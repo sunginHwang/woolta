@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Login from './Main';
+import { Login } from './Main';
 
 const meta: Meta<typeof Login> = { component: Login };
 export default meta;
@@ -7,3 +7,6 @@ export default meta;
 type Story = StoryObj<typeof Login>;
 
 export const 로그인_화면: Story = { args: {} };
+
+
+
