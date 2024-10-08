@@ -7,7 +7,7 @@ export const POSTS_QUERY_KEY = 'getPosts';
 export async function fetchPostList(categoryId: string) {
   const urlPath = categoryId === '-1' ? '/post/categories/new/posts' : `/post/categories/${categoryId}/posts`;
   const { data } = await getData<IPost[]>(urlPath);
-  return data;
+  return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
 export const usePostList = (categoryId: string) => {
@@ -29,3 +29,9 @@ export function prefetchPostList(client: QueryClient, categoryId: string) {
     queryFn: () => fetchPostList(categoryId),
   });
 }
+
+
+
+
+  
+

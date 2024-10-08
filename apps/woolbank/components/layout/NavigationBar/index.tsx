@@ -84,11 +84,7 @@ const SC = {
     right: 0;
     width: 100%;
     height: 5.5rem;
-    height: calc(env(safe-area-inset-bottom) + 5.5rem);
-    height: calc(constant(safe-area-inset-bottom) + 5.5rem);
-    padding-bottom: 2px;
-    padding-bottom: calc(constant(safe-area-inset-bottom) +2px);
-    padding-bottom: calc(env(safe-area-inset-bottom) + 2px);
+    padding-bottom: 34px;
     border-top: 0.1rem solid ${({ theme }) => theme.colors.gray300};
     background-color: ${({ theme }) => theme.colors.white};
 

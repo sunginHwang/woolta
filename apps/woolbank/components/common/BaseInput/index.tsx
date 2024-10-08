@@ -144,7 +144,7 @@ const SC = {
     margin: 1rem 0;
 
     input {
-      ${typography.body4Regular}
+      ${typography.body1}
       border: 0.1rem solid ${({ theme }) => theme.colors.gray150};
       background-color: ${({ $isFocus, theme }) => ($isFocus ? '#F5EFF4' : theme.colors.gray150)};
       border-radius: 0.8rem;

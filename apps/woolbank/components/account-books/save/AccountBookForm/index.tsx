@@ -11,7 +11,8 @@ import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
-import { delay, useDetectKeyboardOpen } from '@common';
+import { delay } from '@common';
+import { isIphone } from '../../../../utils/agent';
 
 const TAB_LIST = [
   {
@@ -46,7 +47,6 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   const { onToast } = useToast();
   const { isShareUser } = useUserInfo();
   const { is_insert_mode } = useAccountBookSaveRouterProps();
-  const isKeyboardOpen = useDetectKeyboardOpen();
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
 
@@ -83,11 +83,13 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
-  // AOS에서는 이 이벤트 가 동작하지 않는다
+  // AOS에서는 이 이벤트 가 동작하지 않는다 (IOS키보드 오픈)
   const handleTitleKeyDownEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    // 아이폰 용인데 조치 필요 (AOS에서 가상 키보드가 안꺼지는 이슈 존재)
-    if (e.key === 'Enter' && is_insert_mode && formData.category.name === '') {
-      // handleTitleEnter();
+    const is_ios_keyboard_enter = isIphone(window.navigator.userAgent) && e.key === 'Enter';
+    const isAvailOpenModal = is_insert_mode && formData.category.name === '';
+
+    if (is_ios_keyboard_enter && isAvailOpenModal) {
+      handleTitleEnter();
     }
   };
 
@@ -112,27 +114,10 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
       title_ref.current?.blur();
       await delay(400);
       setModalName('category');
-      // const delayOpenCateogry = async () => {
-      //   console.log('-s--=isKeyboardOpen-');
-      //   console.log(isKeyboardOpen);
-      //   console.log('-e--isKeyboardOpen-');
-      //   if (isKeyboardOpen) {
-      //     await delay(300);
-      //     delayOpenCateogry();
-      //   } else {
-      //     setModalName('category');
-      //   }
-      // };
-
-      // delayOpenCateogry();
     }
   };
 
   const openModal = (e: MouseEvent<HTMLElement | HTMLDivElement>) => {
-    // if (isKeyboardOpen) {
-    //   return;
-    // }
-
     const type = e.currentTarget.dataset.type || '';
     setModalName(type);
   };
