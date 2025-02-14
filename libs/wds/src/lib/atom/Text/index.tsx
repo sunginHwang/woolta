@@ -68,9 +68,22 @@ export const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseText
   color = 'black',
   variant,
   children,
+  className,
+  onClick,
 }) => {
   return (
-    <Base as={as} $variant={variant} $color={color} $alignment={alignment} $mt={mt} $mb={mb} $ml={ml} $mr={mr}>
+    <Base
+      as={as}
+      $variant={variant}
+      $color={color}
+      $alignment={alignment}
+      $mt={mt}
+      $mb={mb}
+      $ml={ml}
+      $mr={mr}
+      onClick={onClick}
+      className={className}
+    >
       {children}
     </Base>
   );

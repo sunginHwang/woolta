@@ -11,6 +11,7 @@ interface Props {
   visible: boolean;
   currentAmount: number;
   oncloseModal: () => void;
+  onChange?: (amount: number) => void;
   onComplete: (amount: number) => void;
 }
 
@@ -18,8 +19,11 @@ interface Props {
  * 금액 입력 모달
  * @component
  */
-const AmountSheet: FC<Props> = ({ title, visible, currentAmount, oncloseModal, onComplete }) => {
-  const { displayAmount, amount, addAmount, backAmount, initAmount } = useNumberAmount({ currentAmount });
+const AmountSheet: FC<Props> = ({ title, visible, currentAmount, onChange, oncloseModal, onComplete }) => {
+  const { displayAmount, amount, addAmount, backAmount, initAmount } = useNumberAmount({
+    currentAmount,
+    onAmountChange: onChange,
+  });
   const {
     colors: { gray150 },
   } = useTheme();

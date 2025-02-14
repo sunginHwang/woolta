@@ -1,18 +1,24 @@
-import { FC, MouseEvent, useEffect, useRef, KeyboardEvent, useState } from 'react';
+import { delay } from '@common';
+import { colors, Text } from '@wds';
+import { IconTrashCan } from 'apps/woolbank/components/atom/Icon';
+import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
+import { IconEditRegular, IconPencli } from 'apps/woolbank/components/atom/Icon/EditRegular';
+import { FC, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import { IconTrashCan } from '../../../../components/atom/Icon';
-import BaseInput from '../../../../components/common/BaseInput';
 import ToggleTab from '../../../../components/common/ToggleTab';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
+import { isIphone } from '../../../../utils/agent';
 import { Button } from '../../../atom/Button';
 import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
+import { FormField } from './form-field/FormField';
+import { FormInput } from './form-field/FormInput';
+import { Switch } from './form-field/Switch';
 import FormModal from './FormModal';
 import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
-import { delay } from '@common';
-import { isIphone } from '../../../../utils/agent';
+import { IconCalendar } from 'apps/woolbank/components/atom/Icon/Calendar';
 
 const TAB_LIST = [
   {
@@ -41,6 +47,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     validateForm,
     setAccountBookCategoryType,
     setRegisterDateTime,
+    toggleDisabledBudget,
     onClear,
   } = useAccountBookForm(accountBookForm);
   const { openConfirm } = useConfirm();
@@ -105,10 +112,6 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
-  const preventEvent = (e: KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-  };
-
   const handleTitleEnter = async () => {
     if (is_insert_mode && formData.category.name === '') {
       title_ref.current?.blur();
@@ -117,8 +120,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
-  const openModal = (e: MouseEvent<HTMLElement | HTMLDivElement>) => {
-    const type = e.currentTarget.dataset.type || '';
+  const openFormBottomSheet = (type: 'registerDateTime' | 'amount' | 'category') => () => {
     setModalName(type);
   };
 
@@ -128,76 +130,67 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
 
   const typeMsg = getCategoryMsg(formData.type);
   const isUpdateForm = !accountBookForm;
+
   return (
     <>
       <SC.Form>
-        <ToggleTab tabs={TAB_LIST} value={formData.type} onChangeTab={setType} />
-        <BaseInput
-          readOnly
-          disable={isShareUser}
-          dataType='amount'
-          label={`${typeMsg}금액`}
-          placeholder={`${typeMsg}금액을 입력해 주세요.`}
-          value={formData.amount === 0 ? '' : `${formData.amount.toLocaleString('ko-KR')}원`}
-          onClick={openModal}
-          onClear={handleClearClick}
-        />
-        <BaseInput
-          ref={title_ref}
-          name='title'
-          disable={isShareUser}
-          label={`${typeMsg}처`}
-          placeholder={`${typeMsg}처를 선택해 주세요.`}
-          maxLength={20}
-          value={formData.title}
-          onChange={onChange}
-          onClear={handleClearClick}
-          onInput={preventEvent}
-          onKeyDown={handleTitleKeyDownEnter}
-          onCompositionEndCapture={handleTitleEnter}
-        />
-        <BaseInput
-          readOnly
-          disable={isShareUser}
-          dataType='registerDateTime'
-          label={`${typeMsg}일시`}
-          placeholder={`${typeMsg}일시를 선택해 주세요.`}
-          value={formData.registerDateTime.format('YYYY-MM-DD')}
-          onClick={openModal}
-          onClear={handleClearClick}
-        />
-        <BaseInput
-          readOnly
-          disable={isShareUser}
-          dataType='category'
-          label={`${typeMsg}카테고리`}
-          placeholder={`${typeMsg} 카테고리를 선택해 주세요.`}
-          value={formData.category.name}
-          onClick={openModal}
-          onClear={handleClearClick}
-        />
-        <BaseInput
-          name='memo'
-          label='메모'
-          disable={isShareUser}
-          placeholder='메모를 입력해주세요.'
-          maxLength={20}
-          tabIndex={-1}
-          value={formData.memo}
-          onChange={onChange}
-          onClear={handleClearClick}
-          onInput={preventEvent}
-        />
+        <SC.Content>
+          <div className='toggle'>
+            <ToggleTab size='small' tabs={TAB_LIST} value={formData.type} onChangeTab={setType} />
+          </div>
+          <div className='center-box' onClick={openFormBottomSheet('registerDateTime')}>
+            <Text variant='body3' color='gray600' as='p'>
+              {formData.registerDateTime.format('YYYY-MM-DD')}
+            </Text>
+            <IconCalendar width={12} height={12} fill={colors.gray500} />
+          </div>
+          <Text className='title' variant='title1Bold' color='gray900' onClick={openFormBottomSheet('amount')} as='p'>
+            {`${formData.amount.toLocaleString('ko-KR')}원`}
+          </Text>
+        </SC.Content>
+        <div>
+          <FormField title={`${typeMsg}처`}>
+            <FormInput
+              ref={title_ref}
+              name='title'
+              disable={isShareUser}
+              placeholder={`${typeMsg}처를 선택해 주세요.`}
+              maxLength={20}
+              value={formData.title}
+              onChange={onChange}
+              onClear={handleClearClick}
+              onKeyDown={handleTitleKeyDownEnter}
+              onCompositionEndCapture={handleTitleEnter}
+            />
+          </FormField>
+          <FormField title='카테고리' onClick={openFormBottomSheet('category')}>
+            <SC.FormContent>
+              <Text variant='body1' color='gray900'>
+                {formData.category.name}
+              </Text>
+              <IconChevronRight width={16} height={16} fill={colors.gray600} />
+            </SC.FormContent>
+          </FormField>
+          <FormField title='예산에서 제외'>
+            <div className='switch-wrapper'>
+              <Switch checked={formData.is_disabled_budet} onClick={toggleDisabledBudget} />
+            </div>
+          </FormField>
+          <FormField title='메모' />
+          <SC.Memo name='memo' value={formData.memo} tabIndex={-1} maxLength={100} onChange={onChange} />
+        </div>
         {!isShareUser && (
           <SC.ButtonArea>
-            {!isUpdateForm && (
-              <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
-                <IconTrashCan />
+            <div className='bottom-wrapper'>
+              {!isUpdateForm && (
+                <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
+                  <IconTrashCan />
+                </Button>
+              )}
+              <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
+                {isUpdateForm ? '작성하기' : '수정하기'}
               </Button>
-            )}
-            <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
-              {isUpdateForm ? '작성하기' : '수정하기'}
-            </Button>
+            </div>
           </SC.ButtonArea>
         )}
       </SC.Form>
@@ -217,18 +210,78 @@ export default AccountBookForm;
 
 const SC = {
   Form: styled.main`
-    margin-top: 2rem;
+    margin-top: 3rem;
     padding: 0 1.6rem;
 
+    .switch-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+    }
+
+    .center-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+
+      svg {
+        margin-bottom: 2px;
+      }
+    }
     > div + div {
       margin-top: 4rem;
     }
   `,
-  ButtonArea: styled.div`
-    margin-top: 5rem;
-    padding-bottom: 5rem;
-    display: flex;
+  MemoWrapper: styled.div`
+    height: 15rem;
     width: 100%;
-    gap: 1.6rem;
+  `,
+  Memo: styled.textarea`
+    border-radius: 1.3rem;
+    background-color: ${({ theme }) => theme.colors.gray100};
+    height: 15rem;
+    padding: 1.6rem;
+    width: calc(100% - 3.2rem);
+    border: none;
+  `,
+  FormContent: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.6rem 0;
+  `,
+  Content: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .toggle {
+      width: 120px;
+      margin-bottom: 2rem;
+    }
+
+    .title {
+      margin: 3rem 0;
+      font-size: 4rem;
+    }
+  `,
+  ButtonArea: styled.footer`
+    position: fixed;
+    bottom: 2rem;
+    bottom: calc(constant(safe-area-inset-bottom) + 2rem);
+    bottom: calc(env(safe-area-inset-bottom) + 2rem);
+    width: 100%;
+    height: 5.5rem;
+    z-index: 100;
+    left: 0;
+
+    .bottom-wrapper {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0 1.6rem;
+    }
   `,
 };

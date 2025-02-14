@@ -10,6 +10,7 @@ export interface AccountBookSaveForm {
   amount: number;
   memo: string;
   registerDateTime: Dayjs;
+  is_disabled_budet?: boolean;
   category: AccountBookCategory;
   type: AccountBookCategoryType;
 }
@@ -28,6 +29,7 @@ const INIT_FORM_DATA: AccountBookSaveForm = {
     updatedAt: new Date(),
   },
   registerDateTime: dayjs(),
+  is_disabled_budet: false,
   type: 'expenditure',
   memo: '',
 };
@@ -80,6 +82,13 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     }));
   };
 
+  const toggleDisabledBudget = () => {
+    setInputs((prev) => ({
+      ...prev,
+      is_disabled_budet: !prev.is_disabled_budet,
+    }));
+  };
+
   const setAccountBookCategoryType = (accountBookCategory: AccountBookCategory) => {
     setInput('category', accountBookCategory);
   };
@@ -93,6 +102,7 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     onClear,
     setInputs,
     setAmount,
+    toggleDisabledBudget,
     setType,
     setRegisterDateTime,
     setAccountBookCategoryType,

@@ -21,7 +21,7 @@ export function useInputs<T extends object>(defaultValues: T) {
 
   // 인풋 이벤트 변경
   const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
       setInput(name as NameType, value);
     },

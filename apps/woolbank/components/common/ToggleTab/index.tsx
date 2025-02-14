@@ -16,6 +16,7 @@ interface Props {
   useOutline?: boolean;
   // 리스트 타입 사용 유무
   useListType?: boolean;
+  size?: 'small' | 'medium';
   // 탭 변경 이벤트
   onChangeTab?: (tab: ToggleTabItem) => void;
 }
@@ -24,7 +25,14 @@ interface Props {
  * 토글 탭
  * @component
  */
-const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = false, onChangeTab }) => {
+const ToggleTab: FC<Props> = ({
+  tabs,
+  value,
+  useOutline = true,
+  useListType = false,
+  size = 'medium',
+  onChangeTab,
+}) => {
   const { width } = useWindowDimensions();
   // 인디케이터 길이
   const indicatorWidth = width / tabs.length;
@@ -77,7 +85,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
   }
 
   return (
-    <S.ToggleTab $useOutline={useOutline} $useListType={useListType}>
+    <S.ToggleTab $useOutline={useOutline} $useListType={useListType} $size={size}>
       {renderTabs}
       {!useListType && !useOutline && <S.BottomLine width={indicatorWidth} left={indicatorLeftPosition} />}
     </S.ToggleTab>
@@ -87,6 +95,7 @@ const ToggleTab: FC<Props> = ({ tabs, value, useOutline = true, useListType = fa
 type ToggleTabSProps = {
   $useOutline: boolean;
   $useListType: boolean;
+  $size: 'small' | 'medium';
 };
 
 type BottomLineProps = { width: number; left: number };
@@ -95,17 +104,16 @@ const S = {
   ToggleTab: styled.div<ToggleTabSProps>`
     width: 100%;
     position: relative;
-    height: ${({ $useOutline }) => ($useOutline ? '4' : '5')}rem;
+    height: ${({ $useOutline, $size }) => ($useOutline ? ($size === 'small' ? 3 : 4) : $size === 'small' ? 4 : 5)}rem;
     display: flex;
     justify-content: ${({ $useListType }) => ($useListType ? 'flex-start' : 'space-around')};
-    margin-bottom: 1rem;
     ${({ $useListType, $useOutline }) =>
       !$useListType &&
       !$useOutline &&
       'box-shadow: 0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14),\n      0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12);'};
 
     button {
-      font-size: 1.3rem;
+      font-size: ${({ $size }) => ($size === 'small' ? '1.1rem' : '1.3rem')};
     }
   `,
   Tab: styled.button<{ $isActive: boolean }>`
