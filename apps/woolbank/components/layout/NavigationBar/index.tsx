@@ -1,10 +1,26 @@
+import { useScrollDirection } from '@common';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { IconAccountOutline, IconBucketOutline, IconPigOutline, IconWalletOutline } from '../../atom/Icon';
 
+const linkVariant = {
+  initial: { scale: 1 },
+  tap: { scale: 0.85 },
+  release: {
+    scale: [1.05, 1],
+    transition: {
+      duration: 0.3,
+      times: [0, 1],
+      type: 'spring',
+      stiffness: 300,
+      damping: 20,
+    },
+  },
+};
 const navigations: { name: string; value: string; link: string; icon: ReactNode }[] = [
   {
     name: '가계부',
@@ -44,20 +60,44 @@ const navigations: { name: string; value: string; link: string; icon: ReactNode 
  */
 const NavigationBar = () => {
   const pathname = usePathname();
+  const [isShowNavigationBar, setIsShowNavigationBar] = useState(true);
+  const scrollDirection = useScrollDirection();
+
+  useEffect(() => {
+    setIsShowNavigationBar(scrollDirection === 'down' ? false : true);
+  }, [scrollDirection]);
 
   return (
-    <SC.Container>
+    <SC.Container
+      initial={{ y: 0 }}
+      animate={{
+        y: isShowNavigationBar ? 0 : 100,
+      }}
+      transition={{
+        duration: 0.25,
+        ease: 'easeInOut',
+      }}
+    >
       <SC.NavigationBar>
         {navigations.map((navigation) => {
+          const isActive = navigation.link === pathname;
           return (
-            <SC.NavigationBarTag
-              key={navigation.name}
-              data-cy={navigation.name}
-              className={navigation.link === pathname ? 'active' : ''}
-            >
-              <Link href={navigation.link}>
-                {navigation.icon}
-                <span>{navigation.name}</span>
+            <SC.NavigationBarTag key={navigation.name} data-cy={navigation.name} className={isActive ? 'active' : ''}>
+              <Link href={navigation.link} passHref>
+                <SC.Link
+                  $isActive={isActive}
+                  variants={linkVariant}
+                  initial='initial'
+                  whileTap='tap'
+                  transition={{
+                    type: 'spring',
+                    stiffness: 400,
+                    damping: 17,
+                  }}
+                >
+                  {navigation.icon}
+                  <span>{navigation.name}</span>
+                </SC.Link>
               </Link>
             </SC.NavigationBarTag>
           );
@@ -70,23 +110,27 @@ const NavigationBar = () => {
 export default NavigationBar;
 
 const SC = {
-  Container: styled.nav`
-    position: relative;
-    z-index: 100;
-  `,
-  NavigationBar: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
+  Container: styled(motion.nav)`
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
     height: 5.5rem;
-    padding-bottom: 34px;
+    position: fixed;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
     border-top: 0.1rem solid ${({ theme }) => theme.colors.gray300};
     background-color: ${({ theme }) => theme.colors.white};
+    border-radius: 16px 16px 0 0;
+    z-index: 100;
+  `,
+  NavigationBar: styled(motion.div)`
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
 
     .active {
       color: ${({ theme }) => theme.colors.grayPrimary};
@@ -110,25 +154,26 @@ const SC = {
     justify-content: center;
     position: relative;
     color: ${({ theme }) => theme.colors.grayPrimary};
+  `,
+  Link: styled(motion.div)<{ $isActive: boolean }>`
+    width: 100%;
+    line-height: 1.2rem;
+    padding: 0 4px;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1rem;
 
-    a {
-      width: 100%;
-      line-height: 1.2rem;
-      padding: 0 4px;
-      flex-basis: 0;
-      flex-grow: 1;
-      max-width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.red500 : theme.colors.graySecondary)};
+
+    span {
+      margin-top: 0.4rem;
+      font-size: 1.1rem;
       color: ${({ theme }) => theme.colors.graySecondary};
-
-      span {
-        margin-top: 0.4rem;
-        font-size: 1.2rem;
-        color: ${({ theme }) => theme.colors.graySecondary};
-      }
     }
   `,
 };
