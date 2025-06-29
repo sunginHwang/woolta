@@ -1,15 +1,15 @@
 'use client';
 
+import { useIsMounted } from '@common';
 import { useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
+import styled from 'styled-components';
 import { LoadingAtom } from '../../../store/layout';
 import FullScreenLoading from '../../common/FullScreenLoading';
 import { Alert } from '../Alert';
 import NavigationBar from '../NavigationBar';
 import { Toast } from '../Toast';
-import { useIsMounted } from '@common';
-import styled from 'styled-components';
 
 const NAVIGATION_PATHS = [
   '/',

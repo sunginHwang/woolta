@@ -1,7 +1,9 @@
+'use client';
+
+import styled from 'styled-components';
 import { AccountBookActiveTab } from './account-book-active-tab/AccountBookActiveTab';
 import { AccountBookTabs } from './AccountBookTabs';
 import MonthStatistics from './AccountList/MonthStatistics';
-import { AddAccountBookButton } from './add-account-book-button/AddAccountBookButton';
 import { Footer } from './footer/Footer';
 
 /**
@@ -12,14 +14,19 @@ const AccountBookListPage = () => {
   return (
     <>
       <MonthStatistics />
-      <main>
-        <AccountBookTabs />
+      <SC.Main>
         <AccountBookActiveTab />
-      </main>
+      </SC.Main>
+      <AccountBookTabs />
       <Footer />
-      <AddAccountBookButton />
     </>
   );
 };
 
 export default AccountBookListPage;
+
+const SC = {
+  Main: styled.main`
+    background-color: white;
+  `,
+};

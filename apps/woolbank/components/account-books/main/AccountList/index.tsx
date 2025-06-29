@@ -1,7 +1,6 @@
 'use client';
 
 import { styled } from 'styled-components';
-import AddButton from '../../../../components/common/AddButton';
 import AccountBookList from './AccountBookList';
 import MonthStatistics from './MonthStatistics';
 
@@ -15,7 +14,6 @@ const AccountList = () => {
       <MonthStatistics />
       <SC.Line />
       <AccountBookList />
-      <AddButton href='/account-books/save' />
     </>
   );
 };
@@ -26,7 +24,6 @@ const SC = {
   Line: styled.div`
     background-color: ${({ theme }) => theme.colors.gray100};
     height: 0.7rem;
-
     margin: 2rem 0 3rem;
   `,
 };

@@ -1,4 +1,5 @@
 import { useScrollDirection } from '@common';
+import { typography } from '@wds';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -6,6 +7,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { IconAccountOutline, IconBucketOutline, IconPigOutline, IconWalletOutline } from '../../atom/Icon';
+import { AddButton } from './AddIcon';
 
 const linkVariant = {
   initial: { scale: 1 },
@@ -21,7 +23,7 @@ const linkVariant = {
     },
   },
 };
-const navigations: { name: string; value: string; link: string; icon: ReactNode }[] = [
+const navigations: { name?: string; value: string; link?: string; icon: ReactNode }[] = [
   {
     name: '가계부',
     value: 'home',
@@ -35,16 +37,14 @@ const navigations: { name: string; value: string; link: string; icon: ReactNode 
     icon: <IconWalletOutline />,
   },
   {
+    value: 'addAccountBook',
+    icon: <AddButton />,
+  },
+  {
     name: '가계부 통계',
     value: 'account-book-statistic',
     link: '/account-book-statistic',
     icon: <IconAccountOutline />,
-  },
-  {
-    name: '버킷리스트',
-    value: 'bucketList',
-    link: '/bucket-list',
-    icon: <IconBucketOutline />,
   },
   {
     name: '내 정보',
@@ -81,24 +81,29 @@ const NavigationBar = () => {
       <SC.NavigationBar>
         {navigations.map((navigation) => {
           const isActive = navigation.link === pathname;
+          const is_menu_icon = !!navigation.name;
+
           return (
             <SC.NavigationBarTag key={navigation.name} data-cy={navigation.name} className={isActive ? 'active' : ''}>
-              <Link href={navigation.link} passHref>
-                <SC.Link
-                  $isActive={isActive}
-                  variants={linkVariant}
-                  initial='initial'
-                  whileTap='tap'
-                  transition={{
-                    type: 'spring',
-                    stiffness: 400,
-                    damping: 17,
-                  }}
-                >
-                  {navigation.icon}
-                  <span>{navigation.name}</span>
-                </SC.Link>
-              </Link>
+              {is_menu_icon && (
+                <Link href={navigation.link ?? ''} passHref>
+                  <SC.Link
+                    $isActive={isActive}
+                    variants={linkVariant}
+                    initial='initial'
+                    whileTap='tap'
+                    transition={{
+                      type: 'spring',
+                      stiffness: 400,
+                      damping: 17,
+                    }}
+                  >
+                    {navigation.icon}
+                    <span>{navigation.name}</span>
+                  </SC.Link>
+                </Link>
+              )}
+              {!is_menu_icon && navigation.icon}
             </SC.NavigationBarTag>
           );
         })}
