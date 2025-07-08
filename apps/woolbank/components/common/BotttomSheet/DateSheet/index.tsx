@@ -1,7 +1,7 @@
-import { styled } from 'styled-components';
 import { FC } from 'react';
 import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
+import { styled } from 'styled-components';
 import Deem from '../../../atom/Deem';
 import { calendarStyle } from './style';
 
@@ -20,7 +20,13 @@ const DateSheet: FC<Props> = ({ date, visible, onDateChange, onclose }) => {
   return (
     <Deem visible={visible} onDeemClick={onclose}>
       <SC.DateModal $isActive={visible}>
-        <Calendar value={date} showFixedNumberOfWeeks onChange={handleCalendarChange} />
+        <Calendar
+          value={date}
+          showFixedNumberOfWeeks
+          onChange={handleCalendarChange}
+          next2Label={null}
+          prev2Label={null}
+        />
       </SC.DateModal>
     </Deem>
   );
