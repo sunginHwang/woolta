@@ -17,6 +17,7 @@ export function useNumberAmount({
 }: useNumberAmountProps) {
   const [isValidAmount, setIsValidAmount] = useState(true);
   const [amount, setAmount] = useState(currentAmount);
+  const [digitKeys, setDigitKeys] = useState<number[]>([]);
 
   const handleAmountchange = (amount: number) => {
     onAmountChange?.(amount);
@@ -35,18 +36,22 @@ export function useNumberAmount({
   const initAmount = () => {
     handleAmountchange(0);
     setIsValidAmount(true);
+    setDigitKeys([]);
   };
 
   // 금액 추가
   const addAmount = (e: MouseEvent<HTMLTableDataCellElement>) => {
     const addedNumber = Number(amount + String(e.currentTarget.innerText));
     changeNumber(addedNumber);
+    // 새로 추가된 자릿수에 고유한 키 부여
+    setDigitKeys((prev) => [...prev, Date.now() + Math.random()]);
   };
 
   // 금액 한개 빼기
   const backAmount = () => {
     const stringNumber = String(amount);
     handleAmountchange(Number(stringNumber.substring(0, stringNumber.length - 1)));
+    setDigitKeys((prev) => prev.slice(0, -1));
   };
 
   // 금액 변경 싱크 맞추기
@@ -61,6 +66,7 @@ export function useNumberAmount({
     addAmount,
     backAmount,
     amount,
+    digitKeys,
     displayAmount,
     isValidAmount,
   };
