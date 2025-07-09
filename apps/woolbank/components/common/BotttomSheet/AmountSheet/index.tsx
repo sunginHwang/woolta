@@ -1,6 +1,7 @@
+import { usePreviousValue } from '@common';
 import { Text } from '@wds';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FC, useCallback, useRef, useEffect, useState } from 'react';
+import { FC, useCallback, useRef, useEffect, useState, memo } from 'react';
 import { styled, useTheme } from 'styled-components';
 import { IconCloseCircle } from '../../../atom/Icon';
 import DefaultBottomSheet from '../DefaultBottomSheet';
@@ -29,84 +30,15 @@ const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseModal, on
     colors: { gray150 },
   } = useTheme();
 
-  const prevAmountRef = useRef(amount);
-  const [animatedDigits, setAnimatedDigits] = useState<string[]>([]);
-
-  // 금액이 변경될 때 애니메이션할 숫자들을 계산
-  useEffect(() => {
-    const prevAmount = prevAmountRef.current;
-    const currentAmountStr = amount.toString();
-    const prevAmountStr = prevAmount.toString();
-
-    // 새로 추가된 숫자들을 찾기
-    if (currentAmountStr.length > prevAmountStr.length) {
-      const newDigits = currentAmountStr.slice(prevAmountStr.length);
-      setAnimatedDigits(newDigits.split(''));
-    } else {
-      setAnimatedDigits([]);
-    }
-
-    prevAmountRef.current = amount;
-  }, [amount]);
-
   const handleCompleteClick = useCallback(() => {
     onComplete(amount);
   }, [amount, onComplete]);
-
-  // 숫자 애니메이션 컴포넌트
-  const AnimatedNumber = ({ digit, index }: { digit: string; index: number }) => (
-    <motion.span
-      key={`${digit}-${index}`}
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: 30, opacity: 0 }}
-      transition={{
-        duration: 0.2,
-        delay: index * 0.1,
-        ease: 'easeOut',
-      }}
-      style={{ display: 'inline-block' }}
-    >
-      {digit}
-    </motion.span>
-  );
-
-  // 금액 표시를 위한 컴포넌트
-  const renderAmountDisplay = () => {
-    const amountStr = amount.toString();
-    const prevAmountStr = prevAmountRef.current.toString();
-
-    // 이전 금액과 현재 금액이 같으면 일반 텍스트로 표시
-    // if (amountStr === prevAmountStr) {
-    //   return displayAmount;
-    // }
-
-    // 새로 추가된 숫자들이 있으면 애니메이션 적용
-    if (animatedDigits.length > 0) {
-      const baseAmount = amountStr.slice(0, -animatedDigits.length);
-      const formattedBaseAmount = Number(baseAmount).toLocaleString('ko-KR');
-
-      return (
-        <>
-          {formattedBaseAmount}
-          <AnimatePresence>
-            {animatedDigits.map((digit, index) => (
-              <AnimatedNumber key={`animated-${index}`} digit={digit} index={index} />
-            ))}
-          </AnimatePresence>
-          원
-        </>
-      );
-    }
-
-    return displayAmount;
-  };
 
   return (
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
       <SC.AmountDisplay>
         <Text variant='title1Medium' color='black' as='p'>
-          {renderAmountDisplay()}
+          <AmountDisplay amount={amount} />
         </Text>
         <i onClick={initAmount}>
           <IconCloseCircle width={20} height={20} fill={gray150} />
@@ -124,6 +56,80 @@ const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseModal, on
 };
 
 export default AmountSheet;
+
+const AmountDisplay = memo(({ amount }: { amount: number }) => {
+  console.log('AmountDisplay-rerender');
+  const previousAmount = usePreviousValue(amount);
+
+  // const amountDigitList = amount
+  //   .toLocaleString('ko-KR')
+  //   .split('')
+  //   .reduce((acc, char, index, array) => {
+  //     if (char === ',') {
+  //       // 쉼표를 앞의 숫자와 합침
+  //       if (acc.length > 0) {
+  //         acc[acc.length - 1] += char;
+  //       }
+  //     } else {
+  //       acc.push(char);
+  //     }
+  //     return acc;
+  //   }, [] as string[]);
+  const amountDigitList = amount.toLocaleString('ko-KR').split('');
+  const isMinusValue = previousAmount && previousAmount > amount;
+  console.log('previousAmount', previousAmount);
+  console.log('amount', amount);
+  console.log('isMinusValue', isMinusValue);
+
+  return (
+    <>
+      <AnimatePresence>
+        {amountDigitList.map((digit, index) => (
+          <AnimatedNumber
+            key={`animated-${index}`}
+            digit={digit}
+            use_animation={isMinusValue ? false : amountDigitList.length === 0 || amountDigitList.length - 1 === index}
+            index={index}
+          />
+        ))}
+      </AnimatePresence>
+      원
+    </>
+  );
+});
+
+// 숫자 애니메이션 컴포넌트
+const AnimatedNumber = ({ digit, index, use_animation }: { digit: string; index: number; use_animation?: boolean }) => {
+  const initial = use_animation ? { y: -30, opacity: 0 } : { y: 0, opacity: 1 };
+  const HasDot = digit.includes(',');
+
+  const dotAnimation = {
+    initial: { width: 0, x: -10 },
+    animate: { width: 'auto', x: 0 },
+  };
+
+  const normalAnimation = {
+    initial,
+    animate: { y: 0, opacity: 1 },
+    exit: { y: -30, x: -10, opacity: 0, width: 0 },
+  };
+
+  const animation = HasDot ? dotAnimation : normalAnimation;
+
+  return (
+    <motion.span
+      key={`${digit}-${index}`}
+      {...animation}
+      transition={{
+        duration: 0.2,
+        ease: 'easeOut',
+      }}
+      style={{ display: 'inline-block' }}
+    >
+      {digit}
+    </motion.span>
+  );
+};
 
 const SC = {
   AmountDisplay: styled.div`
