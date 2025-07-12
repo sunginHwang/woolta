@@ -98,7 +98,7 @@ const AnimatedNumber = ({ digit, index, use_animation }: { digit: string; index:
   const HasDot = digit.includes(',');
 
   const dotAnimation = {
-    initial: { width: 0, x: -10 },
+    initial: { width: 0, x: -3 },
     animate: { width: 'auto', x: 0 },
   };
 
