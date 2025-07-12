@@ -9,6 +9,7 @@
     "@codemirror/lang-markdown": "^6.2.2",
     "@codemirror/language": "^6.9.2",
     "@codemirror/language-data": "^6.3.1",
+    "@croquiscom/monolith": "^0.5.5",
     "@dump-work/react-google-login": "^6.0.14",
     "@nivo/core": "^0.84.0",
     "@nivo/pie": "^0.84.0",

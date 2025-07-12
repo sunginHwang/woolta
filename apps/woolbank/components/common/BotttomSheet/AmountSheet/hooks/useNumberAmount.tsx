@@ -1,5 +1,5 @@
+import { useDebounce } from '@croquiscom/monolith';
 import { useEffect, MouseEvent, useState } from 'react';
-
 const BILLION = 1_000_000_000;
 
 interface useNumberAmountProps {
@@ -17,6 +17,9 @@ export function useNumberAmount({
 }: useNumberAmountProps) {
   const [isValidAmount, setIsValidAmount] = useState(true);
   const [amount, setAmount] = useState(currentAmount);
+  const [digitList, setDigitList] = useState<number[]>(
+    currentAmount === 0 ? [] : String(currentAmount).split('').map(getRandomDigit),
+  );
 
   const handleAmountchange = (amount: number) => {
     onAmountChange?.(amount);
@@ -35,12 +38,14 @@ export function useNumberAmount({
   const initAmount = () => {
     handleAmountchange(0);
     setIsValidAmount(true);
+    setDigitList([]);
   };
 
   // 금액 추가
   const addAmount = (e: MouseEvent<HTMLTableDataCellElement>) => {
     const addedNumber = Number(amount + String(e.currentTarget.innerText));
     changeNumber(addedNumber);
+    setDigitList((prev) => [...prev, getRandomDigit()]);
   };
 
   // 금액 한개 빼기
@@ -49,6 +54,7 @@ export function useNumberAmount({
     console.log('stringNumber', stringNumber);
     console.log(Number(stringNumber.substring(0, stringNumber.length - 1)));
     handleAmountchange(Number(stringNumber.substring(0, stringNumber.length - 1)));
+    setDigitList((prev) => prev.slice(0, -1));
   };
 
   // 금액 변경 싱크 맞추기
@@ -65,5 +71,10 @@ export function useNumberAmount({
     amount,
     displayAmount,
     isValidAmount,
+    digitList,
   };
+}
+
+function getRandomDigit() {
+  return new Date().valueOf() + Math.random();
 }

@@ -1,7 +1,7 @@
 import { usePreviousValue } from '@common';
 import { Text } from '@wds';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FC, useCallback, useRef, useEffect, useState, memo } from 'react';
+import { FC, useCallback, useRef, useEffect, useState, memo, Fragment } from 'react';
 import { styled, useTheme } from 'styled-components';
 import { IconCloseCircle } from '../../../atom/Icon';
 import DefaultBottomSheet from '../DefaultBottomSheet';
@@ -22,7 +22,7 @@ interface Props {
  * @component
  */
 const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseModal, onComplete }: Props) => {
-  const { displayAmount, amount, addAmount, backAmount, initAmount } = useNumberAmount({
+  const { displayAmount, digitList, amount, addAmount, backAmount, initAmount } = useNumberAmount({
     currentAmount,
     onAmountChange: onChange,
   });
@@ -38,7 +38,7 @@ const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseModal, on
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
       <SC.AmountDisplay>
         <Text variant='title1Medium' color='black' as='p'>
-          <AmountDisplay amount={amount} />
+          <AmountDisplay amount={amount} digitList={digitList} />
         </Text>
         <i onClick={initAmount}>
           <IconCloseCircle width={20} height={20} fill={gray150} />
@@ -57,41 +57,35 @@ const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseModal, on
 
 export default AmountSheet;
 
-const AmountDisplay = memo(({ amount }: { amount: number }) => {
+const AmountDisplay = memo(({ amount, digitList }: { amount: number; digitList: number[] }) => {
   console.log('AmountDisplay-rerender');
-  const previousAmount = usePreviousValue(amount);
 
-  // const amountDigitList = amount
-  //   .toLocaleString('ko-KR')
-  //   .split('')
-  //   .reduce((acc, char, index, array) => {
-  //     if (char === ',') {
-  //       // 쉼표를 앞의 숫자와 합침
-  //       if (acc.length > 0) {
-  //         acc[acc.length - 1] += char;
-  //       }
-  //     } else {
-  //       acc.push(char);
-  //     }
-  //     return acc;
-  //   }, [] as string[]);
-  const amountDigitList = amount.toLocaleString('ko-KR').split('');
-  const isMinusValue = previousAmount && previousAmount > amount;
-  console.log('previousAmount', previousAmount);
+  const amountDigitList = String(amount).split('');
   console.log('amount', amount);
-  console.log('isMinusValue', isMinusValue);
 
   return (
     <>
       <AnimatePresence>
-        {amountDigitList.map((digit, index) => (
-          <AnimatedNumber
-            key={`animated-${index}`}
-            digit={digit}
-            use_animation={isMinusValue ? false : amountDigitList.length === 0 || amountDigitList.length - 1 === index}
-            index={index}
-          />
-        ))}
+        {amountDigitList.map((digit, index) => {
+          // 현재 인덱스까지의 쉼표 개수 계산
+          const commaCount = amountDigitList.slice(0, index + 1).filter((char) => char === ',').length;
+
+          // 현재 숫자가 쉼표를 붙여야 하는지 판단
+          const realIndex = index - commaCount;
+          const totalDigits = amountDigitList.filter((char) => char !== ',').length;
+          const shouldHaveComma = (totalDigits - realIndex - 1) % 3 === 0 && realIndex < totalDigits - 1;
+
+          console.log(
+            `index: ${index}, digit: ${digit}, commaCount: ${commaCount}, realIndex: ${realIndex}, shouldHaveComma: ${shouldHaveComma}, dightKey:${digitList[realIndex]}`,
+          );
+
+          return (
+            <Fragment key={`animated-${index}`}>
+              <AnimatedNumber digit={digit} use_animation={digitList[realIndex] ? true : false} index={index} />
+              {shouldHaveComma && <AnimatedNumber digit={','} use_animation index={index} />}
+            </Fragment>
+          );
+        })}
       </AnimatePresence>
       원
     </>
