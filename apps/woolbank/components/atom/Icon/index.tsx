@@ -2,6 +2,7 @@ export interface IconProps {
   width?: number;
   height?: number;
   fill?: string;
+  className?: string;
 }
 
 export { default as IconAccountOutline } from './AccountOutline';
