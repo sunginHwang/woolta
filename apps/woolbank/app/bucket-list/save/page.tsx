@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { BucketSaveForm } from '../../../components/bucket-list/save';
+import { BucketSaveForm } from '../../../domains/bucket-list/save';
 
 const BucketSavePage = () => {
   return <BucketSaveForm />;

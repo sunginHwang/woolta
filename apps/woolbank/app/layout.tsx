@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import { Providers } from '../components/layout/providers/Providers';
+import { Providers } from '../domains/layout/providers/Providers';
 import { setConfig } from '../utils/config';
 
 export const metadata: Metadata = {

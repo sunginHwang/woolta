@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { Suspense } from 'react';
-import { RegularExtenditureSavePage } from '../../../components/regular-extenditure/save';
+import { RegularExtenditureSavePage } from '../../../domains/regular-extenditure/save';
 
 export default function SaveRegularExtenditure() {
   return (

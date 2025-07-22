@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Login } from '../../../components/user/login/Login';
+import { Login } from '../../../domains/user/login/Login';
 
 export default async function MyPageMainPage() {
   return <Login />;

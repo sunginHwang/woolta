@@ -3,8 +3,8 @@ export const dynamic = 'force-dynamic';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { cookies } from 'next/headers';
-import AccountBookList from '../components/account-books/main/AccountBookListPage';
-import { prefetchAccountBookList } from '../components/account-books/main/_common/hooks/useAccountBookListQuery';
+import { prefetchAccountBookList } from '../domains/account-books/main/_common/hooks/useAccountBookListQuery';
+import AccountBookList from '../domains/account-books/main/AccountBookListPage';
 import { getData } from '../utils/api';
 
 export default async function AccountBooks() {

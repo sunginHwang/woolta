@@ -1,7 +1,7 @@
 'use client';
 
 import { SkeletonBar } from '@wds';
-import { StatisticChartSkeleton } from '../../components/account-book-statistic/Statistic/statistic-chart/StatisticChartSkeleton';
+import { StatisticChartSkeleton } from '../../domains/account-book-statistic/Statistic/statistic-chart/StatisticChartSkeleton';
 import styled from 'styled-components';
 
 export default function Loading() {
