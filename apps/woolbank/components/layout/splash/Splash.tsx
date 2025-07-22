@@ -10,8 +10,7 @@ const INTERVAL_TIME = 500;
  * 앱 구동시 cra 로 인한 초기 splash 대체 화면
  * @component
  */
-
-function Splash() {
+export const Splash = () => {
   const [dot, setDot] = useState('.');
 
   useInterval(() => {
@@ -26,7 +25,7 @@ function Splash() {
       </SC.Text>
     </SC.Splash>
   );
-}
+};
 
 const SC = {
   Splash: styled.div`
@@ -53,5 +52,3 @@ const SC = {
     color: ${({ theme }) => theme.colors.gray700};
   `,
 };
-
-export default Splash;

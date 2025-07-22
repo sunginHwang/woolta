@@ -1,18 +1,6 @@
-'use client';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Provider as JotaiProvider } from 'jotai';
-import { theme } from 'libs/wds/src/lib/style/colors';
-import Layout from '../Layout';
-import StyleRegistry from './StyleRegistry';
-import { ConfirmProvider } from '../../common/Confirm/ConfirmContext';
-import { setConfig } from '../../../utils/config';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
+import { createGlobalStyle } from 'styled-components';
 
-setConfig();
-
-const GlobalStyles = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   html,
   body,
   div,
@@ -233,46 +221,3 @@ const GlobalStyles = createGlobalStyle`
   }
 
 `;
-
-let browserQueryClient: QueryClient | undefined = undefined;
-
-function makeQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-      },
-    },
-  });
-}
-
-function getQueryClient() {
-  if (isServer) {
-    return makeQueryClient();
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
-  }
-}
-
-export const Providers = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = getQueryClient();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryStreamedHydration>
-        {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
-        <JotaiProvider>
-          <StyleRegistry>
-            <ThemeProvider theme={theme.light}>
-              <GlobalStyles />
-              <ConfirmProvider>
-                <Layout>{children}</Layout>
-              </ConfirmProvider>
-            </ThemeProvider>
-          </StyleRegistry>
-        </JotaiProvider>
-      </ReactQueryStreamedHydration>
-    </QueryClientProvider>
-  );
-};

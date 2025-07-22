@@ -1,15 +1,14 @@
 import { useScrollDirection } from '@common';
-import { typography } from '@wds';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-import { IconAccountOutline, IconBucketOutline, IconPigOutline, IconWalletOutline } from '../../atom/Icon';
+import { IconAccountOutline, IconPigOutline, IconWalletOutline } from '../../atom/Icon';
 import { AddButton } from './AddIcon';
 
-const linkVariant = {
+const LINK_VARIANT = {
   initial: { scale: 1 },
   tap: { scale: 0.85 },
   release: {
@@ -23,7 +22,7 @@ const linkVariant = {
     },
   },
 };
-const navigations: { name?: string; value: string; link?: string; icon: ReactNode }[] = [
+const NAVIGATION_LIST: { name?: string; value: string; link?: string; icon: ReactNode }[] = [
   {
     name: '가계부',
     value: 'home',
@@ -58,7 +57,7 @@ const navigations: { name?: string; value: string; link?: string; icon: ReactNod
  * 하단 네이게이션바
  * @component
  */
-const NavigationBar = () => {
+export const NavigationBar = () => {
   const pathname = usePathname();
   const [isShowNavigationBar, setIsShowNavigationBar] = useState(true);
   const scrollDirection = useScrollDirection();
@@ -79,17 +78,21 @@ const NavigationBar = () => {
       }}
     >
       <SC.NavigationBar>
-        {navigations.map((navigation) => {
+        {NAVIGATION_LIST.map((navigation, index) => {
           const isActive = navigation.link === pathname;
           const is_menu_icon = !!navigation.name;
 
           return (
-            <SC.NavigationBarTag key={navigation.name} data-cy={navigation.name} className={isActive ? 'active' : ''}>
+            <SC.NavigationBarTag
+              key={`${index}-${navigation.name}`}
+              data-cy={navigation.name}
+              className={isActive ? 'active' : ''}
+            >
               {is_menu_icon && (
                 <Link href={navigation.link ?? ''} passHref>
                   <SC.Link
                     $isActive={isActive}
-                    variants={linkVariant}
+                    variants={LINK_VARIANT}
                     initial='initial'
                     whileTap='tap'
                     transition={{
@@ -111,8 +114,6 @@ const NavigationBar = () => {
     </SC.Container>
   );
 };
-
-export default NavigationBar;
 
 const SC = {
   Container: styled(motion.nav)`

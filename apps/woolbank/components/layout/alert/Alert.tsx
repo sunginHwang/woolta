@@ -3,8 +3,8 @@
 import { useAtomValue } from 'jotai';
 import React from 'react';
 import styled from 'styled-components';
-import { alertAtom } from '../../..//store/layout';
 import { useAlert } from '../../../hooks/useAlert';
+import { alertAtom } from '../../../store/layout';
 import Deem from '../../atom/Deem';
 
 export const Alert = () => {

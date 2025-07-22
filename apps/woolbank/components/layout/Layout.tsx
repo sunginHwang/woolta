@@ -5,13 +5,13 @@ import { useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { LoadingAtom } from '../../../store/layout';
-import FullScreenLoading from '../../common/FullScreenLoading';
-import { Alert } from '../Alert';
-import NavigationBar from '../NavigationBar';
-import { Toast } from '../Toast';
+import { LoadingAtom } from '../../store/layout';
+import FullScreenLoading from '../common/FullScreenLoading';
+import { Alert } from './alert/Alert';
+import { NavigationBar } from './navigation-bar/NavigationBar';
+import { Toast } from './toast/Toast';
 
-const NAVIGATION_PATHS = [
+const NAVIGATION_PATH_LIST = [
   '/',
   '/regular-extenditure',
   '/account-book-statistic',
@@ -28,12 +28,12 @@ interface Props extends PropsWithChildren {
  * 레이아웃 영역
  * @component
  */
-const Layout: FC<Props> = ({ children }) => {
+export const Layout = ({ children }: Props) => {
   const pathname = usePathname();
   const isMounted = useIsMounted();
   const { isLoading, message } = useAtomValue(LoadingAtom);
 
-  const useNavBar = NAVIGATION_PATHS.find((path) => pathname === path);
+  const useNavBar = NAVIGATION_PATH_LIST.find((path) => pathname === path);
   return (
     <SC.Container>
       {children}
@@ -48,8 +48,6 @@ const Layout: FC<Props> = ({ children }) => {
     </SC.Container>
   );
 };
-
-export default Layout;
 
 const SC = {
   Container: styled.div`
