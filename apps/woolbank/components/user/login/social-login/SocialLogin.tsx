@@ -3,9 +3,9 @@ import { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-face
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import KaKaoLogin from 'react-kakao-login';
 
-import { useAlert } from '../../../..//hooks/useAlert';
-import { LoginBox } from '../LoginBox';
-import { useSocialLogin } from './hooks/useSocialLogin';
+import { useAlert } from '../../../../hooks/useAlert';
+import { LoginBox } from '../login-box/LoginBox';
+import { useSocialLogin } from './_common/hooks/useSocialLogin';
 import { SocialLoginButton } from './SocialLoginButton';
 
 const socialAuthKey = {

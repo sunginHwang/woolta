@@ -1,8 +1,8 @@
 'use client';
 import styled from 'styled-components';
-import { IdLogin } from './IdLogin';
-import { LoginTitle } from './LoginTitle';
-import SocialLogin from './SocialLogin';
+import { IdLogin } from './id-login/IdLogin';
+import { LoginTitle } from './login-title/LoginTitle';
+import SocialLogin from './social-login/SocialLogin';
 
 export const Login = () => {
   return (

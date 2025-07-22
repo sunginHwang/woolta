@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useAlert } from '../../../../..//hooks/useAlert';
-import { LoadingAtom } from '../../../../../store/layout';
-import { postData } from '../../../../../utils/api';
+import { useAlert } from '../../../../../../hooks/useAlert';
+import { LoadingAtom } from '../../../../../../store/layout';
+import { postData } from '../../../../../../utils/api';
 
 export interface SocialUser {
   name: string;
