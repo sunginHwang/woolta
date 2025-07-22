@@ -4,9 +4,9 @@ import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query
 import { AxiosRequestConfig } from 'axios';
 import dayjs from 'dayjs';
 import { cookies } from 'next/headers';
-import { Statistic } from '../..//components/account-book-statistic/Statistic';
-import { prefetchAccountStatisticListQuery } from '../../components/account-book-statistic/Statistic/hooks/useAccountStatisticListQuery';
-import { prefetchAccountBookList } from '../../components/account-books/main/hooks/useAccountBookListQuery';
+import { Statistic } from '../../components/account-book-statistic/Statistic/Statistic';
+import { prefetchAccountStatisticListQuery } from '../../components/account-book-statistic/Statistic/_common/hooks/useAccountStatisticListQuery';
+import { prefetchAccountBookList } from '../../components/account-books/main/_common/hooks/useAccountBookListQuery';
 import { getData } from '../../utils/api';
 
 export default async function RegularExtenditurePage() {
