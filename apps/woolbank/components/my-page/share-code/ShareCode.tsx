@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { useToast } from '../../../hooks/useToast';
 import { Button } from '../../atom/Button';
 import Header from '../../common/Header';
-import { useShareCode } from './hooks/useShareCode';
+import { useShareCode } from './_common/hooks/useShareCode';
 
 export const ShareCode = () => {
   const { onToast } = useToast();

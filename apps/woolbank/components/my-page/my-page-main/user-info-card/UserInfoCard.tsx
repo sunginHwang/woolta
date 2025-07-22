@@ -2,11 +2,11 @@ import { Text } from '@wds';
 import Image from 'next/image';
 import Link from 'next/link';
 import { styled } from 'styled-components';
-import { useConfirm } from '../../../..//components/common/Confirm/ConfirmContext';
-import { postData } from '../../../..//utils/api';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
+import { postData } from '../../../../utils/api';
+import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 
-const UserInfoCard = () => {
+export const UserInfoCard = () => {
   const { userInfo, isShareUser } = useUserInfo();
   const { openConfirm } = useConfirm();
 
@@ -82,8 +82,6 @@ const UserInfoCard = () => {
     </SC.Container>
   );
 };
-
-export default UserInfoCard;
 
 const SC = {
   Container: styled.section`

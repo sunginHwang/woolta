@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MypageMain from './index';
+import { MyPageMain } from './MyPageMain';
 
-const meta: Meta<typeof MypageMain> = { component: MypageMain };
+const meta: Meta<typeof MyPageMain> = { component: MyPageMain };
 export default meta;
 
-type Story = StoryObj<typeof MypageMain>;
+type Story = StoryObj<typeof MyPageMain>;
 
 export const 마이페이지_기본: Story = {
   args: {},

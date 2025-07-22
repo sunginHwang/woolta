@@ -2,9 +2,9 @@
 
 import { styled } from 'styled-components';
 import Header from '../../common/Header';
-import UserInfoCard from './UserInfoCard';
+import { UserInfoCard } from './user-info-card/UserInfoCard';
 
-const MyPageMain = () => {
+export const MyPageMain = () => {
   return (
     <>
       <Header title='나의 뱅킷리스트' />
@@ -14,8 +14,6 @@ const MyPageMain = () => {
     </>
   );
 };
-
-export default MyPageMain;
 
 const SC = {
   Container: styled.main`

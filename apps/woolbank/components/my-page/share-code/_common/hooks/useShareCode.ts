@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useToast } from '../../../../hooks/useToast';
-import { getData, postData } from '../../../../utils/api';
+import { useToast } from '../../../../../hooks/useToast';
+import { getData, postData } from '../../../../../utils/api';
 
 export const SHARE_CODE_QUERY_KEY = 'getShareCode';
 
