@@ -9,9 +9,10 @@ import { AccountBookSaveForm } from './AccountBookForm/hooks/useAccountBookForm'
 import { AccountBookDetail, useAccountBookDetail } from './hooks/useAccountBookDetail';
 import { useAccountBookSaveRouterProps } from './hooks/useAccountBookSaveRouterProps';
 
-export const AccountBookSavePage: NextPage<{
+interface Props {
   dehydratedState?: DehydratedState;
-}> = ({ dehydratedState }) => {
+}
+export const AccountBookSavePage: NextPage<Props> = ({ dehydratedState }) => {
   const { account_book_id } = useAccountBookSaveRouterProps();
   const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(account_book_id);
   const accountBookForm = getAccountBookFrom(accountBookDetail);
@@ -33,13 +34,14 @@ function getAccountBookFrom(accountBookDetail: AccountBookDetail | null): Accoun
     return undefined;
   }
 
-  const { id, title, amount, memo = '', registerDateTime, category, type } = accountBookDetail;
+  const { id, title, amount, memo = '', registerDateTime, category, type, isDisabledBudget } = accountBookDetail;
   return {
     id,
     title,
     amount,
     memo,
     registerDateTime: dayjs(registerDateTime),
+    isDisabledBudget,
     category: {
       ...category,
       createdAt: category.createdAt,

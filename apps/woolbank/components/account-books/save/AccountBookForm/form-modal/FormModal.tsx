@@ -1,9 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { FC } from 'react';
-import BotttomSheet from '../../../../components/common/BotttomSheet';
-import AmountCategorySheet from '../common/AmountCategorySheet';
-import { AccountBookCategory } from '../hooks/useAccountBookCategories';
-import { AccountBookSaveForm } from './hooks/useAccountBookForm';
+import BotttomSheet from '../../../../common/BotttomSheet';
+import AmountCategorySheet from '../../common/AmountCategorySheet';
+import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
+import { AccountBookSaveForm, ScheduledPaymentType } from '../hooks/useAccountBookForm';
+import { ScheduledPaymentBottomSheet } from './ScheduledPaymentBottomSheet';
 
 interface Props {
   openModalName: string;
@@ -12,20 +12,25 @@ interface Props {
   onChangeAmount: (amount: number) => void;
   onChangeCategory: (category: AccountBookCategory) => void;
   onChangeDateTime: (date: Dayjs) => void;
+  onChangeScheduledPayment: (scheduled_payment: {
+    scheduled_payments_type: ScheduledPaymentType;
+    scheduled_payments_value: number;
+  }) => void;
 }
 
 /**
  * 가계부 지출 / 수입 작성 폼 선택 모달 리스트
  * @component
  */
-const FormModal: FC<Props> = ({
+export const FormModal = ({
   openModalName,
   onCloseModal,
   onChangeDateTime,
   onChangeAmount,
   onChangeCategory,
+  onChangeScheduledPayment,
   formData,
-}) => {
+}: Props) => {
   const handleDateTimeClick = (date: string) => {
     onChangeDateTime(dayjs(date));
     onCloseModal();
@@ -40,6 +45,15 @@ const FormModal: FC<Props> = ({
     onChangeCategory(category);
     onCloseModal();
   };
+
+  const handleSaveScheduledPaymentClick = (scheduled_payment: {
+    scheduled_payments_type: ScheduledPaymentType;
+    scheduled_payments_value: number;
+  }) => {
+    onChangeScheduledPayment(scheduled_payment);
+    onCloseModal();
+  };
+
   return (
     <>
       <BotttomSheet.Date
@@ -60,10 +74,16 @@ const FormModal: FC<Props> = ({
         visible={openModalName === 'amount'}
         currentAmount={formData.amount}
         oncloseModal={onCloseModal}
+        onChange={onChangeAmount}
         onComplete={handleAmountClick}
+      />
+      <ScheduledPaymentBottomSheet
+        is_open={openModalName === 'scheduled'}
+        scheduled_payments_type={formData.scheduled_payments_type}
+        scheduled_payments_value={formData.scheduled_payments_value}
+        setSaveScheduledPayments={handleSaveScheduledPaymentClick}
+        onCloseModal={onCloseModal}
       />
     </>
   );
 };
-
-export default FormModal;

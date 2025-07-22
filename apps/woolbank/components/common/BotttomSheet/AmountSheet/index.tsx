@@ -40,7 +40,7 @@ const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseModal, on
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
       <SC.AmountDisplay>
         <Text variant='title1Medium' color='black' as='p'>
-          <AmountDisplayText amount={amount} placeholder='얼마나 썻나요?' />
+          <AmountDisplayText amount={amount} placeholder='0원' />
         </Text>
         <i onClick={initAmount}>
           <IconCloseCircle width={20} height={20} fill={gray150} />

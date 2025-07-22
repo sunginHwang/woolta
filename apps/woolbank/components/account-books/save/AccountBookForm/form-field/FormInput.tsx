@@ -21,6 +21,7 @@ interface Props
   disable?: boolean;
   dataType?: string;
   isShowCloseBtn?: boolean;
+  enterKeyHint?: 'search' | 'enter' | 'done' | 'go' | 'next' | 'previous' | 'send';
   onClear?: (e: MouseEvent<HTMLLIElement>) => void;
   onFocusIn?: () => void;
   onFocusOut?: () => void;

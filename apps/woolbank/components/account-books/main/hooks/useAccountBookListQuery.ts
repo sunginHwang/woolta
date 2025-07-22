@@ -46,6 +46,7 @@ export const useAccountBookListQuery = (searchDate: string) => {
     queryKey,
     queryFn: () => fetchAccountBookList(searchDate),
   });
+
   const accountBookList = data ?? [];
 
   return {

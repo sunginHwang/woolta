@@ -106,7 +106,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props>(
           <input
             ref={mergeRefs([inputRef, parentRef])}
             data-cy={name}
-            type={type}
+            type={type === 'number' ? 'text' : type}
             name={name}
             maxLength={maxLength}
             onFocus={handleFocus}

@@ -1,24 +1,23 @@
 import { delay } from '@common';
 import { colors, Text } from '@wds';
-import { IconTrashCan } from 'apps/woolbank/components/atom/Icon';
-import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
-import { IconEditRegular, IconPencli } from 'apps/woolbank/components/atom/Icon/EditRegular';
-import { FC, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
+import { IconTrashCan } from '../../../../components/atom/Icon';
+import { IconCalendar } from '../../../../components/atom/Icon/Calendar';
+import { IconChevronRight } from '../../../../components/atom/Icon/ChevronRight';
+import { IconSwap } from '../../../../components/atom/Icon/Swap';
 import ToggleTab from '../../../../components/common/ToggleTab';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
-import { isIphone } from '../../../../utils/agent';
 import { Button } from '../../../atom/Button';
 import { useConfirm } from '../../../common/Confirm/ConfirmContext';
 import { useAccountBookSaveRouterProps } from '../hooks/useAccountBookSaveRouterProps';
 import { FormField } from './form-field/FormField';
 import { FormInput } from './form-field/FormInput';
 import { Switch } from './form-field/Switch';
-import FormModal from './FormModal';
-import { AccountBookSaveForm, useAccountBookForm } from './hooks/useAccountBookForm';
-import { IconCalendar } from 'apps/woolbank/components/atom/Icon/Calendar';
+import { FormModal } from './form-modal/FormModal';
+import { AccountBookSaveForm, ScheduledPaymentType, useAccountBookForm } from './hooks/useAccountBookForm';
 
 const TAB_LIST = [
   {
@@ -31,13 +30,15 @@ const TAB_LIST = [
   },
 ];
 
+const SCHEDULED_PAYMENT_LABEL_MAPPER: Record<ScheduledPaymentType, string> = { repeat: '매월', installment: '할부' };
+
 interface Props {
   accountBookForm?: AccountBookSaveForm;
   submitForm: (accountForm: AccountBookSaveForm) => void;
   removeAccountBookForm: (id: string) => void;
 }
 
-const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccountBookForm }) => {
+const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBookForm }: Props) => {
   const {
     formData,
     isActiveSubmit,
@@ -47,6 +48,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     validateForm,
     setAccountBookCategoryType,
     setRegisterDateTime,
+    setScheduledPayment,
     toggleDisabledBudget,
     onClear,
   } = useAccountBookForm(accountBookForm);
@@ -80,6 +82,9 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
       return;
     }
 
+    // console.log('handleSubmitClick', formData);
+    // return;
+
     submitForm(formData);
   };
 
@@ -91,12 +96,14 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
   };
 
   // AOS에서는 이 이벤트 가 동작하지 않는다 (IOS키보드 오픈)
-  const handleTitleKeyDownEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    const is_ios_keyboard_enter = isIphone(window.navigator.userAgent) && e.key === 'Enter';
+  const handleTitleKeyDownEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
+    const isKeyboardEnter = e.key === 'Enter';
     const isAvailOpenModal = is_insert_mode && formData.category.name === '';
 
-    if (is_ios_keyboard_enter && isAvailOpenModal) {
-      handleTitleEnter();
+    if (isKeyboardEnter && isAvailOpenModal) {
+      title_ref.current?.blur();
+      await delay(400);
+      setModalName('category');
     }
   };
 
@@ -112,15 +119,8 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
     }
   };
 
-  const handleTitleEnter = async () => {
-    if (is_insert_mode && formData.category.name === '') {
-      title_ref.current?.blur();
-      await delay(400);
-      setModalName('category');
-    }
-  };
-
-  const openFormBottomSheet = (type: 'registerDateTime' | 'amount' | 'category') => () => {
+  const openFormBottomSheet = (type: 'registerDateTime' | 'amount' | 'category' | 'scheduled') => () => {
+    console.log('openFormBottomSheet', type);
     setModalName(type);
   };
 
@@ -160,7 +160,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
               onChange={onChange}
               onClear={handleClearClick}
               onKeyDown={handleTitleKeyDownEnter}
-              onCompositionEndCapture={handleTitleEnter}
+              enterKeyHint='done'
             />
           </FormField>
           <FormField title='카테고리' onClick={openFormBottomSheet('category')}>
@@ -172,8 +172,25 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
             </SC.FormContent>
           </FormField>
           <FormField title='예산에서 제외'>
-            <div className='switch-wrapper'>
-              <Switch checked={formData.is_disabled_budet} onClick={toggleDisabledBudget} />
+            <div className='content-wrapper'>
+              <Switch checked={formData.isDisabledBudget} onClick={toggleDisabledBudget} />
+            </div>
+          </FormField>
+          <FormField
+            title={
+              formData.scheduled_payments_type
+                ? SCHEDULED_PAYMENT_LABEL_MAPPER[formData.scheduled_payments_type]
+                : '반복/할부'
+            }
+            onClick={openFormBottomSheet('scheduled')}
+          >
+            <div className='content-wrapper'>
+              {formData.scheduled_payments_value && (
+                <Text variant='body3' color='red500'>
+                  {formData.scheduled_payments_value} {formData.scheduled_payments_type === 'repeat' ? '일' : '개월'}
+                </Text>
+              )}
+              <IconSwap width={16} height={16} fill={colors.gray500} />
             </div>
           </FormField>
           <FormField title='메모' />
@@ -201,6 +218,7 @@ const AccountBookForm: FC<Props> = ({ accountBookForm, submitForm, removeAccount
         onChangeAmount={handleAmountClick}
         onChangeCategory={setAccountBookCategoryType}
         onChangeDateTime={setRegisterDateTime}
+        onChangeScheduledPayment={setScheduledPayment}
       />
     </>
   );
@@ -213,11 +231,12 @@ const SC = {
     margin-top: 3rem;
     padding: 0 1.6rem;
 
-    .switch-wrapper {
+    .content-wrapper {
       display: flex;
       justify-content: flex-end;
       align-items: center;
       width: 100%;
+      gap: 1rem;
     }
 
     .center-box {
@@ -257,6 +276,7 @@ const SC = {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     .toggle {
       width: 120px;

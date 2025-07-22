@@ -4,13 +4,19 @@ import { ToggleTabItem } from '../../../../../components/common/ToggleTab';
 import getCategoryMsg, { AccountBookCategoryType } from '../../../../../utils/account-books';
 import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
 
+export type ScheduledPaymentType = 'repeat' | 'installment';
 export interface AccountBookSaveForm {
   id?: number;
   title: string;
   amount: number;
   memo: string;
   registerDateTime: Dayjs;
-  is_disabled_budet?: boolean;
+  isDisabledBudget?: boolean;
+  scheduled_payments_type?: ScheduledPaymentType;
+  /**
+   * 할부인 경우 개월 수, 반복일 경우 월 별 일자
+   */
+  scheduled_payments_value?: number;
   category: AccountBookCategory;
   type: AccountBookCategoryType;
 }
@@ -29,7 +35,9 @@ const INIT_FORM_DATA: AccountBookSaveForm = {
     updatedAt: new Date(),
   },
   registerDateTime: dayjs(),
-  is_disabled_budet: false,
+  scheduled_payments_type: undefined,
+  scheduled_payments_value: undefined,
+  isDisabledBudget: false,
   type: 'expenditure',
   memo: '',
 };
@@ -82,10 +90,24 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     }));
   };
 
+  const setScheduledPayment = ({
+    scheduled_payments_type,
+    scheduled_payments_value,
+  }: {
+    scheduled_payments_type: ScheduledPaymentType;
+    scheduled_payments_value: number;
+  }) => {
+    setInputs((prev) => ({
+      ...prev,
+      scheduled_payments_type,
+      scheduled_payments_value,
+    }));
+  };
+
   const toggleDisabledBudget = () => {
     setInputs((prev) => ({
       ...prev,
-      is_disabled_budet: !prev.is_disabled_budet,
+      isDisabledBudget: !prev.isDisabledBudget,
     }));
   };
 
@@ -106,6 +128,7 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     setType,
     setRegisterDateTime,
     setAccountBookCategoryType,
+    setScheduledPayment,
     validateForm,
     isActiveSubmit,
   };

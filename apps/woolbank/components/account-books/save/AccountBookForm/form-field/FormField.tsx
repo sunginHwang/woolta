@@ -1,7 +1,6 @@
-import { colors, Text } from '@wds';
+import { Text } from '@wds';
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-import { IconChevronRight } from '../../../../../components/atom/Icon/ChevronRight';
 
 interface Props {
   title: string;
@@ -26,11 +25,10 @@ const SC = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray300};
     height: 5.2rem;
 
     .label {
-      width: 12rem;
+      width: 16rem;
     }
 
     .info {

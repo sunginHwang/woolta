@@ -19,7 +19,7 @@ const MONTH_FOR_5_YEAR = 60;
  * 이달의 가계부 통계 영역
  * @component
  */
-const MonthStatistics = () => {
+const AccountCardInfo = () => {
   const [selectedDate, setSelectedDate] = useAtom(selectedAccountBookDateAtom);
   const { totalExpenditureAmount, totalIncomeAmount } = useAccountBookList();
   const [isOpenMonthPicker, setToggleMonthPicker] = useToggle(false);
@@ -35,44 +35,23 @@ const MonthStatistics = () => {
     closeMonthPicker();
   };
 
-  const handlePrevMonthClick = () => {
-    setSelectedDate(dayjs(selectedDate).subtract(1, 'month').format('YYYY-MM'));
-  };
-
-  const handleNextMonthClick = () => {
-    setSelectedDate(dayjs(selectedDate).add(1, 'month').format('YYYY-MM'));
-  };
-
   const titleMsg = useMemo(() => getTitleMsg(selectedDate), [selectedDate]);
   const activeMonthMenu = getMonthMenu(dayjs(selectedDate));
 
   return (
     <>
       <SC.Container>
-        <DropdownTitle
-          title={titleMsg}
-          onNextMonthClick={handleNextMonthClick}
-          onPrevMonthClick={handlePrevMonthClick}
-          onClick={openMonthPicker}
-        />
-        <SC.TotalSection>
-          <div className='item'>
-            <Text variant='body3' color='gray600' mt={5} as='p'>
-              지출
-            </Text>
+        <div className='card'>
+          <DropdownTitle title={titleMsg} onClick={openMonthPicker} />
+          <SC.TotalSection>
             <Text variant='title4Bold' color='red500' mt={5} as='p'>
-              {totalExpenditureAmount.toLocaleString('ko-KR')}원
-            </Text>
-          </div>
-          <div className='item'>
-            <Text variant='body3' color='gray600' mt={5} as='p'>
-              수입
+              지출 : {totalExpenditureAmount.toLocaleString('ko-KR')}원
             </Text>
             <Text variant='title4Bold' color='graySecondary' mt={5} as='p'>
-              {totalIncomeAmount.toLocaleString('ko-KR')}원
+              수입 : {totalIncomeAmount.toLocaleString('ko-KR')}원
             </Text>
-          </div>
-        </SC.TotalSection>
+          </SC.TotalSection>
+        </div>
       </SC.Container>
       <BotttomSheet.Menu
         title='월 선택하기'
@@ -101,17 +80,20 @@ function getTitleMsg(selectedDate: string) {
 
 const SC = {
   Container: styled.header`
-    padding: 1rem 1.6rem 0;
+    display: flex;
+    margin: 1rem 1.6rem 0;
+
+    .card {
+      background-color: ${({ theme }) => theme.colors.red500};
+      border-radius: 16px;
+      padding: 1.6rem;
+      width: 100%;
+      display: flex;
+    }
   `,
   TotalSection: styled.section`
-    margin-top: 1.6rem;
-
-    .item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
+    margin-top: 1.2rem;
   `,
 };
 
-export default withSuspense(MonthStatistics, <Skeleton />);
+export default withSuspense(AccountCardInfo, <Skeleton />);

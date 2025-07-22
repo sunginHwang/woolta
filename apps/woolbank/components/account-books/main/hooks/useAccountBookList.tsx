@@ -3,8 +3,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import groupBy from 'lodash-es/groupBy';
+import { useEffect } from 'react';
 import { selectedAccountBookDateAtom } from '../AccountList/store';
-import { getAccountBookListQueryKey, useAccountBookListQuery } from './useAccountBookListQuery';
+import {
+  getAccountBookListQueryKey,
+  prefetchAccountBookList,
+  useAccountBookListQuery,
+} from './useAccountBookListQuery';
 
 export type AcccountBookType = 'expenditure' | 'income';
 
@@ -37,6 +42,11 @@ export const useAccountBookList = () => {
   const accountBookListGroupByDay = getAccountListGroupByDay(accountBookList);
   const totalIncomeAmount = getTotalAmountbyType(accountBookList, 'income');
   const totalExpenditureAmount = getTotalAmountbyType(accountBookList, 'expenditure');
+
+  useEffect(() => {
+    const oneMonthAgo = dayjs(selectedAccountBookDate).subtract(1, 'month').format('YYYY-MM');
+    prefetchAccountBookList(queryClient, { selectedDate: oneMonthAgo });
+  }, [queryClient, selectedAccountBookDate]);
 
   const set = (accountBookList: AccountBook[]) => {
     queryClient.setQueryData<AccountBook[]>(queryKey, accountBookList);

@@ -15,7 +15,7 @@ interface Props {
  */
 const DropdownTitle: FC<Props> = ({ title, onClick, onPrevMonthClick, onNextMonthClick }) => {
   return (
-    <SC.Title onClick={onClick}>
+    <SC.Title>
       <Text onClick={onPrevMonthClick} variant='small3Regular' color='grayPrimary' as='p'>
         ◀
       </Text>

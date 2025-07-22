@@ -24,6 +24,7 @@ export interface AccountBookDetail {
   };
   type: AccountBookCategoryType;
   isRegularExpenditure: boolean;
+  isDisabledBudget: boolean;
   amount: number;
   memo?: string;
   registerDateTime: Date;
@@ -43,13 +44,17 @@ export const deleteAccountBook = async (accountBookId: string) => {
  * 가계부 삭제
  * */
 export const addAccountBook = async (accountBookForm: AccountBookSaveForm) => {
-  const { title, type, amount, memo, category } = accountBookForm;
+  const { title, type, amount, memo, category, isDisabledBudget, scheduled_payments_type, scheduled_payments_value } =
+    accountBookForm;
   const requestParam = {
     title,
     registerDateTime: accountBookForm.registerDateTime.toDate(),
     type,
     amount,
     memo,
+    isDisabledBudget,
+    scheduledPaymentsType: scheduled_payments_type,
+    scheduledPaymentsValue: scheduled_payments_value,
     categoryId: category.id,
   };
   const { data } = await postData<AccountBookDetail>('account-books', requestParam);
@@ -60,13 +65,14 @@ export const addAccountBook = async (accountBookForm: AccountBookSaveForm) => {
  * 가계부 수정 api
  * */
 export const updateAccountBook = async (accountBookForm: AccountBookSaveForm) => {
-  const { title, type, amount, memo, category, id } = accountBookForm;
+  const { title, type, amount, memo, category, id, isDisabledBudget } = accountBookForm;
   const requestParam = {
     title,
     registerDateTime: accountBookForm.registerDateTime.toDate(),
     type,
     amount,
     memo,
+    isDisabledBudget,
     categoryId: category.id,
   };
   const { data } = await putData<AccountBookDetail>(`account-books/${id}`, requestParam);
@@ -104,7 +110,7 @@ export const useAccountBookDetail = (id: string | null) => {
 
   const upsertAccountBook = (accountBookForm: AccountBookSaveForm) => {
     const isSaveAction = typeof accountBookForm.id !== 'number';
-
+    console.log('upsertAccountBook', accountBookForm);
     if (isSaveAction) {
       addMutation.mutate(accountBookForm, {
         onSuccess: (accountBook: AccountBookDetail) => {
@@ -157,6 +163,7 @@ function getQueryKey(id: string | null) {
 }
 
 export function getAccountBookFetchInfo(id: string | null) {
+  console.log('getAccountBookFetchInfo', id);
   return {
     queryKey: getQueryKey(id),
     queryFn: () => fetchAccountBookDetail(id),
