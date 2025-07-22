@@ -1,25 +1,0 @@
-  [1m[38;2;173;127;168m▲ Next.js 14.2.1[39m[22m
-
- [37m[1m [22m[39m Creating an optimized production build ...
- [32m[1m✓[22m[39m Compiled successfully
- [37m[1m [22m[39m Skipping linting
-[?25l [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Checking validity of types  [36m.[39m[2K[1G[?25h [37m[1m [22m[39m Checking validity of types     [32m[1m✓[22m[39m Checking validity of types 
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/4)  [36m[    ][39m[2K[1G [37m[1m [22m[39m Generating static pages (0/4)  [36m[=   ][39m[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (4/4)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
-[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
-
-[4mRoute (app)[24m                              [4mSize[24m     [4mFirst Load JS[24m
-┌ ○ /                                    90.9 kB         [37m[1m209 kB[22m[39m
-└ ○ /_not-found                          876 B          [37m[1m87.8 kB[22m[39m
-+ First Load JS shared by all            [37m[1m87 kB[22m[39m
-  ├ chunks/1dd3208c-702a70ab220c0ed4.js  53.7 kB
-  ├ chunks/286-c07c88c6cd8a1cf4.js       31.4 kB
-  └ other shared chunks (total)          1.95 kB
-
-
-ƒ Middleware                             [37m[1m26.8 kB[22m[39m
-
-○  (Static)  prerendered as static content
-
-[?25h
