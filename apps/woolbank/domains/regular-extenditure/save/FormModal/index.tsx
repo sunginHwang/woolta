@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { FC } from 'react';
 import { AccountBookCategory } from '../../../account-books/save/_common/hooks/useAccountBookCategories';
 import { AmountCategorySheet } from '../../../account-books/save/_common/components/amount-category-sheet/AmountCategorySheet';
-import BotttomSheet from '../../../common/BotttomSheet';
+import BotttomSheet from '../../../../components/BotttomSheet';
 import { RegularExtenditureForm } from '../hooks/useRegularExtenditureForm';
 import { DateSelectSheet } from './DateSelectSheet';
 

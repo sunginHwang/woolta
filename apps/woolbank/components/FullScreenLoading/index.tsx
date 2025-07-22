@@ -2,7 +2,7 @@ import { Text } from '@wds';
 import { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { styled, useTheme } from 'styled-components';
-import Deem from '../../atom/Deem';
+import Deem from '../atom/Deem';
 
 interface Props {
   loading?: boolean;

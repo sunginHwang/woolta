@@ -2,8 +2,8 @@
 
 import { mergeRefs } from '@common';
 import { colors, typography } from '@wds';
-import { IconCloseCircle } from 'apps/woolbank/domains/atom/Icon';
-import { IconChevronRight } from 'apps/woolbank/domains/atom/Icon/ChevronRight';
+import { IconCloseCircle } from 'apps/woolbank/components/atom/Icon';
+import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
 import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 

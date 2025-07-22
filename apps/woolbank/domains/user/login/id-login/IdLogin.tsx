@@ -3,8 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useToast } from '../../../../hooks/useToast';
 import { postData } from '../../../../utils/api';
-import { Button } from '../../../atom/Button';
-import BaseInput from '../../../common/BaseInput';
+import { Button } from '../../../../components/atom/Button';
+import BaseInput from '../../../../components/BaseInput';
 import { LoginBox } from '../login-box/LoginBox';
 
 export const IdLogin = () => {

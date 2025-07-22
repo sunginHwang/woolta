@@ -7,7 +7,7 @@ import {
   AccountBookSheetItem,
   AccountBookBottomSheet,
 } from '../../../account-books/_common/components/account-book-bottom-sheet/AccountBookBottomSheet';
-import { Button } from '../../../atom/Button';
+import { Button } from '../../../../components/atom/Button';
 import { AccountBookChartData } from './StatisticChart';
 
 interface ActiveSheet {

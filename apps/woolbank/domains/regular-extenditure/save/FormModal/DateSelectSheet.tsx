@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import BotttomSheet from '../../../common/BotttomSheet';
-import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
+import BotttomSheet from '../../../../components/BotttomSheet';
+import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
 
 interface Props {
   selectDate: number;

@@ -2,7 +2,7 @@ import { mergeRefs } from '@common';
 import { Text, typography } from '@wds';
 import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import { IconCloseCircle } from '../../atom/Icon';
+import { IconCloseCircle } from '../atom/Icon';
 
 interface Props
   extends Omit<

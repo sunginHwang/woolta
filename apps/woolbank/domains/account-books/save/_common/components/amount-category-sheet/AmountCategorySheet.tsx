@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { styled } from 'styled-components';
-import { Button } from '../../../../../atom/Button';
-import BotttomSheet from '../../../../../common/BotttomSheet';
+import { Button } from '../../../../../../components/atom/Button';
+import BotttomSheet from '../../../../../../components/BotttomSheet';
 import {
   AccountBookCategory,
   AccountBookCategoryType,

@@ -1,7 +1,7 @@
 'use client';
 
 import { withSuspense } from '@common';
-import AddButton from '../../common/AddButton';
+import AddButton from '../../../components/AddButton';
 import ExtentureTypeList from './ExtentureTypeList';
 import RegularExpenditureSkeleton from './RegularExpenditureSkeleton';
 import SummeryInfo from './SummeryInfo';

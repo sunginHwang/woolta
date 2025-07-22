@@ -4,11 +4,11 @@ import debounce from 'lodash-es/debounce';
 import { useParams, useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import BotttomSheet from '../../../common/BotttomSheet';
-import { IconDownHorizontal } from '../../../atom/Icon';
+import BotttomSheet from '../../../../components/BotttomSheet';
+import { IconDownHorizontal } from '../../../../components/atom/Icon';
 
-import Header from '../../../common/Header';
-import { Progress } from '../../../common/Progress';
+import Header from '../../../../components/Header';
+import { Progress } from '../../../../components/Progress';
 import { getRemainDatePercentage, getRemainDays } from '../../../../utils/date';
 import { useBucket } from '../hooks/useBucket';
 

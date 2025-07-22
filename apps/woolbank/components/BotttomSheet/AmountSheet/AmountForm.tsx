@@ -1,7 +1,7 @@
 import { typography } from '@wds';
 import { MouseEvent, FC } from 'react';
 import { styled } from 'styled-components';
-import { Button } from '../../../atom/Button';
+import { Button } from '../../atom/Button';
 
 interface Props {
   visible?: boolean;

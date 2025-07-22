@@ -1,5 +1,5 @@
 import { useInput, useMount } from '@common';
-import { IconBlackCircle } from 'apps/woolbank/domains/atom/Icon';
+import { IconBlackCircle } from 'apps/woolbank/components/atom/Icon';
 import React, { FC, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
 

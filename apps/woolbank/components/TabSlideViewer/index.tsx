@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import styled from 'styled-components';
-import { BucketListItem } from '../bucket-list/main/BucketListItem';
+import { BucketListItem } from '../../domains/bucket-list/main/BucketListItem';
 import Tabs, { Tab } from '../Tabs';
 import { Empty } from './Empty';
 

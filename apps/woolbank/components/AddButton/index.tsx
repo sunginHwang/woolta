@@ -4,7 +4,7 @@ import { safeAreaInsetBottom, typography } from '@wds';
 import Link from 'next/link';
 import { ComponentProps, FC } from 'react';
 import { styled } from 'styled-components';
-import { layout } from '../../../style/layout';
+import { layout } from '../../style/layout';
 
 type Props = ComponentProps<typeof Link>;
 

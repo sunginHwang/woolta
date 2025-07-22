@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useAlert } from '../../../hooks/useAlert';
 import { alertAtom } from '../../../store/layout';
-import Deem from '../../atom/Deem';
+import Deem from '../../../components/atom/Deem';
 
 export const Alert = () => {
   const alertMessage = useAtomValue(alertAtom);

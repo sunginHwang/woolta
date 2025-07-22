@@ -2,8 +2,8 @@ import { Text } from '@wds';
 import React, { FC, useCallback } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styled, { useTheme } from 'styled-components';
-import { IconBlackCircle, IconCircleCheck, IconTrashCan } from '../../../atom/Icon';
-import { useConfirm } from '../../../common/Confirm/ConfirmContext';
+import { IconBlackCircle, IconCircleCheck, IconTrashCan } from '../../../../components/atom/Icon';
+import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 
 import { Todo } from '../../detail/hooks/useBucket';
 

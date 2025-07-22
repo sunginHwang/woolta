@@ -1,7 +1,7 @@
 import { Text, white } from '@wds';
 import React, { FC, PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'styled-components';
-import { layout } from '../../../style/layout';
+import { layout } from '../../style/layout';
 import SubHeader from './SubHeader';
 
 interface Props extends PropsWithChildren {

@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styled, { useTheme } from 'styled-components';
-import { IconPlus } from '../../../atom/Icon';
+import { IconPlus } from '../../../../components/atom/Icon';
 
 interface Props extends Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   isLoading?: boolean;

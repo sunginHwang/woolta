@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import { Providers } from '../domains/layout/providers/Providers';
+import { RootProvider } from '../domains/layout/root-provider/RootProvider';
 import { setConfig } from '../utils/config';
 
 export const metadata: Metadata = {
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <RootProvider>{children}</RootProvider>
         <div id='modalDeem' />
       </body>
     </html>

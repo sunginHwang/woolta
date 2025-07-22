@@ -1,7 +1,7 @@
 import { useInputs, useToggle } from '@common';
 import { styled } from 'styled-components';
 import { FC } from 'react';
-import { Button } from '../../../atom/Button';
+import { Button } from '../../atom/Button';
 
 // 12시간
 const HALF_DAY_HOUR = 12;

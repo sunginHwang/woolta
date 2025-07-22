@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { IconFacebook, IconGoogle, IconKakaoTalk } from '../../../atom/Icon';
+import { IconFacebook, IconGoogle, IconKakaoTalk } from '../../../../components/atom/Icon';
 
 const providerMap = {
   kakaoTalk: {

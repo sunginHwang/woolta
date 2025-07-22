@@ -3,8 +3,8 @@ import { safeAreaInsetMarginBottom } from '@wds';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FC, ReactNode, PropsWithChildren } from 'react';
 import { styled, useTheme } from 'styled-components';
-import Deem from '../../atom/Deem';
-import { IconClose } from '../../atom/Icon';
+import Deem from '../atom/Deem';
+import { IconClose } from '../atom/Icon';
 
 interface Props extends PropsWithChildren {
   title?: string;

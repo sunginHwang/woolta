@@ -1,6 +1,6 @@
 'use client';
 
-import FullScreenLoading from '../../../domains/common/FullScreenLoading';
+import FullScreenLoading from '../../../components/FullScreenLoading';
 
 export default function Loading() {
   return <FullScreenLoading loading message='잠시만 기다려 주세요.' />;

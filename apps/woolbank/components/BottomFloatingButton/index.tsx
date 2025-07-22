@@ -1,6 +1,6 @@
 import React, { ComponentProps, FC, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { Button } from '../../atom/Button';
+import { Button } from '../atom/Button';
 
 interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disabled' | 'children' | 'loading'> {
   // 버튼 디스플레이 여부

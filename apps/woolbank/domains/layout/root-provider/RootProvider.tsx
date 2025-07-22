@@ -5,7 +5,7 @@ import { Provider as JotaiProvider } from 'jotai';
 import { theme } from 'libs/wds/src/lib/style/colors';
 import { Layout } from '../Layout';
 import { StyledComponentsRegistry } from './StyleRegistry';
-import { ConfirmProvider } from '../../common/Confirm/ConfirmContext';
+import { ConfirmProvider } from '../../../components/Confirm/ConfirmContext';
 import { setConfig } from '../../../utils/config';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
@@ -34,7 +34,7 @@ function getQueryClient() {
   }
 }
 
-export const Providers = ({ children }: { children: React.ReactNode }) => {
+export const RootProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient();
 
   return (

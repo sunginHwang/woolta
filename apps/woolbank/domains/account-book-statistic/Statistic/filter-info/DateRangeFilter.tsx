@@ -1,9 +1,9 @@
 import { useToggle } from '@common';
 import { Dayjs } from 'dayjs';
 import { getDateRange, DateRange } from '../../../../utils/date';
-import BotttomSheet from '../../../common/BotttomSheet';
-import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
-import DropdownTitle from '../../../common/DropdownTitle';
+import BotttomSheet from '../../../../components/BotttomSheet';
+import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
+import DropdownTitle from '../../../../components/DropdownTitle';
 
 const PICKER_OPTIONS: BottomMenu<DateRange>[] = [
   {

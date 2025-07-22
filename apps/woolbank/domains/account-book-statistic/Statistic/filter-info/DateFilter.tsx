@@ -1,8 +1,8 @@
 import { useToggle } from '@common';
 import dayjs, { Dayjs } from 'dayjs';
 import { DateRange, getDateRange } from '../../../../utils/date';
-import BotttomSheet from '../../../common/BotttomSheet';
-import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
+import BotttomSheet from '../../../../components/BotttomSheet';
+import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
 import { Label } from './Label';
 
 interface Props {

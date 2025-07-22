@@ -1,9 +1,9 @@
 import { useMount } from '@common';
 import { FC, KeyboardEvent, MouseEvent, useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import { Button } from '../../../atom/Button';
-import BaseInput from '../../../common/BaseInput';
-import ToggleTab from '../../../common/ToggleTab';
+import { Button } from '../../../../components/atom/Button';
+import BaseInput from '../../../../components/BaseInput';
+import ToggleTab from '../../../../components/ToggleTab';
 import { useToast } from '../../../../hooks/useToast';
 import FormModal from '../FormModal';
 import { RegularExtenditureForm as FormType, useRegularExtenditureForm } from '../hooks/useRegularExtenditureForm';

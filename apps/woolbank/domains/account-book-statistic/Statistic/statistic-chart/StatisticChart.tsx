@@ -1,7 +1,7 @@
 import { ResponsivePie } from '@nivo/pie';
 import { Text } from '@wds';
 import { styled } from 'styled-components';
-import EmptyData from '../../../common/EmptyInfo';
+import EmptyData from '../../../../components/EmptyInfo';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 import StatisticList from './StatisticList';

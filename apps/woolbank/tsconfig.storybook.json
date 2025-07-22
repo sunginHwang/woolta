@@ -3,13 +3,14 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true
   },
-  "exclude": ["domains/**/*.spec.ts", "domains/**/*.test.ts"],
+  "exclude": ["domains/**/*.spec.ts", "domains/**/*.test.ts", "components/**/*.spec.ts", "components/**/*.test.ts"],
   "include": [
     "domains/**/*.stories.ts",
-    "domains/**/*.stories.js",
-    "domains/**/*.stories.jsx",
     "domains/**/*.stories.tsx",
     "domains/**/*.stories.mdx",
+    "components/**/*.stories.ts",
+    "components/**/*.stories.tsx",
+    "components/**/*.stories.mdx",
     ".storybook/*.js",
     ".storybook/*.ts",
     ".storybook/preview.tsx"

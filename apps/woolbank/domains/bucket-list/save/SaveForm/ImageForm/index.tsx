@@ -1,6 +1,6 @@
 import React, { ComponentProps, FC, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { IconCamera, IconImage } from '../../../../atom/Icon';
+import { IconCamera, IconImage } from '../../../../../components/atom/Icon';
 import { FormTemplate } from '../../FormTemplate';
 import { LabelText } from '../../LabelText';
 import ImageCrop from './ImageCrop';

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Calendar from 'react-calendar';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import { styled } from 'styled-components';
-import Deem from '../../../atom/Deem';
+import Deem from '../../atom/Deem';
 import { calendarStyle } from './style';
 
 interface Props {

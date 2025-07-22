@@ -3,8 +3,8 @@
 import { Text } from '@wds';
 import { styled } from 'styled-components';
 import { useToast } from '../../../hooks/useToast';
-import { Button } from '../../atom/Button';
-import Header from '../../common/Header';
+import { Button } from '../../../components/atom/Button';
+import Header from '../../../components/Header';
 import { useShareCode } from './_common/hooks/useShareCode';
 
 export const ShareCode = () => {

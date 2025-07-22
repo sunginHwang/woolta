@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { useAtom } from 'jotai';
-import BotttomSheet from '../../../common/BotttomSheet';
-import { BottomMenu } from '../../../common/BotttomSheet/MenuSheet';
+import BotttomSheet from '../../../../components/BotttomSheet';
+import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
 import { allVisibilityStatisticAtom } from '../_common/stores/statisticFilter';
 import { Label } from './Label';
 

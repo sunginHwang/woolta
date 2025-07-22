@@ -2,7 +2,7 @@
 
 import { withSuspense } from '@common';
 import dynamic from 'next/dynamic';
-import FullScreenLoading from '../../common/FullScreenLoading';
+import FullScreenLoading from '../../../components/FullScreenLoading';
 import { FilterInfo } from './filter-info/FilterInfo';
 import { LineChart } from './line-chart/LineChart';
 import { StatisticChartSkeleton } from './statistic-chart/StatisticChartSkeleton';

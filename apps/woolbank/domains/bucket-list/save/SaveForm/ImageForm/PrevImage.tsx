@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { IconCloseCircle } from '../../../../atom/Icon';
+import { IconCloseCircle } from '../../../../../components/atom/Icon';
 
 interface Props {
   previewUrl: string;

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { TabSlideViewer } from '../../../common/TabSlideViewer';
+import { TabSlideViewer } from '../../../../components/TabSlideViewer';
 import { BucketListItem } from '../BucketListItem';
 import { BucketList, useBucketList } from '../hooks/useBucketList';
 

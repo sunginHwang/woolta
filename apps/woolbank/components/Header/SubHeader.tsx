@@ -2,8 +2,8 @@ import { Text } from '@wds';
 import { useRouter } from 'next/navigation';
 import React, { FC, useCallback } from 'react';
 import { styled, useTheme } from 'styled-components';
-import { layout } from '../../../style/layout';
-import { IconChevronLeft } from '../../atom/Icon';
+import { layout } from '../../style/layout';
+import { IconChevronLeft } from '../atom/Icon';
 
 interface Props {
   // 헤더 타이틀

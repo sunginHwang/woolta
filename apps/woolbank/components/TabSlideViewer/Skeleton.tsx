@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { BucketListItem } from '../bucket-list/main/BucketListItem';
+import { BucketListItem } from '../../domains/bucket-list/main/BucketListItem';
 
 export const Skeleton = memo(() => {
   return (

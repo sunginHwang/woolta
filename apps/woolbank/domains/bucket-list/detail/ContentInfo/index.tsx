@@ -1,7 +1,7 @@
 import { SkeletonBar, Text } from '@wds';
 import dayjs from 'dayjs';
 import styled, { useTheme } from 'styled-components';
-import { IconCalendarMonthOutline } from '../../../atom/Icon';
+import { IconCalendarMonthOutline } from '../../../../components/atom/Icon';
 import { useBucket } from '../hooks/useBucket';
 import { Skeleton } from './Skeleton';
 

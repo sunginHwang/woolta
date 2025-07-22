@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-import { IconAccountOutline, IconPigOutline, IconWalletOutline } from '../../atom/Icon';
+import { IconAccountOutline, IconPigOutline, IconWalletOutline } from '../../../components/atom/Icon';
 import { AddButton } from './AddIcon';
 
 const LINK_VARIANT = {

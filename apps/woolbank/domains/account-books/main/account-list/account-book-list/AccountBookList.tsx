@@ -4,7 +4,7 @@ import { withSuspense } from '@common';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
 import { styled } from 'styled-components';
-import EmptyData from '../../../../common/EmptyInfo';
+import EmptyData from '../../../../../components/EmptyInfo';
 import { AccountBook, useAccountBookList } from '../../_common/hooks/useAccountBookList';
 import { AccountBookListSkeleton } from './AccountBookListSkeleton';
 import DayGroup from './DayGroup';

@@ -1,7 +1,7 @@
-import { Button } from 'apps/woolbank/domains/atom/Button';
-import BaseInput from 'apps/woolbank/domains/common/BaseInput';
-import BotttomSheet from 'apps/woolbank/domains/common/BotttomSheet';
-import ToggleTab from 'apps/woolbank/domains/common/ToggleTab';
+import { Button } from 'apps/woolbank/components/atom/Button';
+import BaseInput from 'apps/woolbank/components/BaseInput';
+import BotttomSheet from 'apps/woolbank/components/BotttomSheet';
+import ToggleTab from 'apps/woolbank/components/ToggleTab';
 import { isNumber } from 'lodash-es';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styled from 'styled-components';

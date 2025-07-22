@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai';
-import { BottomFloatingButton } from '../../../common/BottomFloatingButton';
+import { BottomFloatingButton } from '../../../../components/BottomFloatingButton';
 import { useBucket } from '../hooks/useBucket';
 import { isShowCompleteButtonAtom } from '../store';
 

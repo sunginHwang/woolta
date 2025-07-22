@@ -2,7 +2,7 @@
 
 import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 import { NextPage } from 'next';
-import Header from '../../common/Header';
+import Header from '../../../components/Header';
 import { useSaveRegularExtenditure } from './hooks/useSaveRegularExtenditure';
 import { RegularExtenditureForm } from './RegularExtenditureForm';
 

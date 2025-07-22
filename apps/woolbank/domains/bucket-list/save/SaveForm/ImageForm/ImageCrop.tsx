@@ -2,8 +2,8 @@ import React, { FC, useRef } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import styled, { useTheme } from 'styled-components';
 
-import { IconCircleCheck } from '../../../../atom/Icon';
-import Header from '../../../../common/Header';
+import { IconCircleCheck } from '../../../../../components/atom/Icon';
+import Header from '../../../../../components/Header';
 
 interface Props {
   url: string;

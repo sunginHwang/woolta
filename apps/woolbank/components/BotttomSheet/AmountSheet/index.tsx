@@ -3,7 +3,7 @@ import { Text } from '@wds';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FC, useCallback, useRef, useEffect, useState, memo, Fragment } from 'react';
 import { styled, useTheme } from 'styled-components';
-import { IconCloseCircle } from '../../../atom/Icon';
+import { IconCloseCircle } from '../../atom/Icon';
 import DefaultBottomSheet from '../DefaultBottomSheet';
 import AmountForm from './AmountForm';
 import { AmountDisplay } from './AnimateAmount';
