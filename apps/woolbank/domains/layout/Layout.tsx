@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { LoadingAtom } from '../../store/layout';
-import FullScreenLoading from '../../components/FullScreenLoading';
+import { FullScreenLoading } from '../../components/full-screen-loading/FullScreenLoading';
 import { Alert } from './alert/Alert';
 import { NavigationBar } from './navigation-bar/NavigationBar';
 import { Toast } from './toast/Toast';

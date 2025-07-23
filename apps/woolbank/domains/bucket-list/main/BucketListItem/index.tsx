@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { InvalidEvent } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { IconCircleCheck } from '../../../../components/atom/Icon';
-import { CardItem } from '../../../../components/CardItem';
+import { CardItem } from '../../../../components/card-item/CardItem';
 import { getRemainDays } from '../../../../utils/date';
 import { BucketList } from '../hooks/useBucketList';
 import ItemSkeleton from './ItemSkeleton';

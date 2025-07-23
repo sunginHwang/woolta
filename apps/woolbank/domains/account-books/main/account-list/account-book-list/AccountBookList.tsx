@@ -1,14 +1,14 @@
 'use client';
 
-import { withSuspense } from '@common';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
 import { styled } from 'styled-components';
-import EmptyData from '../../../../../components/EmptyInfo';
+import { EmptyInfo } from '../../../../../components/empty-info/EmptyInfo';
 import { AccountBook, useAccountBookList } from '../../_common/hooks/useAccountBookList';
 import { AccountBookListSkeleton } from './AccountBookListSkeleton';
 import DayGroup from './DayGroup';
 import Item from './Item';
+import { withSuspense } from '@common';
 
 /**
  * 가계부 리스트
@@ -21,7 +21,7 @@ const AccountBookList = () => {
   if (accountBookListGroupByDay.length === 0) {
     return (
       <SC.AccountBookList>
-        <EmptyData msg='작성한 소비 내역이 없습니다.' />
+        <EmptyInfo msg='작성한 소비 내역이 없습니다.' />
       </SC.AccountBookList>
     );
   }

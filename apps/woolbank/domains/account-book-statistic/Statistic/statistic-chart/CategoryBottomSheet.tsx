@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { styled } from 'styled-components';
-import BottomSheet from '../../../../components/BotttomSheet';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 
 interface Props {

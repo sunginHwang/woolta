@@ -1,7 +1,7 @@
 import { SkeletonBar } from '@wds';
 import React from 'react';
 import styled from 'styled-components';
-import { CardItem } from '../../../../components/CardItem';
+import { CardItem } from '../../../../components/card-item/CardItem';
 
 /**
  * 버킷리스 - 리스트 아이템 스켈레톤 영역

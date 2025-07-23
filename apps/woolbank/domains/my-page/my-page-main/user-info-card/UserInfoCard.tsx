@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { styled } from 'styled-components';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { postData } from '../../../../utils/api';
-import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
+import { useConfirm } from '../../../../components/confirm/ConfirmContext';
 
 export const UserInfoCard = () => {
   const { userInfo, isShareUser } = useUserInfo();

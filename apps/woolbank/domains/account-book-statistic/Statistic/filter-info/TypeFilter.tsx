@@ -1,6 +1,6 @@
 import { useToggle } from '@common';
-import BotttomSheet from '../../../../components/BotttomSheet';
-import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
+import { BottomMenu } from '../../../../components/bottom-sheet/menu-sheet/MenuSheet';
 import { AccountBookCategoryType } from '../_common/stores/statisticFilter';
 import { Label } from './Label';
 
@@ -38,7 +38,7 @@ const TypeFilter = ({ activeType, onTypeChange }: Props) => {
   return (
     <>
       <Label text={activeMenu?.[1].value || ''} onClick={() => toggleModal()} />
-      <BotttomSheet.Menu
+      <BottomSheet.Menu
         title='통계 종류를 선택해 주세요.'
         menus={CATEGORY_BOTTOM_MENU_LIST}
         activeMenuType={activeType}

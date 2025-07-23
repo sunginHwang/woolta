@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { FC } from 'react';
 import { AccountBookCategory } from '../../../account-books/save/_common/hooks/useAccountBookCategories';
 import { AmountCategorySheet } from '../../../account-books/save/_common/components/amount-category-sheet/AmountCategorySheet';
-import BotttomSheet from '../../../../components/BotttomSheet';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import { RegularExtenditureForm } from '../hooks/useRegularExtenditureForm';
 import { DateSelectSheet } from './DateSelectSheet';
 
@@ -55,7 +55,7 @@ const FormModal: FC<Props> = ({
         selectCategoryId={formData.category.id}
         onCategorySelect={handleCategoryClick}
       />
-      <BotttomSheet.Amount
+      <BottomSheet.Amount
         title='금액 입력'
         visible={openModalName === 'amount'}
         currentAmount={formData.amount}

@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import BotttomSheet from '../../../../components/BotttomSheet';
-import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
+import { BottomMenu } from '../../../../components/bottom-sheet/menu-sheet/MenuSheet';
 
 interface Props {
   selectDate: number;
@@ -22,7 +22,7 @@ export const DateSelectSheet: FC<Props> = ({ visible, selectDate, onClose, onSel
   };
 
   return (
-    <BotttomSheet.Menu
+    <BottomSheet.Menu
       title='정기지출일'
       activeMenuType={selectMenu.type}
       menus={dateMenus}

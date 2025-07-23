@@ -6,9 +6,9 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
 import { styled } from 'styled-components';
-import BotttomSheet from '../../../../../components/BotttomSheet';
-import { BottomMenu } from '../../../../../components/BotttomSheet/MenuSheet';
-import DropdownTitle from '../../../../../components/DropdownTitle';
+import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
+import { BottomMenu } from '../../../../../components/bottom-sheet/menu-sheet/MenuSheet';
+import { DropdownTitle } from '../../../../../components/dropdown-title/DropdownTitle';
 import { useAccountBookList } from '../../_common/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../_common/stores/accountbookDate';
 import Skeleton from './Skeleton';
@@ -74,7 +74,7 @@ const MonthStatistics = () => {
           </div>
         </SC.TotalSection>
       </SC.Container>
-      <BotttomSheet.Menu
+      <BottomSheet.Menu
         title='월 선택하기'
         menus={fiveYearMonthList}
         activeMenuType={activeMonthMenu.type}

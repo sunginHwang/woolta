@@ -1,6 +1,6 @@
 import { useInputs } from '@common';
 import dayjs, { Dayjs } from 'dayjs';
-import { ToggleTabItem } from '../../../../../../components/ToggleTab';
+import { ToggleTabItem } from '../../../../../../components/toggle-tab/ToggleTab';
 import getCategoryMsg, { AccountBookCategoryType } from '../../../../../../utils/account-books';
 import { AccountBookCategory } from '../../../_common/hooks/useAccountBookCategories';
 

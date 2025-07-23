@@ -1,8 +1,8 @@
 'use client';
 
 import { useUserInfo } from '../../../hooks/queries/useUserInfo';
-import AddButton from '../../../components/AddButton';
-import Header from '../../../components/Header';
+import { AddButton } from '../../../components/add-button/AddButton';
+import { Header } from '../../../components/header/Header';
 import { ShareUserAuthInfo } from '../common/ShareUserAuthInfo';
 import { BucketListSlideViewer } from './BucketListSlideViewer';
 /**

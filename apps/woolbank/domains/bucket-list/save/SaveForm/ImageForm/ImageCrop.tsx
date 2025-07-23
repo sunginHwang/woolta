@@ -3,7 +3,7 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import styled, { useTheme } from 'styled-components';
 
 import { IconCircleCheck } from '../../../../../components/atom/Icon';
-import Header from '../../../../../components/Header';
+import { Header } from '../../../../../components/header/Header';
 
 interface Props {
   url: string;

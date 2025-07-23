@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { styled } from 'styled-components';
 import { Button } from '../../../../../../components/atom/Button';
-import BotttomSheet from '../../../../../../components/BotttomSheet';
+import { BottomSheet } from '../../../../../../components/bottom-sheet/BottomSheet';
 import {
   AccountBookCategory,
   AccountBookCategoryType,
@@ -33,7 +33,7 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
 
   return (
     <>
-      <BotttomSheet title={titleMsg} visible={open} oncloseModal={onClose}>
+      <BottomSheet title={titleMsg} visible={open} oncloseModal={onClose}>
         <SC.CategorySelectBox>
           <SC.CategoryList>
             {categories.map((c) => {
@@ -53,7 +53,7 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
             </Button>
           </SC.Footer>
         </SC.CategorySelectBox>
-      </BotttomSheet>
+      </BottomSheet>
       {/* 카테고리 추가 여기서 버튼 클릭하면 바로 할수 있게 사용성 개선 하자 */}
       {isOpenSaveForm && (
         <CategorySaveForm

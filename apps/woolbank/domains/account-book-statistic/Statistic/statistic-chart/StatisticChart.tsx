@@ -1,7 +1,7 @@
 import { ResponsivePie } from '@nivo/pie';
 import { Text } from '@wds';
 import { styled } from 'styled-components';
-import EmptyData from '../../../../components/EmptyInfo';
+import { EmptyInfo } from '../../../../components/empty-info/EmptyInfo';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 import StatisticList from './StatisticList';
@@ -59,7 +59,7 @@ const StatisticChart = () => {
   );
 
   if (accountBookChartList.length === 0) {
-    return <EmptyData msg='통계 내역이 존재하지 않습니다.' />;
+    return <EmptyInfo msg='통계 내역이 존재하지 않습니다.' />;
   }
 
   return (

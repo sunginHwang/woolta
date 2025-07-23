@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { useAtom } from 'jotai';
-import BotttomSheet from '../../../../components/BotttomSheet';
-import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
+import { BottomMenu } from '../../../../components/bottom-sheet/menu-sheet/MenuSheet';
 import { allVisibilityStatisticAtom } from '../_common/stores/statisticFilter';
 import { Label } from './Label';
 
@@ -38,7 +38,7 @@ export const CategoryOptionFilter = () => {
   return (
     <>
       <Label text={activeMenu?.[1].value || ''} onClick={() => toggleModal()} />
-      <BotttomSheet.Menu
+      <BottomSheet.Menu
         title='카테고리의 통계포함 사용유무를 선택해주세요.'
         menus={CATEGORY_BOTTOM_MENU_LIST}
         activeMenuType={activeTabValue}

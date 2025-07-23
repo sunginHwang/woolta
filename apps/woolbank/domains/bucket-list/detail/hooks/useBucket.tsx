@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useToast } from '../../../../hooks/useToast';
 import { deleteData, getData, postData, putData } from '../../../../utils/api';
-import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
+import { useConfirm } from '../../../../components/confirm/ConfirmContext';
 import { useBucketList } from '../../main/hooks/useBucketList';
 
 const ERROR_MSG = '다시 시도해 주세요.';

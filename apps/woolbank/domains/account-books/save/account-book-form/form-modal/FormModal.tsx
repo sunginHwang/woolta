@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import BotttomSheet from '../../../../../components/BotttomSheet';
+import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 import { AmountCategorySheet } from '../../_common/components/amount-category-sheet/AmountCategorySheet';
 import { AccountBookCategory } from '../../_common/hooks/useAccountBookCategories';
 import { AccountBookSaveForm, ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
@@ -56,7 +56,7 @@ export const FormModal = ({
 
   return (
     <>
-      <BotttomSheet.Date
+      <BottomSheet.Date
         visible={openModalName === 'registerDateTime'}
         onclose={onCloseModal}
         onDateChange={handleDateTimeClick}
@@ -69,7 +69,7 @@ export const FormModal = ({
         selectCategoryId={formData.category.id}
         onCategorySelect={handleCategoryClick}
       />
-      <BotttomSheet.Amount
+      <BottomSheet.Amount
         title='금액 입력'
         visible={openModalName === 'amount'}
         currentAmount={formData.amount}

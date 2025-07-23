@@ -1,7 +1,7 @@
-import { styled, useTheme } from 'styled-components';
 import { typography } from '@wds';
 import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import { ClipLoader } from 'react-spinners';
+import { styled, useTheme } from 'styled-components';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 

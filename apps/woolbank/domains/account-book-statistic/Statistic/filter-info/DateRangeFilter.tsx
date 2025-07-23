@@ -1,9 +1,9 @@
 import { useToggle } from '@common';
 import { Dayjs } from 'dayjs';
 import { getDateRange, DateRange } from '../../../../utils/date';
-import BotttomSheet from '../../../../components/BotttomSheet';
-import { BottomMenu } from '../../../../components/BotttomSheet/MenuSheet';
-import DropdownTitle from '../../../../components/DropdownTitle';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
+import { BottomMenu } from '../../../../components/bottom-sheet/menu-sheet/MenuSheet';
+import { DropdownTitle } from '../../../../components/dropdown-title/DropdownTitle';
 
 const PICKER_OPTIONS: BottomMenu<DateRange>[] = [
   {
@@ -50,7 +50,7 @@ const DateRangeFilter = ({ dateRange, onDateRangeChange }: Props) => {
   return (
     <>
       <DropdownTitle onClick={onPicker} title={`${activePicker?.value} 통계`} />
-      <BotttomSheet.Menu
+      <BottomSheet.Menu
         title='통계 범위 선택'
         menus={PICKER_OPTIONS}
         activeMenuType={activePicker?.type || ''}

@@ -4,7 +4,7 @@ import { Text } from '@wds';
 import { styled } from 'styled-components';
 import { useToast } from '../../../hooks/useToast';
 import { Button } from '../../../components/atom/Button';
-import Header from '../../../components/Header';
+import { Header } from '../../../components/header/Header';
 import { useShareCode } from './_common/hooks/useShareCode';
 
 export const ShareCode = () => {

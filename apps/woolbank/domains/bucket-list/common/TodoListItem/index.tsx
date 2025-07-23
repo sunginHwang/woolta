@@ -3,7 +3,7 @@ import React, { FC, useCallback } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styled, { useTheme } from 'styled-components';
 import { IconBlackCircle, IconCircleCheck, IconTrashCan } from '../../../../components/atom/Icon';
-import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
+import { useConfirm } from '../../../../components/confirm/ConfirmContext';
 
 import { Todo } from '../../detail/hooks/useBucket';
 

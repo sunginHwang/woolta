@@ -1,7 +1,7 @@
 'use client';
-import * as React from 'react';
-import Confirm from './index';
 import { useIsMounted } from '@common';
+import * as React from 'react';
+import { Confirm } from './Confirm';
 
 interface ConfirmServiceProps extends React.ComponentProps<typeof Confirm> {
   // 확인 버튼 누를시 자동 컴펌 종료 옵션
@@ -13,7 +13,7 @@ const ConfirmationServiceContext = React.createContext<{
   setConfirmLoading: (loading: boolean) => void;
 }>({
   openConfirm: Promise.resolve,
-  setConfirmLoading: (loading) => {},
+  setConfirmLoading: (loading) => undefined,
 });
 
 export const useConfirm = () => React.useContext(ConfirmationServiceContext);

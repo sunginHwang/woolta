@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useToast } from '../../../../hooks/useToast';
 import { Button } from '../../../../components/atom/Button';
-import Header from '../../../../components/Header';
+import { Header } from '../../../../components/header/Header';
 import { useBucket } from '../../detail/hooks/useBucket';
 import { useBucketList } from '../../main/hooks/useBucketList';
 import { useBucketFormStep } from '../hooks/useBucketFormStep';

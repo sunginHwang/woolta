@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { ComponentProps, FC, memo, useEffect } from 'react';
 import styled from 'styled-components';
-import BaseInput from '../../../../../components/BaseInput';
-import BotttomSheet from '../../../../../components/BotttomSheet';
+import { BaseInput } from '../../../../../components/base-input/BaseInput';
+import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 import { FormTemplate } from '../../FormTemplate';
 import { useBucketFormStep } from '../../hooks/useBucketFormStep';
 import { LabelText } from '../../LabelText';
@@ -58,7 +58,7 @@ export const CompleteDateForm: FC<Props> = memo(({ activeForm }) => {
             onClick={onDateModal}
             onClear={onResetCompleteDate}
           />
-          <BotttomSheet.Date
+          <BottomSheet.Date
             visible={isShowDateModal}
             date={completeDate ? new Date(completeDate) : new Date()}
             onclose={offDateModal}

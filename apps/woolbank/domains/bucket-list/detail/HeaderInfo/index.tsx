@@ -4,11 +4,11 @@ import debounce from 'lodash-es/debounce';
 import { useParams, useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import BotttomSheet from '../../../../components/BotttomSheet';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import { IconDownHorizontal } from '../../../../components/atom/Icon';
 
-import Header from '../../../../components/Header';
-import { Progress } from '../../../../components/Progress';
+import { Header } from '../../../../components/header/Header';
+import { Progress } from '../../../../components/progress/Progress';
 import { getRemainDatePercentage, getRemainDays } from '../../../../utils/date';
 import { useBucket } from '../hooks/useBucket';
 
@@ -90,7 +90,7 @@ export const HeaderInfo = () => {
           <Progress label={remainDay} labelPrefix='D-' percent={remainPercent} color={colors.red500} />
         </div>
       </SC.ImageInfo>
-      <BotttomSheet.Menu
+      <BottomSheet.Menu
         visible={showMenuModal}
         menus={sheet_menus}
         title='원하시는 메뉴를 선택해 주세요.'

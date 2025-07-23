@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { ChangeEvent, ComponentProps, FC, KeyboardEvent, memo, useRef } from 'react';
 import styled from 'styled-components';
-import BaseInput from '../../../../../components/BaseInput';
+import { BaseInput } from '../../../../../components/base-input/BaseInput';
 import { FormTemplate } from '../../FormTemplate';
 import { useBucketFormStep } from '../../hooks/useBucketFormStep';
 import { LabelText } from '../../LabelText';

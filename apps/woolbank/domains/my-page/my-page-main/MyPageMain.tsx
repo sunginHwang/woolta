@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from 'styled-components';
-import Header from '../../../components/Header';
+import { Header } from '../../../components/header/Header';
 import { UserInfoCard } from './user-info-card/UserInfoCard';
 
 export const MyPageMain = () => {

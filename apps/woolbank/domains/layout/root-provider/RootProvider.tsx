@@ -5,7 +5,7 @@ import { Provider as JotaiProvider } from 'jotai';
 import { theme } from 'libs/wds/src/lib/style/colors';
 import { Layout } from '../Layout';
 import { StyledComponentsRegistry } from './StyleRegistry';
-import { ConfirmProvider } from '../../../components/Confirm/ConfirmContext';
+import { ConfirmProvider } from '../../../components/confirm/ConfirmContext';
 import { setConfig } from '../../../utils/config';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';

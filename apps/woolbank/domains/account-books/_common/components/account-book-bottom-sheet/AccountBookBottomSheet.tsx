@@ -1,7 +1,7 @@
 import { Text, typography } from '@wds';
 import { Dayjs } from 'dayjs';
 import { styled } from 'styled-components';
-import BottomSheet from '../../../../../components/BotttomSheet';
+import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 
 export interface AccountBookSheetItem {
   title: string;

@@ -1,9 +1,8 @@
 import { Button } from 'apps/woolbank/components/atom/Button';
-import BaseInput from 'apps/woolbank/components/BaseInput';
-import BotttomSheet from 'apps/woolbank/components/BotttomSheet';
-import ToggleTab from 'apps/woolbank/components/ToggleTab';
-import { isNumber } from 'lodash-es';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { BaseInput } from 'apps/woolbank/components/base-input/BaseInput';
+import { BottomSheet } from 'apps/woolbank/components/bottom-sheet/BottomSheet';
+import { ToggleTab } from 'apps/woolbank/components/toggle-tab/ToggleTab';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 
@@ -97,7 +96,7 @@ export const ScheduledPaymentBottomSheet = ({
   const is_enable_form_status = is_valid_installment || is_valid_repeat;
 
   return (
-    <BotttomSheet visible={is_open} oncloseModal={onCloseModal} title='반복/할부'>
+    <BottomSheet visible={is_open} oncloseModal={onCloseModal} title='반복/할부'>
       <SC.Content>
         <ToggleTab
           tabs={TAB_LIST}
@@ -121,7 +120,7 @@ export const ScheduledPaymentBottomSheet = ({
           저장
         </Button>
       </SC.Content>
-    </BotttomSheet>
+    </BottomSheet>
   );
 };
 
