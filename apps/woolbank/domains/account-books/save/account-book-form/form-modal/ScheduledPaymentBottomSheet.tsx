@@ -29,41 +29,45 @@ const VALUE_INFO_MAPPER: Record<
     placeholder: '매 월 지출되는 일자를 입력해주세요.',
   },
   installment: {
-    label: '할부 개월 수',
-    placeholder: '할부 개월 수를 입력해주세요.',
+    label: '매월 할부 지출일',
+    placeholder: '매 월 지출되는 할부 일자를 입력해주세요.',
   },
 };
 interface Props {
   is_open?: boolean;
-  scheduled_payments_value?: number;
-  scheduled_payments_type?: ScheduledPaymentType;
+  scheduledPaymentDay?: number;
+  scheduledPaymentType?: ScheduledPaymentType;
+  installmentMonth?: number;
   setSaveScheduledPayments?: (props: {
-    scheduled_payments_value: number;
-    scheduled_payments_type: ScheduledPaymentType;
+    scheduledPaymentDay: number;
+    scheduledPaymentType: ScheduledPaymentType;
+    installmentMonth?: number;
   }) => void;
   onCloseModal?: () => void;
 }
 export const ScheduledPaymentBottomSheet = ({
   is_open,
-  scheduled_payments_value,
-  scheduled_payments_type,
+  scheduledPaymentDay,
+  scheduledPaymentType,
+  installmentMonth,
   setSaveScheduledPayments,
   onCloseModal,
 }: Props) => {
   const [scheduled_payments_type_state, setScheduledPaymentsTypeState] = useState<ScheduledPaymentType>('repeat');
   const [schedule_payment_value_state, setSchedulePaymentValue] = useState<'' | number>('');
+  const [installmentMonthState, setInstallmentMonthState] = useState<'' | number>('');
 
   useEffect(() => {
-    if (scheduled_payments_value) {
-      setSchedulePaymentValue(scheduled_payments_value);
+    if (scheduledPaymentDay) {
+      setSchedulePaymentValue(scheduledPaymentDay);
     }
-  }, [scheduled_payments_value, setScheduledPaymentsTypeState]);
+  }, [scheduledPaymentDay, setScheduledPaymentsTypeState]);
 
   useEffect(() => {
-    if (scheduled_payments_type) {
-      setScheduledPaymentsTypeState(scheduled_payments_type);
+    if (scheduledPaymentType) {
+      setScheduledPaymentsTypeState(scheduledPaymentType);
     }
-  }, [scheduled_payments_type, setSchedulePaymentValue]);
+  }, [scheduledPaymentType, setSchedulePaymentValue]);
 
   const handleSchedulePaymentValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     const isNumber = !isNaN(Number(e.target.value));
@@ -73,11 +77,20 @@ export const ScheduledPaymentBottomSheet = ({
     }
   };
 
+  const handleInstallmentMonthChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const isNumber = !isNaN(Number(e.target.value));
+
+    if (isNumber) {
+      setInstallmentMonthState(Number(e.target.value));
+    }
+  };
+
   const handleSaveClick = () => {
     if (schedule_payment_value_state && is_enable_form_status) {
       setSaveScheduledPayments?.({
-        scheduled_payments_value: schedule_payment_value_state,
-        scheduled_payments_type: scheduled_payments_type_state,
+        scheduledPaymentDay: schedule_payment_value_state,
+        scheduledPaymentType: scheduled_payments_type_state,
+        installmentMonth: Number(installmentMonthState),
       });
     }
   };
@@ -86,7 +99,10 @@ export const ScheduledPaymentBottomSheet = ({
   const is_valid_installment =
     scheduled_payments_type_state === 'installment' &&
     !!schedule_payment_value_state &&
-    schedule_payment_value_state > 0;
+    schedule_payment_value_state > 0 &&
+    !!installmentMonthState &&
+    installmentMonthState > 0 &&
+    installmentMonthState <= 31;
   const is_valid_repeat =
     scheduled_payments_type_state === 'repeat' &&
     !!schedule_payment_value_state &&
@@ -103,6 +119,7 @@ export const ScheduledPaymentBottomSheet = ({
           value={scheduled_payments_type_state}
           onChangeTab={(tab) => {
             setSchedulePaymentValue('');
+            setInstallmentMonthState('');
             setScheduledPaymentsTypeState(tab.type as ScheduledPaymentType);
           }}
         />
@@ -115,6 +132,16 @@ export const ScheduledPaymentBottomSheet = ({
             isShowCloseBtn={false}
             label={label}
           />
+          {scheduled_payments_type_state === 'installment' && (
+            <BaseInput
+              type='number'
+              onChange={handleInstallmentMonthChange}
+              value={installmentMonthState}
+              placeholder='할부 개월 수를 입력해주세요.'
+              isShowCloseBtn={false}
+              label='할부 개월 수'
+            />
+          )}
         </div>
         <Button disabled={!is_enable_form_status} fill onClick={handleSaveClick}>
           저장
@@ -136,6 +163,9 @@ const SC = {
     .input-group {
       width: 100%;
       margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
     }
   `,
 };

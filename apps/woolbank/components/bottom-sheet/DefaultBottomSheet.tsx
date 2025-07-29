@@ -18,7 +18,7 @@ interface Props extends PropsWithChildren {
 export const DefaultBottomSheet = ({
   visible = false,
   title,
-  contentHeight = 270,
+  contentHeight,
   showCloseBtn = true,
   children,
   oncloseModal,
@@ -49,7 +49,7 @@ export const DefaultBottomSheet = ({
                 )}
               </SC.Header>
             )}
-            <SC.Content $maxHeight={contentHeight / 10}>{children}</SC.Content>
+            <SC.Content $maxHeight={contentHeight}>{children}</SC.Content>
           </SC.BottomModal>
         )}
       </AnimatePresence>
@@ -66,13 +66,13 @@ const SC = {
 
     p {
       font-weight: 500;
-
       color: ${({ theme }) => theme.colors.gray800};
     }
   `,
-  Content: styled.div<{ $maxHeight: number }>`
+  Content: styled.div<{ $maxHeight?: number }>`
     margin-bottom: 2.5rem;
     max-height: ${({ $maxHeight }) => $maxHeight}rem;
+    ${({ $maxHeight }) => $maxHeight && `max-height: ${$maxHeight / 10}rem;`}
     overflow-y: scroll;
   `,
   BottomModal: styled.div`

@@ -4,9 +4,9 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useToast } from '../../../../../hooks/useToast';
 import { deleteData, getData, postData, putData } from '../../../../../utils/api';
-import { selectedAccountBookDateAtom } from '../../../main/account-list/_common/stores/accountbookDate';
 import { useAccountBookList } from '../../../main/_common/hooks/useAccountBookList';
-import { AccountBookSaveForm } from '../../account-book-form/_common/hooks/useAccountBookForm';
+import { selectedAccountBookDateAtom } from '../../../main/account-list/_common/stores/accountbookDate';
+import { AccountBookSaveForm, ScheduledPaymentType } from '../../account-book-form/_common/hooks/useAccountBookForm';
 import { AccountBookCategoryType } from './useAccountBookCategories';
 
 export interface AccountBookDetail {
@@ -28,6 +28,9 @@ export interface AccountBookDetail {
   amount: number;
   memo?: string;
   registerDateTime: Date;
+  scheduledPaymentType?: ScheduledPaymentType;
+  scheduledPaymentDay?: number;
+  installmentMonth?: number;
 }
 
 export const ACCOUNT_BOOK_QUERY_KEY = 'getAccountBook';
@@ -44,8 +47,17 @@ export const deleteAccountBook = async (accountBookId: string) => {
  * 가계부 삭제
  * */
 export const addAccountBook = async (accountBookForm: AccountBookSaveForm) => {
-  const { title, type, amount, memo, category, isDisabledBudget, scheduled_payments_type, scheduled_payments_value } =
-    accountBookForm;
+  const {
+    title,
+    type,
+    amount,
+    memo,
+    category,
+    isDisabledBudget,
+    scheduledPaymentType,
+    scheduledPaymentDay,
+    installmentMonth,
+  } = accountBookForm;
   const requestParam = {
     title,
     registerDateTime: accountBookForm.registerDateTime.toDate(),
@@ -53,8 +65,9 @@ export const addAccountBook = async (accountBookForm: AccountBookSaveForm) => {
     amount,
     memo,
     isDisabledBudget,
-    scheduledPaymentsType: scheduled_payments_type,
-    scheduledPaymentsValue: scheduled_payments_value,
+    scheduledPaymentType,
+    scheduledPaymentDay,
+    installmentMonth,
     categoryId: category.id,
   };
   const { data } = await postData<AccountBookDetail>('account-books', requestParam);
@@ -111,6 +124,7 @@ export const useAccountBookDetail = (id: string | null) => {
   const upsertAccountBook = (accountBookForm: AccountBookSaveForm) => {
     const isSaveAction = typeof accountBookForm.id !== 'number';
     console.log('upsertAccountBook', accountBookForm);
+    return;
     if (isSaveAction) {
       addMutation.mutate(accountBookForm, {
         onSuccess: (accountBook: AccountBookDetail) => {

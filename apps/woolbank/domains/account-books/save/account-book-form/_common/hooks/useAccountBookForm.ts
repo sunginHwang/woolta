@@ -12,11 +12,9 @@ export interface AccountBookSaveForm {
   memo: string;
   registerDateTime: Dayjs;
   isDisabledBudget?: boolean;
-  scheduled_payments_type?: ScheduledPaymentType;
-  /**
-   * 할부인 경우 개월 수, 반복일 경우 월 별 일자
-   */
-  scheduled_payments_value?: number;
+  scheduledPaymentType?: ScheduledPaymentType;
+  scheduledPaymentDay?: number;
+  installmentMonth?: number;
   category: AccountBookCategory;
   type: AccountBookCategoryType;
 }
@@ -35,8 +33,9 @@ const INIT_FORM_DATA: AccountBookSaveForm = {
     updatedAt: new Date(),
   },
   registerDateTime: dayjs(),
-  scheduled_payments_type: undefined,
-  scheduled_payments_value: undefined,
+  scheduledPaymentType: undefined,
+  scheduledPaymentDay: undefined,
+  installmentMonth: undefined,
   isDisabledBudget: false,
   type: 'expenditure',
   memo: '',
@@ -91,16 +90,19 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
   };
 
   const setScheduledPayment = ({
-    scheduled_payments_type,
-    scheduled_payments_value,
+    scheduledPaymentType,
+    scheduledPaymentDay,
+    installmentMonth,
   }: {
-    scheduled_payments_type: ScheduledPaymentType;
-    scheduled_payments_value: number;
+    scheduledPaymentType: ScheduledPaymentType;
+    scheduledPaymentDay: number;
+    installmentMonth?: number;
   }) => {
     setInputs((prev) => ({
       ...prev,
-      scheduled_payments_type,
-      scheduled_payments_value,
+      scheduledPaymentType,
+      scheduledPaymentDay,
+      installmentMonth,
     }));
   };
 

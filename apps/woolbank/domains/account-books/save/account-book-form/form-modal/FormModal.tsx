@@ -12,9 +12,10 @@ interface Props {
   onChangeAmount: (amount: number) => void;
   onChangeCategory: (category: AccountBookCategory) => void;
   onChangeDateTime: (date: Dayjs) => void;
-  onChangeScheduledPayment: (scheduled_payment: {
-    scheduled_payments_type: ScheduledPaymentType;
-    scheduled_payments_value: number;
+  onChangeScheduledPayment: (scheduledPayment: {
+    scheduledPaymentType: ScheduledPaymentType;
+    scheduledPaymentDay: number;
+    installmentMonth?: number;
   }) => void;
 }
 
@@ -46,11 +47,12 @@ export const FormModal = ({
     onCloseModal();
   };
 
-  const handleSaveScheduledPaymentClick = (scheduled_payment: {
-    scheduled_payments_type: ScheduledPaymentType;
-    scheduled_payments_value: number;
+  const handleSaveScheduledPaymentClick = (scheduledPayment: {
+    scheduledPaymentType: ScheduledPaymentType;
+    scheduledPaymentDay: number;
+    installmentMonth?: number;
   }) => {
-    onChangeScheduledPayment(scheduled_payment);
+    onChangeScheduledPayment(scheduledPayment);
     onCloseModal();
   };
 
@@ -79,8 +81,9 @@ export const FormModal = ({
       />
       <ScheduledPaymentBottomSheet
         is_open={openModalName === 'scheduled'}
-        scheduled_payments_type={formData.scheduled_payments_type}
-        scheduled_payments_value={formData.scheduled_payments_value}
+        scheduledPaymentType={formData.scheduledPaymentType}
+        scheduledPaymentDay={formData.scheduledPaymentDay}
+        installmentMonth={formData.installmentMonth}
         setSaveScheduledPayments={handleSaveScheduledPaymentClick}
         onCloseModal={onCloseModal}
       />

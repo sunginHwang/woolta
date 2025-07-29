@@ -55,16 +55,16 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
   const { openConfirm } = useConfirm();
   const { onToast } = useToast();
   const { isShareUser } = useUserInfo();
-  const { is_insert_mode } = useAccountBookSaveRouterProps();
+  const { is_insert_mode: isInsertMode } = useAccountBookSaveRouterProps();
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (is_insert_mode) {
+    if (isInsertMode) {
       setModalName('amount');
     }
-  }, [is_insert_mode]);
-
+  }, [isInsertMode]);
+  isInsertMode;
   const handleClearClick = (e: MouseEvent<HTMLLIElement>) => {
     const type = e.currentTarget.dataset.type || '';
     onClear(type as keyof AccountBookSaveForm);
@@ -90,7 +90,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
 
   const handleAmountClick = (amount: number) => {
     setAmount(amount);
-    if (is_insert_mode && formData.title === '') {
+    if (isInsertMode && formData.title === '') {
       title_ref.current?.focus();
     }
   };
@@ -98,7 +98,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
   // AOS에서는 이 이벤트 가 동작하지 않는다 (IOS키보드 오픈)
   const handleTitleKeyDownEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
     const isKeyboardEnter = e.key === 'Enter';
-    const isAvailOpenModal = is_insert_mode && formData.category.name === '';
+    const isAvailOpenModal = isInsertMode && formData.category.name === '';
 
     if (isKeyboardEnter && isAvailOpenModal) {
       title_ref.current?.blur();
@@ -120,7 +120,6 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
   };
 
   const openFormBottomSheet = (type: 'registerDateTime' | 'amount' | 'category' | 'scheduled') => () => {
-    console.log('openFormBottomSheet', type);
     setModalName(type);
   };
 
@@ -178,19 +177,21 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
           </FormField>
           <FormField
             title={
-              formData.scheduled_payments_type
-                ? SCHEDULED_PAYMENT_LABEL_MAPPER[formData.scheduled_payments_type]
+              formData.scheduledPaymentType
+                ? SCHEDULED_PAYMENT_LABEL_MAPPER[formData.scheduledPaymentType]
                 : '반복/할부'
             }
-            onClick={openFormBottomSheet('scheduled')}
+            onClick={isInsertMode ? openFormBottomSheet('scheduled') : undefined}
           >
             <div className='content-wrapper'>
-              {formData.scheduled_payments_value && (
+              {formData.scheduledPaymentDay && (
                 <Text variant='body3' color='red500'>
-                  {formData.scheduled_payments_value} {formData.scheduled_payments_type === 'repeat' ? '일' : '개월'}
+                  {formData.scheduledPaymentType === 'repeat' && `${formData.scheduledPaymentDay}일`}
+                  {formData.scheduledPaymentType === 'installment' &&
+                    `매월${formData.installmentMonth}일 (1/${formData.scheduledPaymentDay})`}
                 </Text>
               )}
-              <IconSwap width={16} height={16} fill={colors.gray500} />
+              {isInsertMode && <IconSwap width={16} height={16} fill={colors.gray500} />}
             </div>
           </FormField>
           <FormField title='메모' />
