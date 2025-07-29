@@ -1,8 +1,10 @@
 import { typography } from '@wds';
 import { MouseEvent, FC } from 'react';
 import { styled } from 'styled-components';
+import { vibrate } from '../../../utils/browsers/vibrate';
 import { Button } from '../../atom/Button';
 
+const VIBRATION_PATTERN = 10;
 interface Props {
   visible?: boolean;
   useCompleteBtn?: boolean;
@@ -21,52 +23,72 @@ const AmountForm: FC<Props> = ({
   onRightBottomClick,
   onBackNumberClick,
 }) => {
+  const handleNumberClick = (e: MouseEvent<HTMLTableDataCellElement>) => {
+    vibrate(VIBRATION_PATTERN);
+    onNumberClick(e);
+  };
+
+  const handleBackNumberClick = () => {
+    vibrate(VIBRATION_PATTERN);
+    onBackNumberClick();
+  };
+
+  const handleRightBottomClick = (e: MouseEvent<HTMLTableDataCellElement>) => {
+    vibrate(VIBRATION_PATTERN);
+    onRightBottomClick();
+  };
+
   return (
     <SC.Input>
       <SC.InputTable>
         <tbody>
           <tr>
-            <SC.InputTd data-cy='number_1' data-number={1} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_1' data-number={1} onClick={handleNumberClick}>
               1
             </SC.InputTd>
-            <SC.InputTd data-cy='number_2' data-number={2} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_2' data-number={2} onClick={handleNumberClick}>
               2
             </SC.InputTd>
-            <SC.InputTd data-cy='number_3' data-number={3} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_3' data-number={3} onClick={handleNumberClick}>
               3
             </SC.InputTd>
           </tr>
           <tr>
-            <SC.InputTd data-cy='number_4' data-number={4} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_4' data-number={4} onClick={handleNumberClick}>
               4
             </SC.InputTd>
-            <SC.InputTd data-cy='number_5' data-number={5} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_5' data-number={5} onClick={handleNumberClick}>
               5
             </SC.InputTd>
-            <SC.InputTd data-cy='number_6' data-number={6} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_6' data-number={6} onClick={handleNumberClick}>
               6
             </SC.InputTd>
           </tr>
           <tr>
-            <SC.InputTd data-cy='number_7' data-number={7} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_7' data-number={7} onClick={handleNumberClick}>
               7
             </SC.InputTd>
-            <SC.InputTd data-cy='number_8' data-number={8} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_8' data-number={8} onClick={handleNumberClick}>
               8
             </SC.InputTd>
-            <SC.InputTd data-cy='number_9' data-number={9} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_9' data-number={9} onClick={handleNumberClick}>
               9
             </SC.InputTd>
           </tr>
           <tr>
-            <SC.InputTd data-cy='numberBack' $isHide={isZeroAmount} onClick={onBackNumberClick}>
+            <SC.InputTd data-cy='numberBack' $isHide={isZeroAmount} onClick={handleBackNumberClick}>
               {!isZeroAmount && '←'}
             </SC.InputTd>
-            <SC.InputTd data-cy='number_0' data-number={0} onClick={onNumberClick}>
+            <SC.InputTd data-cy='number_0' data-number={0} onClick={handleNumberClick}>
               0
             </SC.InputTd>
             {useCompleteBtn && (
-              <SC.InputTd data-cy='numberComplete' $isHide={isZeroAmount} $isSmall={true} onClick={onRightBottomClick}>
+              <SC.InputTd
+                data-cy='numberComplete'
+                $isHide={isZeroAmount}
+                $isSmall={true}
+                onClick={handleRightBottomClick}
+              >
                 {!isZeroAmount && (
                   <SC.SaveButton>
                     <Button fill>확인</Button>
@@ -75,7 +97,7 @@ const AmountForm: FC<Props> = ({
               </SC.InputTd>
             )}
             {!useCompleteBtn && (
-              <SC.InputTd data-cy='numberX' $isHide={isZeroAmount} onClick={onRightBottomClick}>
+              <SC.InputTd data-cy='numberX' $isHide={isZeroAmount} onClick={handleRightBottomClick}>
                 {!isZeroAmount && 'x'}
               </SC.InputTd>
             )}

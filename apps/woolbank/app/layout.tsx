@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <meta name='apple-mobile-web-app-status-bar-style' content='white' />
         <meta
           name='viewport'
-          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, orientation=portrait"'
+          content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, orientation=portrait"'
         />
         <meta name='google-site-verification' content='mHu43Zp59l_qzcOGtYILaM-tIH-mPKepPuYxRwbIqbs' />
         <link

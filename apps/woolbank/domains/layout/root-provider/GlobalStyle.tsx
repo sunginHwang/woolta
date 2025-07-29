@@ -96,6 +96,8 @@ export const GlobalStyle = createGlobalStyle`
   html,
   body {
     height: 100%;
+    // 더블탭 확대 방지
+    touch-action: manipulation;
   }
 
   body {
