@@ -3,15 +3,34 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Fragment, memo, useMemo } from 'react';
 import { styled } from 'styled-components';
 
+// 애니메이션 상수 (컴포넌트 외부에 정의하여 객체 참조 안정화)
+const ANIMATION_INITIAL_WITH_MOTION = { y: -30, opacity: 0 } as const;
+const ANIMATION_INITIAL_NO_MOTION = { y: 0, opacity: 1 } as const;
+const ANIMATION_ANIMATE = { y: 0, opacity: 1 } as const;
+const ANIMATION_EXIT = { y: -30, x: -10, opacity: 0, width: 0 } as const;
+
+const DOT_ANIMATION = {
+  initial: { width: 0, x: -3 },
+  animate: { width: 'auto', x: 0 },
+} as const;
+
+const TRANSITION_CONFIG = {
+  duration: 0.15,
+  ease: 'linear',
+} as const;
+
+const INLINE_BLOCK_STYLE = { display: 'inline-block' } as const;
+
 interface Props {
   amount: number;
   placeholder?: string;
 }
+
 export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
   const previousAmount = usePreviousValue(amount);
 
   const amountDigitList = useMemo(() => String(amount).split(''), [amount]);
-  const previousAmountDigitList = String(previousAmount).split('');
+  const previousAmountDigitList = useMemo(() => String(previousAmount).split(''), [previousAmount]);
 
   if (amount === 0) {
     return <SC.PlaceHolder>{placeholder}</SC.PlaceHolder>;
@@ -37,7 +56,7 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
           return (
             <Fragment key={`animated-${index}`}>
               <AnimatedNumber digit={digit} use_animation={useAnimation} index={index} />
-              {shouldHaveComma && <AnimatedComma />}
+              {shouldHaveComma && <AnimatedComma index={index} />}
             </Fragment>
           );
         })}
@@ -48,58 +67,44 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
 });
 
 // 숫자 애니메이션 컴포넌트
-const AnimatedNumber = ({ digit, index, use_animation }: { digit: string; index: number; use_animation?: boolean }) => {
-  const initial = use_animation ? { y: -30, opacity: 0 } : { y: 0, opacity: 1 };
-
-  const normalAnimation = {
-    initial,
-    animate: { y: 0, opacity: 1 },
-    exit: { y: -30, x: -10, opacity: 0, width: 0 },
-  };
+const AnimatedNumber = memo(({ digit, index, use_animation }: { digit: string; index: number; use_animation?: boolean }) => {
+  const normalAnimation = useMemo(
+    () => ({
+      initial: use_animation ? ANIMATION_INITIAL_WITH_MOTION : ANIMATION_INITIAL_NO_MOTION,
+      animate: ANIMATION_ANIMATE,
+      exit: ANIMATION_EXIT,
+    }),
+    [use_animation],
+  );
 
   return (
     <motion.span
       key={`${digit}-${index}`}
       {...normalAnimation}
-      transition={{
-        duration: 0.15,
-        ease: 'linear',
-      }}
-      style={{ display: 'inline-block' }}
+      transition={TRANSITION_CONFIG}
+      style={INLINE_BLOCK_STYLE}
     >
       {digit}
     </motion.span>
   );
-};
+});
 
-// 숫자 애니메이션 컴포넌트
-const AnimatedComma = () => {
-  const dotAnimation = {
-    initial: { width: 0, x: -3 },
-    animate: { width: 'auto', x: 0 },
-  };
-
+// 쉼표 애니메이션 컴포넌트
+const AnimatedComma = memo(({ index }: { index: number }) => {
   return (
     <motion.span
-      key='index'
-      {...dotAnimation}
-      transition={{
-        duration: 0.15,
-        ease: 'linear',
-      }}
-      style={{ display: 'inline-block' }}
+      key={`comma-${index}`}
+      {...DOT_ANIMATION}
+      transition={TRANSITION_CONFIG}
+      style={INLINE_BLOCK_STYLE}
     >
       ,
     </motion.span>
   );
-};
+});
 
 const SC = {
   PlaceHolder: styled.span`
     opacity: 0.2;
   `,
 };
-
-function getRandomDigit(num: string, index: number) {
-  return `${num}-${index}`;
-}
