@@ -2,22 +2,22 @@ import { delay } from '@common';
 import { colors, Text } from '@wds';
 import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
+import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import { IconCalendar } from '../../../../components/atom/Icon/Calendar';
 import { IconChevronRight } from '../../../../components/atom/Icon/ChevronRight';
 import { IconSwap } from '../../../../components/atom/Icon/Swap';
+import { useConfirm } from '../../../../components/confirm/ConfirmContext';
 import { ToggleTab } from '../../../../components/toggle-tab/ToggleTab';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
-import { Button } from '../../../../components/atom/Button';
-import { useConfirm } from '../../../../components/confirm/ConfirmContext';
 import { useAccountBookSaveRouterProps } from '../_common/hooks/useAccountBookSaveRouterProps';
+import { AccountBookSaveForm, ScheduledPaymentType, useAccountBookForm } from './_common/hooks/useAccountBookForm';
 import { FormField } from './form-field/FormField';
 import { FormInput } from './form-field/FormInput';
 import { Switch } from './form-field/Switch';
 import { FormModal } from './form-modal/FormModal';
-import { AccountBookSaveForm, ScheduledPaymentType, useAccountBookForm } from './_common/hooks/useAccountBookForm';
 
 const TAB_LIST = [
   {
@@ -64,7 +64,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
       setModalName('amount');
     }
   }, [isInsertMode]);
-  isInsertMode;
+
   const handleClearClick = (e: MouseEvent<HTMLLIElement>) => {
     const type = e.currentTarget.dataset.type || '';
     onClear(type as keyof AccountBookSaveForm);
