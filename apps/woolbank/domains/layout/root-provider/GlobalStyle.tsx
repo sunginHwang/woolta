@@ -103,8 +103,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-size: 1.6rem;
     line-height: 1.5;
-    display: flex;
-    flex-direction: column;
+    background-color: ${({ theme }) => theme.colors.white};
   }
 
   ol,

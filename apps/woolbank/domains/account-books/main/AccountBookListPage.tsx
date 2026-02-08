@@ -30,7 +30,7 @@ export default AccountBookListPage;
 
 const SC = {
   Main: styled.main`
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.white};
   `,
   Line: styled.div`
     /* background-color: ${({ theme }) => theme.colors.gray100}; */

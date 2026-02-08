@@ -35,21 +35,27 @@ export const Layout = ({ children }: Props) => {
 
   const useNavBar = NAVIGATION_PATH_LIST.find((path) => pathname === path);
   return (
-    <SC.Container>
-      {children}
-      {useNavBar && <NavigationBar />}
-      {isMounted && (
-        <>
-          <FullScreenLoading loading={isLoading} message={message} />
-          <Alert />
-          <Toast />
-        </>
-      )}
-    </SC.Container>
+    <SC.Body>
+      <SC.Container>
+        {children}
+        {useNavBar && <NavigationBar />}
+        {isMounted && (
+          <>
+            <FullScreenLoading loading={isLoading} message={message} />
+            <Alert />
+            <Toast />
+          </>
+        )}
+      </SC.Container>
+    </SC.Body>
   );
 };
 
 const SC = {
+  Body: styled.div`
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.white};
+  `,
   Container: styled.div`
     width: 100%;
     min-width: 320px;
@@ -61,6 +67,6 @@ const SC = {
     padding-bottom: 0;
     padding-bottom: calc(env(safe-area-inset-bottom) + 0px);
     padding-bottom: calc(constant(safe-area-inset-bottom) + 0px);
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.white};
   `,
 };
