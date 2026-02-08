@@ -41,7 +41,7 @@ const fetchRegularExtentureList = async (config?: AxiosRequestConfig) => {
 export const useRegularExtentureListQuery = () => {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: [REGULAR_EXTENTIRE_LIST_QUERY_KEY],
-    queryFn: fetchRegularExtentureList,
+    queryFn: () => fetchRegularExtentureList(),
   });
 
   const regularExpenditureTypeList = data ?? [];

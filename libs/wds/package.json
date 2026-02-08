@@ -1,0 +1,10 @@
+{
+  "name": "@wds",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\"",
+    "test": "jest --config jest.config.ts --passWithNoTests"
+  }
+}

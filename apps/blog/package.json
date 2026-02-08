@@ -1,0 +1,19 @@
+{
+  "name": "blog",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\"",
+    "test": "jest --config jest.config.ts --passWithNoTests",
+    "storybook": "storybook dev -p 4400 -c .storybook",
+    "build-storybook": "storybook build -o ../../dist/storybook/blog -c .storybook",
+    "test-storybook": "test-storybook -c .storybook --url=http://localhost:4400"
+  },
+  "dependencies": {
+    "@common": "workspace:*",
+    "@wds": "workspace:*"
+  }
+}

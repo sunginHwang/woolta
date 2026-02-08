@@ -1,5 +1,9 @@
-import { getJestProjects } from '@nx/jest';
-
 export default {
-  projects: getJestProjects(),
+  projects: [
+    '<rootDir>/apps/blog',
+    '<rootDir>/apps/woolbank',
+    '<rootDir>/apps/woolta',
+    '<rootDir>/apps/ssr-test',
+    '<rootDir>/libs/wds',
+  ],
 };

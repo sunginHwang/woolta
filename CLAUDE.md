@@ -4,7 +4,7 @@
 
 ## 프로젝트 개요
 
-Woolta 서비스들을 관리하는 Nx 기반 모노레포입니다.
+Woolta 서비스들을 관리하는 Turborepo 기반 모노레포입니다.
 
 - **blog**: 기술 블로그 (https://blog.woolta.com/)
 - **woolbank**: 가계부/자산 관리 서비스 (https://bank.woolta.com/)
@@ -18,33 +18,36 @@ Woolta 서비스들을 관리하는 Nx 기반 모노레포입니다.
 - Styled Components 6.1.8
 - Jotai (상태 관리)
 - TanStack React Query (데이터 페칭)
-- Nx 18.2.4 (모노레포)
-- Yarn Berry 4.2.2
+- Turborepo (모노레포)
+- pnpm 9.15.4
 
 ## 주요 명령어
 
 ```bash
 # 설치
-yarn install
+pnpm install
 
 # 개발 서버
-nx serve blog
-nx serve woolbank
+pnpm turbo run dev --filter=blog
+pnpm turbo run dev --filter=woolbank
 
 # 빌드
-nx build blog
-nx build woolbank
+pnpm turbo run build --filter=blog
+pnpm turbo run build --filter=woolbank
+
+# 전체 빌드
+pnpm turbo run build
 
 # 테스트
-nx test {app-name}
-nx run-many -t test
+pnpm turbo run test --filter={app-name}
+pnpm turbo run test
 
 # 린트
-nx lint {app-name}
+pnpm turbo run lint --filter={app-name}
 
 # Storybook
-nx storybook blog        # port 4400
-nx storybook woolbank
+pnpm turbo run storybook --filter=blog        # port 4400
+pnpm turbo run storybook --filter=woolbank
 ```
 
 ## 프로젝트 구조
@@ -95,16 +98,16 @@ domains/{feature}/
 
 | 파일 | 설명 |
 |-----|-----|
-| `nx.json` | Nx 설정, 캐시 가능 작업 정의 |
+| `turbo.json` | Turborepo 설정, 태스크 파이프라인 정의 |
 | `tsconfig.base.json` | 기본 TypeScript 설정, path aliases |
 | `.eslintrc.json` | ESLint 규칙 |
 | `.prettierrc` | Prettier 설정 |
-| `apps/*/project.json` | 각 앱의 Nx 설정 |
+| `apps/*/package.json` | 각 앱의 스크립트 및 의존성 |
 
 ## 개발 시 주의사항
 
 1. **Node.js 18.0.0 이상 필수**
-2. **Yarn Berry 사용** (1.x 불가)
+2. **pnpm 사용**
 3. **woolbank 로컬 개발 시 HTTPS 필요** - `local-ssl-proxy` 사용
 4. **blog/woolbank에서 SVGR 설정이 다름**
    - blog: SVGR 미사용
