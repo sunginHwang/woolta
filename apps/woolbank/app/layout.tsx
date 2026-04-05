@@ -48,8 +48,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <RootProvider>{children}</RootProvider>
-        <div id='modalDeem' />
+        <RootProvider>
+          {children}
+          <div id='modalDeem' />
+        </RootProvider>
       </body>
     </html>
   );
