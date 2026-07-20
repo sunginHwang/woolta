@@ -13,7 +13,7 @@
     "test-storybook": "test-storybook -c .storybook --url=http://localhost:4400"
   },
   "dependencies": {
-    "@common": "workspace:*",
-    "@wds": "workspace:*"
+    "@woolta/common": "workspace:*",
+    "@woolta/wds": "workspace:*"
   }
 }

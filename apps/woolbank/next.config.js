@@ -2,7 +2,10 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@common', '@wds'],
+  transpilePackages: ['@woolta/common', '@woolta/wds'],
+  experimental: {
+    optimizePackageImports: ['@nivo/pie', 'lodash-es', '@woolta/wds'],
+  },
   compiler: {
     styledComponents: true,
   },

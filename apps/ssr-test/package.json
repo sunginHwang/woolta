@@ -10,7 +10,7 @@
     "test": "jest --config jest.config.ts --passWithNoTests"
   },
   "dependencies": {
-    "@common": "workspace:*",
-    "@wds": "workspace:*"
+    "@woolta/common": "workspace:*",
+    "@woolta/wds": "workspace:*"
   }
 }

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { BaseInput } from '../../../../../../components/base-input/BaseInput';
 import getCategoryMsg, { AccountBookCategoryType } from '../../../../../../utils/account-books';
 import { BottomFloatingButton } from '../../../../../../components/bottom-floating-button/BottomFloatingButton';
-import { Header } from '../../../../../../components/header/Header';
+import { Header } from '../../../../../../components/Header/Header';
 import { ToggleTab, ToggleTabItem } from '../../../../../../components/toggle-tab/ToggleTab';
 import { useToast } from '../../../../../../hooks/useToast';
 import { SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';

@@ -2,7 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@common', '@wds'],
+  transpilePackages: ['@woolta/common', '@woolta/wds'],
 };
 
 module.exports = nextConfig;

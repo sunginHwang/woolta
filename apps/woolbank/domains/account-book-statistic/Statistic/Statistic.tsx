@@ -4,11 +4,13 @@ import { withSuspense } from '@common';
 import dynamic from 'next/dynamic';
 import { FullScreenLoading } from '../../../components/full-screen-loading/FullScreenLoading';
 import { FilterInfo } from './filter-info/FilterInfo';
-import { LineChart } from './line-chart/LineChart';
 import { StatisticChartSkeleton } from './statistic-chart/StatisticChartSkeleton';
 const StatisticChart = dynamic(() => import('./statistic-chart/StatisticChart'), {
   ssr: false,
   loading: () => <StatisticChartSkeleton />,
+});
+const LineChart = dynamic(() => import('./line-chart/LineChart').then((m) => ({ default: m.LineChart })), {
+  ssr: false,
 });
 
 /**

@@ -7,7 +7,7 @@ import styled, { useTheme } from 'styled-components';
 import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import { IconDownHorizontal } from '../../../../components/atom/Icon';
 
-import { Header } from '../../../../components/header/Header';
+import { Header } from '../../../../components/Header/Header';
 import { Progress } from '../../../../components/progress/Progress';
 import { getRemainDatePercentage, getRemainDays } from '../../../../utils/date';
 import { useBucket } from '../hooks/useBucket';

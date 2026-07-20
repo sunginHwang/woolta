@@ -1,4 +1,4 @@
-import 'chart.js/auto';
+import { CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
 import { Text, gray200 } from '@wds';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
@@ -9,6 +9,8 @@ import { DateRange } from '../../../../utils/date';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 import { AccountBookStatisticFilterAtom } from '../_common/stores/statisticFilter';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
 
 const LABEL_LIST = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 

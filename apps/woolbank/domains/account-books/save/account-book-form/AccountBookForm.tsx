@@ -7,7 +7,7 @@ import { IconTrashCan } from '../../../../components/atom/Icon';
 import { IconCalendar } from '../../../../components/atom/Icon/Calendar';
 import { IconChevronRight } from '../../../../components/atom/Icon/ChevronRight';
 import { IconSwap } from '../../../../components/atom/Icon/Swap';
-import { useConfirm } from '../../../../components/confirm/ConfirmContext';
+import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { ToggleTab } from '../../../../components/toggle-tab/ToggleTab';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useToast } from '../../../../hooks/useToast';

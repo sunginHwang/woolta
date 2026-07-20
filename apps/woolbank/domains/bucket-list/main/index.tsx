@@ -2,7 +2,7 @@
 
 import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 import { AddButton } from '../../../components/add-button/AddButton';
-import { Header } from '../../../components/header/Header';
+import { Header } from '../../../components/Header/Header';
 import { ShareUserAuthInfo } from '../common/ShareUserAuthInfo';
 import { BucketListSlideViewer } from './BucketListSlideViewer';
 /**

@@ -98,6 +98,67 @@ nx serve woolta
 nx serve blog --port=3000
 ```
 
+## 로컬 HTTPS 개발 환경 설정 (woolbank)
+
+`woolbank` 앱은 로그인 쿠키 공유를 위해 로컬에서도 `https` 로 실행해야 합니다.
+`https://bank-local.woolta.com:433` (FE) 이 `https://bank-api-local.woolta.com:8000` (API) 를 호출하는 구조입니다.
+
+### 1. vhost 세팅
+
+`/etc/hosts` 에 로컬 도메인을 등록합니다.
+
+```bash
+echo "127.0.0.1 bank-local.woolta.com" | sudo tee -a /etc/hosts
+```
+
+수정 후 DNS 캐시를 갱신합니다. (macOS)
+
+```bash
+sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+```
+
+### 2. 인증서 신뢰 설정 (mkcert)
+
+`cert/` 디렉토리의 인증서는 [mkcert](https://github.com/FiloSottile/mkcert) 로 발급된 로컬 인증서입니다.
+mkcert 의 로컬 CA 는 **머신마다 다르므로**, 각자 로컬에서 CA 를 신뢰 등록해야 브라우저 인증서 경고(`ERR_CERT_AUTHORITY_INVALID`)가 사라집니다.
+
+```bash
+# mkcert 설치 (Homebrew)
+brew install mkcert
+
+# 로컬 CA 를 시스템 신뢰 저장소에 등록 (관리자 암호 필요)
+mkcert -install
+```
+
+> `cert/` 의 인증서가 다른 개발자 머신의 CA 로 서명되어 브라우저가 신뢰하지 못하는 경우, 아래 명령으로 본인 머신 CA 기준으로 재발급합니다.
+>
+> ```bash
+> mkcert -cert-file cert/bank-local.woolta.com+2.pem \
+>   -key-file cert/bank-local.woolta.com+2-key.pem \
+>   bank-local.woolta.com localhost 127.0.0.1
+> ```
+>
+> 재발급한 인증서는 본인 머신 CA 서명이라 공유되지 않으므로 커밋하지 않습니다.
+
+### 3. local-ssl-proxy 적용
+
+FE 로컬 서버(4200)를 ssl 433 포트에 할당합니다. (미설치 시 `npm install -g local-ssl-proxy`)
+
+```bash
+local-ssl-proxy --source 433 --target 4200 \
+  --cert cert/bank-local.woolta.com+2.pem \
+  --key cert/bank-local.woolta.com+2-key.pem
+```
+
+### 4. 앱 실행
+
+```bash
+nx serve woolbank   # next dev -p 4200
+```
+
+이후 `https://bank-local.woolta.com:433` 으로 접속합니다.
+API 주소는 `apps/woolbank/.env.local` 의 `NEXT_PUBLIC_BANK_API` 로 설정되어 있습니다.
+
 ## 빌드
 
 ```bash

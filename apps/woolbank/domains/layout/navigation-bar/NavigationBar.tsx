@@ -60,11 +60,19 @@ const NAVIGATION_LIST: { name?: string; value: string; link?: string; icon: Reac
 export const NavigationBar = () => {
   const pathname = usePathname();
   const [isShowNavigationBar, setIsShowNavigationBar] = useState(true);
+  const [pendingPath, setPendingPath] = useState<string | null>(null);
   const scrollDirection = useScrollDirection();
+
+  // 클릭 즉시 활성 색상을 바꾸기 위한 낙관적 경로. 실제 pathname 커밋을 기다리지 않는다.
+  const activePath = pendingPath ?? pathname;
 
   useEffect(() => {
     setIsShowNavigationBar(scrollDirection === 'down' ? false : true);
   }, [scrollDirection]);
+
+  useEffect(() => {
+    setPendingPath(null); // 실제 pathname이 커밋되면 낙관적 값 해제
+  }, [pathname]);
 
   return (
     <SC.Container
@@ -79,7 +87,7 @@ export const NavigationBar = () => {
     >
       <SC.NavigationBar>
         {NAVIGATION_LIST.map((navigation, index) => {
-          const isActive = navigation.link === pathname;
+          const isActive = navigation.link === activePath;
           const is_menu_icon = !!navigation.name;
 
           return (
@@ -89,7 +97,7 @@ export const NavigationBar = () => {
               className={isActive ? 'active' : ''}
             >
               {is_menu_icon && (
-                <Link href={navigation.link ?? ''} passHref>
+                <Link href={navigation.link ?? ''} passHref onClick={() => setPendingPath(navigation.link ?? null)}>
                   <SC.Link
                     $isActive={isActive}
                     variants={LINK_VARIANT}
