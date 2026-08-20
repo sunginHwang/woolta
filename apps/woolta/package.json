@@ -13,6 +13,8 @@
     "@woolta/blog-features": "workspace:*",
     "@woolta/blog-screens": "workspace:*",
     "@woolta/common": "workspace:*",
+    "@woolta/memo-features": "workspace:*",
+    "@woolta/memo-screens": "workspace:*",
     "@woolta/wds": "workspace:*",
     "@woolta/woolbank-features": "workspace:*",
     "@woolta/woolbank-screens": "workspace:*"

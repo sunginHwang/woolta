@@ -5,5 +5,6 @@ export default {
     '<rootDir>/apps/woolta',
     '<rootDir>/apps/ssr-test',
     '<rootDir>/libs/wds',
+    '<rootDir>/libs/memo/features',
   ],
 };

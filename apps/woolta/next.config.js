@@ -9,6 +9,8 @@ const nextConfig = {
     '@woolta/woolbank-screens',
     '@woolta/blog-features',
     '@woolta/blog-screens',
+    '@woolta/memo-features',
+    '@woolta/memo-screens',
   ],
   images: {
     disableStaticImages: true,

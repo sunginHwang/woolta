@@ -1,5 +1,5 @@
-import MemoSample from '../../components/memo-sample/MemoSample';
+import { MemoApp } from '../../components/memo/MemoApp';
 
 export default function MemoPage() {
-  return <MemoSample />;
+  return <MemoApp />;
 }
