@@ -15,10 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@blog/features": ["libs/blog/features/src/index.ts"],
+      "@blog/screens": ["libs/blog/screens/src/index.ts"],
       "@common": ["libs/common/src/index.ts"],
       "@common/server": ["libs/common/src/server.ts"],
       "@common/test": ["libs/common/test/src/index.ts"],
-      "@wds": ["libs/wds/src/index.ts"]
+      "@wds": ["libs/wds/src/index.ts"],
+      "@woolbank/features": ["libs/woolbank/features/src/index.ts"],
+      "@woolbank/screens": ["libs/woolbank/screens/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

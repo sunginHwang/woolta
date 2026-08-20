@@ -2,7 +2,14 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@woolta/common', '@woolta/wds'],
+  transpilePackages: [
+    '@woolta/common',
+    '@woolta/wds',
+    '@woolta/woolbank-features',
+    '@woolta/woolbank-screens',
+    '@woolta/blog-features',
+    '@woolta/blog-screens',
+  ],
   images: {
     disableStaticImages: true,
     domains: ['lh6.googleusercontent.com'],

@@ -3,14 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4300",
     "build": "next build",
     "start": "next start",
     "lint": "eslint \"**/*.{ts,tsx,js,jsx}\"",
     "test": "jest --config jest.config.ts --passWithNoTests"
   },
   "dependencies": {
+    "@woolta/blog-features": "workspace:*",
+    "@woolta/blog-screens": "workspace:*",
     "@woolta/common": "workspace:*",
-    "@woolta/wds": "workspace:*"
+    "@woolta/wds": "workspace:*",
+    "@woolta/woolbank-features": "workspace:*",
+    "@woolta/woolbank-screens": "workspace:*"
   }
 }
