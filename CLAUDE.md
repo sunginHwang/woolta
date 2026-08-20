@@ -8,7 +8,7 @@ Woolta 서비스들을 관리하는 Turborepo 기반 모노레포입니다.
 
 - **blog**: 기술 블로그 (https://blog.woolta.com/)
 - **woolbank**: 가계부/자산 관리 서비스 (https://bank.woolta.com/)
-- **woolta**: 메인 웹앱 (개발 중)
+- **woolta**: 서비스들을 한눈에 관리하는 대시보드 앱 (개발 중)
 
 ## 기술 스택
 
@@ -122,5 +122,6 @@ domains/{feature}/
 
 | 앱 | 로컬 | 운영 |
 |---|------|-----|
-| blog | localhost:4200 | blog.woolta.com |
-| woolbank | bank-local.woolta.com:443 | bank.woolta.com |
+| blog | localhost:8091 | blog.woolta.com |
+| woolbank | bank-local.woolta.com:443 (dev 포트 4200) | bank.woolta.com |
+| woolta | localhost:4300 | - |
