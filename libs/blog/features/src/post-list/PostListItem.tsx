@@ -1,0 +1,73 @@
+'use client';
+
+import { Text } from '@wds';
+import Link from 'next/link';
+import { FC } from 'react';
+import { styled } from 'styled-components';
+import layouts from '../_shared/layouts';
+import { useBlogRoutes } from '../_shared/routes';
+import { IPost } from '../_shared/types/IPost';
+
+interface Props {
+  post: IPost;
+}
+
+const PostListItem: FC<Props> = ({ post }) => {
+  const { basePath } = useBlogRoutes();
+
+  return (
+    <SC.Container>
+      <Link href={`${basePath}/categories/${post.categoryNo}/posts/${post.postNo}`}>
+        <Text className='title' variant='title3Bold' color='grayPrimary' as='h2' mb={8}>
+          {post.title}
+        </Text>
+        <Text className='content' variant='body3' color='graySecondary' as='p' mb={15}>
+          {post.subDescription}
+        </Text>
+        <SC.SubInfo>
+          <SC.Chip>
+            <Text variant='small3Bold' color='graySecondary' className='label'>
+              {post.categoryLabel}
+            </Text>
+          </SC.Chip>
+          <Text variant='small1Regular' color='grayTertiary' className='meta'>
+            {post.createdAt}
+          </Text>
+        </SC.SubInfo>
+      </Link>
+    </SC.Container>
+  );
+};
+
+export default PostListItem;
+
+const SC = {
+  Container: styled.article`
+    text-align: left;
+    padding: 1.6rem 0;
+    border-bottom: 0.1rem solid rgb(244, 244, 244);
+    cursor: pointer;
+
+    @media screen and (max-width: ${layouts.phoneWidth}) {
+    }
+
+    .content {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+    }
+  `,
+  SubInfo: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `,
+  Chip: styled.div`
+    padding: 3px 8px 4px 8px;
+    background-color: ${({ theme }) => theme.colors.bgSecondary};
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+  `,
+};

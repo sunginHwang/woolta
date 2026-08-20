@@ -1,0 +1,34 @@
+{
+  "name": "@woolta/blog-features",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\""
+  },
+  "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/lang-markdown": "^6.2.2",
+    "@codemirror/language": "^6.9.2",
+    "@codemirror/language-data": "^6.3.1",
+    "@tanstack/react-query": "^5.4.3",
+    "@uiw/react-codemirror": "^4.21.20",
+    "@woolta/common": "workspace:*",
+    "@woolta/wds": "workspace:*",
+    "axios": "^0.21.4",
+    "codemirror": "^6.0.1",
+    "jotai": "^2.5.0",
+    "js-cookie": "^3.0.5",
+    "react-icons": "^4.11.0",
+    "react-markdown": "^9.0.0",
+    "react-spinners": "^0.13.8",
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-raw": "^7.0.0",
+    "styled-components": "^6.1.8"
+  },
+  "peerDependencies": {
+    "next": "14.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}

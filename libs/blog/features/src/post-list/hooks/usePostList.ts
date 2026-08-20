@@ -1,0 +1,32 @@
+'use client';
+
+import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { getData } from '../../_shared/api';
+import { POSTS_QUERY_KEY } from '../../_shared/query-keys';
+import { IPost } from '../../_shared/types/IPost';
+
+export async function fetchPostList(categoryId: string) {
+  const urlPath = categoryId === '-1' ? '/post/categories/new/posts' : `/post/categories/${categoryId}/posts`;
+  const { data } = await getData<IPost[]>(urlPath);
+  return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
+export const usePostList = (categoryId: string) => {
+  const { data, ...rest } = useSuspenseQuery({
+    queryKey: [POSTS_QUERY_KEY, categoryId],
+    queryFn: () => fetchPostList(categoryId),
+  });
+  const post_list: IPost[] = data ?? [];
+
+  return {
+    post_list,
+    ...rest,
+  };
+};
+
+export function prefetchPostList(client: QueryClient, categoryId: string) {
+  return client.prefetchQuery({
+    queryKey: [POSTS_QUERY_KEY, categoryId],
+    queryFn: () => fetchPostList(categoryId),
+  });
+}

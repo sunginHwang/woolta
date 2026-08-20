@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "../../../.eslintrc.json"
+  ],
+  "ignorePatterns": [
+    "!**/*",
+    "node_modules/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
+      "rules": {}
+    }
+  ],
+  "plugins": [
+    "react-hooks",
+    "import"
+  ]
+}
