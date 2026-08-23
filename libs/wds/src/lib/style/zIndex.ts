@@ -6,5 +6,5 @@ export const zIndex = {
   layer: 450,
   modalDeem: 500,
   fullDeem: 510,
-  notification: 600
+  notification: 600,
 };

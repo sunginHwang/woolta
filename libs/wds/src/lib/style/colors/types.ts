@@ -12,6 +12,8 @@ export type SemanticColorTokens = {
   bgPage: string;
   bgSurface: string;
   bgSurfaceSecondary: string;
+  /** 페이지 위에 떠 있는 표면(오버레이 입력창·시트) 배경 */
+  bgElevated: string;
   bgOverlay: string;
   bgInverse: string;
 

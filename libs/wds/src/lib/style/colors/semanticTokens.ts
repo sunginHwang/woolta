@@ -15,6 +15,7 @@ export const lightSemanticTokens: SemanticColorTokens = {
   bgPage: palette.gray[50],
   bgSurface: palette.white,
   bgSurfaceSecondary: palette.gray[100],
+  bgElevated: palette.gray[100],
   bgOverlay: palette.white,
   bgInverse: palette.gray[900],
 
@@ -55,6 +56,7 @@ export const darkSemanticTokens: SemanticColorTokens = {
   bgPage: '#121212',
   bgSurface: '#1E1E1E',
   bgSurfaceSecondary: '#2A2A2A',
+  bgElevated: '#333333',
   bgOverlay: '#1E1E1E',
   bgInverse: '#F5F5F5',
 

@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components';
+import { darkShadows, lightShadows, type ShadowTokens } from '../shadows';
 import { zIndex } from '../zIndex';
 import { palette } from './palette';
 import { lightSemanticTokens, darkSemanticTokens } from './semanticTokens';
@@ -157,10 +158,12 @@ const darkLegacyColors: Record<string, string> = {
 export const theme: Record<ThemeType, DefaultTheme> = {
   light: {
     zIndex,
+    shadows: lightShadows,
     colors: { ...lightLegacyColors, ...lightSemanticTokens } as Record<ColorType, string>,
   },
   dark: {
     zIndex,
+    shadows: darkShadows,
     colors: { ...darkLegacyColors, ...darkSemanticTokens } as Record<ColorType, string>,
   },
 };
@@ -169,5 +172,6 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     colors: Record<ColorType, string>;
     zIndex: typeof zIndex;
+    shadows: ShadowTokens;
   }
 }
