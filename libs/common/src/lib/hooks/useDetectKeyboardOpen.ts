@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useMount } from './useMount';
 
 export const useDetectKeyboardOpen = (minKeyboardHeight: number = 300, defaultValue: boolean = false) => {
@@ -7,7 +7,7 @@ export const useDetectKeyboardOpen = (minKeyboardHeight: number = 300, defaultVa
   useMount(() => {
     const listener = () => {
       if (typeof window.visualViewport !== 'undefined' && window.visualViewport) {
-        const newState = window.screen.height - minKeyboardHeight > window.visualViewport.height
+        const newState = window.screen.height - minKeyboardHeight > window.visualViewport.height;
         if (isKeyboardOpen !== newState) {
           setIsKeyboardOpen(newState);
         }
@@ -27,4 +27,3 @@ export const useDetectKeyboardOpen = (minKeyboardHeight: number = 300, defaultVa
 
   return isKeyboardOpen;
 };
-

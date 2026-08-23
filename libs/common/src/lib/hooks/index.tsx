@@ -10,6 +10,7 @@ export * from './useIsMounted';
 export * from './useWindowDemensions';
 export * from './useToggle';
 export * from './useEventListener';
+export * from './useManualSave';
 export * from './useLongPress';
 export * from './usePreventScroll';
 export * from './useInterval';
