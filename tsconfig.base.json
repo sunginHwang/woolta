@@ -20,6 +20,8 @@
       "@common": ["libs/common/src/index.ts"],
       "@memo/features": ["libs/memo/features/src/index.ts"],
       "@memo/screens": ["libs/memo/screens/src/index.ts"],
+      "@todo/features": ["libs/todo/features/src/index.ts"],
+      "@todo/screens": ["libs/todo/screens/src/index.ts"],
       "@common/server": ["libs/common/src/server.ts"],
       "@common/test": ["libs/common/test/src/index.ts"],
       "@wds": ["libs/wds/src/index.ts"],

@@ -6,5 +6,6 @@ export default {
     '<rootDir>/apps/ssr-test',
     '<rootDir>/libs/wds',
     '<rootDir>/libs/memo/features',
+    '<rootDir>/libs/todo/features',
   ],
 };

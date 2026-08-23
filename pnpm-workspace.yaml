@@ -3,4 +3,5 @@ packages:
   - 'libs/*'
   - 'libs/blog/*'
   - 'libs/memo/*'
+  - 'libs/todo/*'
   - 'libs/woolbank/*'

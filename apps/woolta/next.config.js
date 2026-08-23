@@ -11,6 +11,8 @@ const nextConfig = {
     '@woolta/blog-screens',
     '@woolta/memo-features',
     '@woolta/memo-screens',
+    '@woolta/todo-features',
+    '@woolta/todo-screens',
   ],
   images: {
     disableStaticImages: true,

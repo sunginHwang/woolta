@@ -1,0 +1,25 @@
+{
+  "name": "@woolta/todo-features",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\"",
+    "test": "jest --config jest.config.ts --passWithNoTests"
+  },
+  "dependencies": {
+    "@woolta/common": "workspace:*",
+    "@woolta/wds": "workspace:*",
+    "dayjs": "^1.11.10",
+    "motion": "^13.1.1",
+    "lodash-es": "^4.17.21",
+    "react-icons": "^4.11.0",
+    "styled-components": "^6.1.8",
+    "zustand": "^5.0.3"
+  },
+  "peerDependencies": {
+    "next": "14.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}

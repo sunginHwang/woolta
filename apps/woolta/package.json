@@ -15,6 +15,8 @@
     "@woolta/common": "workspace:*",
     "@woolta/memo-features": "workspace:*",
     "@woolta/memo-screens": "workspace:*",
+    "@woolta/todo-features": "workspace:*",
+    "@woolta/todo-screens": "workspace:*",
     "@woolta/wds": "workspace:*",
     "@woolta/woolbank-features": "workspace:*",
     "@woolta/woolbank-screens": "workspace:*"

@@ -59,9 +59,6 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
-      framer-motion:
-        specifier: ^10.17.4
-        version: 10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       jotai:
         specifier: ^2.5.0
         version: 2.8.0(@types/react@18.2.13)(react@18.2.0)
@@ -71,6 +68,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      motion:
+        specifier: ^13.1.1
+        version: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       nanobar:
         specifier: ^0.4.2
         version: 0.4.2
@@ -106,7 +106,7 @@ importers:
         version: 9.0.1(@types/react@18.2.13)(react@18.2.0)
       react-modal-sheet:
         specifier: ^2.2.0
-        version: 2.2.0(framer-motion@10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+        version: 2.2.0(framer-motion@13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
       react-spinners:
         specifier: ^0.13.8
         version: 0.13.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -318,6 +318,12 @@ importers:
       '@woolta/memo-screens':
         specifier: workspace:*
         version: link:../../libs/memo/screens
+      '@woolta/todo-features':
+        specifier: workspace:*
+        version: link:../../libs/todo/features
+      '@woolta/todo-screens':
+        specifier: workspace:*
+        version: link:../../libs/todo/screens
       '@woolta/wds':
         specifier: workspace:*
         version: link:../../libs/wds
@@ -506,6 +512,69 @@ importers:
         specifier: ^6.1.8
         version: 6.1.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
 
+  libs/todo/features:
+    dependencies:
+      '@woolta/common':
+        specifier: workspace:*
+        version: link:../../common
+      '@woolta/wds':
+        specifier: workspace:*
+        version: link:../../wds
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      motion:
+        specifier: ^13.1.1
+        version: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next:
+        specifier: 14.2.1
+        version: 14.2.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.62.1)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-icons:
+        specifier: ^4.11.0
+        version: 4.12.0(react@18.2.0)
+      styled-components:
+        specifier: ^6.1.8
+        version: 6.1.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      zustand:
+        specifier: ^5.0.3
+        version: 5.0.15(@types/react@18.2.13)(react@18.2.0)(use-sync-external-store@1.6.0(react@18.2.0))
+
+  libs/todo/screens:
+    dependencies:
+      '@woolta/common':
+        specifier: workspace:*
+        version: link:../../common
+      '@woolta/todo-features':
+        specifier: workspace:*
+        version: link:../features
+      '@woolta/wds':
+        specifier: workspace:*
+        version: link:../../wds
+      next:
+        specifier: 14.2.1
+        version: 14.2.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.62.1)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-icons:
+        specifier: ^4.11.0
+        version: 4.12.0(react@18.2.0)
+      styled-components:
+        specifier: ^6.1.8
+        version: 6.1.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+
   libs/wds: {}
 
   libs/woolbank/features:
@@ -528,15 +597,15 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
-      framer-motion:
-        specifier: ^10.17.4
-        version: 10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       jotai:
         specifier: ^2.5.0
         version: 2.8.0(@types/react@18.2.13)(react@18.2.0)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      motion:
+        specifier: ^13.1.1
+        version: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next:
         specifier: 14.2.1
         version: 14.2.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.62.1)
@@ -551,7 +620,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       react-modal-sheet:
         specifier: ^2.2.0
-        version: 2.2.0(framer-motion@10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
+        version: 2.2.0(framer-motion@13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
       react-spinners:
         specifier: ^0.13.8
         version: 0.13.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1455,14 +1524,8 @@ packages:
       react: ^16 || ^17
       react-dom: ^16 || ^17
 
-  '@emotion/is-prop-valid@0.8.8':
-    resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
-
   '@emotion/is-prop-valid@1.2.1':
     resolution: {integrity: sha512-61Mf7Ufx4aDxx1xlDeOm8aFFigGHE4z+0sKCa+IHCeZKiyP9RLD0Mmx7m8b9/Cf37f7NAvQOOJAbQQGVr5uERw==}
-
-  '@emotion/memoize@0.7.4':
-    resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
 
   '@emotion/memoize@0.8.1':
     resolution: {integrity: sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==}
@@ -5575,11 +5638,11 @@ packages:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
 
-  framer-motion@10.18.0:
-    resolution: {integrity: sha512-oGlDh1Q1XqYPksuTD/usb0I70hq95OUzmL9+6Zd+Hs4XV0oaISBa/UUMSjYiq6m8EUF32132mOJ8xVZS+I0S6w==}
+  framer-motion@13.1.1:
+    resolution: {integrity: sha512-B/xn2TPS4f61cEBLFjiYlQFnBZUW1YVj/LM+C+N4OP8Rs95VLEI2ot/RlfBg111la/EiyECFaJJi/A3FWA8MUA==}
     peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
     peerDependenciesMeta:
       react:
         optional: true
@@ -7114,6 +7177,23 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
+
+  motion-dom@13.1.1:
+    resolution: {integrity: sha512-XSf8VYWSB6G/0IY3rWVbyLcxWXtAVHkN1PQE2agTaCv3u8RGvbwu56TyyR/MNzBqqNavEBTZzErcxI1TxBrjcA==}
+
+  motion-utils@13.0.0:
+    resolution: {integrity: sha512-7DnN7TmbLcYXcG4RVadXIihWlyuM9afoUww8Y5Agg431kGKiuL2/OMyP4mJ5wLz+pvN3t5ySClLOaVXJ+wekRQ==}
+
+  motion@13.1.1:
+    resolution: {integrity: sha512-WNZoK6xiF+kkTqkZ5K7FDDh6A8BG4i5Hc7KXtW8gtTxkpJFds+hIOrDaQGKjQj/AE/i4hJqAaUHEqp/Qo02y6Q==}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
@@ -10526,17 +10606,9 @@ snapshots:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  '@emotion/is-prop-valid@0.8.8':
-    dependencies:
-      '@emotion/memoize': 0.7.4
-    optional: true
-
   '@emotion/is-prop-valid@1.2.1':
     dependencies:
       '@emotion/memoize': 0.8.1
-
-  '@emotion/memoize@0.7.4':
-    optional: true
 
   '@emotion/memoize@0.8.1': {}
 
@@ -16121,11 +16193,12 @@ snapshots:
 
   forwarded@0.2.0: {}
 
-  framer-motion@10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  framer-motion@13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
+      motion-dom: 13.1.1
+      motion-utils: 13.0.0
       tslib: 2.6.2
     optionalDependencies:
-      '@emotion/is-prop-valid': 0.8.8
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
@@ -18310,6 +18383,20 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
+  motion-dom@13.1.1:
+    dependencies:
+      motion-utils: 13.0.0
+
+  motion-utils@13.0.0: {}
+
+  motion@13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+    dependencies:
+      framer-motion: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      tslib: 2.6.2
+    optionalDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
   ms@2.0.0: {}
 
   ms@2.1.1: {}
@@ -19168,10 +19255,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-modal-sheet@2.2.0(framer-motion@10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
+  react-modal-sheet@2.2.0(framer-motion@13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
     dependencies:
       '@react-aria/utils': 3.17.0(react@18.2.0)
-      framer-motion: 10.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      framer-motion: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
 
   react-refresh@0.11.0: {}

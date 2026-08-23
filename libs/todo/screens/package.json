@@ -1,0 +1,21 @@
+{
+  "name": "@woolta/todo-screens",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\""
+  },
+  "dependencies": {
+    "@woolta/common": "workspace:*",
+    "@woolta/todo-features": "workspace:*",
+    "@woolta/wds": "workspace:*",
+    "react-icons": "^4.11.0",
+    "styled-components": "^6.1.8"
+  },
+  "peerDependencies": {
+    "next": "14.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}
