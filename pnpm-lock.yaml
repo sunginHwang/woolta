@@ -24,8 +24,8 @@ importers:
         specifier: ^6.3.1
         version: 6.5.1(@codemirror/view@6.26.3)
       '@croquiscom/monolith':
-        specifier: ^0.5.5
-        version: 0.5.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^0.9.0
+        version: 0.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@dump-work/react-google-login':
         specifier: ^6.0.14
         version: 6.0.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -514,6 +514,9 @@ importers:
 
   libs/todo/features:
     dependencies:
+      '@croquiscom/monolith':
+        specifier: ^0.9.0
+        version: 0.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@woolta/common':
         specifier: workspace:*
         version: link:../../common
@@ -580,8 +583,8 @@ importers:
   libs/woolbank/features:
     dependencies:
       '@croquiscom/monolith':
-        specifier: ^0.5.5
-        version: 0.5.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^0.9.0
+        version: 0.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@tanstack/react-query':
         specifier: ^5.4.3
         version: 5.32.0(react@18.2.0)
@@ -1497,8 +1500,8 @@ packages:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
 
-  '@croquiscom/monolith@0.5.5':
-    resolution: {integrity: sha512-qErY1UussU4UZOO42DWoKxx5qDDoNTs5hHYPmBhi3avPxIrHbasgPpx8WNsYwY9LEDgFRPzMU+B8j0T0XlImFQ==}
+  '@croquiscom/monolith@0.9.0':
+    resolution: {integrity: sha512-CVgR3ZGXSximlZhNnt+o4AOAeQgSOu9GcAmgVzWYIkiDQpladk2Fj+ih6THvuMdFoXgEQwIsh6v2c4YYbFowiA==}
     peerDependencies:
       react: ^19 || ^18 || ^17
       react-dom: ^19 || ^18 || ^17
@@ -10557,7 +10560,7 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@croquiscom/monolith@0.5.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@croquiscom/monolith@0.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       blueimp-load-image: 5.16.0
       clsx: 2.1.1
