@@ -1,18 +1,18 @@
 'use client';
 
 import { Text } from '@wds';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import layouts from '../../../style/layouts';
-import { railExpandedAtom, themeTypeAtom } from '../store';
+import { railExpandedAtom, useThemeType } from '../store';
 
 interface Props {
   onClose: () => void;
 }
 
 const SettingsPopover = ({ onClose }: Props) => {
-  const [themeType, setThemeType] = useAtom(themeTypeAtom);
+  const [themeType, setThemeType] = useThemeType();
   const isRailExpanded = useAtomValue(railExpandedAtom);
 
   return (

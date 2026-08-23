@@ -1,4 +1,6 @@
+import { cookies } from 'next/headers';
 import { Providers } from '../components/layout/providers/Providers';
+import { THEME_COOKIE_NAME, parseThemeType } from '../components/layout/store/themeCookie';
 
 export const metadata = {
   title: 'Woolta',
@@ -6,6 +8,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const initialThemeType = parseThemeType(cookies().get(THEME_COOKIE_NAME)?.value);
+
   return (
     <html lang='ko'>
       <head>
@@ -23,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers initialThemeType={initialThemeType}>{children}</Providers>
         <div id='modalDeem' />
       </body>
     </html>

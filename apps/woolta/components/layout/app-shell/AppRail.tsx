@@ -26,13 +26,7 @@ const AppRail = () => {
       </SC.RailLink>
       <SC.Divider />
       {APP_LIST.map(({ key, name, href, icon: Icon }) => (
-        <SC.RailLink
-          key={key}
-          href={href}
-          title={name}
-          $isActive={pathname.startsWith(href)}
-          $isExpanded={isExpanded}
-        >
+        <SC.RailLink key={key} href={href} title={name} $isActive={pathname.startsWith(href)} $isExpanded={isExpanded}>
           <SC.IconSlot>
             <Icon size={20} />
           </SC.IconSlot>

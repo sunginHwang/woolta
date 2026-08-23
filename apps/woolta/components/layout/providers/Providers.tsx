@@ -1,8 +1,9 @@
 'use client';
 
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { theme } from '@wds';
+import { theme, type ThemeType } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import AppShell from '../app-shell/AppShell';
 import { themeTypeAtom } from '../store';
@@ -80,6 +81,18 @@ function getQueryClient() {
   return browserQueryClient;
 }
 
+interface ThemeHydrationProps {
+  /** 서버가 쿠키에서 읽은 초기 테마 */
+  initialThemeType: ThemeType;
+  children: React.ReactNode;
+}
+
+/** 서버가 읽은 테마로 atom 을 초기화해 첫 렌더부터 올바른 테마를 적용한다. */
+const ThemeHydration = ({ initialThemeType, children }: ThemeHydrationProps) => {
+  useHydrateAtoms([[themeTypeAtom, initialThemeType]]);
+  return <>{children}</>;
+};
+
 const ThemedApp = ({ children }: { children: React.ReactNode }) => {
   const themeType = useAtomValue(themeTypeAtom);
 
@@ -91,15 +104,23 @@ const ThemedApp = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const Providers = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  /** 서버가 쿠키에서 읽은 초기 테마 */
+  initialThemeType: ThemeType;
+  children: React.ReactNode;
+}
+
+export const Providers = ({ initialThemeType, children }: Props) => {
   const queryClient = getQueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
       <JotaiProvider>
-        <StyleRegistry>
-          <ThemedApp>{children}</ThemedApp>
-        </StyleRegistry>
+        <ThemeHydration initialThemeType={initialThemeType}>
+          <StyleRegistry>
+            <ThemedApp>{children}</ThemedApp>
+          </StyleRegistry>
+        </ThemeHydration>
       </JotaiProvider>
     </QueryClientProvider>
   );
