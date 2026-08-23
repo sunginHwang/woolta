@@ -1,5 +1,5 @@
 import { useScrollDirection } from '@common';
-import { motion } from 'framer-motion';
+import { Variants, motion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { styled } from 'styled-components';
 import { IconAccountOutline, IconPigOutline, IconWalletOutline } from '../../../components/atom/Icon';
 import { AddButton } from './AddIcon';
 
-const LINK_VARIANT = {
+const LINK_VARIANT: Variants = {
   initial: { scale: 1 },
   tap: { scale: 0.85 },
   release: {

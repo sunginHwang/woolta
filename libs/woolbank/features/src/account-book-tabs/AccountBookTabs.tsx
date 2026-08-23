@@ -2,7 +2,7 @@
 
 import { useScrollDirection } from '@common';
 import { Text } from '@wds';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';

@@ -2,7 +2,7 @@
 
 import { usePreventScroll } from '@common';
 import { safeAreaInsetMarginBottom } from '@wds';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { ReactNode, PropsWithChildren } from 'react';
 import { styled, useTheme } from 'styled-components';
 import Deem from '../components/deem/Deem';

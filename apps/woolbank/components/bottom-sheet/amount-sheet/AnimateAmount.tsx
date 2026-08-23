@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, memo, useMemo } from 'react';
 import { styled } from 'styled-components';
 
