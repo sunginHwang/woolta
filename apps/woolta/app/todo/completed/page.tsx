@@ -1,5 +1,5 @@
-import { TodoListPanel } from '@todo/screens';
+import { TodoListScreen } from '@todo/screens';
 
 export default function TodoCompletedPage() {
-  return <TodoListPanel listKey='completed' />;
+  return <TodoListScreen listKey='completed' />;
 }

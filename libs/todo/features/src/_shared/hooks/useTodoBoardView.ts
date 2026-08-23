@@ -29,6 +29,7 @@ export const useTodoBoardView = (listKey: TodoListKey) => {
   const isMissingCategory = categoryId !== null && category === null;
   const isUpcoming = listKey === 'upcoming';
   const isArchiveList = listKey === 'completed' || listKey === 'trash';
+  const isViewToggleVisible = !isArchiveList && !isMissingCategory && !isUpcoming;
 
   return {
     listKey,
@@ -40,6 +41,6 @@ export const useTodoBoardView = (listKey: TodoListKey) => {
     /** 할 일 추가 입력창 노출 여부 (완료/휴지통, 없는 카테고리에서는 숨김) */
     isTodoAddVisible: !isArchiveList && !isMissingCategory,
     /** 리스트/칸반 전환 노출 여부 (미래는 날짜 축이라 칸반 미지원) */
-    isViewToggleVisible: !isArchiveList && !isMissingCategory && !isUpcoming,
+    isViewToggleVisible,
   };
 };

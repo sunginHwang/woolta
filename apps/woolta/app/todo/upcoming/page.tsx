@@ -1,5 +1,5 @@
-import { TodoListPanel } from '@todo/screens';
+import { TodoListScreen } from '@todo/screens';
 
 export default function TodoUpcomingPage() {
-  return <TodoListPanel listKey='upcoming' />;
+  return <TodoListScreen listKey='upcoming' />;
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTodoDetailVisibility } from '@todo/features';
-import { TodoDetailPanel, TodoSidebarPanel } from '@todo/screens';
+import { TodoDetailScreen, TodoSidebarScreen } from '@todo/screens';
 import { ReactNode } from 'react';
 import SplitPane from '../split-pane/SplitPane';
 
@@ -19,7 +19,7 @@ export const TodoAppShell = ({ children }: Props) => {
       defaultLeftWidth={240}
       minLeftWidth={200}
       maxLeftWidth={360}
-      left={<TodoSidebarPanel />}
+      left={<TodoSidebarScreen />}
       right={
         isDetailVisible ? (
           <SplitPane
@@ -28,7 +28,7 @@ export const TodoAppShell = ({ children }: Props) => {
             minLeftWidth={360}
             maxLeftWidth={880}
             left={children}
-            right={<TodoDetailPanel />}
+            right={<TodoDetailScreen />}
           />
         ) : (
           children

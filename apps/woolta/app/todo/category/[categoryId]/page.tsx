@@ -1,10 +1,10 @@
 import { getCategoryListKey } from '@todo/features';
-import { TodoListPanel } from '@todo/screens';
+import { TodoListScreen } from '@todo/screens';
 
 interface Props {
   params: { categoryId: string };
 }
 
 export default function TodoCategoryPage({ params }: Props) {
-  return <TodoListPanel listKey={getCategoryListKey(params.categoryId)} />;
+  return <TodoListScreen listKey={getCategoryListKey(params.categoryId)} />;
 }

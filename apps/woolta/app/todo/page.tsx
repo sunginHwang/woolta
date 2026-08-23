@@ -1,5 +1,5 @@
-import { TodoListPanel } from '@todo/screens';
+import { TodoListScreen } from '@todo/screens';
 
 export default function TodoPage() {
-  return <TodoListPanel listKey='today' />;
+  return <TodoListScreen listKey='today' />;
 }

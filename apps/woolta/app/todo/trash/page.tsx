@@ -1,5 +1,5 @@
-import { TodoListPanel } from '@todo/screens';
+import { TodoListScreen } from '@todo/screens';
 
 export default function TodoTrashPage() {
-  return <TodoListPanel listKey='trash' />;
+  return <TodoListScreen listKey='trash' />;
 }
