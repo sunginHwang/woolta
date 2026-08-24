@@ -124,4 +124,4 @@ domains/{feature}/
 |---|------|-----|
 | blog | localhost:8091 | blog.woolta.com |
 | woolbank | bank-local.woolta.com:443 (dev 포트 4200) | bank.woolta.com |
-| woolta | localhost:4300 | - |
+| woolta | localhost:4300 (API 연동 시 local.woolta.com:4433, `pnpm dev:woolta-ssl`) | - |
