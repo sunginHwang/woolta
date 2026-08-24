@@ -64,6 +64,35 @@ pnpm turbo run dev --filter=woolta
 
 접속: http://localhost:4300
 
+### 로컬 HTTPS 세팅 (가계부/블로그 연동 개발 시 필수)
+
+가계부(bank-api)·블로그(blog-api)는 쿠키 인증 + CORS 화이트리스트 방식이라,
+localhost 오리진에서는 API 호출이 차단됩니다. woolbank과 동일하게 `*.woolta.com` 도메인 + HTTPS로 접속해야 합니다.
+
+1. **hosts 등록** (최초 1회)
+   ```bash
+   sudo sh -c 'echo "127.0.0.1 local.woolta.com" >> /etc/hosts'
+   ```
+2. **mkcert CA 신뢰 등록** (최초 1회, 미설치 시 `brew install mkcert`)
+   ```bash
+   mkcert -install
+   ```
+3. **인증서 발급** (cert/ 에 없거나 본인 CA 서명이 아닌 경우 — 재발급본은 커밋하지 않음)
+   ```bash
+   mkcert -cert-file cert/local.woolta.com+2.pem \
+     -key-file cert/local.woolta.com+2-key.pem \
+     local.woolta.com localhost 127.0.0.1
+   ```
+4. **서버 CORS 화이트리스트 등록** (백엔드 작업, 최초 1회)
+   - bank-api / blog-api 의 허용 오리진에 `https://local.woolta.com:4433` 추가
+5. **실행** — dev 서버와 HTTPS 프록시(4433 → 4300)를 각각 띄운다
+   ```bash
+   pnpm turbo run dev --filter=woolta
+   pnpm dev:woolta-ssl
+   ```
+6. 접속: **https://local.woolta.com:4433**
+   - bank.woolta.com / blog.woolta.com 에서 로그인하면 `.woolta.com` 공유 쿠키로 인증이 함께 동작합니다.
+
 ## 빌드
 
 ```bash
