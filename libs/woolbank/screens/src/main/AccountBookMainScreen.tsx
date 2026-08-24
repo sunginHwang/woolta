@@ -10,19 +10,30 @@ import { ScreenBoundary } from '../common/ScreenBoundary';
 export const AccountBookMainScreen = () => {
   return (
     <ScreenBoundary>
-      <MonthStatistics />
-      <SC.Line />
-      <SC.Main>
-        <AccountBookActiveTab />
-      </SC.Main>
-      <AccountBookTabs />
+      <SC.Container>
+        <MonthStatistics />
+        <SC.Line />
+        <SC.Main>
+          <AccountBookActiveTab />
+        </SC.Main>
+        <AccountBookTabs />
+      </SC.Container>
     </ScreenBoundary>
   );
 };
 
 const SC = {
+  Container: styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 72rem;
+    min-height: 100%;
+    background-color: ${({ theme }) => theme.colors.bgSurface};
+  `,
   Main: styled.main`
-    background-color: ${({ theme }) => theme.colors.white};
+    flex: 1;
+    background-color: ${({ theme }) => theme.colors.bgSurface};
   `,
   Line: styled.div`
     min-height: 3rem;
