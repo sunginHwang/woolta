@@ -3,6 +3,8 @@ const path = require('path');
 module.exports = {
   testEnvironment: 'jsdom',
   moduleNameMapper: {
+    '^@article-curations/features$': path.resolve(__dirname, 'libs/article-curations/features/src/index.ts'),
+    '^@article-curations/screens$': path.resolve(__dirname, 'libs/article-curations/screens/src/index.ts'),
     '^@common/server$': path.resolve(__dirname, 'libs/common/src/server.ts'),
     '^@common/test$': path.resolve(__dirname, 'libs/common/test/src/index.ts'),
     '^@common$': path.resolve(__dirname, 'libs/common/src/index.ts'),

@@ -1,6 +1,7 @@
 packages:
   - 'apps/*'
   - 'libs/*'
+  - 'libs/article-curations/*'
   - 'libs/blog/*'
   - 'libs/memo/*'
   - 'libs/todo/*'
