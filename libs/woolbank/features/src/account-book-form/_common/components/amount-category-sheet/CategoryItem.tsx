@@ -36,7 +36,7 @@ const SC = {
       height: 25px;
     }
     height: 6rem;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.gray100 : theme.colors.white)};
+    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurfaceSecondary : theme.colors.bgSurface)};
     display: flex;
     justify-content: center;
     flex-direction: column;

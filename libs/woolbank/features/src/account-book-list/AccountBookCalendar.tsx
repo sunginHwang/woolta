@@ -103,7 +103,7 @@ export const AccountBookCalendar = () => {
         isOpen={accountBookSheetItemList.length !== 0}
         list={accountBookSheetItemList}
         title='일자별 통계 내역'
-        titleColor={colors.gray700}
+        titleColor={colors.textSecondary}
         onClose={() => {
           setAccountBookSheetItemList([]);
         }}

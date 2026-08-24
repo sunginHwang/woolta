@@ -138,7 +138,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             <Text variant='body3' color='gray600' as='p'>
               {formData.registerDateTime.format('YYYY-MM-DD')}
             </Text>
-            <IconCalendar width={12} height={12} fill={colors.gray500} />
+            <IconCalendar width={12} height={12} fill={colors.textTertiary} />
           </div>
           <Text className='title' variant='title1Bold' color='gray900' onClick={openFormBottomSheet('amount')} as='p'>
             {`${formData.amount.toLocaleString('ko-KR')}원`}
@@ -164,7 +164,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
               <Text variant='body1' color='gray900'>
                 {formData.category.name}
               </Text>
-              <IconChevronRight width={16} height={16} fill={colors.gray600} />
+              <IconChevronRight width={16} height={16} fill={colors.textTertiary} />
             </SC.FormContent>
           </FormField>
           <FormField title='예산에서 제외'>
@@ -188,7 +188,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
                     `매월${formData.installmentMonth}일 (1/${formData.scheduledPaymentDay})`}
                 </Text>
               )}
-              {isInsertMode && <IconSwap width={16} height={16} fill={colors.gray500} />}
+              {isInsertMode && <IconSwap width={16} height={16} fill={colors.textTertiary} />}
             </div>
           </FormField>
           <FormField title='메모' />
@@ -255,7 +255,7 @@ const SC = {
   `,
   Memo: styled.textarea`
     border-radius: 1.3rem;
-    background-color: ${({ theme }) => theme.colors.gray100};
+    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
     height: 15rem;
     padding: 1.6rem;
     width: calc(100% - 3.2rem);

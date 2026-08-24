@@ -32,7 +32,7 @@ const SC = {
     align-items: center;
     padding: 0 16px;
     height: 2rem;
-    background-color: ${({ theme }) => theme.colors.gray150};
+    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
 
     > * + * {
       margin-left: 1rem;

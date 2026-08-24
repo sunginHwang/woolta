@@ -17,7 +17,7 @@ const SC = {
     position: relative;
     width: 4.1rem;
     height: 2rem;
-    background-color: ${({ $checked, theme }) => ($checked ? theme.colors.orangePrimary : theme.colors.gray200)};
+    background-color: ${({ $checked, theme }) => ($checked ? theme.colors.orangePrimary : theme.colors.grayInactiveFilled)};
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@ const SC = {
       content: '';
       width: 1.8rem;
       height: 1.8rem;
-      background-color: ${({ theme }) => theme.colors.white};
+      background-color: ${({ theme }) => '#ffffff'};
       border-radius: 100%;
       transform: translateX(${({ $checked }) => ($checked ? '120%' : '0')});
     }

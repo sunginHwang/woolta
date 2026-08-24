@@ -91,7 +91,7 @@ const S = {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    color: ${({ theme }) => theme.colors.gray700};
+    color: ${({ theme }) => theme.colors.textSecondary};
 
     .left {
       display: flex;

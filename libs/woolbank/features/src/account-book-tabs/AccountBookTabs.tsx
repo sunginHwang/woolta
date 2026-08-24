@@ -39,7 +39,7 @@ export const AccountBookTabs = () => {
             return (
               <SC.Item key={label}>
                 <Link replace href={link}>
-                  <Text variant='title6Bold' color={isActive ? 'gray900' : 'gray500'} as='p'>
+                  <Text variant='title6Bold' color={isActive ? 'textPrimary' : 'textTertiary'} as='p'>
                     {label}
                   </Text>
                 </Link>
@@ -85,7 +85,7 @@ const SC = {
       justify-content: center;
       align-items: center;
       border-radius: 32px;
-      background-color: ${({ theme }) => theme.colors.gray100};
+      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
       position: relative;
       z-index: 1;
     }
@@ -109,7 +109,8 @@ const SC = {
     position: absolute;
     height: calc(100% - 12px);
     width: calc(50% - 16px);
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bgSurface};
+    border: 0.1rem solid ${({ theme }) => theme.colors.borderDefault};
     border-radius: 32px;
     z-index: -1;
     margin: 8px;

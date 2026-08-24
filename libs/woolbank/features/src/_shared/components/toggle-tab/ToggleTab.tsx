@@ -104,18 +104,18 @@ const S = {
   Tab: styled.button<{ $isActive: boolean }>`
     width: 100%;
     font-weight: bold;
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.grayPrimary : theme.colors.gray150)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textActive : theme.colors.textInactive)};
   `,
   ListTab: styled.button<{ $isActive: boolean }>`
     margin-right: 2.5rem;
     font-weight: 800;
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.gray800 : theme.colors.gray600)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textPrimary : theme.colors.textTertiary)};
   `,
   TabOutLine: styled.button<{ $isActive: boolean }>`
     width: 100%;
-    border: 0.1rem solid ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.gray300)};
+    border: 0.1rem solid ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.borderDefault)};
     background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.white)};
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.white : theme.colors.gray600)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textInverse : theme.colors.textTertiary)};
 
     &:first-child {
       border-bottom-left-radius: 1.3rem;

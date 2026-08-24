@@ -42,9 +42,9 @@ const S = {
       justify-content: center;
 
       p {
-        background-color: #666666;
+        background-color: ${({ theme }) => theme.colors.bgInverse};
         padding: 1rem 1.8rem;
-        color: ${({ theme }) => theme.colors.white};
+        color: ${({ theme }) => theme.colors.textInverse};
         font-size: 1.4rem;
         border-radius: 6.5rem;
       }

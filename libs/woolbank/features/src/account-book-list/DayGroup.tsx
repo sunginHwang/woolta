@@ -19,10 +19,10 @@ const DayGroup = ({ days, totalAmount, children }: Props) => {
   return (
     <SC.DayGroup>
       <SC.DayInfo>
-        <Text variant='body3' color='gray600'>
+        <Text variant='body3' color='textTertiary'>
           {days}일
         </Text>
-        <Text variant='title5Medium' color={isSavedAmount ? 'red500' : 'gray900'}>
+        <Text variant='title5Medium' color={isSavedAmount ? 'statusError' : 'textPrimary'}>
           {totalAmount.toLocaleString('ko-KR')}원
         </Text>
       </SC.DayInfo>
@@ -41,7 +41,7 @@ const SC = {
   `,
   DayInfo: styled.div`
     padding-bottom: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray200};
+    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
     display: flex;
     justify-content: space-between;
     align-items: flex-end;

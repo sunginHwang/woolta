@@ -35,7 +35,7 @@ const SC = {
   `,
   DayGroup: styled.div`
     padding-bottom: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray150};
+    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
     display: flex;
     justify-content: space-between;
     align-items: flex-end;

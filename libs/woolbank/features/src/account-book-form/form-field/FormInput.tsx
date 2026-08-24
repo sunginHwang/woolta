@@ -3,7 +3,7 @@
 import { mergeRefs } from '@common';
 import { typography } from '@wds';
 import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
-import { styled } from 'styled-components';
+import { styled, useTheme } from 'styled-components';
 import { IconChevronRight, IconCloseCircle } from '../../_shared/icons';
 
 interface Props
@@ -50,6 +50,7 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     },
     parentRef,
   ) => {
+    const { colors } = useTheme();
     const inputRef = useRef<HTMLInputElement>(null);
     const [focus, setFocus] = useState(false);
     const { onKeyUp, ...restInputProps } = rest;
@@ -100,11 +101,11 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
         />
         {isExistInputValue ? (
           <i className='trash' onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
-            <IconCloseCircle width={16} height={16} fill='#958d9e' />
+            <IconCloseCircle width={16} height={16} fill={colors.textTertiary} />
           </i>
         ) : (
           <i>
-            <IconChevronRight width={16} height={16} fill='#8a8a8a' />
+            <IconChevronRight width={16} height={16} fill={colors.textTertiary} />
           </i>
         )}
       </SC.Container>
@@ -127,11 +128,11 @@ const SC = {
       ${typography.body2}
       border: none;
       height: 4rem;
-      color: ${({ theme }) => theme.colors.gray900};
+      color: ${({ theme }) => theme.colors.textPrimary};
 
       &::placeholder {
         ${typography.body2}
-        color: ${({ theme }) => theme.colors.gray500};
+        color: ${({ theme }) => theme.colors.textDisabled};
       }
     }
 

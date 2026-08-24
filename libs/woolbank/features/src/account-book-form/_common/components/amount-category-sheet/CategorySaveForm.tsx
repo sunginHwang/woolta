@@ -104,7 +104,7 @@ const SC = {
     left: 0;
     width: 100%;
     min-height: 100%;
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bgSurface};
     z-index: ${({ theme }) => theme.zIndex.fullDeem};
   `,
   InputArea: styled.div`
@@ -129,6 +129,6 @@ const SC = {
     flex-direction: column;
     align-items: center;
     border-radius: 8px;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSecondary : theme.colors.white)};
+    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSecondary : theme.colors.bgSurface)};
   `,
 };

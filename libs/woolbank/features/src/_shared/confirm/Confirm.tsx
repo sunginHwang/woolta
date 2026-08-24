@@ -68,7 +68,7 @@ const S = {
     max-width: 68rem;
     border-radius: 0.8rem;
     text-align: center;
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bgSurface};
     z-index: ${({ theme }) => theme.zIndex.modalDeem + 1};
     box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.35);
   `,
@@ -99,13 +99,13 @@ const S = {
     display: flex;
     justify-content: space-between;
     height: 5.5rem;
-    border-top: 0.1rem solid ${({ theme }) => theme.colors.gray150};
+    border-top: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
 
     .buttons {
       width: 100%;
       display: flex;
       & > * + * {
-        border-left: 1px solid ${({ theme }) => theme.colors.gray150};
+        border-left: 1px solid ${({ theme }) => theme.colors.borderSubtle};
       }
     }
   `,
@@ -116,7 +116,7 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.textPrimary};
 
     :last-child {
       color: ${({ theme }) => theme.colors.orangePrimary};

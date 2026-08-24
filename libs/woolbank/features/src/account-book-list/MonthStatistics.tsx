@@ -57,15 +57,15 @@ const MonthStatistics = () => {
         />
         <SC.TotalSection>
           <div className='item'>
-            <Text variant='body3' color='gray600' mt={5} as='p'>
+            <Text variant='body3' color='textTertiary' mt={5} as='p'>
               지출
             </Text>
-            <Text variant='title4Bold' color='red500' mt={5} as='p'>
+            <Text variant='title4Bold' color='statusError' mt={5} as='p'>
               {totalExpenditureAmount.toLocaleString('ko-KR')}원
             </Text>
           </div>
           <div className='item'>
-            <Text variant='body3' color='gray600' mt={5} as='p'>
+            <Text variant='body3' color='textTertiary' mt={5} as='p'>
               수입
             </Text>
             <Text variant='title4Bold' color='graySecondary' mt={5} as='p'>
