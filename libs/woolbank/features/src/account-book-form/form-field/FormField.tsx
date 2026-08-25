@@ -13,7 +13,7 @@ interface Props {
 export const FormField = ({ title, onClick, children }: Props) => {
   return (
     <SC.FormLabel onClick={onClick}>
-      <Text className='label' variant='body3' color='gray600'>
+      <Text className='label' variant='body3' color='textTertiary'>
         {title}
       </Text>
       <div className='info'>

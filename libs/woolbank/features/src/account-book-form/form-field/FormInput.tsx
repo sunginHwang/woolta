@@ -125,6 +125,15 @@ const SC = {
     }
 
     input {
+      background: transparent;
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 100rem ${({ theme }) => theme.colors.bgSurface} inset;
+        -webkit-text-fill-color: ${({ theme }) => theme.colors.textPrimary};
+        transition: background-color 9999s ease-out;
+      }
       ${typography.body2}
       border: none;
       height: 4rem;

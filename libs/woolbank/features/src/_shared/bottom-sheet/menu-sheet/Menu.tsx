@@ -21,7 +21,7 @@ export const Menu = ({ menu, isActive, onMenuSelect }: Props) => {
 
   return (
     <SC.Menu key={menu.type} onClick={onClick} $isActive={isActive}>
-      <Text variant='title4Medium' color='gray700' alignment='left'>
+      <Text variant='title4Medium' color='textSecondary' alignment='left'>
         {menu.value}
       </Text>
     </SC.Menu>
@@ -31,7 +31,7 @@ export const Menu = ({ menu, isActive, onMenuSelect }: Props) => {
 const SC = {
   Menu: styled.li<{ $isActive: boolean }>`
     padding: 1.4rem;
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.gray200 : theme.colors.white)};
+    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.bgSurfaceSecondary : theme.colors.bgSurface)};
     border-radius: 0.8rem;
 
     &:last-child {

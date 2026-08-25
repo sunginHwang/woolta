@@ -38,7 +38,7 @@ export const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseMo
   return (
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
       <SC.AmountDisplay>
-        <Text variant='title1Medium' color='black' as='p'>
+        <Text variant='title1Medium' color='textPrimary' as='p'>
           <AmountDisplayText amount={amount} placeholder='0원' />
         </Text>
         <i onClick={initAmount}>

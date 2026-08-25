@@ -108,7 +108,7 @@ const SC = {
     width: 100%;
     text-align: center;
     flex: 1;
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.textPrimary};
     height: 83%;
   `,
   InputTd: styled.td<InputTdProps>`
@@ -118,7 +118,7 @@ const SC = {
 
     &:active {
       border-radius: 1.6rem;
-      background-color: ${({ $isHide, theme }) => ($isHide ? theme.colors.white : theme.colors.gray150)};
+      background-color: ${({ $isHide, theme }) => ($isHide ? theme.colors.bgSurface : theme.colors.bgSurfaceSecondary)};
     }
   `,
 };

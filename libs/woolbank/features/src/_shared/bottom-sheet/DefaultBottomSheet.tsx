@@ -68,7 +68,7 @@ const SC = {
 
     p {
       font-weight: 500;
-      color: ${({ theme }) => theme.colors.gray800};
+      color: ${({ theme }) => theme.colors.textPrimary};
     }
   `,
   Content: styled.div<{ $maxHeight?: number }>`

@@ -68,11 +68,11 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
           onChange={onChangeCategoryName}
           onClear={onReset}
         />
-        <Text variant='small1Regular' color='gray600' as='p' mb={16} mt={16}>
+        <Text variant='small1Regular' color='textTertiary' as='p' mb={16} mt={16}>
           통계포함 유무
         </Text>
         <ToggleTab tabs={TAB_LIST} value={useStatistic} onChangeTab={handleStatisticToggleClick} />
-        <Text variant='small1Regular' color='gray600' as='p' mb={16} mt={24}>
+        <Text variant='small1Regular' color='textTertiary' as='p' mb={16} mt={24}>
           아이콘
         </Text>
         <SC.IconList>

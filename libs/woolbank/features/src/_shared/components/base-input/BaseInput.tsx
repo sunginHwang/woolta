@@ -3,7 +3,7 @@
 import { mergeRefs } from '@common';
 import { Text, typography } from '@wds';
 import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
-import { styled } from 'styled-components';
+import { styled, useTheme } from 'styled-components';
 import { IconCloseCircle } from '../../icons';
 
 interface Props
@@ -56,6 +56,7 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
     },
     parentRef,
   ) => {
+    const { colors } = useTheme();
     const isExistInputValue = value !== '' && isShowCloseBtn && !disable;
     const inputRef = useRef<HTMLInputElement>(null);
     const [focus, setFocus] = useState(false);
@@ -100,7 +101,7 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
       <>
         <SC.Container ref={parentRef} $isFocus={focus} onClick={onClick} data-type={dataType === '' ? name : dataType}>
           {label && (
-            <Text variant='small1Regular' color={focus ? 'orangePrimary' : 'gray600'} as='label' mb={8}>
+            <Text variant='small1Regular' color={focus ? 'orangePrimary' : 'textTertiary'} as='label' mb={8}>
               {label}
             </Text>
           )}
@@ -123,7 +124,7 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
           />
           {isExistInputValue && (
             <i onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
-              <IconCloseCircle width={24} height={28} fill='#958d9e' />
+              <IconCloseCircle width={24} height={28} fill={colors.textTertiary} />
             </i>
           )}
         </SC.Container>
@@ -146,12 +147,12 @@ const SC = {
 
     input {
       ${typography.body1}
-      border: 0.1rem solid ${({ theme }) => theme.colors.gray150};
-      background-color: ${({ $isFocus, theme }) => ($isFocus ? '#F5EFF4' : theme.colors.gray150)};
+      border: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
+      background-color: ${({ $isFocus, theme }) => ($isFocus ? theme.colors.bgSurface : theme.colors.bgSurfaceSecondary)};
       border-radius: 0.8rem;
       padding: 0 1rem;
       height: 4rem;
-      color: #27173e;
+      color: ${({ theme }) => theme.colors.textPrimary};
     }
 
     i {
@@ -166,6 +167,6 @@ const SC = {
   `,
   ValueLength: styled.p`
     font-size: 1.2rem;
-    color: ${({ theme }) => theme.colors.gray500};
+    color: ${({ theme }) => theme.colors.textDisabled};
   `,
 };

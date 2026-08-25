@@ -67,7 +67,7 @@ export const TimePicker = ({ time, onChangeTime }: Props) => {
 
 const SC = {
   AmPmItem: styled.span<{ $isActive: boolean }>`
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.black : theme.colors.gray150)};
+    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textPrimary : theme.colors.textDisabled)};
     font-weight: ${({ $isActive }) => ($isActive ? 700 : 400)};
     font-size: ${({ $isActive }) => ($isActive ? '2rem' : '1.6rem')};
   `,
@@ -116,11 +116,11 @@ const SC = {
   `,
   TimeInput: styled.input`
     border: none;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray200};
+    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
     font-size: 3.4rem;
     width: 8rem;
     text-align: center;
     font-weight: bold;
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.textPrimary};
   `,
 };

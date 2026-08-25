@@ -22,7 +22,7 @@ export const CategoryItem = ({ accountBookCategory, isActive, onSelect }: Props)
   return (
     <SC.AccountBookCategoryItem $isActive={isActive} onClick={handleCategoryClick}>
       <img src={accountBookCategory.accountBookCategoryImage.imageUrl} alt='icon-image' />
-      <Text variant='small1Regular' color='gray800' mt={5}>
+      <Text variant='small1Regular' color='textPrimary' mt={5}>
         {accountBookCategory.name}
       </Text>
     </SC.AccountBookCategoryItem>

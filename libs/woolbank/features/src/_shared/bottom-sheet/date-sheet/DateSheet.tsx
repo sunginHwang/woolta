@@ -43,7 +43,7 @@ const SC = {
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     text-align: center;
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bgSurface};
     z-index: ${({ theme }) => theme.zIndex.modalDeem + 1};
     box-shadow: 0.1rem 0.3rem 1rem 0.2rem rgba(0, 0, 0, 0.2);
     padding-bottom: constant(safe-area-inset-bottom);
