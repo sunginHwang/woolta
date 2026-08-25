@@ -80,6 +80,7 @@ const SC = {
   Container: styled.div`
     position: relative;
     min-height: 100%;
+    padding: 1.6rem;
     background-color: ${({ theme }) => theme.colors.bgSurface};
   `,
   Empty: styled.div`

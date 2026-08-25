@@ -29,6 +29,7 @@ const SC = {
     width: 100%;
     max-width: 72rem;
     min-height: 100%;
+    padding: 1.6rem;
     background-color: ${({ theme }) => theme.colors.bgSurface};
   `,
   Main: styled.main`
