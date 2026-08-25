@@ -3,7 +3,8 @@
 import { useEventListener } from '@common';
 import { useCallback, useState } from 'react';
 
-const TODO_ADD_KEY = 'q';
+// 한/영 전환 상태와 Shift 여부에 관계없이 같은 물리 키(q)를 허용한다
+const TODO_ADD_KEYS = ['q', 'ㅂ', 'ㅃ'];
 
 /** 텍스트 입력 중인 요소에 포커스가 있는지 판정한다. */
 const isEditableElement = (target: EventTarget | null) => {
@@ -34,7 +35,7 @@ export const useTodoAddShortcut = () => {
     if (isComposing || metaKey || ctrlKey || altKey) {
       return;
     }
-    if (key.toLowerCase() !== TODO_ADD_KEY || isEditableElement(target)) {
+    if (!TODO_ADD_KEYS.includes(key.toLowerCase()) || isEditableElement(target)) {
       return;
     }
 

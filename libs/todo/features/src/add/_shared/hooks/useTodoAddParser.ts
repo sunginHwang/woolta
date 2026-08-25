@@ -30,7 +30,6 @@ const isOverlapped = (a: TokenRange, b: TokenRange) => a.startIndex < b.endIndex
  */
 export const useTodoAddParser = (listKey: TodoListKey) => {
   const addTodo = useTodoStore((state) => state.addTodo);
-  const selectTodo = useTodoStore((state) => state.selectTodo);
   const categoryList = useCategoryList();
 
   const [text, setText] = useState('');
@@ -83,12 +82,11 @@ export const useTodoAddParser = (listKey: TodoListKey) => {
     }
 
     const draft = getDefaultTodoDraft(listKey, getTodayKey());
-    const todoId = addTodo({
+    addTodo({
       title,
       dueDate: dateToken?.date ?? draft.dueDate,
       categoryId: categoryToken?.categoryId ?? draft.categoryId,
     });
-    selectTodo(todoId);
     setText('');
     setIgnoredTexts([]);
     return true;
