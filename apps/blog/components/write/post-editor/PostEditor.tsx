@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { styled } from 'styled-components';
-import { ChipsLoading } from '../../common/chips/ChipsLoading';
+import { ChipsLoading } from '../../common/Chips/ChipsLoading';
 import { Categories } from './Categories';
 import { Content } from './Content';
 import { Title } from './Title';

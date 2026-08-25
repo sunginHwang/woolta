@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import React, { Suspense } from 'react';
-import { ChipsLoading } from '../../common/chips/ChipsLoading';
-import { ChipItemWithLink } from '../../common/chips/Item';
+import { ChipsLoading } from '../../common/Chips/ChipsLoading';
+import { ChipItemWithLink } from '../../common/Chips/Item';
 import { CategoryChips } from '../common/category-chips/CategoryChips';
 import { useHomeRouterProps } from '../hooks/useHomeRouterProps';
 
