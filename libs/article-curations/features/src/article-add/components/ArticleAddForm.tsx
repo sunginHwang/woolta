@@ -13,10 +13,24 @@ interface Props {
   onClose: () => void;
 }
 
-/** 아티클 등록 폼 — 카테고리 선택 + 제목/링크 입력 */
+/** 아티클 등록 폼 — 링크를 먼저 입력하면 SEO 를 수집해 제목/설명을 자동으로 채운다 */
 export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
   const categoryList = useCategoryList();
-  const { categoryId, setCategoryId, title, setTitle, url, setUrl, canSubmit, submit } = useArticleAddForm({
+  const {
+    categoryId,
+    setCategoryId,
+    url,
+    setUrl,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    thumbnailUrl,
+    isFetchingSeo,
+    isDetailVisible,
+    canSubmit,
+    submit,
+  } = useArticleAddForm({
     defaultCategoryId,
     onSubmitted: onClose,
   });
@@ -52,26 +66,46 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
         </SC.Select>
       </SC.Field>
       <SC.Field>
-        <SC.Label htmlFor='article-add-title'>제목</SC.Label>
-        <SC.Input
-          autoFocus
-          id='article-add-title'
-          placeholder='아티클 제목'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onKeyDown={handleInputKeyDown}
-        />
-      </SC.Field>
-      <SC.Field>
         <SC.Label htmlFor='article-add-url'>아티클 링크</SC.Label>
         <SC.Input
+          autoFocus
           id='article-add-url'
-          placeholder='https://...'
+          placeholder='https://... 링크를 넣으면 제목/설명을 자동으로 불러와요'
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={handleInputKeyDown}
         />
       </SC.Field>
+      {isFetchingSeo && (
+        <Text as='p' variant='small2Regular' color='textTertiary'>
+          링크 정보를 불러오는 중...
+        </Text>
+      )}
+      {isDetailVisible && (
+        <>
+          {thumbnailUrl && <SC.ThumbnailPreview src={thumbnailUrl} alt='' />}
+          <SC.Field>
+            <SC.Label htmlFor='article-add-title'>제목</SC.Label>
+            <SC.Input
+              id='article-add-title'
+              placeholder='아티클 제목'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onKeyDown={handleInputKeyDown}
+            />
+          </SC.Field>
+          <SC.Field>
+            <SC.Label htmlFor='article-add-description'>설명</SC.Label>
+            <SC.Input
+              id='article-add-description'
+              placeholder='아티클 설명 (선택)'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              onKeyDown={handleInputKeyDown}
+            />
+          </SC.Field>
+        </>
+      )}
       <SC.Footer>
         <SC.CancelButton type='button' onClick={onClose}>
           취소
@@ -127,6 +161,14 @@ const SC = {
     &:focus {
       border-color: ${({ theme }) => theme.colors.interactivePrimary};
     }
+  `,
+  ThumbnailPreview: styled.img`
+    width: 100%;
+    max-height: 14rem;
+    object-fit: cover;
+    border-radius: 0.8rem;
+    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
   `,
   Footer: styled.div`
     display: flex;
