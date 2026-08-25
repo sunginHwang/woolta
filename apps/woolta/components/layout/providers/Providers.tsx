@@ -1,5 +1,6 @@
 'use client';
 
+import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { theme, type ThemeType } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
@@ -114,14 +115,16 @@ export const Providers = ({ initialThemeType, children }: Props) => {
   const queryClient = getQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <JotaiProvider>
-        <ThemeHydration initialThemeType={initialThemeType}>
-          <StyleRegistry>
-            <ThemedApp>{children}</ThemedApp>
-          </StyleRegistry>
-        </ThemeHydration>
-      </JotaiProvider>
-    </QueryClientProvider>
+    <AppHostProvider appHost='woolta'>
+      <QueryClientProvider client={queryClient}>
+        <JotaiProvider>
+          <ThemeHydration initialThemeType={initialThemeType}>
+            <StyleRegistry>
+              <ThemedApp>{children}</ThemedApp>
+            </StyleRegistry>
+          </ThemeHydration>
+        </JotaiProvider>
+      </QueryClientProvider>
+    </AppHostProvider>
   );
 };

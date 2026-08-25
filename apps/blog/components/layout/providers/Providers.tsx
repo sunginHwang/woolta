@@ -1,5 +1,6 @@
 'use client';
 
+import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { theme } from '@wds';
 import { Provider as JotaiProvider } from 'jotai';
@@ -277,16 +278,18 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <JotaiProvider>
-          <StyleRegistry>
-            <ThemeProvider theme={theme.light}>
-              <GlobalStyles />
-              <Layout>{children}</Layout>
-            </ThemeProvider>
-          </StyleRegistry>
-        </JotaiProvider>
-      </QueryClientProvider>
+      <AppHostProvider appHost='blog'>
+        <QueryClientProvider client={queryClient}>
+          <JotaiProvider>
+            <StyleRegistry>
+              <ThemeProvider theme={theme.light}>
+                <GlobalStyles />
+                <Layout>{children}</Layout>
+              </ThemeProvider>
+            </StyleRegistry>
+          </JotaiProvider>
+        </QueryClientProvider>
+      </AppHostProvider>
     </>
   );
 };
