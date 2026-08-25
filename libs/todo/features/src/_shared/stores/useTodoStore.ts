@@ -150,6 +150,9 @@ export const useTodoStore = create(
         setDetailVisible: (isDetailVisible: boolean) => {
           set({ isDetailVisible });
         },
+        clearDetail: () => {
+          set({ selectedTodoId: null, isDetailVisible: false });
+        },
         toggleDetailVisible: () => {
           set((state) => ({ isDetailVisible: !state.isDetailVisible }));
         },

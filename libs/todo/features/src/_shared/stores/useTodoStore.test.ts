@@ -192,4 +192,19 @@ describe('useTodoStore 테스트', () => {
     // Then
     expect(useTodoStore.getState().isDetailVisible).toBe(true);
   });
+
+  describe('clearDetail 테스트', () => {
+    it('clearDetail 을 호출하면 선택이 해제되고 상세 패널이 닫힌다.', () => {
+      // Given
+      useTodoStore.setState({ selectedTodoId: 'todo-1', isDetailVisible: true });
+
+      // When
+      useTodoStore.getState().clearDetail();
+
+      // Then
+      const { selectedTodoId, isDetailVisible } = useTodoStore.getState();
+      expect(selectedTodoId).toBeNull();
+      expect(isDetailVisible).toBe(false);
+    });
+  });
 });

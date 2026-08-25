@@ -10,11 +10,14 @@ export const useTodoDetailVisibility = () => {
   const isDetailVisible = useTodoStore((state) => state.isDetailVisible);
   const setDetailVisible = useTodoStore((state) => state.setDetailVisible);
   const toggleDetailVisible = useTodoStore((state) => state.toggleDetailVisible);
+  const clearDetail = useTodoStore((state) => state.clearDetail);
 
   return {
     isDetailVisible,
     showDetail: () => setDetailVisible(true),
     hideDetail: () => setDetailVisible(false),
     toggleDetail: toggleDetailVisible,
+    /** 선택 해제 + 패널 닫기 (앱 진입/리스트 전환 시 초기화용) */
+    clearDetail,
   };
 };
