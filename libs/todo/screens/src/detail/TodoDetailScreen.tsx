@@ -24,6 +24,7 @@ const SC = {
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding: 1.6rem;
     background-color: ${({ theme }) => theme.colors.bgSurface};
   `,
   Content: styled.div`

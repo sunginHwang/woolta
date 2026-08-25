@@ -18,6 +18,7 @@ export const TodoSidebarScreen = () => {
 const SC = {
   Panel: styled.div`
     height: 100%;
+    padding: 1.6rem;
     background-color: ${({ theme }) => theme.colors.bgSurface};
   `,
 };
