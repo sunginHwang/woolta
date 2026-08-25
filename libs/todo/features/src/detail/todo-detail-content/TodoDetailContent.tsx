@@ -1,7 +1,7 @@
 'use client';
 
 import { useManualSave } from '@common';
-import { Text } from '@wds';
+import { Text, useConfirm } from '@wds';
 import { FiCheck, FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import { TodoCheckbox } from '../../_shared/components/TodoCheckbox';
@@ -36,6 +36,7 @@ const Content = ({ todo }: ContentProps) => {
   const updateTodo = useTodoStore((state) => state.updateTodo);
   const toggleComplete = useTodoStore((state) => state.toggleComplete);
   const moveToTrash = useTodoStore((state) => state.moveToTrash);
+  const { openConfirm } = useConfirm();
   const restoreTodo = useTodoStore((state) => state.restoreTodo);
   const deleteForever = useTodoStore((state) => state.deleteForever);
   const { saveTitle, saveMemo, flush } = useTodoAutoSave(todo.id);
@@ -46,6 +47,13 @@ const Content = ({ todo }: ContentProps) => {
   const handleDeleteForeverClick = () => {
     if (window.confirm('할 일을 영구 삭제할까요?')) {
       deleteForever(todo.id);
+    }
+  };
+
+  const handleTrashClick = async () => {
+    const isConfirm = await openConfirm({ message: `'${todo.title}' 할 일을 삭제할까요?` });
+    if (isConfirm) {
+      moveToTrash(todo.id);
     }
   };
 
@@ -88,7 +96,7 @@ const Content = ({ todo }: ContentProps) => {
             </SC.FooterButton>
           </>
         ) : (
-          <SC.FooterButton type='button' title='휴지통으로 이동' $isDanger onClick={() => moveToTrash(todo.id)}>
+          <SC.FooterButton type='button' title='휴지통으로 이동' $isDanger onClick={handleTrashClick}>
             <FiTrash2 size={14} />
           </SC.FooterButton>
         )}

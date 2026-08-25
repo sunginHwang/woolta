@@ -1,5 +1,6 @@
 'use client';
 
+import { useConfirm } from '@wds';
 import { MouseEvent } from 'react';
 import { FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
 import { styled } from 'styled-components';
@@ -20,14 +21,18 @@ export const TodoItem = ({ todo }: Props) => {
   const selectTodo = useTodoStore((state) => state.selectTodo);
   const toggleComplete = useTodoStore((state) => state.toggleComplete);
   const moveToTrash = useTodoStore((state) => state.moveToTrash);
+  const { openConfirm } = useConfirm();
   const restoreTodo = useTodoStore((state) => state.restoreTodo);
   const deleteForever = useTodoStore((state) => state.deleteForever);
 
   const isTrashed = todo.deletedAt !== null;
 
-  const handleTrashClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleTrashClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    moveToTrash(todo.id);
+    const isConfirm = await openConfirm({ message: `'${todo.title}' 할 일을 삭제할까요?` });
+    if (isConfirm) {
+      moveToTrash(todo.id);
+    }
   };
 
   const handleRestoreClick = (e: MouseEvent<HTMLButtonElement>) => {

@@ -2,7 +2,7 @@
 
 import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { theme, type ThemeType } from '@wds';
+import { ConfirmProvider, theme, type ThemeType } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -100,7 +100,9 @@ const ThemedApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider theme={theme[themeType]}>
       <GlobalStyles />
-      <AppShell>{children}</AppShell>
+      <ConfirmProvider>
+        <AppShell>{children}</AppShell>
+      </ConfirmProvider>
     </ThemeProvider>
   );
 };
