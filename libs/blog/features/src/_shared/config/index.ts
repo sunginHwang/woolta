@@ -1,5 +1,10 @@
 export interface BlogConfig {
   apiUrl: string;
+  /**
+   * 브라우저에서 사용할 API base URL (미지정 시 apiUrl 사용).
+   * CORS 미허용 오리진에서 호스트 앱의 rewrites 프록시 경로(/api/blog)를 지정할 때 사용한다.
+   */
+  browserApiUrl?: string;
   imageApiUrl: string;
   accessTokenCookie: string;
   accessHeaderToken: string;
@@ -9,6 +14,7 @@ export interface BlogConfig {
 
 const _config: BlogConfig = {
   apiUrl: process.env.NEXT_PUBLIC_BLOG_API ?? 'https://api-blog.woolta.com',
+  browserApiUrl: process.env.NEXT_PUBLIC_BLOG_API_BROWSER,
   imageApiUrl: process.env.NEXT_PUBLIC_IMAGE_API ?? 'https://image.woolta.com',
   accessTokenCookie: '_WOOLTA_USER_',
   accessHeaderToken: 'Authorization',

@@ -16,8 +16,9 @@ registerApiClientResetter(() => {
 export function getApiClient() {
   if (!_apiClient) {
     const config = getBlogConfig();
+    const isBrowser = typeof window !== 'undefined';
     _apiClient = axios.create({
-      baseURL: config.apiUrl,
+      baseURL: isBrowser && config.browserApiUrl ? config.browserApiUrl : config.apiUrl,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Headers': '*',

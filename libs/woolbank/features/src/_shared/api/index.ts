@@ -8,8 +8,11 @@ let _apiClient: AxiosInstance | null = null;
 
 export function getApiClient(): AxiosInstance {
   if (!_apiClient) {
+    const { apiUrl, browserApiUrl } = getConfig();
+    const isBrowser = typeof window !== 'undefined';
+
     _apiClient = axios.create({
-      baseURL: getConfig().apiUrl,
+      baseURL: isBrowser && browserApiUrl ? browserApiUrl : apiUrl,
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',

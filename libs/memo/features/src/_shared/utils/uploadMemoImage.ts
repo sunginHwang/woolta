@@ -22,7 +22,7 @@ export const uploadMemoImage = async (imageFile: File) => {
   const accessToken = getAccessToken();
 
   try {
-    const { status, data } = await axios.post(`${process.env.NEXT_PUBLIC_BLOG_API}/file/upload/image`, formData, {
+    const { status, data } = await axios.post(`${process.env.NEXT_PUBLIC_BLOG_API_BROWSER ?? process.env.NEXT_PUBLIC_BLOG_API}/file/upload/image`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         ...(accessToken ? { Authorization: accessToken } : {}),
