@@ -25,3 +25,4 @@ export { ConfirmProvider } from './_shared/confirm/ConfirmContext';
 
 // _shared: toast
 export { Toast } from './_shared/toast/Toast';
+export { selectedAccountBookIdAtom } from './_shared/stores/selectedAccountBook';

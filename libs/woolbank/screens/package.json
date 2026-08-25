@@ -11,6 +11,8 @@
     "@woolta/common": "workspace:*",
     "@woolta/wds": "workspace:*",
     "@woolta/woolbank-features": "workspace:*",
+    "dayjs": "^1.11.10",
+    "jotai": "^2.5.0",
     "styled-components": "^6.1.8"
   },
   "peerDependencies": {

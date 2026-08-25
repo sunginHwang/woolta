@@ -3,7 +3,10 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
+import { useIsDashboardHost } from '@common';
+import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
+import { selectedAccountBookIdAtom } from '../../../_shared/stores/selectedAccountBook';
 import { deleteData, getData, postData, putData } from '../../../_shared/api';
 import { useAccountBookList } from '../../../_shared/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../../../_shared/stores/accountbookDate';
@@ -88,6 +91,17 @@ export const useAccountBookDetail = (id: string | null) => {
   const { back } = useRouter();
   const { onToast } = useToast();
   const queryClient = useQueryClient();
+  const isDashboardHost = useIsDashboardHost();
+  const setSelectedAccountBookId = useSetAtom(selectedAccountBookIdAtom);
+
+  // 완료(저장/삭제) 후 동작 — 원본 앱은 이전 화면으로, 대시보드는 우측 패널 닫기
+  const closeDetail = () => {
+    if (isDashboardHost) {
+      setSelectedAccountBookId(null);
+      return;
+    }
+    back();
+  };
   const deleteMutation = useMutation({ mutationFn: deleteAccountBook });
   const updateMutation = useMutation({ mutationFn: updateAccountBook });
   const addMutation = useMutation({ mutationFn: addAccountBook });
@@ -107,7 +121,7 @@ export const useAccountBookDetail = (id: string | null) => {
           if (registerDateMonth === selectedAccountBookDate) {
             addAccountBookItem(convertDate(accountBook));
           }
-          back();
+          closeDetail();
         },
         onError: () => onToast('다시 시도해 주세요.'),
       });
@@ -129,7 +143,7 @@ export const useAccountBookDetail = (id: string | null) => {
         removeAccountBookList(Number(id));
         queryClient.setQueryData(getQueryKey(id), () => null);
         onToast('정상적으로 삭제되었습니다.');
-        back();
+        closeDetail();
       },
       onError: () => onToast('다시 시도해 주세요.'),
     });

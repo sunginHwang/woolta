@@ -3,7 +3,8 @@ export const dynamic = 'force-dynamic';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
 import { prefetchAccountBookMain } from '@woolta/woolbank-features';
-import { AccountBookMainScreen, WoolbankScreensProvider } from '@woolta/woolbank-screens';
+import { WoolbankScreensProvider } from '@woolta/woolbank-screens';
+import { BankApp } from '../../components/bank/BankApp';
 
 export default async function BankPage() {
   const cookie = cookies().toString();
@@ -14,7 +15,7 @@ export default async function BankPage() {
   return (
     <WoolbankScreensProvider>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <AccountBookMainScreen />
+        <BankApp />
       </HydrationBoundary>
     </WoolbankScreensProvider>
   );

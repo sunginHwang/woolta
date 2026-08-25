@@ -648,6 +648,12 @@ importers:
       '@woolta/woolbank-features':
         specifier: workspace:*
         version: link:../features
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
+      jotai:
+        specifier: ^2.5.0
+        version: 2.8.0(@types/react@18.2.13)(react@18.2.0)
       next:
         specifier: 14.2.1
         version: 14.2.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.62.1)
