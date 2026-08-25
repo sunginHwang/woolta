@@ -1,8 +1,8 @@
 'use client';
 
-import { delay } from '@common';
-import { Text } from '@wds';
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { delay, useIsDashboardHost } from '@common';
+import { Text, typography } from '@wds';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { styled, useTheme } from 'styled-components';
 import { Button } from '../_shared/components/button/Button';
 import { ToggleTab } from '../_shared/components/toggle-tab/ToggleTab';
@@ -55,15 +55,26 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
   const { openConfirm } = useConfirm();
   const { onToast } = useToast();
   const { isShareUser } = useUserInfo();
+  const isDashboardHost = useIsDashboardHost();
+
+  // 대시보드에서는 바텀시트 대신 금액을 인라인 input 으로 직접 입력한다
+  const handleAmountInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/[^0-9]/g, '').slice(0, 12);
+    setAmount(digits === '' ? 0 : Number(digits));
+  };
+
+  const amountDisplayLength =
+    formData.amount === 0 ? 1 : formData.amount.toLocaleString('ko-KR').length;
   const { is_insert_mode: isInsertMode } = useAccountBookSaveRouterProps();
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isInsertMode) {
+    // 대시보드에서는 금액을 인라인 input 으로 받으므로 금액 바텀시트를 자동으로 열지 않는다
+    if (isInsertMode && !isDashboardHost) {
       setModalName('amount');
     }
-  }, [isInsertMode]);
+  }, [isInsertMode, isDashboardHost]);
 
   const handleClearClick = (e: MouseEvent<HTMLLIElement>) => {
     const type = e.currentTarget.dataset.type || '';
@@ -129,20 +140,35 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
 
   return (
     <>
-      <SC.Form>
+      <SC.Form $isDashboardHost={isDashboardHost}>
         <SC.Content>
           <div className='toggle'>
             <ToggleTab size='small' tabs={TAB_LIST} value={formData.type} onChangeTab={setType} />
           </div>
           <div className='center-box' onClick={openFormBottomSheet('registerDateTime')}>
-            <Text variant='body3' color='gray600' as='p'>
+            <Text variant='body3' color='textTertiary' as='p'>
               {formData.registerDateTime.format('YYYY-MM-DD')}
             </Text>
             <IconCalendar width={12} height={12} fill={colors.textTertiary} />
           </div>
-          <Text className='title' variant='title1Bold' color='gray900' onClick={openFormBottomSheet('amount')} as='p'>
-            {`${formData.amount.toLocaleString('ko-KR')}원`}
-          </Text>
+          {isDashboardHost ? (
+            <SC.AmountRow>
+              <SC.AmountInput
+                inputMode='numeric'
+                placeholder='0'
+                value={formData.amount === 0 ? '' : formData.amount.toLocaleString('ko-KR')}
+                onChange={handleAmountInputChange}
+                style={{ width: `${Math.max(1, amountDisplayLength)}ch` }}
+              />
+              <Text variant='title1Bold' color='textPrimary'>
+                원
+              </Text>
+            </SC.AmountRow>
+          ) : (
+            <Text className='title' variant='title1Bold' color='textPrimary' onClick={openFormBottomSheet('amount')} as='p'>
+              {`${formData.amount.toLocaleString('ko-KR')}원`}
+            </Text>
+          )}
         </SC.Content>
         <div>
           <FormField title={`${typeMsg}처`}>
@@ -161,7 +187,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
           </FormField>
           <FormField title='카테고리' onClick={openFormBottomSheet('category')}>
             <SC.FormContent>
-              <Text variant='body1' color='gray900'>
+              <Text variant='body1' color='textPrimary'>
                 {formData.category.name}
               </Text>
               <IconChevronRight width={16} height={16} fill={colors.textTertiary} />
@@ -223,8 +249,28 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
 };
 
 const SC = {
-  Form: styled.main`
-    margin-top: 3rem;
+  AmountRow: styled.div`
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.2rem;
+  `,
+  AmountInput: styled.input`
+    ${typography.title1Bold}
+    min-width: 1ch;
+    max-width: 100%;
+    border: none;
+    background: transparent;
+    text-align: right;
+    color: ${({ theme }) => theme.colors.textPrimary};
+    caret-color: ${({ theme }) => theme.colors.orangePrimary};
+
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.textDisabled};
+    }
+  `,
+  Form: styled.main<{ $isDashboardHost: boolean }>`
+    margin-top: ${({ $isDashboardHost }) => ($isDashboardHost ? '0' : '3rem')};
     padding: 0 1.6rem;
 
     .content-wrapper {
@@ -258,8 +304,10 @@ const SC = {
     background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
     height: 15rem;
     padding: 1.6rem;
-    width: calc(100% - 3.2rem);
+    width: 100%;
+    box-sizing: border-box;
     border: none;
+    color: ${({ theme }) => theme.colors.textPrimary};
   `,
   FormContent: styled.div`
     display: flex;
@@ -294,7 +342,6 @@ const SC = {
     .bottom-wrapper {
       display: flex;
       gap: 0.8rem;
-      padding: 0 1.6rem;
     }
   `,
 };
