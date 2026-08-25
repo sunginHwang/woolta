@@ -3,6 +3,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: [
+    '@woolta/article-curations-features',
+    '@woolta/article-curations-screens',
     '@woolta/common',
     '@woolta/wds',
     '@woolta/woolbank-features',

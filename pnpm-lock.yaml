@@ -306,6 +306,12 @@ importers:
 
   apps/woolta:
     dependencies:
+      '@woolta/article-curations-features':
+        specifier: workspace:*
+        version: link:../../libs/article-curations/features
+      '@woolta/article-curations-screens':
+        specifier: workspace:*
+        version: link:../../libs/article-curations/screens
       '@woolta/blog-features':
         specifier: workspace:*
         version: link:../../libs/blog/features
@@ -338,6 +344,54 @@ importers:
         version: link:../../libs/woolbank/screens
 
   apps/woolta-e2e: {}
+
+  libs/article-curations/features:
+    dependencies:
+      '@woolta/wds':
+        specifier: workspace:*
+        version: link:../../wds
+      motion:
+        specifier: ^13.1.1
+        version: 13.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next:
+        specifier: 14.2.1
+        version: 14.2.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.62.1)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-icons:
+        specifier: ^4.11.0
+        version: 4.12.0(react@18.2.0)
+      styled-components:
+        specifier: ^6.1.8
+        version: 6.1.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      zustand:
+        specifier: ^5.0.3
+        version: 5.0.15(@types/react@18.2.13)(react@18.2.0)(use-sync-external-store@1.6.0(react@18.2.0))
+
+  libs/article-curations/screens:
+    dependencies:
+      '@woolta/article-curations-features':
+        specifier: workspace:*
+        version: link:../features
+      '@woolta/wds':
+        specifier: workspace:*
+        version: link:../../wds
+      next:
+        specifier: 14.2.1
+        version: 14.2.1(@babel/core@7.24.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.62.1)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      styled-components:
+        specifier: ^6.1.8
+        version: 6.1.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
 
   libs/blog/features:
     dependencies:
