@@ -1,6 +1,7 @@
 'use client';
 
-import { FiStar, FiTrash2 } from 'react-icons/fi';
+import { SyntheticEvent } from 'react';
+import { FiLink, FiStar, FiTrash2 } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import { useWeeklyCuration } from '../../_shared/hooks/useWeeklyCuration';
 import { useArticleStore } from '../../_shared/stores/useArticleStore';
@@ -29,6 +30,10 @@ export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
     toggleCuration(weekKey, article.id);
   };
 
+  const handleThumbnailError = (e: SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.style.display = 'none';
+  };
+
   const handleRemoveClick = () => {
     if (!window.confirm(`'${article.title}' 아티클을 삭제할까요?`)) {
       return;
@@ -39,9 +44,21 @@ export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
   return (
     <SC.Row>
       <SC.TitleCell>
-        <SC.TitleLink href={article.url} target='_blank' rel='noreferrer' title={article.url}>
-          {article.title}
-        </SC.TitleLink>
+        <SC.TitleWrap>
+          {article.seo?.imageUrl ? (
+            <SC.Thumbnail src={article.seo.imageUrl} alt='' loading='lazy' onError={handleThumbnailError} />
+          ) : (
+            <SC.ThumbnailFallback>
+              <FiLink size={14} />
+            </SC.ThumbnailFallback>
+          )}
+          <SC.TitleBody>
+            <SC.TitleLink href={article.url} target='_blank' rel='noreferrer' title={article.url}>
+              {article.title}
+            </SC.TitleLink>
+            {article.seo?.description && <SC.Description title={article.seo.description}>{article.seo.description}</SC.Description>}
+          </SC.TitleBody>
+        </SC.TitleWrap>
       </SC.TitleCell>
       {showCategory && <SC.Cell>{categoryName ?? '-'}</SC.Cell>}
       <SC.Cell>{formatArticleDate(article.createdAt)}</SC.Cell>
@@ -79,6 +96,36 @@ const SC = {
     max-width: 0;
     width: 100%;
   `,
+  TitleWrap: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+  `,
+  Thumbnail: styled.img`
+    flex-shrink: 0;
+    width: 5.6rem;
+    height: 3.6rem;
+    object-fit: cover;
+    border-radius: 0.6rem;
+    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
+  `,
+  ThumbnailFallback: styled.span`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 5.6rem;
+    height: 3.6rem;
+    border-radius: 0.6rem;
+    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
+    color: ${({ theme }) => theme.colors.textTertiary};
+  `,
+  TitleBody: styled.div`
+    min-width: 0;
+  `,
   TitleLink: styled.a`
     display: block;
     overflow: hidden;
@@ -93,6 +140,15 @@ const SC = {
       color: ${({ theme }) => theme.colors.brandPrimary};
       text-decoration: underline;
     }
+  `,
+  Description: styled.p`
+    margin-top: 0.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: ${({ theme }) => theme.colors.textTertiary};
+    font-size: 1.2rem;
+    line-height: 1.6rem;
   `,
   Cell: styled.td`
     padding: 1rem 1.2rem;

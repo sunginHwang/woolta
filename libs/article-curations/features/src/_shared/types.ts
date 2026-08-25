@@ -15,6 +15,15 @@ export interface ArticleCategory {
   createdAt: string;
 }
 
+export interface ArticleSeo {
+  /** OG 제목 */
+  title?: string;
+  /** OG/메타 설명 */
+  description?: string;
+  /** OG 썸네일 이미지 URL */
+  imageUrl?: string;
+}
+
 export interface Article {
   /** 아티클 고유 id */
   id: string;
@@ -24,6 +33,8 @@ export interface Article {
   title: string;
   /** 아티클 링크 */
   url: string;
+  /** 링크에서 수집한 SEO 메타 정보 (수집 실패 시 없음) */
+  seo?: ArticleSeo;
   /** 생성일 (ISO 문자열) */
   createdAt: string;
   /** 수정일 (ISO 문자열) */

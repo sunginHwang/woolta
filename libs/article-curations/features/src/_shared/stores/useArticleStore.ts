@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { combine, persist } from 'zustand/middleware';
 import { WEEKLY_CURATION_LIMIT } from '../constants';
-import { Article, ArticleCategory, WeeklyCuration } from '../types';
+import { Article, ArticleCategory, ArticleSeo, WeeklyCuration } from '../types';
 
 const createArticleId = (prefix: string) => {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -20,6 +20,8 @@ interface AddArticleInput {
   title: string;
   /** 아티클 링크 */
   url: string;
+  /** 링크에서 수집한 SEO 메타 (없으면 생략) */
+  seo?: ArticleSeo;
 }
 
 /** 아티클 id 목록에서 지정한 id들을 제거한 큐레이션 목록을 반환한다. (빈 주차는 제거) */
@@ -70,18 +72,24 @@ export const useArticleStore = create(
             };
           });
         },
-        addArticle: ({ categoryId, title, url }: AddArticleInput) => {
+        addArticle: ({ categoryId, title, url, seo }: AddArticleInput) => {
           const now = new Date().toISOString();
           const article: Article = {
             id: createArticleId('article'),
             categoryId,
             title,
             url,
+            seo,
             createdAt: now,
             updatedAt: now,
           };
           set((state) => ({ articleList: [...state.articleList, article] }));
           return article.id;
+        },
+        setArticleSeo: (id: string, seo: ArticleSeo) => {
+          set((state) => ({
+            articleList: state.articleList.map((article) => (article.id === id ? { ...article, seo } : article)),
+          }));
         },
         removeArticle: (id: string) => {
           set((state) => ({

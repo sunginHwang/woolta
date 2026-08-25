@@ -95,6 +95,47 @@ describe('useArticleStore 테스트', () => {
     });
   });
 
+  describe('addArticle seo 저장 테스트', () => {
+    it('addArticle 에 seo 를 넘기면 아티클에 함께 저장된다.', () => {
+      // Given
+      const seo = { description: 'SEO 설명', imageUrl: 'https://example.com/thumb.png' };
+
+      // When
+      const createdId = useArticleStore
+        .getState()
+        .addArticle({ categoryId: 'category-1', title: '제목', url: 'https://example.com', seo });
+
+      // Then
+      const created = useArticleStore.getState().articleList.find((article) => article.id === createdId);
+      expect(created?.seo).toEqual(seo);
+    });
+  });
+
+  describe('setArticleSeo 테스트', () => {
+    it('setArticleSeo 를 호출하면 해당 아티클에 seo 정보가 저장된다.', () => {
+      // Given
+      useArticleStore.setState({ articleList: [baseItem] });
+      const seo = { title: 'SEO 제목', description: 'SEO 설명', imageUrl: 'https://example.com/thumb.png' };
+
+      // When
+      useArticleStore.getState().setArticleSeo(baseItem.id, seo);
+
+      // Then
+      expect(useArticleStore.getState().articleList[0].seo).toEqual(seo);
+    });
+
+    it('setArticleSeo 에 존재하지 않는 id 를 넘기면 목록이 변하지 않는다.', () => {
+      // Given
+      useArticleStore.setState({ articleList: [baseItem] });
+
+      // When
+      useArticleStore.getState().setArticleSeo('unknown-id', { title: 'SEO 제목' });
+
+      // Then
+      expect(useArticleStore.getState().articleList).toEqual([baseItem]);
+    });
+  });
+
   describe('removeArticle 테스트', () => {
     it('removeArticle 을 호출하면 아티클이 삭제되고 큐레이션에서도 제거된다.', () => {
       // Given
