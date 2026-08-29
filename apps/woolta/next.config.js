@@ -1,4 +1,5 @@
 //@ts-check
+const withStylex = require('../../tools/stylex/nextStylex');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -38,4 +39,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withStylex(nextConfig);
