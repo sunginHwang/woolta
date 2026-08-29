@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteData } from '../../../../utils/api';
 import {
   REGULAR_EXTENTIRE_LIST_QUERY_KEY,
-  RegularExpenditureListItem,
+  type RegularExpenditureListItem,
   useRegularExtentureListQuery,
 } from './useRegularExtentureListQuery';
 

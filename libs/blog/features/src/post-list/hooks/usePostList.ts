@@ -1,9 +1,9 @@
 'use client';
 
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { getData } from '../../_shared/api';
 import { POSTS_QUERY_KEY } from '../../_shared/query-keys';
-import { IPost } from '../../_shared/types/IPost';
+import type { IPost } from '../../_shared/types/IPost';
 
 export async function fetchPostList(categoryId: string) {
   const urlPath = categoryId === '-1' ? '/post/categories/new/posts' : `/post/categories/${categoryId}/posts`;

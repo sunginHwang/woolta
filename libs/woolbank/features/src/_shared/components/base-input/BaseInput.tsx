@@ -5,7 +5,15 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import {
+  type ChangeEvent,
+  forwardRef,
+  type InputHTMLAttributes,
+  type MouseEvent,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import { IconCloseCircle } from '../../icons';
 
 interface Props
@@ -100,7 +108,12 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
 
     return (
       <>
-        <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+        <div
+          {...stylex.props(styles.container)}
+          ref={parentRef}
+          onClick={onClick}
+          data-type={dataType === '' ? name : dataType}
+        >
           {label && (
             <Text variant='small1Regular' color={focus ? 'orangePrimary' : 'textTertiary'} as='label' mb={8}>
               {label}
@@ -125,7 +138,11 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
             {...restInputProps}
           />
           {isExistInputValue && (
-            <i {...stylex.props(styles.clearIcon)} onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
+            <i
+              {...stylex.props(styles.clearIcon)}
+              onClick={handleInputClear}
+              data-type={dataType === '' ? name : dataType}
+            >
               <IconCloseCircle width={24} height={28} fill={colorVars['--color-textTertiary']} />
             </i>
           )}

@@ -1,5 +1,5 @@
 import { invisibleScrollBar, white } from '@wds';
-import { forwardRef, PropsWithChildren } from 'react';
+import { forwardRef, type PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 
 interface Props extends PropsWithChildren {

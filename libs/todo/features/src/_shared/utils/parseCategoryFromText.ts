@@ -1,4 +1,4 @@
-import { TodoCategory } from '../types';
+import type { TodoCategory } from '../types';
 
 export interface ParsedCategoryToken {
   /** 매칭된 토큰 원문 (`#` 를 붙여 입력했다면 포함) */

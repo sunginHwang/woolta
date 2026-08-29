@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { getCategoryIdFromListKey } from '../routes';
 import { useTodoStore } from '../stores/useTodoStore';
-import { Todo, TodoListKey } from '../types';
+import type { Todo, TodoListKey } from '../types';
 import { getTodayKey, isOverdue, isToday } from '../utils/todoDate';
 
 /** 리스트 키에 해당하는 활성(미완료) 필터 조건을 반환한다. */

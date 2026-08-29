@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
   text: string;

@@ -3,8 +3,8 @@
 import { usePreventScroll } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
-import { motion, AnimatePresence } from 'motion/react';
-import { ReactNode, PropsWithChildren } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import Deem from '../components/deem/Deem';
 import { IconClose } from '../icons';
 
@@ -55,7 +55,10 @@ export const DefaultBottomSheet = ({
               </div>
             )}
             <div
-              {...stylex.props(styles.content, contentHeight !== undefined && dynamicStyles.contentMaxHeight(contentHeight))}
+              {...stylex.props(
+                styles.content,
+                contentHeight !== undefined && dynamicStyles.contentMaxHeight(contentHeight),
+              )}
             >
               {children}
             </div>

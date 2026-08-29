@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { Button } from '../atom/Button';
 
 interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disabled' | 'children' | 'loading'> {

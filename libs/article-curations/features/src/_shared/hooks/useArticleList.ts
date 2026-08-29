@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { getCategoryIdFromListKey } from '../routes';
 import { useArticleStore } from '../stores/useArticleStore';
-import { ArticleListKey } from '../types';
+import type { ArticleListKey } from '../types';
 import { useWeeklyCuration } from './useWeeklyCuration';
 
 /** 리스트 키에 해당하는 아티클 목록을 반환한다. (전체/카테고리는 최신순, 큐레이션은 선정순) */

@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
+import type { AccountBookCategory } from '../../hooks/useAccountBookCategories';
 
 interface Props {
   accountBookCategory: AccountBookCategory;
@@ -25,11 +25,7 @@ export const CategoryItem = ({ accountBookCategory, isActive, onSelect }: Props)
       {...stylex.props(styles.item, isActive ? styles.itemActive : styles.itemInactive)}
       onClick={handleCategoryClick}
     >
-      <img
-        {...stylex.props(styles.img)}
-        src={accountBookCategory.accountBookCategoryImage.imageUrl}
-        alt='icon-image'
-      />
+      <img {...stylex.props(styles.img)} src={accountBookCategory.accountBookCategoryImage.imageUrl} alt='icon-image' />
       <Text variant='small1Regular' color='textPrimary' mt={5}>
         {accountBookCategory.name}
       </Text>

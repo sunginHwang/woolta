@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { IconCloseCircle } from '../../../../../components/atom/Icon';
 
 interface Props {

@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { MouseEvent, forwardRef } from 'react';
-import Chip, { ChipItem } from './Chip';
+import { forwardRef, type MouseEvent } from 'react';
+import Chip, { type ChipItem } from './Chip';
 
 export interface ChipItemWithLink extends ChipItem {
   href?: string;

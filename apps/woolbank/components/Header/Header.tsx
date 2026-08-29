@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
-import { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import { layoutConsts } from '../../style/layout.stylex';
 import SubHeader from './SubHeader';
 

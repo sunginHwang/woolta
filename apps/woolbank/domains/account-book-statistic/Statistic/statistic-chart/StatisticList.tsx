@@ -5,10 +5,10 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Button } from '../../../../components/atom/Button';
 import {
-  AccountBookSheetItem,
   AccountBookBottomSheet,
+  type AccountBookSheetItem,
 } from '../../../account-books/_common/components/account-book-bottom-sheet/AccountBookBottomSheet';
-import { AccountBookChartData } from './StatisticChart';
+import type { AccountBookChartData } from './StatisticChart';
 
 interface ActiveSheet {
   color: string;

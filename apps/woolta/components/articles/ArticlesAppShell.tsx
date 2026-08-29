@@ -1,7 +1,7 @@
 'use client';
 
 import { ArticleSidebarScreen } from '@article-curations/screens';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import SplitPane from '../split-pane/SplitPane';
 
 interface Props {

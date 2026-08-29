@@ -5,7 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
 import Link from 'next/link';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { type HTMLAttributes, useEffect, useState } from 'react';
 
 export interface Tab {
   label: string;
@@ -79,11 +79,7 @@ export const Tabs = ({ tabs, value, stickeyHeight, onChange, ...rest }: Props) =
             type='button'
             data-cy={tab.label}
             onClick={() => onTabClick(tab, index)}
-            {...stylex.props(
-              typographyStyles.title5Medium,
-              styles.tab,
-              tab.value === value ? styles.tabActive : null,
-            )}
+            {...stylex.props(typographyStyles.title5Medium, styles.tab, tab.value === value ? styles.tabActive : null)}
           >
             {tab.label}
           </button>

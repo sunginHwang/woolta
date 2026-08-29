@@ -1,4 +1,4 @@
-import { NextURL } from 'next/dist/server/web/next-url';
+import type { NextURL } from 'next/dist/server/web/next-url';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import appConfig, { setConfig } from './utils/config';

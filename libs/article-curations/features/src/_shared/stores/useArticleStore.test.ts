@@ -1,5 +1,5 @@
 import { WEEKLY_CURATION_LIMIT } from '../constants';
-import { Article, ArticleCategory } from '../types';
+import type { Article, ArticleCategory } from '../types';
 import { useArticleStore } from './useArticleStore';
 
 const baseCategory: ArticleCategory = {

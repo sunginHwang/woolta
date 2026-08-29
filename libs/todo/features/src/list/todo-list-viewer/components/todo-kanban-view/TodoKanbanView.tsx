@@ -4,8 +4,8 @@ import * as stylex from '@stylexjs/stylex';
 import { useMemo } from 'react';
 import { useCategoryList } from '../../../../_shared/hooks/useCategoryList';
 import { useFilteredTodoList } from '../../../../_shared/hooks/useFilteredTodoList';
-import { TodoListKey } from '../../../../_shared/types';
-import { INBOX_COLUMN_ID, groupTodosByCategory } from '../../../../_shared/utils/groupTodosByCategory';
+import type { TodoListKey } from '../../../../_shared/types';
+import { groupTodosByCategory, INBOX_COLUMN_ID } from '../../../../_shared/utils/groupTodosByCategory';
 import { KanbanColumn } from './components/KanbanColumn';
 import { useKanbanDrag } from './hooks/useKanbanDrag';
 

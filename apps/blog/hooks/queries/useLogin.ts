@@ -1,8 +1,8 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { IUserInfo } from '../../types/user/IUserInfo';
-import apiCall, { APIResponse, settingAccessHeaderToken } from '../../utils/api';
+import type { IUserInfo } from '../../types/user/IUserInfo';
+import apiCall, { type APIResponse, settingAccessHeaderToken } from '../../utils/api';
 import config from '../../utils/config';
 
 const USER_INFO_QUERY_KEY = 'getUserInfo';

@@ -1,7 +1,7 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { useTodoBoardView, useTodoDetailVisibility, type TodoListKey } from '@todo/features';
+import { type TodoListKey, useTodoBoardView, useTodoDetailVisibility } from '@todo/features';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { FiColumns, FiList, FiSidebar } from 'react-icons/fi';

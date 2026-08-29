@@ -1,20 +1,20 @@
 'use client';
 import { AppHostProvider } from '@common';
-import { ThemeProvider } from 'styled-components';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Provider as JotaiProvider } from 'jotai';
-import { theme } from 'libs/wds/src/lib/style/colors';
-import { Layout } from '../Layout';
-import { StyledComponentsRegistry } from './StyleRegistry';
-import { ConfirmProvider } from '../../../components/Confirm/ConfirmContext';
-import { setConfig } from '../../../utils/config';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
+import { Provider as JotaiProvider } from 'jotai';
+import { theme } from 'libs/wds/src/lib/style/colors';
+import { ThemeProvider } from 'styled-components';
+import { ConfirmProvider } from '../../../components/Confirm/ConfirmContext';
+import { setConfig } from '../../../utils/config';
+import { Layout } from '../Layout';
 import { GlobalStyle } from './GlobalStyle';
+import { StyledComponentsRegistry } from './StyleRegistry';
 
 setConfig();
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined;
 
 function makeQueryClient() {
   return new QueryClient({

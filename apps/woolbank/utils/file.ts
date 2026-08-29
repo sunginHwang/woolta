@@ -23,13 +23,13 @@ export const resizeImage = (file: File, maxWidth: number, maxHeight: number): Pr
   const reader = new FileReader();
   reader.readAsDataURL(file);
 
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     if (!file.type.match(/image.*/)) {
       reject(new Error('Not an image'));
       return;
     }
 
-    reader.onload = function (e) {
+    reader.onload = (e) => {
       const img = document.createElement('img');
       img.src = String(e && e.target ? e.target.result : '');
 

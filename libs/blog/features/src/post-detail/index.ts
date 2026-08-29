@@ -1,4 +1,4 @@
+export { useDeletePost } from './hooks/useDeletePost';
+export { fetchPost, prefetchPost, usePost } from './hooks/usePost';
 export { Post } from './Post';
 export { PostLoading } from './post-loading/PostLoading';
-export { usePost, prefetchPost, fetchPost } from './hooks/usePost';
-export { useDeletePost } from './hooks/useDeletePost';

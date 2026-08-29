@@ -1,7 +1,7 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { Button } from '../button/Button';
 
 interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disabled' | 'children' | 'loading'> {
@@ -12,7 +12,13 @@ interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disable
  * 하단 고정 버튼
  * @component
  */
-export const BottomFloatingButton = ({ children, loading = false, disabled = false, isShow = false, onClick }: Props) => {
+export const BottomFloatingButton = ({
+  children,
+  loading = false,
+  disabled = false,
+  isShow = false,
+  onClick,
+}: Props) => {
   if (!isShow) {
     return null;
   }

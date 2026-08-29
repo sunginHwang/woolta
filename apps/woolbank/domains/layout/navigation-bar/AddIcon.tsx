@@ -28,7 +28,11 @@ export const AddButton = () => {
   }
 
   return (
-    <Link {...stylex.props(typographyStyles.title1Bold, styles.container)} href='/account-books/save' data-cy='addButton'>
+    <Link
+      {...stylex.props(typographyStyles.title1Bold, styles.container)}
+      href='/account-books/save'
+      data-cy='addButton'
+    >
       +
     </Link>
   );

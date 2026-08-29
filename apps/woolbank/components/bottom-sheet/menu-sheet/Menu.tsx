@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { BottomMenu } from './MenuSheet';
+import type { BottomMenu } from './MenuSheet';
 
 interface Props {
   menu: BottomMenu;
@@ -20,11 +20,7 @@ export const Menu = ({ menu, isActive, onMenuSelect }: Props) => {
   };
 
   return (
-    <li
-      key={menu.type}
-      onClick={onClick}
-      {...stylex.props(styles.menu, isActive && styles.menuActive)}
-    >
+    <li key={menu.type} onClick={onClick} {...stylex.props(styles.menu, isActive && styles.menuActive)}>
       <Text variant='title4Medium' color='gray700' alignment='left'>
         {menu.value}
       </Text>

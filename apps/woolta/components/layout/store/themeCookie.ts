@@ -1,4 +1,4 @@
-import { ThemeType } from '@wds';
+import type { ThemeType } from '@wds';
 
 /**
  * 테마를 저장하는 쿠키 이름.

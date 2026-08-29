@@ -3,7 +3,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { EmptyInfo } from '../../../../components/empty-info/EmptyInfo';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
-import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
+import type { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 import StatisticList from './StatisticList';
 
 const PIE_CHART_COLOR_LIST: string[] = [

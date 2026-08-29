@@ -1,4 +1,4 @@
-import { ArticleSeo } from '../types';
+import type { ArticleSeo } from '../types';
 
 /**
  * 호스트 앱의 article-meta 라우트를 통해 링크의 SEO 메타를 수집한다.

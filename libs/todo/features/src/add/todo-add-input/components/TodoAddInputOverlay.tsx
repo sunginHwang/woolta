@@ -3,8 +3,8 @@
 import * as stylex from '@stylexjs/stylex';
 import { shadowVars, zIndexConsts } from '@wds/tokens.stylex';
 import { AnimatePresence, motion } from 'motion/react';
-import { MouseEvent } from 'react';
-import { TodoListKey } from '../../../_shared/types';
+import type { MouseEvent } from 'react';
+import type { TodoListKey } from '../../../_shared/types';
 import { useTodoAddShortcut } from '../../_shared/hooks/useTodoAddShortcut';
 import { TodoAddInputRoot } from './TodoAddInputRoot';
 

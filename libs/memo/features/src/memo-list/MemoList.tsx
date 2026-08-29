@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useMemoList } from '../_shared/hooks/useMemoList';
 import { useMemoStore } from '../_shared/stores/useMemoStore';

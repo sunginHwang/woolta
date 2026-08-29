@@ -2,7 +2,7 @@ import { delay } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colors, Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import { IconCalendar } from '../../../../components/atom/Icon/Calendar';
@@ -14,7 +14,11 @@ import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 import { useToast } from '../../../../hooks/useToast';
 import getCategoryMsg from '../../../../utils/account-books';
 import { useAccountBookSaveRouterProps } from '../_common/hooks/useAccountBookSaveRouterProps';
-import { AccountBookSaveForm, ScheduledPaymentType, useAccountBookForm } from './_common/hooks/useAccountBookForm';
+import {
+  type AccountBookSaveForm,
+  type ScheduledPaymentType,
+  useAccountBookForm,
+} from './_common/hooks/useAccountBookForm';
 import { FormField } from './form-field/FormField';
 import { FormInput } from './form-field/FormInput';
 import { Switch } from './form-field/Switch';
@@ -220,7 +224,13 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
               <IconCalendar width={12} height={12} fill={colors.gray500} />
             </span>
           </div>
-          <Text variant='title1Bold' color='gray900' onClick={openFormBottomSheet('amount')} as='p' xstyle={styles.titleAmount}>
+          <Text
+            variant='title1Bold'
+            color='gray900'
+            onClick={openFormBottomSheet('amount')}
+            as='p'
+            xstyle={styles.titleAmount}
+          >
             {`${formData.amount.toLocaleString('ko-KR')}원`}
           </Text>
         </div>

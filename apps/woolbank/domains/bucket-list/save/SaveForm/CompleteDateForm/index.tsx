@@ -3,7 +3,7 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import dayjs from 'dayjs';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { ComponentProps, FC, memo, useEffect } from 'react';
+import { type ComponentProps, type FC, memo, useEffect } from 'react';
 import { BaseInput } from '../../../../../components/base-input/BaseInput';
 import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 import { FormTemplate } from '../../FormTemplate';

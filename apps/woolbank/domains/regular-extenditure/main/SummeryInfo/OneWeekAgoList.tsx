@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { getRemainDay } from '../../../../utils/date';
-import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
+import type { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
 interface Props {
   // 일주일 안남은 정기지출 리스트

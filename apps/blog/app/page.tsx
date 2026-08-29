@@ -2,8 +2,8 @@ export const dynamic = 'force-dynamic';
 
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Home } from '../components/home/Home';
-import { prefetchPostList } from '../components/home/hooks/usePostList';
 import { prefetchCategories } from '../components/home/hooks/useCategories';
+import { prefetchPostList } from '../components/home/hooks/usePostList';
 
 interface Props {
   searchParams: Promise<{ category: string | undefined }>;

@@ -248,7 +248,7 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined;
 
 function makeQueryClient() {
   return new QueryClient({

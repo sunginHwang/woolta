@@ -2,11 +2,11 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { FiLink, FiStar, FiTrash2 } from 'react-icons/fi';
 import { useWeeklyCuration } from '../../_shared/hooks/useWeeklyCuration';
 import { useArticleStore } from '../../_shared/stores/useArticleStore';
-import { Article } from '../../_shared/types';
+import type { Article } from '../../_shared/types';
 import { formatArticleDate } from '../../_shared/utils/formatArticleDate';
 
 interface Props {
@@ -213,7 +213,13 @@ export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
             </span>
           )}
           <div {...stylex.props(styles.titleBody)}>
-            <a {...stylex.props(styles.titleLink)} href={article.url} target='_blank' rel='noreferrer' title={article.url}>
+            <a
+              {...stylex.props(styles.titleLink)}
+              href={article.url}
+              target='_blank'
+              rel='noreferrer'
+              title={article.url}
+            >
               {article.title}
             </a>
             {article.seo?.description && (
@@ -239,12 +245,7 @@ export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
         >
           <FiStar size={14} fill={isCurated ? 'currentColor' : 'none'} />
         </button>
-        <button
-          type='button'
-          {...stylex.props(styles.removeButton)}
-          title='삭제'
-          onClick={handleRemoveClick}
-        >
+        <button type='button' {...stylex.props(styles.removeButton)} title='삭제' onClick={handleRemoveClick}>
           <FiTrash2 size={14} />
         </button>
       </td>

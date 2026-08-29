@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 interface Props {
   day: number;

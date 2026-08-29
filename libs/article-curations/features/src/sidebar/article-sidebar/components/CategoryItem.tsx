@@ -3,11 +3,16 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
-import { KeyboardEvent, MouseEvent, useState } from 'react';
+import { type KeyboardEvent, type MouseEvent, useState } from 'react';
 import { FiEdit2, FiHash, FiTrash2 } from 'react-icons/fi';
-import { ARTICLES_BASE_PATH, getArticleListHref, getCategoryListKey, isArticleListActive } from '../../../_shared/routes';
+import {
+  ARTICLES_BASE_PATH,
+  getArticleListHref,
+  getCategoryListKey,
+  isArticleListActive,
+} from '../../../_shared/routes';
 import { useArticleStore } from '../../../_shared/stores/useArticleStore';
-import { ArticleCategory } from '../../../_shared/types';
+import type { ArticleCategory } from '../../../_shared/types';
 import { SidebarItem } from './SidebarItem';
 
 interface Props {

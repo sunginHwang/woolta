@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes } from 'react';
 
 export const Switch = ({ className, style, checked, disabled, ...rest }: InputHTMLAttributes<HTMLInputElement>) => {
   const containerSx = stylex.props(

@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppRouterContext } from 'next/dist/shared/lib/app-router-context';
-import { ReactNode, Suspense } from 'react';
+import { type ReactNode, Suspense } from 'react';
 import { ConfirmProvider } from '../domains/Confirm/ConfirmContext';
 import { Layout } from '../domains/layout/Layout';
 import { setConfig } from '../utils/config';

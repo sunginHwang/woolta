@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
 import { useAtom } from 'jotai';
-import { ChangeEventHandler } from 'react';
+import type { ChangeEventHandler } from 'react';
 import { postTitleAtom } from '../../_shared/write-store';
 
 const styles = stylex.create({

@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentProps, createContext, ReactNode, useContext, useRef, useState } from 'react';
+import { type ComponentProps, createContext, type ReactNode, useContext, useRef, useState } from 'react';
 import { Confirm } from './Confirm';
 
 interface ConfirmServiceProps extends ComponentProps<typeof Confirm> {

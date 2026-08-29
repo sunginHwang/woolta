@@ -12,14 +12,17 @@ import SummeryInfo from './SummeryInfo';
  * @component
  */
 
-export const RegularExpenditure = withSuspense(() => {
-  const { isShareUser } = useUserInfo();
+export const RegularExpenditure = withSuspense(
+  () => {
+    const { isShareUser } = useUserInfo();
 
-  return (
-    <>
-      <SummeryInfo />
-      <ExtentureTypeList />
-      {!isShareUser && <AddButton href='/regular-extenditure/save' />}
-    </>
-  );
-}, <RegularExpenditureSkeleton />);
+    return (
+      <>
+        <SummeryInfo />
+        <ExtentureTypeList />
+        {!isShareUser && <AddButton href='/regular-extenditure/save' />}
+      </>
+    );
+  },
+  <RegularExpenditureSkeleton />,
+);

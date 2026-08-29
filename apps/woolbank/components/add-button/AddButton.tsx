@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
 import Link from 'next/link';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 type Props = ComponentProps<typeof Link>;
 

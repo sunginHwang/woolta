@@ -1,6 +1,6 @@
 import isNil from 'lodash-es/isNil';
 import isUndefined from 'lodash-es/isUndefined';
-import { MouseEvent, useRef } from 'react';
+import { type MouseEvent, useRef } from 'react';
 
 /**
  * 선택된 카테고리가 포커싱되도록 처리하는 hook

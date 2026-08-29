@@ -2,7 +2,7 @@ const CACHE_NAME = 'woolta-blog-cache-v2';
 
 const FILES_TO_CACHE = ['/offline'];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', (event) => {
   console.log('[wooltaBlogServiceWorker]  Install');
   // Perform install steps
   self.skipWaiting();
@@ -16,7 +16,7 @@ self.addEventListener('install', function (event) {
     );*/
 });
 
-self.addEventListener('activate', function (event) {
+self.addEventListener('activate', (event) => {
   console.log('[wooltaBlogServiceWorker] activate');
 
   /* event.waitUntil(
@@ -59,7 +59,7 @@ self.addEventListener('activate', function (event) {
     );
 });*/
 
-self.addEventListener('push', function (event) {
+self.addEventListener('push', (event) => {
   console.log(`[wooltaBlogServiceWorker] Push had this data: "${event.data.text()}"`);
   const pushInfo = JSON.parse(event.data.text());
 
@@ -75,7 +75,7 @@ self.addEventListener('push', function (event) {
   event.waitUntil(self.registration.showNotification(pushInfo.title, options));
 });
 
-self.addEventListener('notificationclick', function (event) {
+self.addEventListener('notificationclick', (event) => {
   event.notification.close(); // 푸쉬 종료 처리
 
   event.waitUntil(

@@ -1,5 +1,5 @@
 import { SkeletonBar } from '@wds';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { ChipLayout } from './ChipLayout';
 
 interface Props {
@@ -14,7 +14,10 @@ interface Props {
   padding?: string;
 }
 
-export const ChipsLoading: FC<Pick<Props, 'padding' | 'stickey_height'>> = ({ padding = '.8rem 1rem', stickey_height }) => {
+export const ChipsLoading: FC<Pick<Props, 'padding' | 'stickey_height'>> = ({
+  padding = '.8rem 1rem',
+  stickey_height,
+}) => {
   return (
     <ChipLayout stickey_height={stickey_height} padding={padding}>
       {[47, 58, 46, 85, 47, 58].map((width, index) => (

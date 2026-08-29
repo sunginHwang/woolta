@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface Props {
   /** 이동할 경로 */
@@ -26,19 +26,12 @@ export const SidebarItem = ({ href, icon, label, count = 0, isActive, hoverActio
 
   return (
     <li {...stylex.props(styles.item)}>
-      <Link
-        href={href}
-        {...stylex.props(styles.itemLink, isActive && styles.itemLinkActive)}
-      >
+      <Link href={href} {...stylex.props(styles.itemLink, isActive && styles.itemLinkActive)}>
         <span {...stylex.props(styles.icon)}>{icon}</span>
         <span {...stylex.props(styles.label)}>{label}</span>
         {count > 0 && <span {...stylex.props(styles.count)}>{count}</span>}
       </Link>
-      {hasHoverActions && (
-        <span {...stylex.props(styles.hoverActions)}>
-          {hoverActions}
-        </span>
-      )}
+      {hasHoverActions && <span {...stylex.props(styles.hoverActions)}>{hoverActions}</span>}
     </li>
   );
 };

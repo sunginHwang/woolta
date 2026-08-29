@@ -1,7 +1,7 @@
 // StyleX 캐리어 CSS — 빌드 시 추출된 실제 CSS로 치환된다
 import '@stylexswc/webpack-plugin/stylex.css';
 import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { RootProvider } from '../domains/layout/root-provider/RootProvider';
 import { setConfig } from '../utils/config';
 

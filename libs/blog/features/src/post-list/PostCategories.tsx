@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import { CategoryChips } from '../_shared/category-chips/CategoryChips';
 import { ChipsLoading } from '../_shared/chips/ChipsLoading';
-import { ChipItemWithLink } from '../_shared/chips/Item';
+import type { ChipItemWithLink } from '../_shared/chips/Item';
 import { useBlogRoutes } from '../_shared/routes';
 import { useHomeRouterProps } from './hooks/useHomeRouterProps';
 

@@ -9,7 +9,7 @@ import { WEEKLY_CURATION_LIMIT } from '../_shared/constants';
 import { useArticleList } from '../_shared/hooks/useArticleList';
 import { useCategoryList } from '../_shared/hooks/useCategoryList';
 import { getCategoryIdFromListKey } from '../_shared/routes';
-import { ArticleListKey } from '../_shared/types';
+import type { ArticleListKey } from '../_shared/types';
 import { ArticleAddOverlay } from '../article-add/ArticleAddOverlay';
 import { ArticleRow } from './components/ArticleRow';
 
@@ -113,7 +113,7 @@ export const ArticleTable = ({ listKey }: Props) => {
     );
   }
 
-  const title = isCurationView ? '주간 큐레이션' : currentCategory?.name ?? '전체 아티클';
+  const title = isCurationView ? '주간 큐레이션' : (currentCategory?.name ?? '전체 아티클');
   const countLabel = isCurationView ? `${articleList.length}/${WEEKLY_CURATION_LIMIT}` : `${articleList.length}개`;
 
   return (
@@ -151,9 +151,17 @@ export const ArticleTable = ({ listKey }: Props) => {
           <table {...stylex.props(styles.table)}>
             <thead>
               <tr {...stylex.props(styles.headRow)}>
-                <th {...stylex.props(styles.headCell)} scope='col'>제목</th>
-                {showCategoryColumn && <th {...stylex.props(styles.headCell)} scope='col'>카테고리</th>}
-                <th {...stylex.props(styles.headCell)} scope='col'>등록일</th>
+                <th {...stylex.props(styles.headCell)} scope='col'>
+                  제목
+                </th>
+                {showCategoryColumn && (
+                  <th {...stylex.props(styles.headCell)} scope='col'>
+                    카테고리
+                  </th>
+                )}
+                <th {...stylex.props(styles.headCell)} scope='col'>
+                  등록일
+                </th>
                 <th {...stylex.props(styles.headCell)} scope='col' aria-label='액션' />
               </tr>
             </thead>

@@ -4,7 +4,11 @@ import { useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { BottomSheet } from '../../../../_shared/bottom-sheet/BottomSheet';
 import { Button } from '../../../../_shared/components/button/Button';
-import { AccountBookCategory, AccountBookCategoryType, useAccountBookCategories } from '../../hooks/useAccountBookCategories';
+import {
+  type AccountBookCategory,
+  type AccountBookCategoryType,
+  useAccountBookCategories,
+} from '../../hooks/useAccountBookCategories';
 import { CategoryItem } from './CategoryItem';
 import { CategorySaveForm } from './CategorySaveForm';
 

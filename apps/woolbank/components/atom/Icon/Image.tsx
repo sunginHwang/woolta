@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { IconProps } from '.';
+import type { FC } from 'react';
+import type { IconProps } from '.';
 
 const Image: FC<IconProps> = ({ width = 24, height = 24, fill = 'currentColor' }) => {
   return (

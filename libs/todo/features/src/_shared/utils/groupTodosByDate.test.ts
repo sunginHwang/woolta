@@ -1,4 +1,4 @@
-import { Todo } from '../types';
+import type { Todo } from '../types';
 import { groupTodosByDate } from './groupTodosByDate';
 
 const BASE_DATE = '2026-08-22';

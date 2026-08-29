@@ -2,7 +2,7 @@
 
 import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ConfirmProvider, darkThemeCssVariables, theme, type ThemeType } from '@wds';
+import { ConfirmProvider, darkThemeCssVariables, type ThemeType, theme } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { useEffect } from 'react';
@@ -70,7 +70,7 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined;
 
 function makeQueryClient() {
   return new QueryClient({

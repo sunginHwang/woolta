@@ -1,10 +1,10 @@
 import { useScrollDirection } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
-import { Variants, motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import { IconAccountOutline, IconPigOutline, IconWalletOutline } from '../../../components/atom/Icon';
 import { AddButton } from './AddIcon';
@@ -159,11 +159,7 @@ export const NavigationBar = () => {
           const is_menu_icon = !!navigation.name;
 
           return (
-            <div
-              key={`${index}-${navigation.name}`}
-              {...stylex.props(styles.navTag)}
-              data-cy={navigation.name}
-            >
+            <div key={`${index}-${navigation.name}`} {...stylex.props(styles.navTag)} data-cy={navigation.name}>
               {is_menu_icon && (
                 <Link href={navigation.link ?? ''} passHref onClick={() => setPendingPath(navigation.link ?? null)}>
                   <motion.div
@@ -178,9 +174,7 @@ export const NavigationBar = () => {
                     }}
                   >
                     {navigation.icon}
-                    <span {...stylex.props(styles.linkSpan, isActive && styles.linkSpanActive)}>
-                      {navigation.name}
-                    </span>
+                    <span {...stylex.props(styles.linkSpan, isActive && styles.linkSpanActive)}>{navigation.name}</span>
                   </motion.div>
                 </Link>
               )}

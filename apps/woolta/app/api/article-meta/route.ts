@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_HTML_LENGTH = 300_000;

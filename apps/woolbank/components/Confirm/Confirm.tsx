@@ -2,7 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { FC, PropsWithChildren } from 'react';
+import { FC, type PropsWithChildren } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Deem from '../atom/Deem';
 

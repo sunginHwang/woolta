@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 
 export const getRemainDay = (date: string | number, { completeMsg = 'd-day' }: { completeMsg: string }) => {
   const resetHours = (date: Dayjs) => date.hour(0).minute(0).second(0).millisecond(0);

@@ -1,5 +1,5 @@
 import { getCategoryIdFromListKey } from '../routes';
-import { TodoListKey } from '../types';
+import type { TodoListKey } from '../types';
 import { getTomorrowKey } from './todoDate';
 
 interface TodoDraftDefaults {

@@ -1,8 +1,8 @@
 import { useInputs } from '@common';
-import dayjs, { Dayjs } from 'dayjs';
-import { ToggleTabItem } from '../../../../../../components/toggle-tab/ToggleTab';
-import getCategoryMsg, { AccountBookCategoryType } from '../../../../../../utils/account-books';
-import { AccountBookCategory } from '../../../_common/hooks/useAccountBookCategories';
+import dayjs, { type Dayjs } from 'dayjs';
+import type { ToggleTabItem } from '../../../../../../components/toggle-tab/ToggleTab';
+import getCategoryMsg, { type AccountBookCategoryType } from '../../../../../../utils/account-books';
+import type { AccountBookCategory } from '../../../_common/hooks/useAccountBookCategories';
 
 export type ScheduledPaymentType = 'repeat' | 'installment';
 export interface AccountBookSaveForm {

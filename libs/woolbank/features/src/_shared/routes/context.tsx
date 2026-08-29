@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, type ReactNode, useContext } from 'react';
 
 export interface WoolbankRoutes {
   main: string;
@@ -16,7 +16,13 @@ export const WoolbankRoutesContext = createContext<WoolbankRoutes>(DEFAULT_ROUTE
 
 export const useWoolbankRoutes = () => useContext(WoolbankRoutesContext);
 
-export const WoolbankRoutesProvider = ({ routes, children }: { routes?: Partial<WoolbankRoutes>; children: ReactNode }) => {
+export const WoolbankRoutesProvider = ({
+  routes,
+  children,
+}: {
+  routes?: Partial<WoolbankRoutes>;
+  children: ReactNode;
+}) => {
   const value: WoolbankRoutes = { ...DEFAULT_ROUTES, ...routes };
   return <WoolbankRoutesContext.Provider value={value}>{children}</WoolbankRoutesContext.Provider>;
 };

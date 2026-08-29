@@ -2,12 +2,12 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { DragEvent } from 'react';
+import type { DragEvent } from 'react';
 import { DueDateLabel } from '../../../../../_shared/components/DueDateLabel';
 import { PriorityFlag } from '../../../../../_shared/components/PriorityFlag';
 import { TodoCheckbox } from '../../../../../_shared/components/TodoCheckbox';
 import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
-import { Todo } from '../../../../../_shared/types';
+import type { Todo } from '../../../../../_shared/types';
 
 interface Props {
   /** 할 일 항목 */

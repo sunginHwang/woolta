@@ -10,7 +10,7 @@ import { TodoSection } from '../../../../_shared/components/TodoSection';
 import { useFilteredTodoList } from '../../../../_shared/hooks/useFilteredTodoList';
 import { getCategoryIdFromListKey } from '../../../../_shared/routes';
 import { useTodoStore } from '../../../../_shared/stores/useTodoStore';
-import { TodoListKey } from '../../../../_shared/types';
+import type { TodoListKey } from '../../../../_shared/types';
 import { groupTodosByCategory, INBOX_COLUMN_ID } from '../../../../_shared/utils/groupTodosByCategory';
 
 const EMPTY_MESSAGES: Record<string, string> = {

@@ -1,4 +1,4 @@
-import { ArticleListKey } from './types';
+import type { ArticleListKey } from './types';
 
 /** 아티클 큐레이션 앱의 기준 경로 */
 export const ARTICLES_BASE_PATH = '/articles';

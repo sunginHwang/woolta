@@ -1,7 +1,7 @@
 'use client';
 
-import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
-import { NextPage } from 'next';
+import { type DehydratedState, HydrationBoundary } from '@tanstack/react-query';
+import type { NextPage } from 'next';
 import { Header } from '../../../components/Header/Header';
 import { useSaveRegularExtenditure } from './hooks/useSaveRegularExtenditure';
 import { RegularExtenditureForm } from './RegularExtenditureForm';

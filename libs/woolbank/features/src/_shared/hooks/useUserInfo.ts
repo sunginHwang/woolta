@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig } from 'axios';
 import { getData } from '../api';
 
 export const USER_INFO_QUERY_KEY = 'getUserInfo';

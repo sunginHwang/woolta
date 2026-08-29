@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { getApiClient, APIResponse } from '../../_shared/api';
+import { type APIResponse, getApiClient } from '../../_shared/api';
 import { getBlogConfig } from '../../_shared/config';
 import { getPostQueryKey } from '../../_shared/query-keys';
 import { useBlogRoutes } from '../../_shared/routes';

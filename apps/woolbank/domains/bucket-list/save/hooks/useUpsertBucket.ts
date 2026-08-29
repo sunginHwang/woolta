@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { postData, putData } from '../../../../utils/api';
-import { BucketForm } from '../store';
+import type { BucketForm } from '../store';
 
 const FILE_HEADER = {
   headers: {

@@ -1,4 +1,4 @@
-import { TodoCategory } from '../types';
+import type { TodoCategory } from '../types';
 import { parseCategoryTokens } from './parseCategoryFromText';
 
 const baseCategory: TodoCategory = {

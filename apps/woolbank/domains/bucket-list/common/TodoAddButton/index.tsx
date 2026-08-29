@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { ButtonHTMLAttributes, FC, MouseEvent } from 'react';
+import type { ButtonHTMLAttributes, FC, MouseEvent } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { IconPlus } from '../../../../components/atom/Icon';
 

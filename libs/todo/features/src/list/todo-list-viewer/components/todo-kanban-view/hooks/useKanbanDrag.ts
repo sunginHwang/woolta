@@ -1,6 +1,6 @@
 'use client';
 
-import { DragEvent, useState } from 'react';
+import { type DragEvent, useState } from 'react';
 import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
 
 /**

@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 import {
   AccountBookBottomSheet,
-  AccountBookSheetItem,
+  type AccountBookSheetItem,
 } from '../../_common/components/account-book-bottom-sheet/AccountBookBottomSheet';
 import { useAccountBookList } from '../_common/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../account-list/_common/stores/accountbookDate';

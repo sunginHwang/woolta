@@ -1,6 +1,6 @@
 'use client';
 
-import { EffectCallback, useEffect } from 'react';
+import { type EffectCallback, useEffect } from 'react';
 
 /**
  * @hook Mount 시점만 호출하도록

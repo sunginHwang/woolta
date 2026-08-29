@@ -5,9 +5,9 @@ import {
   TodoAddInput,
   TodoListEmpty,
   TodoListHeader,
+  type TodoListKey,
   TodoListViewer,
   useTodoBoardView,
-  type TodoListKey,
 } from '@todo/features';
 import { colorVars } from '@wds/tokens.stylex';
 

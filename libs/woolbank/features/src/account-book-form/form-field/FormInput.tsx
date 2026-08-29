@@ -4,7 +4,15 @@ import { mergeRefs } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import {
+  type ChangeEvent,
+  forwardRef,
+  type InputHTMLAttributes,
+  type MouseEvent,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import { IconChevronRight, IconCloseCircle } from '../../_shared/icons';
 
 interface Props
@@ -82,7 +90,12 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     const isExistInputValue = value !== '' && isShowCloseBtn && !disable && focus;
 
     return (
-      <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+      <div
+        {...stylex.props(styles.container)}
+        ref={parentRef}
+        onClick={onClick}
+        data-type={dataType === '' ? name : dataType}
+      >
         <input
           {...stylex.props(typographyStyles.body2, styles.input)}
           ref={mergeRefs([inputRef, parentRef])}
@@ -101,7 +114,11 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
           {...restInputProps}
         />
         {isExistInputValue ? (
-          <i {...stylex.props(styles.icon, styles.trashIcon)} onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
+          <i
+            {...stylex.props(styles.icon, styles.trashIcon)}
+            onClick={handleInputClear}
+            data-type={dataType === '' ? name : dataType}
+          >
             <IconCloseCircle width={16} height={16} fill={colorVars['--color-textTertiary']} />
           </i>
         ) : (

@@ -1,7 +1,7 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { BlogScreensProvider } from '@blog/screens';
+import dynamic from 'next/dynamic';
 
 const BlogWriteScreen = dynamic(() => import('@blog/screens').then((mod) => mod.BlogWriteScreen), { ssr: false });
 

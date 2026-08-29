@@ -1,8 +1,8 @@
 import * as stylex from '@stylexjs/stylex';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { TodoListItem } from '../../common/TodoListItem';
-import { Todo } from '../hooks/useBucket';
+import type { Todo } from '../hooks/useBucket';
 
 interface Props {
   todoList: Todo[];

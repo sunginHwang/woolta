@@ -1,10 +1,10 @@
 'use client';
 
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { AmountSheet } from './amount-sheet/AmountSheet';
+import { DefaultBottomSheet } from './DefaultBottomSheet';
 import { DateSheet } from './date-sheet/DateSheet';
 import { DateTimeSheet } from './date-time-sheet/DateTimeSheet';
-import { DefaultBottomSheet } from './DefaultBottomSheet';
 import { MenuSheet } from './menu-sheet/MenuSheet';
 import { SnapSheet } from './snap-sheet/SnapSheet';
 

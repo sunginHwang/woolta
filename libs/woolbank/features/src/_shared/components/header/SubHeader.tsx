@@ -4,7 +4,8 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
-import React, { FC, useCallback } from 'react';
+import type React from 'react';
+import { type FC, useCallback } from 'react';
 import { IconChevronLeft } from '../../icons';
 import { layoutConsts } from '../../style/layout.stylex';
 

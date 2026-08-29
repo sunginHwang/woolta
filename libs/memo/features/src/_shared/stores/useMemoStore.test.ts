@@ -1,4 +1,4 @@
-import { Memo } from '../types';
+import type { Memo } from '../types';
 import { EMPTY_MEMO_CONTENT, useMemoStore } from './useMemoStore';
 
 const baseItem: Memo = {

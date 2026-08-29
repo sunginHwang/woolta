@@ -2,11 +2,11 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
-import React, { InvalidEvent } from 'react';
+import React, { type InvalidEvent } from 'react';
 import { IconCircleCheck } from '../../../../components/atom/Icon';
 import { CardItem } from '../../../../components/card-item/CardItem';
 import { getRemainDays } from '../../../../utils/date';
-import { BucketList } from '../hooks/useBucketList';
+import type { BucketList } from '../hooks/useBucketList';
 import ItemSkeleton from './ItemSkeleton';
 
 interface Props {

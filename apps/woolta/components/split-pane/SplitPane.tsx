@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { PointerEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { type PointerEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 
 interface Props {
   left: ReactNode;

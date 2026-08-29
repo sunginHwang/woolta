@@ -1,6 +1,6 @@
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import type { AxiosRequestConfig } from 'axios';
 import { getData } from '../../../../utils/api';
-import { AxiosRequestConfig } from 'axios';
 
 export const REGULAR_EXTENTIRE_LIST_QUERY_KEY = 'getRegularExtentireList';
 

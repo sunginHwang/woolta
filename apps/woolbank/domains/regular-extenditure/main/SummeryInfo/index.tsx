@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import dayjs from 'dayjs';
 import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
-import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
+import type { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 import OneWeekAgoList from './OneWeekAgoList';
 import RegularAmountInfo from './RegularAmountInfo';
 

@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { shadowVars, zIndexConsts } from '@wds/tokens.stylex';
 import { AnimatePresence, motion } from 'motion/react';
-import { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { ArticleAddForm } from './components/ArticleAddForm';
 
 /** 등장 애니메이션 — 아래에서 위로 올라오며 서서히 나타난다. */

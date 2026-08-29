@@ -2,7 +2,7 @@
 
 import { SwitchCase } from '@croquiscom/monolith';
 import { useTodoBoardView } from '../../_shared/hooks/useTodoBoardView';
-import { TodoListKey } from '../../_shared/types';
+import type { TodoListKey } from '../../_shared/types';
 import { TodoKanbanView } from './components/todo-kanban-view/TodoKanbanView';
 import { TodoListView } from './components/todo-list-view/TodoListView';
 import { TodoUpcomingView } from './components/todo-upcoming-view/TodoUpcomingView';

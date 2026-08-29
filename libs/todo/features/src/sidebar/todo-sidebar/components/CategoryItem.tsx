@@ -3,11 +3,11 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
-import { KeyboardEvent, MouseEvent, useState } from 'react';
+import { type KeyboardEvent, type MouseEvent, useState } from 'react';
 import { FiEdit2, FiHash, FiTrash2 } from 'react-icons/fi';
-import { TODO_BASE_PATH, getCategoryListKey, getTodoListHref, isTodoListActive } from '../../../_shared/routes';
+import { getCategoryListKey, getTodoListHref, isTodoListActive, TODO_BASE_PATH } from '../../../_shared/routes';
 import { useTodoStore } from '../../../_shared/stores/useTodoStore';
-import { TodoCategory } from '../../../_shared/types';
+import type { TodoCategory } from '../../../_shared/types';
 import { SidebarItem } from './SidebarItem';
 
 interface Props {
@@ -97,7 +97,12 @@ export const CategoryItem = ({ category, count, pathname }: Props) => {
           <button type='button' title='이름 변경' onClick={handleEditClick} {...stylex.props(styles.actionButton)}>
             <FiEdit2 size={12} />
           </button>
-          <button type='button' title='삭제' onClick={handleRemoveClick} {...stylex.props(styles.actionButton, styles.actionButtonDanger)}>
+          <button
+            type='button'
+            title='삭제'
+            onClick={handleRemoveClick}
+            {...stylex.props(styles.actionButton, styles.actionButtonDanger)}
+          >
             <FiTrash2 size={12} />
           </button>
         </>

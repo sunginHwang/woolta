@@ -1,4 +1,4 @@
-import { Todo } from '../types';
+import type { Todo } from '../types';
 
 /** 기본함 컬럼을 가리키는 키 (카테고리 id 가 null 인 경우) */
 export const INBOX_COLUMN_ID = 'inbox';

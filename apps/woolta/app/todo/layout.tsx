@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { TodoAppShell } from '../../components/todo/TodoAppShell';
 
 export default function TodoLayout({ children }: { children: ReactNode }) {

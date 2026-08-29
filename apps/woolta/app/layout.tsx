@@ -2,7 +2,7 @@
 import '@stylexswc/webpack-plugin/stylex.css';
 import { cookies } from 'next/headers';
 import { Providers } from '../components/layout/providers/Providers';
-import { THEME_COOKIE_NAME, parseThemeType } from '../components/layout/store/themeCookie';
+import { parseThemeType, THEME_COOKIE_NAME } from '../components/layout/store/themeCookie';
 
 export const metadata = {
   title: 'Woolta',

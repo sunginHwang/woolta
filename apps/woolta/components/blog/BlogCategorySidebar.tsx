@@ -6,7 +6,7 @@ import { Suspense as MountGate, SkeletonBar, Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Component, ReactNode } from 'react';
+import { Component, type ReactNode } from 'react';
 
 const DEFAULT_CATEGORY = '-1';
 

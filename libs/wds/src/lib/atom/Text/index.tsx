@@ -1,9 +1,10 @@
 'use client';
 
-import * as stylex from '@stylexjs/stylex';
 import type { StyleXStyles } from '@stylexjs/stylex';
-import React, { FC, ReactNode } from 'react';
-import { ColorType, FontVarient } from '../../style';
+import * as stylex from '@stylexjs/stylex';
+import type React from 'react';
+import type { FC, ReactNode } from 'react';
+import type { ColorType, FontVarient } from '../../style';
 import { colorVars } from '../../style/tokens.stylex';
 import { typographyStyles } from '../../style/typography.stylex';
 

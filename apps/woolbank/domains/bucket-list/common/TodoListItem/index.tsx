@@ -1,11 +1,12 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import React, { FC, useCallback } from 'react';
+import type React from 'react';
+import { type FC, useCallback } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { IconBlackCircle, IconCircleCheck, IconTrashCan } from '../../../../components/atom/Icon';
 import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 
-import { Todo } from '../../detail/hooks/useBucket';
+import type { Todo } from '../../detail/hooks/useBucket';
 
 interface Props {
   todo: Todo;

@@ -2,7 +2,8 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
-import React, { FC, useCallback } from 'react';
+import type React from 'react';
+import { type FC, useCallback } from 'react';
 import { layoutConsts } from '../../style/layout.stylex';
 import { IconChevronLeft } from '../atom/Icon';
 
@@ -43,7 +44,9 @@ const SubHeader: FC<Props> = ({
   }, [back, onBackClick]);
 
   return (
-    <header {...stylex.props(styles.headerWithBack, position === 'fixed' ? styles.positionFixed : styles.positionSticky)}>
+    <header
+      {...stylex.props(styles.headerWithBack, position === 'fixed' ? styles.positionFixed : styles.positionSticky)}
+    >
       <div {...stylex.props(styles.inner, useSkeleton && styles.innerSkeleton)}>
         {useBackButton && (
           <div {...stylex.props(styles.sideLeft)} onClick={handleBackClick}>

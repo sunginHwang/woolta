@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
+import type { ColorType, FontVarient } from '../../style';
 import { Text } from '.';
-import { ColorType, FontVarient } from '../../style';
 
 const fontType: FontVarient[] = [
   'title1Bold',

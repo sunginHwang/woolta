@@ -1,6 +1,6 @@
 'use client';
 
-import { ArticleTable, type ArticleListKey } from '@article-curations/features';
+import { type ArticleListKey, ArticleTable } from '@article-curations/features';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 

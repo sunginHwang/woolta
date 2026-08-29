@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { IconFacebook, IconGoogle, IconKakaoTalk } from '../../../../components/atom/Icon';
 
 const providerMap = {
@@ -49,10 +49,7 @@ export const SocialLoginButton: FC<Props> = ({ provider, handleLoginClick }) => 
   const socialButton = providerMap[provider];
 
   return (
-    <button
-      {...stylex.props(styles.button, dynamicStyles.bgColor(socialButton.color))}
-      onClick={handleLoginClick}
-    >
+    <button {...stylex.props(styles.button, dynamicStyles.bgColor(socialButton.color))} onClick={handleLoginClick}>
       <socialButton.icon />
     </button>
   );

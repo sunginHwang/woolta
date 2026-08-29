@@ -1,8 +1,8 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { FC } from 'react';
-import { IPost } from '../_shared/types/IPost';
+import type { FC } from 'react';
+import type { IPost } from '../_shared/types/IPost';
 import PostListItem from './PostListItem';
 import { PostListSkeleton } from './PostListSkeleton';
 

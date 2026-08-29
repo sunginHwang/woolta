@@ -3,11 +3,11 @@
 import { useToggle, withSuspense } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
 import { BottomSheet } from '../_shared/bottom-sheet/BottomSheet';
-import { BottomMenu } from '../_shared/bottom-sheet/menu-sheet/MenuSheet';
+import type { BottomMenu } from '../_shared/bottom-sheet/menu-sheet/MenuSheet';
 import { DropdownTitle } from '../_shared/components/dropdown-title/DropdownTitle';
 import { useAccountBookList } from '../_shared/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../_shared/stores/accountbookDate';

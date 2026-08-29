@@ -1,7 +1,7 @@
 import styles from './common.module.css';
 
 /* eslint-disable-next-line */
-export interface CommonProps {}
+export type CommonProps = {};
 
 export function Common(props: CommonProps) {
   return (

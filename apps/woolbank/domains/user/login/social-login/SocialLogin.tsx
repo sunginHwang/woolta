@@ -1,5 +1,5 @@
-import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from '@dump-work/react-google-login';
-import { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-facebook-login';
+import GoogleLogin, { type GoogleLoginResponse, type GoogleLoginResponseOffline } from '@dump-work/react-google-login';
+import type { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-facebook-login';
 // import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import KaKaoLogin from 'react-kakao-login';
 

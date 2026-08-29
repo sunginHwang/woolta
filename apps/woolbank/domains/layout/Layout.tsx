@@ -5,7 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
-import { FC, PropsWithChildren } from 'react';
+import { FC, type PropsWithChildren } from 'react';
 import { FullScreenLoading } from '../../components/full-screen-loading/FullScreenLoading';
 import { LoadingAtom } from '../../store/layout';
 import { Alert } from './alert/Alert';

@@ -1,5 +1,5 @@
-import { DefaultTheme } from 'styled-components';
-import { type ShadowTokens } from '../shadows';
+import type { DefaultTheme } from 'styled-components';
+import type { ShadowTokens } from '../shadows';
 import { colorVars, shadowVars } from '../tokens.stylex';
 import { zIndex } from '../zIndex';
 import { palette } from './palette';

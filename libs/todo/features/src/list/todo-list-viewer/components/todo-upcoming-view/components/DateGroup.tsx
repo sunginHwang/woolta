@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { TodoItem } from '../../../../../_shared/components/TodoItem';
 import { TodoSection } from '../../../../../_shared/components/TodoSection';
-import { Todo } from '../../../../../_shared/types';
+import type { Todo } from '../../../../../_shared/types';
 import { formatDateGroupLabel } from '../../../../../_shared/utils/formatDueDate';
 import { getTodayKey } from '../../../../../_shared/utils/todoDate';
 

@@ -1,12 +1,12 @@
 import { useMount } from '@common';
 import * as stylex from '@stylexjs/stylex';
-import { FC, KeyboardEvent, MouseEvent, useRef, useState } from 'react';
+import { type FC, type KeyboardEvent, type MouseEvent, useRef, useState } from 'react';
 import { Button } from '../../../../components/atom/Button';
 import { BaseInput } from '../../../../components/base-input/BaseInput';
 import { ToggleTab } from '../../../../components/toggle-tab/ToggleTab';
 import { useToast } from '../../../../hooks/useToast';
 import FormModal from '../FormModal';
-import { RegularExtenditureForm as FormType, useRegularExtenditureForm } from '../hooks/useRegularExtenditureForm';
+import { type RegularExtenditureForm as FormType, useRegularExtenditureForm } from '../hooks/useRegularExtenditureForm';
 
 const TAB_LIST = [
   {

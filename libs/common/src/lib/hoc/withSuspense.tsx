@@ -1,4 +1,4 @@
-import { ComponentType, Suspense, SuspenseProps } from 'react';
+import { type ComponentType, Suspense, type SuspenseProps } from 'react';
 
 export function withSuspense<P extends string | number | object>(
   WrappedComponent: ComponentType<P>,

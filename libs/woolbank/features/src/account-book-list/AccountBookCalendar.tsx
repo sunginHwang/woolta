@@ -8,7 +8,7 @@ import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 import { useAccountBookList } from '../_shared/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../_shared/stores/accountbookDate';
-import { AccountBookBottomSheet, AccountBookSheetItem } from './AccountBookBottomSheet';
+import { AccountBookBottomSheet, type AccountBookSheetItem } from './AccountBookBottomSheet';
 import { Day } from './Day';
 import { WeekInfo } from './WeekInfo';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, type ReactNode, useContext } from 'react';
 
 /**
  * 컴포넌트가 렌더되는 호스트 앱 타입.

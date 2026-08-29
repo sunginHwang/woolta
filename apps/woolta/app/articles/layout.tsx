@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { ArticlesAppShell } from '../../components/articles/ArticlesAppShell';
 
 export default function ArticlesLayout({ children }: { children: ReactNode }) {

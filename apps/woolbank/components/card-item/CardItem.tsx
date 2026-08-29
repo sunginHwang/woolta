@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 interface Props extends PropsWithChildren {
   useSideMargin?: boolean;
@@ -12,9 +12,7 @@ interface Props extends PropsWithChildren {
  */
 
 export const CardItem = ({ children, useSideMargin = false }: Props) => {
-  return (
-    <div {...stylex.props(styles.cardItem, useSideMargin && styles.cardItemWithMargin)}>{children}</div>
-  );
+  return <div {...stylex.props(styles.cardItem, useSideMargin && styles.cardItemWithMargin)}>{children}</div>;
 };
 
 const styles = stylex.create({

@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { useLayout } from '../hooks/useLayout';
 
 const styles = stylex.create({

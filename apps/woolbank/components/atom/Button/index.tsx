@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { ClipLoader } from 'react-spinners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';

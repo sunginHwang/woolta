@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
 import { useCategoryList } from '../../_shared/hooks/useCategoryList';
 import { useArticleAddForm } from '../hooks/useArticleAddForm';
 
@@ -153,7 +153,9 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
         아티클 등록
       </Text>
       <div {...stylex.props(styles.field)}>
-        <label {...stylex.props(styles.label)} htmlFor='article-add-category'>카테고리</label>
+        <label {...stylex.props(styles.label)} htmlFor='article-add-category'>
+          카테고리
+        </label>
         <select
           {...stylex.props(styles.select)}
           id='article-add-category'
@@ -171,7 +173,9 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
         </select>
       </div>
       <div {...stylex.props(styles.field)}>
-        <label {...stylex.props(styles.label)} htmlFor='article-add-url'>아티클 링크</label>
+        <label {...stylex.props(styles.label)} htmlFor='article-add-url'>
+          아티클 링크
+        </label>
         <input
           {...stylex.props(styles.input)}
           autoFocus
@@ -191,7 +195,9 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
         <>
           {thumbnailUrl && <img {...stylex.props(styles.thumbnailPreview)} src={thumbnailUrl} alt='' />}
           <div {...stylex.props(styles.field)}>
-            <label {...stylex.props(styles.label)} htmlFor='article-add-title'>제목</label>
+            <label {...stylex.props(styles.label)} htmlFor='article-add-title'>
+              제목
+            </label>
             <input
               {...stylex.props(styles.input)}
               id='article-add-title'
@@ -202,7 +208,9 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
             />
           </div>
           <div {...stylex.props(styles.field)}>
-            <label {...stylex.props(styles.label)} htmlFor='article-add-description'>설명</label>
+            <label {...stylex.props(styles.label)} htmlFor='article-add-description'>
+              설명
+            </label>
             <input
               {...stylex.props(styles.input)}
               id='article-add-description'

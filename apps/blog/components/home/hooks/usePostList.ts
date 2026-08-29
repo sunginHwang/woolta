@@ -1,5 +1,5 @@
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { IPost } from '../../../types/post/IPost';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import type { IPost } from '../../../types/post/IPost';
 import { getData } from '../../../utils/api';
 
 export const POSTS_QUERY_KEY = 'getPosts';
@@ -29,9 +29,3 @@ export function prefetchPostList(client: QueryClient, categoryId: string) {
     queryFn: () => fetchPostList(categoryId),
   });
 }
-
-
-
-
-  
-

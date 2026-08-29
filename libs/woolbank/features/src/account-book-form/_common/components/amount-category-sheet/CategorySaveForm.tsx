@@ -8,10 +8,9 @@ import { useState } from 'react';
 import { BaseInput } from '../../../../_shared/components/base-input/BaseInput';
 import { BottomFloatingButton } from '../../../../_shared/components/bottom-floating-button/BottomFloatingButton';
 import { Header } from '../../../../_shared/components/header/Header';
-import { ToggleTab, ToggleTabItem } from '../../../../_shared/components/toggle-tab/ToggleTab';
+import { ToggleTab, type ToggleTabItem } from '../../../../_shared/components/toggle-tab/ToggleTab';
 import { useToast } from '../../../../_shared/toast/useToast';
-import { AccountBookCategoryType } from '../../hooks/useAccountBookCategories';
-import { SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';
+import type { AccountBookCategoryType, SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';
 import { useAccountBookCategoryImages } from '../../hooks/useAccountBookCategoryImages';
 
 const TAB_LIST: ToggleTabItem[] = [

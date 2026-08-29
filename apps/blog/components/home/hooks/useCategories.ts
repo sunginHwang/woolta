@@ -1,5 +1,5 @@
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { ICategory } from '../../../types/post/ICategory';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import type { ICategory } from '../../../types/post/ICategory';
 import { getData } from '../../../utils/api';
 
 const CATEGORIES_QUERY_KEY = 'getCategories';

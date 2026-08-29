@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes } from 'react';
 
 const styles = stylex.create({
   container: {
@@ -63,10 +63,7 @@ export const Switch = ({ className, style, checked, disabled, ...rest }: InputHT
     disabled ? styles.containerDisabled : styles.containerEnabled,
   );
   return (
-    <div
-      style={{ ...sx.style, ...style }}
-      className={className ? `${sx.className ?? ''} ${className}` : sx.className}
-    >
+    <div style={{ ...sx.style, ...style }} className={className ? `${sx.className ?? ''} ${className}` : sx.className}>
       <input {...rest} {...stylex.props(styles.checkbox)} type='checkbox' checked={checked} disabled={disabled} />
     </div>
   );

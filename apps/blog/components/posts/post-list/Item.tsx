@@ -2,8 +2,8 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
-import { FC } from 'react';
-import { Post } from './PostList';
+import type { FC } from 'react';
+import type { Post } from './PostList';
 
 interface Props {
   post: Post;

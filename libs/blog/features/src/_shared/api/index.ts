@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 import { getBlogConfig, registerApiClientResetter } from '../config';
 
 export type APIResponse<T> = {
@@ -45,7 +45,11 @@ export const getData = async <T>(url: string, config?: AxiosRequestConfig): Prom
   }
 };
 
-export const postData = async <T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
+export const postData = async <T>(
+  url: string,
+  data?: unknown,
+  config?: AxiosRequestConfig,
+): Promise<APIResponse<T>> => {
   try {
     const response = await getApiClient().post<APIResponse<T>>(url, data, config);
     return response.data;

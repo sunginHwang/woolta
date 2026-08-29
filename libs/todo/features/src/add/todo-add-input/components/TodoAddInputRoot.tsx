@@ -2,9 +2,9 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { ChangeEvent, KeyboardEvent, UIEvent, useRef } from 'react';
+import { type ChangeEvent, type KeyboardEvent, type UIEvent, useRef } from 'react';
 import { FiCalendar, FiHash, FiPlus, FiX } from 'react-icons/fi';
-import { TodoListKey } from '../../../_shared/types';
+import type { TodoListKey } from '../../../_shared/types';
 import { formatDueDate } from '../../../_shared/utils/formatDueDate';
 import { getTodayKey } from '../../../_shared/utils/todoDate';
 import { useTodoAddParser } from '../../_shared/hooks/useTodoAddParser';
@@ -87,7 +87,9 @@ export const TodoAddInputRoot = ({ listKey, variant = 'inline', autoFocus = fals
               ) : (
                 <span
                   key={startIndex}
-                  {...stylex.props(segmentVariant === 'date' ? styles.tokenHighlightDate : styles.tokenHighlightCategory)}
+                  {...stylex.props(
+                    segmentVariant === 'date' ? styles.tokenHighlightDate : styles.tokenHighlightCategory,
+                  )}
                 >
                   {segmentText}
                 </span>
@@ -111,7 +113,12 @@ export const TodoAddInputRoot = ({ listKey, variant = 'inline', autoFocus = fals
             <span {...stylex.props(styles.chip, styles.chipDate)}>
               <FiCalendar size={12} />
               {formatDueDate(dateToken.date, getTodayKey()).label}
-              <button type='button' title='날짜 제거' onClick={() => ignoreToken(dateToken.token.text)} {...stylex.props(styles.chipRemoveButton)}>
+              <button
+                type='button'
+                title='날짜 제거'
+                onClick={() => ignoreToken(dateToken.token.text)}
+                {...stylex.props(styles.chipRemoveButton)}
+              >
                 <FiX size={12} />
               </button>
             </span>

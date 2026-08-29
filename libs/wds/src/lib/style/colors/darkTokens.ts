@@ -53,7 +53,8 @@ export const darkTokenOverrides: Record<string, string> = {
   '--color-statusWarning': '#FFD54F',
   '--color-statusError': '#FF5252',
   '--color-statusInfo': '#6B8AFF',
-  '--shadow-overlay': '0 1.6rem 4rem rgba(0, 0, 0, 0.64), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.48), 0 0 0 0.1rem rgba(255, 255, 255, 0.12)',
+  '--shadow-overlay':
+    '0 1.6rem 4rem rgba(0, 0, 0, 0.64), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.48), 0 0 0 0.1rem rgba(255, 255, 255, 0.12)',
   '--shadow-popover': '0 0.4rem 1.6rem rgba(0, 0, 0, 0.56), 0 0 0 0.1rem rgba(255, 255, 255, 0.1)',
 };
 

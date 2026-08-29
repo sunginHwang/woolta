@@ -1,5 +1,5 @@
-import { AxiosRequestConfig } from 'axios';
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
+import type { AxiosRequestConfig } from 'axios';
+import type { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
 export function makeServerContext(nextCookies: ReadonlyRequestCookies): AxiosRequestConfig {
   const cookieToString = nextCookies

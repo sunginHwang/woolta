@@ -1,12 +1,12 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { BottomSheet } from '../../_shared/bottom-sheet/BottomSheet';
 import { BaseInput } from '../../_shared/components/base-input/BaseInput';
 import { Button } from '../../_shared/components/button/Button';
 import { ToggleTab } from '../../_shared/components/toggle-tab/ToggleTab';
-import { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
+import type { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 
 const TAB_LIST = [
   { type: 'repeat', name: '반복' },

@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { AccountBookCategory } from '../../hooks/useAccountBookCategories';
+import type { AccountBookCategory } from '../../hooks/useAccountBookCategories';
 
 interface Props {
   accountBookCategory: AccountBookCategory;

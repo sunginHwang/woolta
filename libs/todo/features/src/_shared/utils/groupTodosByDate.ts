@@ -1,4 +1,4 @@
-import { Todo } from '../types';
+import type { Todo } from '../types';
 import { isFuture } from './todoDate';
 
 export interface TodoDateGroup {

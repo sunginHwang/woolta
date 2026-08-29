@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * 이전 값을 추적하는 커스텀 훅

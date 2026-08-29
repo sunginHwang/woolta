@@ -3,10 +3,10 @@
 import * as stylex from '@stylexjs/stylex';
 import { useConfirm } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
 import { useTodoStore } from '../stores/useTodoStore';
-import { Todo } from '../types';
+import type { Todo } from '../types';
 import { DueDateLabel } from './DueDateLabel';
 import { PriorityFlag } from './PriorityFlag';
 import { TodoCheckbox } from './TodoCheckbox';
@@ -63,12 +63,22 @@ export const TodoItem = ({ todo }: Props) => {
             <button type='button' title='복원' onClick={handleRestoreClick} {...stylex.props(styles.actionButton)}>
               <FiRotateCcw size={13} />
             </button>
-            <button type='button' title='영구 삭제' onClick={handleDeleteForeverClick} {...stylex.props(styles.actionButton, styles.actionButtonDanger)}>
+            <button
+              type='button'
+              title='영구 삭제'
+              onClick={handleDeleteForeverClick}
+              {...stylex.props(styles.actionButton, styles.actionButtonDanger)}
+            >
               <FiX size={14} />
             </button>
           </>
         ) : (
-          <button type='button' title='휴지통으로 이동' onClick={handleTrashClick} {...stylex.props(styles.actionButton, styles.actionButtonDanger)}>
+          <button
+            type='button'
+            title='휴지통으로 이동'
+            onClick={handleTrashClick}
+            {...stylex.props(styles.actionButton, styles.actionButtonDanger)}
+          >
             <FiTrash2 size={13} />
           </button>
         )}

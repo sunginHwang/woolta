@@ -1,8 +1,8 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { Suspense } from 'react';
 import { prefetchPost } from '../../../../../components/post/hooks/usePost';
 import { Post } from '../../../../../components/post/Post';
 import { PostLoading } from '../../../../../components/post/post-loading/PostLoading';
-import { Suspense } from 'react';
 
 interface Props {
   params: Promise<{ categoryNo: string; postNo: string }>;
@@ -11,10 +11,7 @@ interface Props {
 const PostDetailPage = async (props: Props) => {
   const params = await props.params;
 
-  const {
-    categoryNo,
-    postNo
-  } = params;
+  const { categoryNo, postNo } = params;
 
   const queryClient = new QueryClient();
   await prefetchPost(queryClient, { categoryNo, postNo });

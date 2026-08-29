@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
-import { ChipItemWithLink } from '../../common/Chips/Item';
+import type { ChipItemWithLink } from '../../common/Chips/Item';
 import { CategoryChips } from '../../home/common/category-chips/CategoryChips';
 import { useCategories } from '../../home/hooks/useCategories';
 import { postCategoryAtom } from '../store';

@@ -1,10 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 import { Button } from 'apps/woolbank/components/atom/Button';
 import { BaseInput } from 'apps/woolbank/components/base-input/BaseInput';
 import { BottomSheet } from 'apps/woolbank/components/bottom-sheet/BottomSheet';
 import { ToggleTab } from 'apps/woolbank/components/toggle-tab/ToggleTab';
+import { type ChangeEvent, useEffect, useState } from 'react';
+import type { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 
 const TAB_LIST = [
   {

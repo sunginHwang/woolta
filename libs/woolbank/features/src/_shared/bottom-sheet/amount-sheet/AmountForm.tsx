@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { MouseEvent, FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import { Button } from '../../components/button/Button';
 import { vibrate } from '../../utils/browsers/vibrate';
 
@@ -63,27 +63,165 @@ const AmountForm: FC<Props> = ({
       <table {...stylex.props(styles.inputTable)}>
         <tbody>
           <tr>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_1' data-number={1} onClick={handleNumberClick}>1</td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_2' data-number={2} onClick={handleNumberClick}>2</td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_3' data-number={3} onClick={handleNumberClick}>3</td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_1'
+              data-number={1}
+              onClick={handleNumberClick}
+            >
+              1
+            </td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_2'
+              data-number={2}
+              onClick={handleNumberClick}
+            >
+              2
+            </td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_3'
+              data-number={3}
+              onClick={handleNumberClick}
+            >
+              3
+            </td>
           </tr>
           <tr>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_4' data-number={4} onClick={handleNumberClick}>4</td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_5' data-number={5} onClick={handleNumberClick}>5</td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_6' data-number={6} onClick={handleNumberClick}>6</td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_4'
+              data-number={4}
+              onClick={handleNumberClick}
+            >
+              4
+            </td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_5'
+              data-number={5}
+              onClick={handleNumberClick}
+            >
+              5
+            </td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_6'
+              data-number={6}
+              onClick={handleNumberClick}
+            >
+              6
+            </td>
           </tr>
           <tr>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_7' data-number={7} onClick={handleNumberClick}>7</td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_8' data-number={8} onClick={handleNumberClick}>8</td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_9' data-number={9} onClick={handleNumberClick}>9</td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_7'
+              data-number={7}
+              onClick={handleNumberClick}
+            >
+              7
+            </td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_8'
+              data-number={8}
+              onClick={handleNumberClick}
+            >
+              8
+            </td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_9'
+              data-number={9}
+              onClick={handleNumberClick}
+            >
+              9
+            </td>
           </tr>
           <tr>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(isZeroAmount))} data-cy='numberBack' onClick={handleBackNumberClick}>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(isZeroAmount),
+              )}
+              data-cy='numberBack'
+              onClick={handleBackNumberClick}
+            >
               {!isZeroAmount && '←'}
             </td>
-            <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_0' data-number={0} onClick={handleNumberClick}>0</td>
+            <td
+              {...stylex.props(
+                typographyStyles.title3Medium,
+                styles.inputTd,
+                dynamicStyles.tdPadding(false),
+                dynamicStyles.tdActiveBg(false),
+              )}
+              data-cy='number_0'
+              data-number={0}
+              onClick={handleNumberClick}
+            >
+              0
+            </td>
             {useCompleteBtn && (
-              <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(true), dynamicStyles.tdActiveBg(isZeroAmount))} data-cy='numberComplete' onClick={handleRightBottomClick}>
+              <td
+                {...stylex.props(
+                  typographyStyles.title3Medium,
+                  styles.inputTd,
+                  dynamicStyles.tdPadding(true),
+                  dynamicStyles.tdActiveBg(isZeroAmount),
+                )}
+                data-cy='numberComplete'
+                onClick={handleRightBottomClick}
+              >
                 {!isZeroAmount && (
                   <div {...stylex.props(styles.saveButton)}>
                     <Button fill>확인</Button>
@@ -92,7 +230,16 @@ const AmountForm: FC<Props> = ({
               </td>
             )}
             {!useCompleteBtn && (
-              <td {...stylex.props(typographyStyles.title3Medium, styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(isZeroAmount))} data-cy='numberX' onClick={handleRightBottomClick}>
+              <td
+                {...stylex.props(
+                  typographyStyles.title3Medium,
+                  styles.inputTd,
+                  dynamicStyles.tdPadding(false),
+                  dynamicStyles.tdActiveBg(isZeroAmount),
+                )}
+                data-cy='numberX'
+                onClick={handleRightBottomClick}
+              >
                 {!isZeroAmount && 'x'}
               </td>
             )}

@@ -1,4 +1,4 @@
-import { IconType } from 'react-icons';
+import type { IconType } from 'react-icons';
 import { FiBookOpen, FiCalendar, FiCheckSquare, FiClock, FiCreditCard, FiEdit3, FiFileText } from 'react-icons/fi';
 
 export interface AppInfo {

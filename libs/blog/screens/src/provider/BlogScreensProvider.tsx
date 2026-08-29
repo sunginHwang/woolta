@@ -1,13 +1,7 @@
 'use client';
 
-import {
-  BlogRoutesContext,
-  settingAccessHeaderToken,
-  NotificationBar,
-  getBlogConfig,
-  getCookie,
-} from '@blog/features';
-import { PropsWithChildren, useEffect } from 'react';
+import { BlogRoutesContext, getBlogConfig, getCookie, NotificationBar, settingAccessHeaderToken } from '@blog/features';
+import { type PropsWithChildren, useEffect } from 'react';
 
 interface Props extends PropsWithChildren {
   basePath: string;

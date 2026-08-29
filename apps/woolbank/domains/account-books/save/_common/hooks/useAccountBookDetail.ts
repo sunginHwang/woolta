@@ -6,8 +6,11 @@ import { useToast } from '../../../../../hooks/useToast';
 import { deleteData, getData, postData, putData } from '../../../../../utils/api';
 import { useAccountBookList } from '../../../main/_common/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../../../main/account-list/_common/stores/accountbookDate';
-import { AccountBookSaveForm, ScheduledPaymentType } from '../../account-book-form/_common/hooks/useAccountBookForm';
-import { AccountBookCategoryType } from './useAccountBookCategories';
+import type {
+  AccountBookSaveForm,
+  ScheduledPaymentType,
+} from '../../account-book-form/_common/hooks/useAccountBookForm';
+import type { AccountBookCategoryType } from './useAccountBookCategories';
 
 export interface AccountBookDetail {
   id: number;

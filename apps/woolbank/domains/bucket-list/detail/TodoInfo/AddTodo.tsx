@@ -1,10 +1,10 @@
 import { useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
-import React, { FC, useRef } from 'react';
+import React, { type FC, useRef } from 'react';
 
 import { TodoAddButton } from '../../common/TodoAddButton';
 import TodoInput from '../../common/TodoInput';
-import { Todo } from '../hooks/useBucket';
+import type { Todo } from '../hooks/useBucket';
 
 interface Props {
   onAdd: (todo: Todo) => void;

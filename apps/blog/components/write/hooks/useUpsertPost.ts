@@ -1,7 +1,7 @@
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import useToast from '../../../hooks/useToast';
-import apiCall, { APIResponse } from '../../../utils/api';
+import apiCall, { type APIResponse } from '../../../utils/api';
 import config from '../../../utils/config';
 import { getPostQueryKey } from '../../post/hooks/usePost';
 

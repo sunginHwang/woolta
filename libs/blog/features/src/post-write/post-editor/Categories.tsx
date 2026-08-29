@@ -3,7 +3,7 @@
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { CategoryChips } from '../../_shared/category-chips/CategoryChips';
-import { ChipItemWithLink } from '../../_shared/chips/Item';
+import type { ChipItemWithLink } from '../../_shared/chips/Item';
 import { useCategories } from '../../_shared/hooks/useCategories';
 import { postCategoryAtom } from '../../_shared/write-store';
 

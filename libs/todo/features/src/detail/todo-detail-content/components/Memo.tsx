@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { ChangeEvent, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 
 const PLACEHOLDER = '메모를 입력해 주세요.';
 interface Props {

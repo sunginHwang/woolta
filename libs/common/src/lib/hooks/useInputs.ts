@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState, ChangeEvent } from 'react';
+import { type ChangeEvent, useCallback, useState } from 'react';
 
 export function useInputs<T extends object>(defaultValues: T) {
   type NameType = keyof T;

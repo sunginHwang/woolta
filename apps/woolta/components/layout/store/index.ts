@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeType } from '@wds';
+import type { ThemeType } from '@wds';
 import { atom, useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { saveThemeTypeCookie } from './themeCookie';

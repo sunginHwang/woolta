@@ -1,8 +1,8 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 import { AmountCategorySheet } from '../../_common/components/amount-category-sheet/AmountCategorySheet';
-import { AccountBookCategory } from '../../_common/hooks/useAccountBookCategories';
-import { AccountBookSaveForm, ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
+import type { AccountBookCategory } from '../../_common/hooks/useAccountBookCategories';
+import type { AccountBookSaveForm, ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 import { ScheduledPaymentBottomSheet } from './ScheduledPaymentBottomSheet';
 
 interface Props {

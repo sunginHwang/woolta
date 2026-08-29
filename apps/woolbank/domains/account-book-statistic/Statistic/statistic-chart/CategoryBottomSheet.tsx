@@ -1,8 +1,8 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
-import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
+import type { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 
 interface Props {
   title: string;

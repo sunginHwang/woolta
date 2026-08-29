@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { ChangeEvent, ComponentProps, FC, KeyboardEvent, memo, useRef } from 'react';
+import React, { type ChangeEvent, type ComponentProps, type FC, type KeyboardEvent, memo, useRef } from 'react';
 import { BaseInput } from '../../../../../components/base-input/BaseInput';
 import { FormTemplate } from '../../FormTemplate';
 import { useBucketFormStep } from '../../hooks/useBucketFormStep';

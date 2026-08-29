@@ -6,8 +6,8 @@ import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import { memo, ReactNode } from 'react';
-import { AccountBook } from '../_shared/hooks/useAccountBookListQuery';
+import { memo, type ReactNode } from 'react';
+import type { AccountBook } from '../_shared/hooks/useAccountBookListQuery';
 import { useWoolbankRoutes } from '../_shared/routes/context';
 import { selectedAccountBookIdAtom } from '../_shared/stores/selectedAccountBook';
 

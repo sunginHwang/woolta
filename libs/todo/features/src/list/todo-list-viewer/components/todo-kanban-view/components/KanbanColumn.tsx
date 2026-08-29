@@ -3,10 +3,10 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { DragEvent, KeyboardEvent, useState } from 'react';
+import { type DragEvent, type KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
-import { Todo, TodoListKey } from '../../../../../_shared/types';
+import type { Todo, TodoListKey } from '../../../../../_shared/types';
 import { getDefaultTodoDraft } from '../../../../../_shared/utils/getDefaultTodoDraft';
 import { getTodayKey } from '../../../../../_shared/utils/todoDate';
 import { KanbanCard } from './KanbanCard';

@@ -1,8 +1,8 @@
-import { ReactNode, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import styled from 'styled-components';
 import { BucketListItem } from '../../domains/bucket-list/main/BucketListItem';
-import { Tabs, Tab } from '../tabs/Tabs';
+import { type Tab, Tabs } from '../tabs/Tabs';
 import { Empty } from './Empty';
 
 interface Props {

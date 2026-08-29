@@ -1,7 +1,7 @@
 'use client';
 
 import { SkeletonBar } from '@wds';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { ChipLayout } from './ChipLayout';
 
 interface Props {

@@ -1,4 +1,4 @@
-import { TodoViewMode } from '../../../_shared/types';
+import type { TodoViewMode } from '../../../_shared/types';
 
 export function getViewerType({
   isUpcoming,

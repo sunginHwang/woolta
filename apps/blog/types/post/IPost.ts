@@ -1,4 +1,4 @@
-import { IWriter } from './IWriter';
+import type { IWriter } from './IWriter';
 
 export interface IPost {
   postNo: number;

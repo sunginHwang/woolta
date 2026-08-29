@@ -1,5 +1,5 @@
 import { useIsMounted } from '@common';
-import { ComponentProps, FC, Suspense as ReactSuspense } from 'react';
+import { type ComponentProps, type FC, Suspense as ReactSuspense } from 'react';
 
 /**
  * SSR Suspense

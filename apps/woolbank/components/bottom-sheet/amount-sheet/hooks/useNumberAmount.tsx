@@ -1,5 +1,6 @@
 import { useDebounce } from '@croquiscom/monolith';
-import { useEffect, MouseEvent, useState } from 'react';
+import { type MouseEvent, useEffect, useState } from 'react';
+
 const BILLION = 1_000_000_000;
 
 interface useNumberAmountProps {

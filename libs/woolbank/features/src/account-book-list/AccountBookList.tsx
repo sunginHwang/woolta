@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
 import { EmptyInfo } from '../_shared/components/empty-info/EmptyInfo';
 import { useAccountBookList } from '../_shared/hooks/useAccountBookList';
-import { AccountBook } from '../_shared/hooks/useAccountBookListQuery';
+import type { AccountBook } from '../_shared/hooks/useAccountBookListQuery';
 import { AccountBookListSkeleton } from './AccountBookListSkeleton';
 import DayGroup from './DayGroup';
 import Item from './Item';

@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { Suspense as MountGate, Text } from '@wds';
-import { Component, ReactNode } from 'react';
+import { Component, type ReactNode } from 'react';
 
 interface ErrorBoundaryProps {
   children: ReactNode;

@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
-import { KeyboardEvent, useState } from 'react';
+import { type KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { getCategoryListKey, getTodoListHref } from '../../../_shared/routes';
 import { useTodoStore } from '../../../_shared/stores/useTodoStore';

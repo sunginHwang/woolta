@@ -3,7 +3,7 @@
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { getData, postData } from '../../../_shared/api';
 import { useToast } from '../../../_shared/toast/useToast';
-import { AccountBookCategoryType } from '../../../_shared/utils/account-books';
+import type { AccountBookCategoryType } from '../../../_shared/utils/account-books';
 
 export type { AccountBookCategoryType };
 

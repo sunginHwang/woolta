@@ -1,4 +1,4 @@
-import { MutableRefObject, RefCallback } from 'react';
+import type { MutableRefObject, RefCallback } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeRefs<T = any>(refs: any[]): RefCallback<T> {

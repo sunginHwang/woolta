@@ -1,9 +1,9 @@
 'use client';
 
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import { Value } from 'react-calendar/dist/cjs/shared/types';
+import type { Value } from 'react-calendar/dist/cjs/shared/types';
 import { styled } from 'styled-components';
 import { DefaultBottomSheet } from '../DefaultBottomSheet';
 import { calendarStyle } from '../style';

@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
+import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from 'react';
 
 type ChipVarient = 'filled' | 'outlined' | 'event';
 type ChipColor = 'primary';
@@ -148,12 +148,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     );
 
     return (
-      <button
-        ref={ref}
-        {...sx}
-        className={className ? `${sx.className ?? ''} ${className}` : sx.className}
-        {...props}
-      >
+      <button ref={ref} {...sx} className={className ? `${sx.className ?? ''} ${className}` : sx.className} {...props}>
         {start_icon && <span {...stylex.props(styles.iconStart)}>{start_icon}</span>}
         {text}
         {end_icon && <span {...stylex.props(styles.iconEnd)}>{end_icon}</span>}

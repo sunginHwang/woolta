@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { FullScreenLoading } from '../../../components/full-screen-loading/FullScreenLoading';
 import { FilterInfo } from './filter-info/FilterInfo';
 import { StatisticChartSkeleton } from './statistic-chart/StatisticChartSkeleton';
+
 const StatisticChart = dynamic(() => import('./statistic-chart/StatisticChart'), {
   ssr: false,
   loading: () => <StatisticChartSkeleton />,
@@ -17,14 +18,17 @@ const LineChart = dynamic(() => import('./line-chart/LineChart').then((m) => ({ 
  * 가계부 통계
  * @component
  */
-export const Statistic = withSuspense(() => {
-  return (
-    <>
-      <FilterInfo />
-      <main>
-        <StatisticChart />
-        <LineChart />
-      </main>
-    </>
-  );
-}, <FullScreenLoading loading message='잠시만 기다려 주세요.' />);
+export const Statistic = withSuspense(
+  () => {
+    return (
+      <>
+        <FilterInfo />
+        <main>
+          <StatisticChart />
+          <LineChart />
+        </main>
+      </>
+    );
+  },
+  <FullScreenLoading loading message='잠시만 기다려 주세요.' />,
+);

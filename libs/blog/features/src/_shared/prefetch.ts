@@ -1,8 +1,8 @@
-import { QueryClient } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 import { getData } from './api';
-import { POSTS_QUERY_KEY, CATEGORIES_QUERY_KEY, getPostQueryKey } from './query-keys';
-import { ICategory } from './types/ICategory';
-import { IPost } from './types/IPost';
+import { CATEGORIES_QUERY_KEY, getPostQueryKey, POSTS_QUERY_KEY } from './query-keys';
+import type { ICategory } from './types/ICategory';
+import type { IPost } from './types/IPost';
 
 async function fetchPostListForPrefetch(categoryId: string) {
   const urlPath = categoryId === '-1' ? '/post/categories/new/posts' : `/post/categories/${categoryId}/posts`;

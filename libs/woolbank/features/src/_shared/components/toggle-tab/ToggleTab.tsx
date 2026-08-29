@@ -47,7 +47,14 @@ const dynamicStyles = stylex.create({
  * 토글 탭
  * @component
  */
-export const ToggleTab = ({ tabs, value, useOutline = true, useListType = false, size = 'medium', onChangeTab }: Props) => {
+export const ToggleTab = ({
+  tabs,
+  value,
+  useOutline = true,
+  useListType = false,
+  size = 'medium',
+  onChangeTab,
+}: Props) => {
   const { width } = useWindowDimensions();
   const indicatorWidth = width / tabs.length;
   const activeTabIndex = tabs.findIndex((tab) => tab.type === value);
@@ -71,7 +78,11 @@ export const ToggleTab = ({ tabs, value, useOutline = true, useListType = false,
       return (
         <button
           key={tab.type}
-          {...stylex.props(styles.listTab, dynamicStyles.listTabActive(tab.type === value), dynamicStyles.buttonFontSize(size))}
+          {...stylex.props(
+            styles.listTab,
+            dynamicStyles.listTabActive(tab.type === value),
+            dynamicStyles.buttonFontSize(size),
+          )}
           onClick={() => onChangeTab && onChangeTab(tab)}
         >
           {tab.name}
@@ -104,7 +115,11 @@ export const ToggleTab = ({ tabs, value, useOutline = true, useListType = false,
         return (
           <button
             key={tab.type}
-            {...stylex.props(styles.tab, dynamicStyles.tabActive(tab.type === value), dynamicStyles.buttonFontSize(size))}
+            {...stylex.props(
+              styles.tab,
+              dynamicStyles.tabActive(tab.type === value),
+              dynamicStyles.buttonFontSize(size),
+            )}
             onClick={() => onTabClick(tab, index)}
           >
             {tab.name}

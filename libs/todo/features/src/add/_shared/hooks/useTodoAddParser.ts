@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useCategoryList } from '../../../_shared/hooks/useCategoryList';
 import { useTodoStore } from '../../../_shared/stores/useTodoStore';
-import { TodoListKey } from '../../../_shared/types';
+import type { TodoListKey } from '../../../_shared/types';
 import { getDefaultTodoDraft } from '../../../_shared/utils/getDefaultTodoDraft';
 import { parseCategoryTokens } from '../../../_shared/utils/parseCategoryFromText';
 import { parseDateTokens } from '../../../_shared/utils/parseDateFromText';

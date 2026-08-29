@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { FiFlag } from 'react-icons/fi';
-import { TodoPriority } from '../types';
+import type { TodoPriority } from '../types';
 
 interface Props {
   /** 우선순위 */

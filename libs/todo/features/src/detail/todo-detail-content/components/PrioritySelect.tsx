@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { PriorityFlag } from '../../../_shared/components/PriorityFlag';
-import { TodoPriority } from '../../../_shared/types';
+import type { TodoPriority } from '../../../_shared/types';
 
 const PRIORITY_OPTIONS: { value: TodoPriority; label: string }[] = [
   { value: 'high', label: '높음' },

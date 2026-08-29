@@ -1,8 +1,8 @@
 import { usePreventScroll } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { motion, AnimatePresence } from 'motion/react';
-import { ReactNode, PropsWithChildren } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import Deem from '../atom/Deem';
 import { IconClose } from '../atom/Icon';
 

@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { BlogListScreen, BlogScreensProvider, prefetchBlogList } from '@blog/screens';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 interface Props {
   searchParams: Promise<{ category: string | undefined }>;

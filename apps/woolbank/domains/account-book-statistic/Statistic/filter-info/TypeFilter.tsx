@@ -1,7 +1,7 @@
 import { useToggle } from '@common';
 import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
-import { BottomMenu } from '../../../../components/bottom-sheet/menu-sheet/MenuSheet';
-import { AccountBookCategoryType } from '../_common/stores/statisticFilter';
+import type { BottomMenu } from '../../../../components/bottom-sheet/menu-sheet/MenuSheet';
+import type { AccountBookCategoryType } from '../_common/stores/statisticFilter';
 import { Label } from './Label';
 
 const CATEGORY_BOTTOM_MENU_LIST: BottomMenu<AccountBookCategoryType>[] = [

@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useCallback, useState } from 'react';
+import { type ChangeEvent, useCallback, useState } from 'react';
 
 export function useInput(initialValues: string) {
   const [value, setValue] = useState(initialValues);

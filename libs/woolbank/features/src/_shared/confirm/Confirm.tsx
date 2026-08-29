@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Deem from '../components/deem/Deem';
 
@@ -51,7 +51,11 @@ export const Confirm: FC<Props> = ({
                 <button {...stylex.props(typographyStyles.body2, styles.button)} data-cy='icoCancel' onClick={onCancel}>
                   {cancelMsg}
                 </button>
-                <button {...stylex.props(typographyStyles.body2, styles.button, styles.confirmButton)} data-cy='icoConfirm' onClick={onConfirm}>
+                <button
+                  {...stylex.props(typographyStyles.body2, styles.button, styles.confirmButton)}
+                  data-cy='icoConfirm'
+                  onClick={onConfirm}
+                >
                   {confirmMsg}
                 </button>
               </div>

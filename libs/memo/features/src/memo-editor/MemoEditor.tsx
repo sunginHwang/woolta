@@ -3,9 +3,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { ChangeEvent, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { useSelectedMemo } from '../_shared/hooks/useSelectedMemo';
-import { Memo } from '../_shared/types';
+import type { Memo } from '../_shared/types';
 import { formatMemoDate } from '../_shared/utils/formatMemoDate';
 import { useMemoAutoSave } from './hooks/useMemoAutoSave';
 import { TiptapEditor } from './TiptapEditor';

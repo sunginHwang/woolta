@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 
 export interface AccountBookSheetItem {

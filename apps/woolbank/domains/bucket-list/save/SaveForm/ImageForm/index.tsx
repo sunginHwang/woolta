@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import React, { ComponentProps, FC, useRef } from 'react';
+import type React from 'react';
+import { type ComponentProps, type FC, useRef } from 'react';
 import { IconCamera, IconImage } from '../../../../../components/atom/Icon';
 import { FormTemplate } from '../../FormTemplate';
 import { LabelText } from '../../LabelText';

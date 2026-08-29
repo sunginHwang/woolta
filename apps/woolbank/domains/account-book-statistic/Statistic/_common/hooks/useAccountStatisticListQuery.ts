@@ -1,9 +1,8 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-import dayjs, { Dayjs } from 'dayjs';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import type { AxiosRequestConfig } from 'axios';
+import dayjs, { type Dayjs } from 'dayjs';
 import { getData } from '../../../../../utils/api';
-import { AccountStatisticFilter } from '../stores/statisticFilter';
-import { AxiosRequestConfig } from 'axios';
-import { QueryClient } from '@tanstack/react-query';
+import type { AccountStatisticFilter } from '../stores/statisticFilter';
 
 export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';
 

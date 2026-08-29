@@ -1,7 +1,6 @@
-
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import type { IPost } from '../../../types/post/IPost';
 import { getData } from '../../..//utils/api';
-import { IPost } from '../../../types/post/IPost';
 
 const POST_QUERY_KEY = 'getPost';
 

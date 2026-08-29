@@ -7,7 +7,7 @@ import groupBy from 'lodash-es/groupBy';
 import { useEffect } from 'react';
 import { selectedAccountBookDateAtom } from '../stores/accountbookDate';
 import {
-  AccountBook,
+  type AccountBook,
   getAccountBookListQueryKey,
   prefetchAccountBookList,
   useAccountBookListQuery,

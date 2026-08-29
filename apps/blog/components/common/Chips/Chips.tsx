@@ -1,11 +1,11 @@
 'use client';
 
 import { useMount } from '@common';
-import { MouseEvent, useMemo, useRef } from 'react';
+import { type MouseEvent, useMemo, useRef } from 'react';
 import { useStickeyScrollReset } from '../../../hooks/useStickeyScrollReset';
 import { ChipLayout } from './ChipLayout';
 import { ChipsLoading } from './ChipsLoading';
-import Item, { ChipItemWithLink } from './Item';
+import Item, { type ChipItemWithLink } from './Item';
 
 type ChipElement = HTMLElement | null;
 interface Props {
@@ -68,7 +68,7 @@ export const Chips = ({
   }, [chips, active_chip_value]);
 
   useMount(() => {
-    if (chip_list_ref.current && !!chip_item_ref.current[selected_index]) {
+    if (chip_list_ref.current && chip_item_ref.current[selected_index]) {
       const offset_left = Number(chip_item_ref.current[selected_index]?.offsetLeft);
       const offset_width = Number(chip_item_ref.current[selected_index]?.offsetWidth);
 

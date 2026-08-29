@@ -1,9 +1,9 @@
 'use client';
 
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { getData } from '../../_shared/api';
 import { getPostQueryKey } from '../../_shared/query-keys';
-import { IPost } from '../../_shared/types/IPost';
+import type { IPost } from '../../_shared/types/IPost';
 
 export async function fetchPost(categoryNo: string, postNo: string) {
   try {

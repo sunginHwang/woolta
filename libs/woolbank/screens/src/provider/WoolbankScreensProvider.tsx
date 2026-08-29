@@ -1,9 +1,7 @@
 'use client';
 
-import { ConfirmProvider } from '@woolta/woolbank-features';
-import { Toast } from '@woolta/woolbank-features';
-import { WoolbankRoutesProvider, WoolbankRoutes } from '@woolta/woolbank-features';
-import { ReactNode } from 'react';
+import { ConfirmProvider, Toast, type WoolbankRoutes, WoolbankRoutesProvider } from '@woolta/woolbank-features';
+import type { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;

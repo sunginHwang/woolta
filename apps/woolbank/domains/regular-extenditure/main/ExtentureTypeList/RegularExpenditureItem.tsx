@@ -2,12 +2,12 @@ import { useLongPress } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { useToast } from '../../../../hooks/useToast';
 import { getRemainDay } from '../../../../utils/date';
 import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
-import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
+import type { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
 interface Props {
   type: string;

@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '../../../../hooks/useToast';
 import { postData } from '../../../../utils/api';
 import { useRegularExtentureList } from '../../main/hooks/useRegularExtentureList';
-import { RegularExtenditureForm } from './useRegularExtenditureForm';
+import type { RegularExtenditureForm } from './useRegularExtenditureForm';
 
 export const addRegularExtenditure = async (regularExpenditureForm: RegularExtenditureForm) => {
   const { category, ...rest } = regularExpenditureForm;

@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useToast } from '../../../../../hooks/useToast';
 import { getData, postData } from '../../../../../utils/api';
 

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 import config, { setConfig } from '../config';
 
 // 개발 환경에서만 SSL 인증서 검증 비활성화

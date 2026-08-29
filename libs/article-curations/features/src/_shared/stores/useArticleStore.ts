@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { combine, persist } from 'zustand/middleware';
 import { WEEKLY_CURATION_LIMIT } from '../constants';
-import { Article, ArticleCategory, ArticleSeo, WeeklyCuration } from '../types';
+import type { Article, ArticleCategory, ArticleSeo, WeeklyCuration } from '../types';
 
 const createArticleId = (prefix: string) => {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -54,9 +54,7 @@ export const useArticleStore = create(
         },
         updateCategory: (id: string, name: string) => {
           set((state) => ({
-            categoryList: state.categoryList.map((category) =>
-              category.id === id ? { ...category, name } : category,
-            ),
+            categoryList: state.categoryList.map((category) => (category.id === id ? { ...category, name } : category)),
           }));
         },
         removeCategory: (id: string) => {

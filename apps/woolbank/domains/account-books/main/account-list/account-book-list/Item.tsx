@@ -3,7 +3,7 @@ import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import { memo } from 'react';
-import { AccountBook } from '../../_common/hooks/useAccountBookList';
+import type { AccountBook } from '../../_common/hooks/useAccountBookList';
 
 interface Props {
   accountBook: AccountBook;

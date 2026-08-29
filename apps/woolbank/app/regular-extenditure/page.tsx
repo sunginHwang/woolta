@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import type { AxiosRequestConfig } from 'axios';
 import { cookies } from 'next/headers';
 import { RegularExpenditure } from '../../domains/regular-extenditure/main';
 import { prefetchRegularExtentureList } from '../../domains/regular-extenditure/main/hooks/useRegularExtentureListQuery';

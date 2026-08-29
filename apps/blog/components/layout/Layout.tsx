@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { usePwa } from '../../hooks/usePwa';
 import Loading from '../common/loading/Loading';
 import NotificationBar from '../common/notification-bar/NotificationBar';
@@ -35,9 +35,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     <main {...stylex.props(styles.content)}>
       <Header />
       <Loading isLoading={spinnerLoading} />
-      <div {...stylex.props(isEditMode ? styles.editModeCss : styles.noneEditModeCss)}>
-        {children}
-      </div>
+      <div {...stylex.props(isEditMode ? styles.editModeCss : styles.noneEditModeCss)}>{children}</div>
       <NotificationBar />
       <Footer />
     </main>

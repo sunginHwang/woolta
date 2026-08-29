@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { forwardRef, HTMLAttributes, PropsWithChildren } from 'react';
+import { forwardRef, type HTMLAttributes, type PropsWithChildren } from 'react';
 
 interface Props extends HTMLAttributes<HTMLUListElement>, PropsWithChildren {
   stickey_height?: number;

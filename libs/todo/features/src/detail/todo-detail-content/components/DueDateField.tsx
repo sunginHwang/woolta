@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { FiCalendar, FiX } from 'react-icons/fi';
 import { formatDueDate } from '../../../_shared/utils/formatDueDate';
 import { getTodayKey } from '../../../_shared/utils/todoDate';
@@ -26,18 +26,24 @@ export const DueDateField = ({ dueDate, onDueDateChange }: Props) => {
 
   return (
     <div {...stylex.props(styles.field)}>
-      <label {...stylex.props(styles.dateButton, hasValue && styles.dateButtonHasValue, isOverdue && styles.dateButtonOverdue)}>
+      <label
+        {...stylex.props(
+          styles.dateButton,
+          hasValue && styles.dateButtonHasValue,
+          isOverdue && styles.dateButtonOverdue,
+        )}
+      >
         <FiCalendar size={13} />
         {labelInfo?.label ?? '날짜 없음'}
-        <input
-          type='date'
-          value={dueDate ?? ''}
-          onChange={handleDateChange}
-          {...stylex.props(styles.dateInput)}
-        />
+        <input type='date' value={dueDate ?? ''} onChange={handleDateChange} {...stylex.props(styles.dateInput)} />
       </label>
       {dueDate !== null && (
-        <button type='button' title='날짜 제거' onClick={() => onDueDateChange(null)} {...stylex.props(styles.clearButton)}>
+        <button
+          type='button'
+          title='날짜 제거'
+          onClick={() => onDueDateChange(null)}
+          {...stylex.props(styles.clearButton)}
+        >
           <FiX size={12} />
         </button>
       )}

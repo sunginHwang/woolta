@@ -1,5 +1,5 @@
 import { useIsMounted } from '@common';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
 interface Props extends PropsWithChildren {

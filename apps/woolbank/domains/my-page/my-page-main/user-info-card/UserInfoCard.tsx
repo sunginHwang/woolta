@@ -94,7 +94,13 @@ export const UserInfoCard = () => {
           <div {...stylex.props(styles.item)}>
             <div {...stylex.props(styles.defaultItem)}>
               <div {...stylex.props(styles.userGroup)}>
-                <Image {...stylex.props(styles.userImage)} src={userInfo.imageUrl} width={24} height={24} alt={`${name}_유저_이미지`} />
+                <Image
+                  {...stylex.props(styles.userImage)}
+                  src={userInfo.imageUrl}
+                  width={24}
+                  height={24}
+                  alt={`${name}_유저_이미지`}
+                />
                 <Text variant='body4Regular' as='p' ml={6}>
                   {userInfo.name}
                 </Text>

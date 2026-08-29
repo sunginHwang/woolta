@@ -16,6 +16,7 @@ const AccountOutline = ({ width = 24, height = 24, fill = 'currentColor' }: Icon
     />
   </svg>
 );
+
 export { AccountOutline as IconAccountOutline };
 
 // HomeOutline
@@ -24,6 +25,7 @@ const HomeOutline = ({ width = 24, height = 24, fill = 'currentColor' }: IconPro
     <path fill={fill} d='M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z' />
   </svg>
 );
+
 export { HomeOutline as IconHomeOutline };
 
 // BucketOutline
@@ -35,6 +37,7 @@ const BucketOutline = ({ width = 24, height = 24, fill = 'currentColor' }: IconP
     />
   </svg>
 );
+
 export { BucketOutline as IconBucketOutline };
 
 // PigOutline
@@ -46,6 +49,7 @@ const PigOutline = ({ width = 24, height = 24, fill = 'currentColor' }: IconProp
     />
   </svg>
 );
+
 export { PigOutline as IconPigOutline };
 
 // WalletOutline
@@ -57,6 +61,7 @@ const WalletOutline = ({ width = 24, height = 24, fill = 'currentColor' }: IconP
     />
   </svg>
 );
+
 export { WalletOutline as IconWalletOutline };
 
 // ChevronLeft
@@ -65,6 +70,7 @@ const ChevronLeft = ({ width = 24, height = 24, fill = 'currentColor' }: IconPro
     <path fill={fill} d='M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z' />
   </svg>
 );
+
 export { ChevronLeft as IconChevronLeft };
 
 // ChevronRight
@@ -85,6 +91,7 @@ const ChevronDown = ({ width = 24, height = 24, fill = 'currentColor' }: IconPro
     <path fill={fill} d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z' />
   </svg>
 );
+
 export { ChevronDown as IconChevronDown };
 
 // Close
@@ -96,6 +103,7 @@ const Close = ({ width = 24, height = 24, fill = 'currentColor' }: IconProps) =>
     />
   </svg>
 );
+
 export { Close as IconClose };
 
 // CloseCircle
@@ -107,6 +115,7 @@ const CloseCircle = ({ width = 24, height = 24, fill = 'currentColor' }: IconPro
     />
   </svg>
 );
+
 export { CloseCircle as IconCloseCircle };
 
 // TrashCan
@@ -118,6 +127,7 @@ const TrashCan = ({ width = 24, height = 24, fill = 'currentColor' }: IconProps)
     />
   </svg>
 );
+
 export { TrashCan as IconTrashCan };
 
 // CircleCheck
@@ -129,6 +139,7 @@ const CircleCheck = ({ width = 24, height = 24, fill = 'currentColor' }: IconPro
     />
   </svg>
 );
+
 export { CircleCheck as IconCircleCheck };
 
 // CalendarMonthOutline
@@ -140,6 +151,7 @@ const CalendarMonthOutline = ({ width = 24, height = 24, fill = 'currentColor' }
     />
   </svg>
 );
+
 export { CalendarMonthOutline as IconCalendarMonthOutline };
 
 // DownHorizontal
@@ -148,6 +160,7 @@ const DownHorizontal = ({ width = 24, height = 24, fill = 'currentColor' }: Icon
     <path fill={fill} d='M7.41 8.58L12 13.17 16.59 8.58 18 10l-6 6-6-6 1.41-1.42z' />
   </svg>
 );
+
 export { DownHorizontal as IconDownHorizontal };
 
 // BlackCircle
@@ -156,6 +169,7 @@ const BlackCircle = ({ width = 24, height = 24, fill = 'currentColor' }: IconPro
     <circle cx='12' cy='12' r='10' fill={fill} />
   </svg>
 );
+
 export { BlackCircle as IconBlackCircle };
 
 // Plus
@@ -164,6 +178,7 @@ const Plus = ({ width = 24, height = 24, fill = 'currentColor' }: IconProps) => 
     <path fill={fill} d='M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z' />
   </svg>
 );
+
 export { Plus as IconPlus };
 
 // Image
@@ -175,6 +190,7 @@ const Image = ({ width = 24, height = 24, fill = 'currentColor' }: IconProps) =>
     />
   </svg>
 );
+
 export { Image as IconImage };
 
 // Camera
@@ -186,6 +202,7 @@ const Camera = ({ width = 24, height = 24, fill = 'currentColor' }: IconProps) =
     />
   </svg>
 );
+
 export { Camera as IconCamera };
 
 // Calendar (non-barrel, named export)

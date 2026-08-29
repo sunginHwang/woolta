@@ -1,5 +1,5 @@
-import { QueryClient } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import type { QueryClient } from '@tanstack/react-query';
+import type { AxiosRequestConfig } from 'axios';
 import { getData } from '../api';
 
 export const ACCOUNT_BOOK_LIST_QUERY_KEY = 'accountBookList';

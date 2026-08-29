@@ -21,7 +21,9 @@ export const CategorySelect = ({ categoryId, onCategoryChange }: Props) => {
       <FiInbox size={13} />
       <select
         value={categoryId ?? ''}
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onCategoryChange(e.target.value.length > 0 ? e.target.value : null)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          onCategoryChange(e.target.value.length > 0 ? e.target.value : null)
+        }
         {...stylex.props(styles.select)}
       >
         <option value=''>기본함</option>

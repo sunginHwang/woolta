@@ -3,7 +3,15 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import {
+  type ChangeEvent,
+  forwardRef,
+  type InputHTMLAttributes,
+  type MouseEvent,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import { IconCloseCircle } from '../atom/Icon';
 
 interface Props
@@ -126,14 +134,14 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
             onChange={onChange}
             {...defaultProps}
             {...restInputProps}
-            {...stylex.props(
-              typographyStyles.body1,
-              styles.input,
-              focus ? styles.inputFocus : null,
-            )}
+            {...stylex.props(typographyStyles.body1, styles.input, focus ? styles.inputFocus : null)}
           />
           {isExistInputValue && (
-            <i onClick={handleInputClear} data-type={dataType === '' ? name : dataType} {...stylex.props(styles.clearIcon)}>
+            <i
+              onClick={handleInputClear}
+              data-type={dataType === '' ? name : dataType}
+              {...stylex.props(styles.clearIcon)}
+            >
               <IconCloseCircle width={24} height={28} fill='#958d9e' />
             </i>
           )}

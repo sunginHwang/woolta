@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
-import { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { BottomSheet } from '../_shared/bottom-sheet/BottomSheet';
 
 export interface AccountBookSheetItem {
@@ -30,7 +30,9 @@ export const AccountBookBottomSheet = ({ isOpen, title, titleColor, list, onClos
   return (
     <BottomSheet visible={isOpen} oncloseModal={onClose} contentHeight={600}>
       <div {...stylex.props(styles.categoryBottomSheet)}>
-        <h3 {...stylex.props(typographyStyles.title3Medium, styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
+        <h3 {...stylex.props(typographyStyles.title3Medium, styles.title, dynamicStyles.titleColor(titleColor))}>
+          {title}
+        </h3>
         <ul {...stylex.props(styles.list)}>
           {list.map(({ title, amount, iconImageUrl, registerDateTime }, key) => (
             <li key={key} {...stylex.props(styles.item)}>

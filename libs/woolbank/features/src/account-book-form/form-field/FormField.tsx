@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface Props {
   title: string;

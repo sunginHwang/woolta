@@ -4,9 +4,17 @@ import { mergeRefs } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colors } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { IconCloseCircle } from 'apps/woolbank/components/atom/Icon';
 import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
+import {
+  type ChangeEvent,
+  forwardRef,
+  type InputHTMLAttributes,
+  type MouseEvent,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 
 interface Props
   extends Omit<
@@ -121,7 +129,12 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     const isExistInputValue = value !== '' && isShowCloseBtn && !disable && focus;
 
     return (
-      <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+      <div
+        {...stylex.props(styles.container)}
+        ref={parentRef}
+        onClick={onClick}
+        data-type={dataType === '' ? name : dataType}
+      >
         <input
           ref={mergeRefs([inputRef, parentRef])}
           data-cy={name}
@@ -141,7 +154,11 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
           {...stylex.props(styles.input)}
         />
         {isExistInputValue ? (
-          <i {...stylex.props(styles.icon, styles.trash)} onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
+          <i
+            {...stylex.props(styles.icon, styles.trash)}
+            onClick={handleInputClear}
+            data-type={dataType === '' ? name : dataType}
+          >
             <IconCloseCircle width={16} height={16} fill='#958d9e' />
           </i>
         ) : (

@@ -6,10 +6,10 @@ import { useState } from 'react';
 import { BaseInput } from '../../../../../../components/base-input/BaseInput';
 import { BottomFloatingButton } from '../../../../../../components/bottom-floating-button/BottomFloatingButton';
 import { Header } from '../../../../../../components/Header/Header';
-import { ToggleTab, ToggleTabItem } from '../../../../../../components/toggle-tab/ToggleTab';
+import { ToggleTab, type ToggleTabItem } from '../../../../../../components/toggle-tab/ToggleTab';
 import { useToast } from '../../../../../../hooks/useToast';
-import getCategoryMsg, { AccountBookCategoryType } from '../../../../../../utils/account-books';
-import { SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';
+import getCategoryMsg, { type AccountBookCategoryType } from '../../../../../../utils/account-books';
+import type { SaveAccountBookCategoryForm } from '../../hooks/useAccountBookCategories';
 import { useAccountBookCategoryImages } from '../../hooks/useAccountBookCategoryImages';
 
 const TAB_LIST: ToggleTabItem[] = [

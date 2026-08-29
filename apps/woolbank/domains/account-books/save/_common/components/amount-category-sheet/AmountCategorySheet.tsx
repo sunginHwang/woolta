@@ -3,8 +3,8 @@ import * as stylex from '@stylexjs/stylex';
 import { Button } from '../../../../../../components/atom/Button';
 import { BottomSheet } from '../../../../../../components/bottom-sheet/BottomSheet';
 import {
-  AccountBookCategory,
-  AccountBookCategoryType,
+  type AccountBookCategory,
+  type AccountBookCategoryType,
   useAccountBookCategories,
 } from '../../hooks/useAccountBookCategories';
 import { CategoryItem } from './CategoryItem';

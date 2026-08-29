@@ -1,2 +1,2 @@
-export * from './withSuspense';
 export * from './usePreviousState';
+export * from './withSuspense';

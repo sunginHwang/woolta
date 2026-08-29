@@ -1,4 +1,4 @@
-import { TodoListKey } from './types';
+import type { TodoListKey } from './types';
 
 /** Todo 앱의 기준 경로 */
 export const TODO_BASE_PATH = '/todo';

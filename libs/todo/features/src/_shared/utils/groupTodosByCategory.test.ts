@@ -1,5 +1,5 @@
-import { Todo } from '../types';
-import { INBOX_COLUMN_ID, groupTodosByCategory } from './groupTodosByCategory';
+import type { Todo } from '../types';
+import { groupTodosByCategory, INBOX_COLUMN_ID } from './groupTodosByCategory';
 
 const baseTodo: Todo = {
   id: 'todo-1',

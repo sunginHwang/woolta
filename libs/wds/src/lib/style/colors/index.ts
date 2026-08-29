@@ -1,12 +1,12 @@
 import { palette } from './palette';
 import type { LegacyColorKey } from './types';
 
+export { darkThemeCssVariables, darkTokenOverrides } from './darkTokens';
 // Re-export structured modules
 export { palette } from './palette';
-export { lightSemanticTokens, darkSemanticTokens } from './semanticTokens';
+export { darkSemanticTokens, lightSemanticTokens } from './semanticTokens';
 export { theme } from './theme';
-export { darkTokenOverrides, darkThemeCssVariables } from './darkTokens';
-export type { ColorType, ThemeType, SemanticColorTokens, LegacyColorKey } from './types';
+export type { ColorType, LegacyColorKey, SemanticColorTokens, ThemeType } from './types';
 
 // --- Individual color constants (backward compatibility) ---
 

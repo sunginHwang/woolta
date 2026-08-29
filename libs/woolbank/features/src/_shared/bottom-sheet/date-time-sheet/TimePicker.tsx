@@ -51,9 +51,25 @@ export const TimePicker = ({ time, onChangeTime }: Props) => {
           </span>
         </div>
         <div {...stylex.props(styles.time)}>
-          <input {...stylex.props(styles.timeInput)} type='number' name='hours' placeholder={hours24} maxLength={2} value={inputs.hours} onChange={onChange} />
+          <input
+            {...stylex.props(styles.timeInput)}
+            type='number'
+            name='hours'
+            placeholder={hours24}
+            maxLength={2}
+            value={inputs.hours}
+            onChange={onChange}
+          />
           <span {...stylex.props(styles.timeSeparator)}>:</span>
-          <input {...stylex.props(styles.timeInput)} type='number' name='minutes' placeholder={HH_MM[1]} maxLength={2} value={inputs.minutes} onChange={onChange} />
+          <input
+            {...stylex.props(styles.timeInput)}
+            type='number'
+            name='minutes'
+            placeholder={HH_MM[1]}
+            maxLength={2}
+            value={inputs.minutes}
+            onChange={onChange}
+          />
         </div>
       </div>
       {!isValidTime && <div {...stylex.props(styles.validMsg)}>올바른 시간을 입력해 주세요.</div>}

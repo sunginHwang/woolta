@@ -1,6 +1,6 @@
-import React, { FC, useRef } from 'react';
-import Cropper, { ReactCropperElement } from 'react-cropper';
 import { red500 } from '@wds';
+import React, { type FC, useRef } from 'react';
+import Cropper, { type ReactCropperElement } from 'react-cropper';
 import styled from 'styled-components';
 
 import { IconCircleCheck } from '../../../../../components/atom/Icon';

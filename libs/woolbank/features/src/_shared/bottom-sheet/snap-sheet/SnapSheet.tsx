@@ -1,7 +1,7 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { useEffect, PropsWithChildren, ReactNode } from 'react';
+import { type PropsWithChildren, type ReactNode, useEffect } from 'react';
 import Sheet from 'react-modal-sheet';
 
 interface Props extends PropsWithChildren {

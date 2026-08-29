@@ -119,12 +119,13 @@ export const HeaderInfo = () => {
         position='fixed'
         useSkeleton={!isShowFixedHeader}
       />
-      <div
-        {...stylex.props(styles.imageInfo, dynamicStyles.bgImage(imageUrl ?? ''))}
-        ref={imgRef}
-      >
+      <div {...stylex.props(styles.imageInfo, dynamicStyles.bgImage(imageUrl ?? ''))} ref={imgRef}>
         <div {...stylex.props(styles.innerDiv)}>
-          {isFetching ? <SkeletonBar width='15rem' height='4.4rem' /> : <h2 {...stylex.props(styles.h2Title)}>{title}</h2>}
+          {isFetching ? (
+            <SkeletonBar width='15rem' height='4.4rem' />
+          ) : (
+            <h2 {...stylex.props(styles.h2Title)}>{title}</h2>
+          )}
           <div {...stylex.props(styles.progressWrapper)}>
             <Progress label={remainDay} labelPrefix='D-' percent={remainPercent} color='#f03e3e' />
           </div>

@@ -3,7 +3,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getData, settingAccessHeaderToken } from '../api';
 import { USER_INFO_QUERY_KEY } from '../query-keys';
-import { IUserInfo } from '../types/IUserInfo';
+import type { IUserInfo } from '../types/IUserInfo';
 
 const initValue: IUserInfo = {
   no: 0,

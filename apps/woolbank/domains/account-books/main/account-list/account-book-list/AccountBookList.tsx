@@ -5,7 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
 import { EmptyInfo } from '../../../../../components/empty-info/EmptyInfo';
-import { AccountBook, useAccountBookList } from '../../_common/hooks/useAccountBookList';
+import { type AccountBook, useAccountBookList } from '../../_common/hooks/useAccountBookList';
 import { AccountBookListSkeleton } from './AccountBookListSkeleton';
 import DayGroup from './DayGroup';
 import Item from './Item';

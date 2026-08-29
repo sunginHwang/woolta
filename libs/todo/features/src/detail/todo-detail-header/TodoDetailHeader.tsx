@@ -10,7 +10,13 @@ export const TodoDetailHeader = () => {
 
   return (
     <div {...stylex.props(styles.header)}>
-      <button type='button' title='상세 보기 닫기' aria-label='상세 보기 닫기' onClick={hideDetail} {...stylex.props(styles.closeButton)}>
+      <button
+        type='button'
+        title='상세 보기 닫기'
+        aria-label='상세 보기 닫기'
+        onClick={hideDetail}
+        {...stylex.props(styles.closeButton)}
+      >
         <FiX size={16} />
       </button>
     </div>

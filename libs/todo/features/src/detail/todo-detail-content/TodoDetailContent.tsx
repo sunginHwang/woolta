@@ -8,7 +8,7 @@ import { FiCheck, FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
 import { TodoCheckbox } from '../../_shared/components/TodoCheckbox';
 import { useSelectedTodo } from '../../_shared/hooks/useSelectedTodo';
 import { useTodoStore } from '../../_shared/stores/useTodoStore';
-import { Todo } from '../../_shared/types';
+import type { Todo } from '../../_shared/types';
 import { CategorySelect } from './components/CategorySelect';
 import { DueDateField } from './components/DueDateField';
 import { EmptyView } from './components/EmptyView';
@@ -89,15 +89,30 @@ const Content = ({ todo }: ContentProps) => {
         <div {...stylex.props(styles.footerSpacer)} />
         {isTrashed ? (
           <>
-            <button type='button' title='복원' onClick={() => restoreTodo(todo.id)} {...stylex.props(styles.footerButton)}>
+            <button
+              type='button'
+              title='복원'
+              onClick={() => restoreTodo(todo.id)}
+              {...stylex.props(styles.footerButton)}
+            >
               <FiRotateCcw size={14} />
             </button>
-            <button type='button' title='영구 삭제' onClick={handleDeleteForeverClick} {...stylex.props(styles.footerButton, styles.footerButtonDanger)}>
+            <button
+              type='button'
+              title='영구 삭제'
+              onClick={handleDeleteForeverClick}
+              {...stylex.props(styles.footerButton, styles.footerButtonDanger)}
+            >
               <FiX size={15} />
             </button>
           </>
         ) : (
-          <button type='button' title='휴지통으로 이동' onClick={handleTrashClick} {...stylex.props(styles.footerButton, styles.footerButtonDanger)}>
+          <button
+            type='button'
+            title='휴지통으로 이동'
+            onClick={handleTrashClick}
+            {...stylex.props(styles.footerButton, styles.footerButtonDanger)}
+          >
             <FiTrash2 size={14} />
           </button>
         )}

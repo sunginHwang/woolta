@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
+import type { IconProps } from '.';
 import AccountOutline from './AccountOutline';
 import BucketOutline from './BucketOutline';
 import ChevronDown from './ChevronDown';
@@ -12,7 +13,6 @@ import HomeOutline from './HomeOutline';
 import PigOutline from './PigOutline';
 import TrashCan from './TrashCan';
 import WalletOutline from './WalletOutline';
-import { IconProps } from '.';
 
 const ICON_COMPONENT_LIST = [
   AccountOutline,

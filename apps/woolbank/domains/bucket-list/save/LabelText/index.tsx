@@ -1,5 +1,5 @@
 import { Text } from '@wds';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { SubLabelText } from './SubLabelText';
 
 const _LabelText: FC<PropsWithChildren> = ({ children }) => {

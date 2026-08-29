@@ -1,8 +1,8 @@
 import { useMount } from '@common';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import { WritePost, postAtom, setPostAtom } from '../store';
 import { toastMessageAtom } from '../../layout/store';
+import { postAtom, setPostAtom, type WritePost } from '../store';
 
 const TEMP_POST_AUTO_SAVE = 'TEMP_POST_AUTO_SAVE';
 export const FIVE_MIN: number = 1_000 * 60 * 5;

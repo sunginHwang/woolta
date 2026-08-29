@@ -2,7 +2,7 @@
 
 import { getCategoryIdFromListKey } from '../routes';
 import { useTodoStore } from '../stores/useTodoStore';
-import { TodoListKey } from '../types';
+import type { TodoListKey } from '../types';
 
 const SMART_LIST_TITLES: Record<string, string> = {
   today: '오늘',
@@ -23,7 +23,7 @@ export const useTodoBoardView = (listKey: TodoListKey) => {
   const categories = useTodoStore((state) => state.categories);
 
   const categoryId = getCategoryIdFromListKey(listKey);
-  const category = categoryId === null ? null : categories.find((item) => item.id === categoryId) ?? null;
+  const category = categoryId === null ? null : (categories.find((item) => item.id === categoryId) ?? null);
 
   /** 존재하지 않는 카테고리 경로로 진입했는지 여부 */
   const isMissingCategory = categoryId !== null && category === null;
@@ -33,7 +33,7 @@ export const useTodoBoardView = (listKey: TodoListKey) => {
 
   return {
     listKey,
-    listTitle: categoryId === null ? SMART_LIST_TITLES[listKey] ?? '오늘' : category?.name ?? '리스트',
+    listTitle: categoryId === null ? (SMART_LIST_TITLES[listKey] ?? '오늘') : (category?.name ?? '리스트'),
     isMissingCategory,
     isUpcoming,
     viewMode,

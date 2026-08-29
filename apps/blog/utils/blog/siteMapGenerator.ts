@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ICategory } from '../../types/post/ICategory';
-import { IPost } from '../../types/post/IPost';
+import type { ICategory } from '../../types/post/ICategory';
+import type { IPost } from '../../types/post/IPost';
 
 const API = 'https://blog.woolta.com';
 const BLOG_API = 'https://api-blog.woolta.com';

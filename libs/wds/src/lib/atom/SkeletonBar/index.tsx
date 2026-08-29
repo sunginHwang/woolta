@@ -1,7 +1,7 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { FC, HTMLAttributes } from 'react';
+import type { FC, HTMLAttributes } from 'react';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   width?: string;

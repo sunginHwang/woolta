@@ -1,8 +1,8 @@
 'use client';
 
-import { FC, MouseEvent } from 'react';
+import type { FC, MouseEvent } from 'react';
 import { Chips } from '../chips/Chips';
-import { ChipItemWithLink } from '../chips/Item';
+import type { ChipItemWithLink } from '../chips/Item';
 import { useCategories } from '../hooks/useCategories';
 
 interface Props {

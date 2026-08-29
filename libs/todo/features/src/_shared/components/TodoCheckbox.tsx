@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { FiCheck } from 'react-icons/fi';
 
 interface Props {

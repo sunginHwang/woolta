@@ -1,4 +1,4 @@
-import { IconProps } from '.';
+import type { IconProps } from '.';
 
 const ChevronLeft = ({ width = 24, height = 24, className, fill = 'currentColor' }: IconProps) => {
   return (

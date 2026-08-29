@@ -61,22 +61,29 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
   );
 });
 
-const AnimatedNumber = memo(({ digit, index, use_animation }: { digit: string; index: number; use_animation?: boolean }) => {
-  const normalAnimation = useMemo(
-    () => ({
-      initial: use_animation ? ANIMATION_INITIAL_WITH_MOTION : ANIMATION_INITIAL_NO_MOTION,
-      animate: ANIMATION_ANIMATE,
-      exit: ANIMATION_EXIT,
-    }),
-    [use_animation],
-  );
+const AnimatedNumber = memo(
+  ({ digit, index, use_animation }: { digit: string; index: number; use_animation?: boolean }) => {
+    const normalAnimation = useMemo(
+      () => ({
+        initial: use_animation ? ANIMATION_INITIAL_WITH_MOTION : ANIMATION_INITIAL_NO_MOTION,
+        animate: ANIMATION_ANIMATE,
+        exit: ANIMATION_EXIT,
+      }),
+      [use_animation],
+    );
 
-  return (
-    <motion.span key={`${digit}-${index}`} {...normalAnimation} transition={TRANSITION_CONFIG} style={INLINE_BLOCK_STYLE}>
-      {digit}
-    </motion.span>
-  );
-});
+    return (
+      <motion.span
+        key={`${digit}-${index}`}
+        {...normalAnimation}
+        transition={TRANSITION_CONFIG}
+        style={INLINE_BLOCK_STYLE}
+      >
+        {digit}
+      </motion.span>
+    );
+  },
+);
 
 const AnimatedComma = memo(({ index }: { index: number }) => {
   return (

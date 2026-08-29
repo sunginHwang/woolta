@@ -2,14 +2,14 @@ import { useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { ComponentProps, FC, useRef } from 'react';
+import React, { type ComponentProps, type FC, useRef } from 'react';
 import { useToast } from '../../../../../hooks/useToast';
 import { TodoAddButton } from '../../../common/TodoAddButton';
 import TodoInput from '../../../common/TodoInput';
 import { TodoListItem } from '../../../common/TodoListItem';
 import { FormTemplate } from '../../FormTemplate';
 import { LabelText } from '../../LabelText';
-import { Todo, bucketFormAtom, setBucketTodoListAtom } from '../../store';
+import { bucketFormAtom, setBucketTodoListAtom, type Todo } from '../../store';
 
 interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
 

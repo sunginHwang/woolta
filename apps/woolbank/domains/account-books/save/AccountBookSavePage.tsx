@@ -1,12 +1,12 @@
 'use client';
 
-import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
+import { type DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import { Header } from '../../../components/Header/Header';
-import { AccountBookDetail, useAccountBookDetail } from './_common/hooks/useAccountBookDetail';
+import { type AccountBookDetail, useAccountBookDetail } from './_common/hooks/useAccountBookDetail';
 import { useAccountBookSaveRouterProps } from './_common/hooks/useAccountBookSaveRouterProps';
-import { AccountBookSaveForm } from './account-book-form/_common/hooks/useAccountBookForm';
+import type { AccountBookSaveForm } from './account-book-form/_common/hooks/useAccountBookForm';
 import { AccountBookForm } from './account-book-form/AccountBookForm';
 
 interface Props {

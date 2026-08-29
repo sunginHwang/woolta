@@ -1,5 +1,5 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
-import { IUserInfo } from '../../types/user/IUserInfo';
+import type { IUserInfo } from '../../types/user/IUserInfo';
 import { getData, settingAccessHeaderToken } from '../../utils/api';
 
 const USER_INFO_QUERY_KEY = 'getUserInfo';

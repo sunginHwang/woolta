@@ -1,8 +1,8 @@
 'use client';
 
-import { DehydratedState, HydrationBoundary } from '@tanstack/react-query';
+import { type DehydratedState, HydrationBoundary } from '@tanstack/react-query';
 import {
-  AccountBookDetail,
+  type AccountBookDetail,
   AccountBookForm,
   useAccountBookDetail,
   useAccountBookSaveRouterProps,

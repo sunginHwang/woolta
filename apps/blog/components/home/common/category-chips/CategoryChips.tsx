@@ -1,6 +1,6 @@
-import { FC, MouseEvent } from 'react';
+import type { FC, MouseEvent } from 'react';
 import { Chips } from '../../../common/Chips/Chips';
-import { ChipItemWithLink } from '../../../common/Chips/Item';
+import type { ChipItemWithLink } from '../../../common/Chips/Item';
 import { useCategories } from '../../hooks/useCategories';
 
 interface Props {

@@ -1,5 +1,5 @@
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
-import { StoryFn, StoryContext, Decorator } from '@storybook/react';
+import type { Decorator, StoryContext, StoryFn } from '@storybook/react';
 
 const GlobalStyles = () => (
   <link

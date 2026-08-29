@@ -1,7 +1,7 @@
 import type { JSONContent } from '@tiptap/core';
 import { create } from 'zustand';
 import { combine, persist } from 'zustand/middleware';
-import { Memo } from '../types';
+import type { Memo } from '../types';
 
 export const EMPTY_MEMO_CONTENT: JSONContent = { type: 'doc', content: [{ type: 'paragraph' }] };
 

@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
-import { DateRange } from '../../../../utils/date';
-import { AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../_common/stores/statisticFilter';
+import type { DateRange } from '../../../../utils/date';
+import { type AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../_common/stores/statisticFilter';
 import { CategoryOptionFilter } from './CategoryOptionFilter';
 import { DateFilter } from './DateFilter';
 import DateRangeFilter from './DateRangeFilter';

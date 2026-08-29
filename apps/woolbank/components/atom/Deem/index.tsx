@@ -3,7 +3,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Portal } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
-import { FC, MouseEvent, PropsWithChildren, useCallback, useRef } from 'react';
+import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useRef } from 'react';
 
 interface Props extends PropsWithChildren {
   visible: boolean;

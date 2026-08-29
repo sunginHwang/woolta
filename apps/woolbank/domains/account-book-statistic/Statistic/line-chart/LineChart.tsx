@@ -1,13 +1,13 @@
 import * as stylex from '@stylexjs/stylex';
-import { Text, gray200 } from '@wds';
+import { gray200, Text } from '@wds';
 import { CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { groupBy, sortBy } from 'lodash-es';
 import { Line } from 'react-chartjs-2';
-import { DateRange } from '../../../../utils/date';
+import type { DateRange } from '../../../../utils/date';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
-import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
+import type { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 import { AccountBookStatisticFilterAtom } from '../_common/stores/statisticFilter';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
@@ -126,9 +126,7 @@ export const LineChart = () => {
                     display: false,
                   },
                   ticks: {
-                    callback: function (value) {
-                      return Math.floor(Number(value) / 10_000);
-                    },
+                    callback: (value) => Math.floor(Number(value) / 10_000),
                   },
                 },
               },

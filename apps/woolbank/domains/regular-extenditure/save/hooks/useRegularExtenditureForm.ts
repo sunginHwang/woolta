@@ -1,5 +1,5 @@
 import { useInputs } from '@common';
-import { AccountBookCategory } from '../../../account-books/save/_common/hooks/useAccountBookCategories';
+import type { AccountBookCategory } from '../../../account-books/save/_common/hooks/useAccountBookCategories';
 
 export interface RegularExtenditureForm {
   title: string;

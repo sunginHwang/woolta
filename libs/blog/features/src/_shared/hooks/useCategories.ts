@@ -1,9 +1,9 @@
 'use client';
 
-import { QueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { getData } from '../api';
 import { CATEGORIES_QUERY_KEY } from '../query-keys';
-import { ICategory } from '../types/ICategory';
+import type { ICategory } from '../types/ICategory';
 
 export const allCategory: ICategory = {
   value: -1,

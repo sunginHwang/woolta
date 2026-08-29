@@ -1,7 +1,7 @@
 'use client';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { AccountBook, fetchAccountBookList, getAccountBookListQueryKey } from './accountBookListApi';
+import { type AccountBook, fetchAccountBookList, getAccountBookListQueryKey } from './accountBookListApi';
 
 export * from './accountBookListApi';
 

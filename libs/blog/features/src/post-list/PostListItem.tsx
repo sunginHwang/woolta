@@ -4,9 +4,9 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useBlogRoutes } from '../_shared/routes';
-import { IPost } from '../_shared/types/IPost';
+import type { IPost } from '../_shared/types/IPost';
 
 interface Props {
   post: IPost;

@@ -5,7 +5,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { getBlogConfig } from '../../_shared/config';
 import { toastMessageAtom } from '../../_shared/toast/store';
-import { WritePost, postAtom, setPostAtom } from '../../_shared/write-store';
+import { postAtom, setPostAtom, type WritePost } from '../../_shared/write-store';
 
 export const FIVE_MIN: number = 1_000 * 60 * 5;
 

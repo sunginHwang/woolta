@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { ReactNode, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
 
 interface Props {

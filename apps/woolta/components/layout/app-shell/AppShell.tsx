@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import AppRail from './AppRail';
 
 const styles = stylex.create({

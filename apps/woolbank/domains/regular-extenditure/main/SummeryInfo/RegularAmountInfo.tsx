@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 interface Props {
   // 이달의 지출 금액

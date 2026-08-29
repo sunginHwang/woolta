@@ -67,7 +67,11 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
 });
 
 // 숫자 애니메이션 컴포넌트
-interface AnimatedNumberProps { digit: string; index: number; use_animation?: boolean }
+interface AnimatedNumberProps {
+  digit: string;
+  index: number;
+  use_animation?: boolean;
+}
 const AnimatedNumber = memo(({ digit, index, use_animation }: AnimatedNumberProps) => {
   const normalAnimation = useMemo(
     () => ({
@@ -93,12 +97,7 @@ const AnimatedNumber = memo(({ digit, index, use_animation }: AnimatedNumberProp
 // 쉼표 애니메이션 컴포넌트
 const AnimatedComma = memo(({ index }: { index: number }) => {
   return (
-    <motion.span
-      key={`comma-${index}`}
-      {...DOT_ANIMATION}
-      transition={TRANSITION_CONFIG}
-      style={INLINE_BLOCK_STYLE}
-    >
+    <motion.span key={`comma-${index}`} {...DOT_ANIMATION} transition={TRANSITION_CONFIG} style={INLINE_BLOCK_STYLE}>
       ,
     </motion.span>
   );
