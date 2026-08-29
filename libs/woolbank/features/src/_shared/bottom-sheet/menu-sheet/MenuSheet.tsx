@@ -1,7 +1,6 @@
 'use client';
 
-import { safeAreaInsetMarginBottom } from '@wds';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
 import { DefaultBottomSheet } from '../DefaultBottomSheet';
 import { Menu } from './Menu';
 
@@ -26,19 +25,27 @@ interface Props {
 export const MenuSheet = ({ menus, title, activeMenuType = '', visible, oncloseModal, onEditClick }: Props) => {
   return (
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
-      <SC.List>
-        {menus.map((menu) => {
+      <ul {...stylex.props(styles.list)}>
+        {menus.map((menu, index) => {
           const isActive = activeMenuType === menu.type;
-          return <Menu key={menu.type} menu={menu} isActive={isActive} onMenuSelect={onEditClick} />;
+          return (
+            <Menu
+              key={menu.type}
+              menu={menu}
+              isActive={isActive}
+              isLast={index === menus.length - 1}
+              onMenuSelect={onEditClick}
+            />
+          );
         })}
-      </SC.List>
+      </ul>
     </DefaultBottomSheet>
   );
 };
 
-const SC = {
-  List: styled.ul`
-    padding: 0 1.6rem;
-    ${safeAreaInsetMarginBottom('2.5rem')}
-  `,
-};
+const styles = stylex.create({
+  list: {
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+});

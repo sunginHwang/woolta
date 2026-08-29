@@ -1,8 +1,9 @@
 'use client';
 
 import { useWindowDimensions } from '@common';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
 
 export interface ToggleTabItem {
   type: string;
@@ -17,6 +18,30 @@ interface Props {
   size?: 'small' | 'medium';
   onChangeTab?: (tab: ToggleTabItem) => void;
 }
+
+const dynamicStyles = stylex.create({
+  containerHeight: (useOutline: boolean, size: 'small' | 'medium') => ({
+    height: `${useOutline ? (size === 'small' ? 3 : 4) : size === 'small' ? 4 : 5}rem`,
+  }),
+  buttonFontSize: (size: 'small' | 'medium') => ({
+    fontSize: size === 'small' ? '1.1rem' : '1.3rem',
+  }),
+  tabActive: (isActive: boolean) => ({
+    color: isActive ? colorVars['--color-textActive'] : colorVars['--color-textInactive'],
+  }),
+  listTabActive: (isActive: boolean) => ({
+    color: isActive ? colorVars['--color-textPrimary'] : colorVars['--color-textTertiary'],
+  }),
+  tabOutLineActive: (isActive: boolean) => ({
+    borderColor: isActive ? colorVars['--color-orangePrimary'] : colorVars['--color-borderDefault'],
+    backgroundColor: isActive ? colorVars['--color-orangePrimary'] : colorVars['--color-white'],
+    color: isActive ? colorVars['--color-textInverse'] : colorVars['--color-textTertiary'],
+  }),
+  bottomLinePos: (width: number, left: number) => ({
+    width: `${width}px`,
+    left: `${left}px`,
+  }),
+});
 
 /**
  * 토글 탭
@@ -39,101 +64,119 @@ export const ToggleTab = ({ tabs, value, useOutline = true, useListType = false,
     onChangeTab && onChangeTab(tab);
   };
 
+  const showShadow = !useListType && !useOutline;
+
   if (useListType) {
     renderTabs = tabs.map((tab) => {
       return (
-        <S.ListTab key={tab.type} $isActive={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
+        <button
+          key={tab.type}
+          {...stylex.props(styles.listTab, dynamicStyles.listTabActive(tab.type === value), dynamicStyles.buttonFontSize(size))}
+          onClick={() => onChangeTab && onChangeTab(tab)}
+        >
           {tab.name}
-        </S.ListTab>
+        </button>
       );
     });
   } else {
     if (useOutline) {
-      renderTabs =
-        useOutline &&
-        tabs.map((tab) => {
-          return (
-            <S.TabOutLine key={tab.type} $isActive={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
-              {tab.name}
-            </S.TabOutLine>
-          );
-        });
+      renderTabs = tabs.map((tab, index) => {
+        const isFirst = index === 0;
+        const isLast = index === tabs.length - 1;
+        return (
+          <button
+            key={tab.type}
+            {...stylex.props(
+              styles.tabOutLine,
+              dynamicStyles.tabOutLineActive(tab.type === value),
+              dynamicStyles.buttonFontSize(size),
+              isFirst && styles.tabOutLineFirst,
+              isLast && styles.tabOutLineLast,
+            )}
+            onClick={() => onChangeTab && onChangeTab(tab)}
+          >
+            {tab.name}
+          </button>
+        );
+      });
     } else {
       renderTabs = tabs.map((tab, index) => {
         return (
-          <S.Tab key={tab.type} $isActive={tab.type === value} onClick={() => onTabClick(tab, index)}>
+          <button
+            key={tab.type}
+            {...stylex.props(styles.tab, dynamicStyles.tabActive(tab.type === value), dynamicStyles.buttonFontSize(size))}
+            onClick={() => onTabClick(tab, index)}
+          >
             {tab.name}
-          </S.Tab>
+          </button>
         );
       });
     }
   }
 
   return (
-    <S.ToggleTab $useOutline={useOutline} $useListType={useListType} $size={size}>
+    <div
+      {...stylex.props(
+        styles.container,
+        dynamicStyles.containerHeight(useOutline, size),
+        useListType ? styles.containerJustifyStart : styles.containerJustifyAround,
+        showShadow && styles.containerWithShadow,
+      )}
+    >
       {renderTabs}
-      {!useListType && !useOutline && <S.BottomLine width={indicatorWidth} left={indicatorLeftPosition} />}
-    </S.ToggleTab>
+      {!useListType && !useOutline && (
+        <span
+          {...stylex.props(styles.bottomLine, dynamicStyles.bottomLinePos(indicatorWidth, indicatorLeftPosition))}
+        />
+      )}
+    </div>
   );
 };
 
-type ToggleTabSProps = {
-  $useOutline: boolean;
-  $useListType: boolean;
-  $size: 'small' | 'medium';
-};
-
-type BottomLineProps = { width: number; left: number };
-
-const S = {
-  ToggleTab: styled.div<ToggleTabSProps>`
-    width: 100%;
-    position: relative;
-    height: ${({ $useOutline, $size }) => ($useOutline ? ($size === 'small' ? 3 : 4) : $size === 'small' ? 4 : 5)}rem;
-    display: flex;
-    justify-content: ${({ $useListType }) => ($useListType ? 'flex-start' : 'space-around')};
-    ${({ $useListType, $useOutline }) =>
-      !$useListType &&
-      !$useOutline &&
-      'box-shadow: 0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14),\n      0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12);'};
-
-    button {
-      font-size: ${({ $size }) => ($size === 'small' ? '1.1rem' : '1.3rem')};
-    }
-  `,
-  Tab: styled.button<{ $isActive: boolean }>`
-    width: 100%;
-    font-weight: bold;
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textActive : theme.colors.textInactive)};
-  `,
-  ListTab: styled.button<{ $isActive: boolean }>`
-    margin-right: 2.5rem;
-    font-weight: 800;
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textPrimary : theme.colors.textTertiary)};
-  `,
-  TabOutLine: styled.button<{ $isActive: boolean }>`
-    width: 100%;
-    border: 0.1rem solid ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.borderDefault)};
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.white)};
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textInverse : theme.colors.textTertiary)};
-
-    &:first-child {
-      border-bottom-left-radius: 1.3rem;
-      border-top-left-radius: 1.3rem;
-    }
-
-    &:last-child {
-      border-bottom-right-radius: 1.3rem;
-      border-top-right-radius: 1.3rem;
-    }
-  `,
-  BottomLine: styled.span<BottomLineProps>`
-    bottom: 0;
-    width: ${({ width }) => width}px;
-    left: ${({ left }) => left}px;
-    height: 2px;
-    position: absolute;
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: ${({ theme }) => theme.colors.orangePrimary};
-  `,
-};
+const styles = stylex.create({
+  container: {
+    width: '100%',
+    position: 'relative',
+    display: 'flex',
+  },
+  containerJustifyStart: {
+    justifyContent: 'flex-start',
+  },
+  containerJustifyAround: {
+    justifyContent: 'space-around',
+  },
+  containerWithShadow: {
+    boxShadow:
+      '0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14), 0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12)',
+  },
+  tab: {
+    width: '100%',
+    fontWeight: 'bold',
+  },
+  listTab: {
+    marginRight: '2.5rem',
+    fontWeight: 800,
+  },
+  tabOutLine: {
+    width: '100%',
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+  },
+  tabOutLineFirst: {
+    borderBottomLeftRadius: '1.3rem',
+    borderTopLeftRadius: '1.3rem',
+  },
+  tabOutLineLast: {
+    borderBottomRightRadius: '1.3rem',
+    borderTopRightRadius: '1.3rem',
+  },
+  bottomLine: {
+    bottom: 0,
+    height: '2px',
+    position: 'absolute',
+    transitionProperty: 'all',
+    transitionDuration: '300ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    backgroundColor: colorVars['--color-orangePrimary'],
+  },
+});

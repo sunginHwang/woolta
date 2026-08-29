@@ -1,7 +1,7 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { ComponentProps } from 'react';
-import styled from 'styled-components';
 import { Button } from '../button/Button';
 
 interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disabled' | 'children' | 'loading'> {
@@ -18,21 +18,21 @@ export const BottomFloatingButton = ({ children, loading = false, disabled = fal
   }
 
   return (
-    <SC.Bottom>
+    <div {...stylex.props(styles.bottom)}>
       <Button fill name='bottomButton' disabled={disabled} loading={loading} onClick={onClick}>
         {children}
       </Button>
-    </SC.Bottom>
+    </div>
   );
 };
 
-const SC = {
-  Bottom: styled.div`
-    position: absolute;
-    bottom: 2rem;
-    left: 2rem;
-    width: calc(100% - 4rem);
-    height: 5.5rem;
-    z-index: 100;
-  `,
-};
+const styles = stylex.create({
+  bottom: {
+    position: 'absolute',
+    bottom: '2rem',
+    left: '2rem',
+    width: 'calc(100% - 4rem)',
+    height: '5.5rem',
+    zIndex: 100,
+  },
+});

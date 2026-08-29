@@ -1,12 +1,14 @@
 'use client';
 
-import { Text, safeAreaInsetMarginBottom } from '@wds';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { BottomMenu } from './MenuSheet';
 
 interface Props {
   menu: BottomMenu;
   isActive: boolean;
+  isLast?: boolean;
   onMenuSelect: (menuType: string) => void;
 }
 
@@ -14,28 +16,41 @@ interface Props {
  * 하단 모달 메뉴
  * @component
  */
-export const Menu = ({ menu, isActive, onMenuSelect }: Props) => {
+export const Menu = ({ menu, isActive, isLast = false, onMenuSelect }: Props) => {
   const onClick = () => {
     onMenuSelect(menu.type);
   };
 
   return (
-    <SC.Menu key={menu.type} onClick={onClick} $isActive={isActive}>
+    <li
+      key={menu.type}
+      {...stylex.props(
+        styles.menu,
+        isActive ? styles.menuActive : styles.menuInactive,
+        isLast && styles.menuLast,
+      )}
+      onClick={onClick}
+    >
       <Text variant='title4Medium' color='textSecondary' alignment='left'>
         {menu.value}
       </Text>
-    </SC.Menu>
+    </li>
   );
 };
 
-const SC = {
-  Menu: styled.li<{ $isActive: boolean }>`
-    padding: 1.4rem;
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.bgSurfaceSecondary : theme.colors.bgSurface)};
-    border-radius: 0.8rem;
-
-    &:last-child {
-      ${safeAreaInsetMarginBottom('2.5rem')}
-    }
-  `,
-};
+const styles = stylex.create({
+  menu: {
+    paddingBlock: '1.4rem',
+    paddingInline: '1.4rem',
+    borderRadius: '0.8rem',
+  },
+  menuActive: {
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  menuInactive: {
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  menuLast: {
+    marginBottom: 'calc(env(safe-area-inset-bottom) + 2.5rem)',
+  },
+});

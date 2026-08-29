@@ -1,8 +1,9 @@
 'use client';
 
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { MouseEvent, FC } from 'react';
-import { styled } from 'styled-components';
 import { Button } from '../../components/button/Button';
 import { vibrate } from '../../utils/browsers/vibrate';
 
@@ -17,6 +18,23 @@ interface Props {
   onBackNumberClick: () => void;
   onRightBottomClick: () => void;
 }
+
+const dynamicStyles = stylex.create({
+  tdPadding: (isSmall: boolean) => ({
+    paddingTop: isSmall ? '.3rem' : '1rem',
+    paddingBottom: isSmall ? '.3rem' : '1rem',
+  }),
+  tdActiveBg: (isHide: boolean) => ({
+    backgroundColor: {
+      default: null,
+      ':active': isHide ? colorVars['--color-bgSurface'] : colorVars['--color-bgSurfaceSecondary'],
+    },
+    borderRadius: {
+      default: null,
+      ':active': '1.6rem',
+    },
+  }),
+});
 
 const AmountForm: FC<Props> = ({
   useCompleteBtn = false,
@@ -41,84 +59,77 @@ const AmountForm: FC<Props> = ({
   };
 
   return (
-    <SC.Input>
-      <SC.InputTable>
+    <div {...stylex.props(styles.input)}>
+      <table {...stylex.props(styles.inputTable)}>
         <tbody>
           <tr>
-            <SC.InputTd data-cy='number_1' data-number={1} onClick={handleNumberClick}>1</SC.InputTd>
-            <SC.InputTd data-cy='number_2' data-number={2} onClick={handleNumberClick}>2</SC.InputTd>
-            <SC.InputTd data-cy='number_3' data-number={3} onClick={handleNumberClick}>3</SC.InputTd>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_1' data-number={1} onClick={handleNumberClick}>1</td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_2' data-number={2} onClick={handleNumberClick}>2</td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_3' data-number={3} onClick={handleNumberClick}>3</td>
           </tr>
           <tr>
-            <SC.InputTd data-cy='number_4' data-number={4} onClick={handleNumberClick}>4</SC.InputTd>
-            <SC.InputTd data-cy='number_5' data-number={5} onClick={handleNumberClick}>5</SC.InputTd>
-            <SC.InputTd data-cy='number_6' data-number={6} onClick={handleNumberClick}>6</SC.InputTd>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_4' data-number={4} onClick={handleNumberClick}>4</td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_5' data-number={5} onClick={handleNumberClick}>5</td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_6' data-number={6} onClick={handleNumberClick}>6</td>
           </tr>
           <tr>
-            <SC.InputTd data-cy='number_7' data-number={7} onClick={handleNumberClick}>7</SC.InputTd>
-            <SC.InputTd data-cy='number_8' data-number={8} onClick={handleNumberClick}>8</SC.InputTd>
-            <SC.InputTd data-cy='number_9' data-number={9} onClick={handleNumberClick}>9</SC.InputTd>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_7' data-number={7} onClick={handleNumberClick}>7</td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_8' data-number={8} onClick={handleNumberClick}>8</td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_9' data-number={9} onClick={handleNumberClick}>9</td>
           </tr>
           <tr>
-            <SC.InputTd data-cy='numberBack' $isHide={isZeroAmount} onClick={handleBackNumberClick}>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(isZeroAmount))} data-cy='numberBack' onClick={handleBackNumberClick}>
               {!isZeroAmount && '←'}
-            </SC.InputTd>
-            <SC.InputTd data-cy='number_0' data-number={0} onClick={handleNumberClick}>0</SC.InputTd>
+            </td>
+            <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(false))} data-cy='number_0' data-number={0} onClick={handleNumberClick}>0</td>
             {useCompleteBtn && (
-              <SC.InputTd data-cy='numberComplete' $isHide={isZeroAmount} $isSmall={true} onClick={handleRightBottomClick}>
+              <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(true), dynamicStyles.tdActiveBg(isZeroAmount))} data-cy='numberComplete' onClick={handleRightBottomClick}>
                 {!isZeroAmount && (
-                  <SC.SaveButton>
+                  <div {...stylex.props(styles.saveButton)}>
                     <Button fill>확인</Button>
-                  </SC.SaveButton>
+                  </div>
                 )}
-              </SC.InputTd>
+              </td>
             )}
             {!useCompleteBtn && (
-              <SC.InputTd data-cy='numberX' $isHide={isZeroAmount} onClick={handleRightBottomClick}>
+              <td {...stylex.props(styles.inputTd, dynamicStyles.tdPadding(false), dynamicStyles.tdActiveBg(isZeroAmount))} data-cy='numberX' onClick={handleRightBottomClick}>
                 {!isZeroAmount && 'x'}
-              </SC.InputTd>
+              </td>
             )}
           </tr>
         </tbody>
-      </SC.InputTable>
-    </SC.Input>
+      </table>
+    </div>
   );
 };
 
 export default AmountForm;
 
-type InputTdProps = {
-  $isHide?: boolean;
-  $isSmall?: boolean;
-};
-
-const SC = {
-  SaveButton: styled.div`
-    padding: 0 2rem;
-    margin: -4px 0;
-  `,
-  Input: styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  `,
-  InputTable: styled.table`
-    width: 100%;
-    text-align: center;
-    flex: 1;
-    color: ${({ theme }) => theme.colors.textPrimary};
-    height: 83%;
-  `,
-  InputTd: styled.td<InputTdProps>`
-    ${typography.title3Medium}
-    width: 33.33333%;
-    padding: ${({ $isSmall }) => ($isSmall ? '.3rem' : '1rem')} 0;
-
-    &:active {
-      border-radius: 1.6rem;
-      background-color: ${({ $isHide, theme }) => ($isHide ? theme.colors.bgSurface : theme.colors.bgSurfaceSecondary)};
-    }
-  `,
-};
+const styles = stylex.create({
+  saveButton: {
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+    marginTop: '-4px',
+    marginBottom: '-4px',
+  },
+  input: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  inputTable: {
+    width: '100%',
+    textAlign: 'center',
+    flex: 1,
+    color: colorVars['--color-textPrimary'],
+    height: '83%',
+  },
+  inputTd: {
+    ...typographyStyles.title3Medium,
+    width: '33.33333%',
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+});

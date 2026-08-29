@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
-import { styled } from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 const LIST_ITEM_HEIGHT = '2.1rem';
 
@@ -11,44 +12,46 @@ const LIST_ITEM_HEIGHT = '2.1rem';
  */
 export const AccountBookListSkeleton = () => {
   return (
-    <SC.Container>
+    <section {...stylex.props(styles.container)}>
       {[...Array(5)].map((_, index) => (
-        <SC.Item key={index}>
-          <SC.DayGroup>
+        <div key={index}>
+          <div {...stylex.props(styles.dayGroup)}>
             <SkeletonBar width='3rem' height={LIST_ITEM_HEIGHT} />
             <SkeletonBar width='8rem' height={LIST_ITEM_HEIGHT} />
-          </SC.DayGroup>
-          <SC.List>
+          </div>
+          <div {...stylex.props(styles.list)}>
             <SkeletonBar width='100%' height={LIST_ITEM_HEIGHT} />
             <SkeletonBar width='100%' height={LIST_ITEM_HEIGHT} />
             <SkeletonBar width='100%' height={LIST_ITEM_HEIGHT} />
-          </SC.List>
-        </SC.Item>
+          </div>
+        </div>
       ))}
-    </SC.Container>
+    </section>
   );
 };
 
-const SC = {
-  Container: styled.section`
-    padding: 0 1.6rem;
-  `,
-  DayGroup: styled.div`
-    padding-bottom: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin: 1rem 0;
-  `,
-  List: styled.div`
-    > div {
-      margin-bottom: 1rem;
-    }
-  `,
-  Item: styled.div`
-    & + & {
-      margin-top: 2.4rem;
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2.4rem',
+  },
+  dayGroup: {
+    paddingBottom: '1rem',
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBlock: '1rem',
+    marginInline: 0,
+  },
+  list: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+});

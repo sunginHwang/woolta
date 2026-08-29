@@ -1,7 +1,8 @@
 'use client';
 
 import { useInputs, useToggle } from '@common';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { Button } from '../../components/button/Button';
 
 const HALF_DAY_HOUR = 12;
@@ -39,88 +40,92 @@ export const TimePicker = ({ time, onChangeTime }: Props) => {
   const hours24 = String(Number(HH_MM[0]) > HALF_DAY_HOUR ? Number(HH_MM[0]) - HALF_DAY_HOUR : HH_MM[0]);
 
   return (
-    <SC.TimePicker>
-      <div>
-        <SC.AmPm>
-          <SC.AmPmItem $isActive={isAm} onClick={() => toggleAm(true)}>
+    <div {...stylex.props(styles.timePicker)}>
+      <div {...stylex.props(styles.row)}>
+        <div {...stylex.props(styles.amPm)}>
+          <span {...stylex.props(styles.amPmItem, dynamicStyles.amPmActive(isAm))} onClick={() => toggleAm(true)}>
             오전
-          </SC.AmPmItem>
-          <SC.AmPmItem $isActive={!isAm} onClick={() => toggleAm(false)}>
+          </span>
+          <span {...stylex.props(styles.amPmItem, dynamicStyles.amPmActive(!isAm))} onClick={() => toggleAm(false)}>
             오후
-          </SC.AmPmItem>
-        </SC.AmPm>
-        <SC.Time>
-          <SC.TimeInput type='number' name='hours' placeholder={hours24} maxLength={2} value={inputs.hours} onChange={onChange} />
-          <SC.TimeSeparator>:</SC.TimeSeparator>
-          <SC.TimeInput type='number' name='minutes' placeholder={HH_MM[1]} maxLength={2} value={inputs.minutes} onChange={onChange} />
-        </SC.Time>
+          </span>
+        </div>
+        <div {...stylex.props(styles.time)}>
+          <input {...stylex.props(styles.timeInput)} type='number' name='hours' placeholder={hours24} maxLength={2} value={inputs.hours} onChange={onChange} />
+          <span {...stylex.props(styles.timeSeparator)}>:</span>
+          <input {...stylex.props(styles.timeInput)} type='number' name='minutes' placeholder={HH_MM[1]} maxLength={2} value={inputs.minutes} onChange={onChange} />
+        </div>
       </div>
-      {!isValidTime && <SC.ValidMsg>올바른 시간을 입력해 주세요.</SC.ValidMsg>}
-      <SC.ConfirmArea>
+      {!isValidTime && <div {...stylex.props(styles.validMsg)}>올바른 시간을 입력해 주세요.</div>}
+      <div {...stylex.props(styles.confirmArea)}>
         <Button size='small' onClick={onConfirmClick}>
           확인
         </Button>
-      </SC.ConfirmArea>
-    </SC.TimePicker>
+      </div>
+    </div>
   );
 };
 
-const SC = {
-  AmPmItem: styled.span<{ $isActive: boolean }>`
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.textPrimary : theme.colors.textDisabled)};
-    font-weight: ${({ $isActive }) => ($isActive ? 700 : 400)};
-    font-size: ${({ $isActive }) => ($isActive ? '2rem' : '1.6rem')};
-  `,
-  TimePicker: styled.div`
-    padding: 0 2rem;
+const dynamicStyles = stylex.create({
+  amPmActive: (isActive: boolean) => ({
+    color: isActive ? colorVars['--color-textPrimary'] : colorVars['--color-textDisabled'],
+    fontWeight: isActive ? 700 : 400,
+    fontSize: isActive ? '2rem' : '1.6rem',
+  }),
+});
 
-    > div:first-child {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  `,
-  ConfirmArea: styled.div`
-    margin: 2rem 0;
-    display: flex;
-    justify-content: flex-end;
-  `,
-  ValidMsg: styled.div`
-    margin: 2rem 0 2rem 5.5rem;
-    font-size: 1.4rem;
-    color: ${({ theme }) => theme.colors.orangePrimary};
-  `,
-  AmPm: styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-right: 4rem;
-
-    span {
-      display: block;
-
-      :first-child {
-        margin-bottom: 1.5rem;
-      }
-    }
-  `,
-  TimeSeparator: styled.span`
-    font-size: 3.6rem;
-    margin: 1rem 0;
-    font-weight: bold;
-  `,
-  Time: styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-right: 2rem;
-  `,
-  TimeInput: styled.input`
-    border: none;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
-    font-size: 3.4rem;
-    width: 8rem;
-    text-align: center;
-    font-weight: bold;
-    color: ${({ theme }) => theme.colors.textPrimary};
-  `,
-};
+const styles = stylex.create({
+  timePicker: {
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+  },
+  row: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  amPm: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginRight: '4rem',
+  },
+  amPmItem: {
+    display: 'block',
+  },
+  time: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginRight: '2rem',
+  },
+  timeInput: {
+    borderWidth: 0,
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+    fontSize: '3.4rem',
+    width: '8rem',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: colorVars['--color-textPrimary'],
+  },
+  timeSeparator: {
+    fontSize: '3.6rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    fontWeight: 'bold',
+  },
+  validMsg: {
+    marginTop: '2rem',
+    marginBottom: '2rem',
+    marginLeft: '5.5rem',
+    fontSize: '1.4rem',
+    color: colorVars['--color-orangePrimary'],
+  },
+  confirmArea: {
+    marginTop: '2rem',
+    marginBottom: '2rem',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+});

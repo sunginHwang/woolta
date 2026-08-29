@@ -1,8 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Suspense as MountGate, Text } from '@wds';
 import { Component, ReactNode } from 'react';
-import styled from 'styled-components';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -25,14 +25,14 @@ class ScreenErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return (
-        <SC.Fallback>
+        <div {...stylex.props(styles.fallback)}>
           <Text as='p' variant='title5Bold' color='textPrimary'>
             데이터를 불러오지 못했어요
           </Text>
           <Text as='p' variant='body3' color='textSecondary' mt={8}>
             로그인이 필요할 수 있어요. bank.woolta.com에서 로그인한 뒤 다시 시도해 주세요.
           </Text>
-        </SC.Fallback>
+        </div>
       );
     }
 
@@ -57,13 +57,13 @@ export const ScreenBoundary = ({ children, fallback = null, mountGate = false }:
   return content;
 };
 
-const SC = {
-  Fallback: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 40rem;
-    padding: 2rem;
-  `,
-};
+const styles = stylex.create({
+  fallback: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '40rem',
+    padding: '2rem',
+  },
+});

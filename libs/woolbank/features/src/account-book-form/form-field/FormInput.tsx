@@ -1,9 +1,10 @@
 'use client';
 
 import { mergeRefs } from '@common';
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
-import { styled, useTheme } from 'styled-components';
 import { IconChevronRight, IconCloseCircle } from '../../_shared/icons';
 
 interface Props
@@ -50,7 +51,6 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     },
     parentRef,
   ) => {
-    const { colors } = useTheme();
     const inputRef = useRef<HTMLInputElement>(null);
     const [focus, setFocus] = useState(false);
     const { onKeyUp, ...restInputProps } = rest;
@@ -82,8 +82,9 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     const isExistInputValue = value !== '' && isShowCloseBtn && !disable && focus;
 
     return (
-      <SC.Container ref={parentRef} $isFocus={focus} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+      <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
         <input
+          {...stylex.props(styles.input)}
           ref={mergeRefs([inputRef, parentRef])}
           data-cy={name}
           type={type}
@@ -100,60 +101,50 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
           {...restInputProps}
         />
         {isExistInputValue ? (
-          <i className='trash' onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
-            <IconCloseCircle width={16} height={16} fill={colors.textTertiary} />
+          <i {...stylex.props(styles.icon, styles.trashIcon)} onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
+            <IconCloseCircle width={16} height={16} fill={colorVars['--color-textTertiary']} />
           </i>
         ) : (
-          <i>
-            <IconChevronRight width={16} height={16} fill={colors.textTertiary} />
+          <i {...stylex.props(styles.icon)}>
+            <IconChevronRight width={16} height={16} fill={colorVars['--color-textTertiary']} />
           </i>
         )}
-      </SC.Container>
+      </div>
     );
   },
 );
 
-const SC = {
-  Container: styled.div<{ $isFocus: boolean }>`
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin: 1rem 0;
-
-    .trash {
-      opacity: 0.5;
-    }
-
-    input {
-      background: transparent;
-
-      &:-webkit-autofill,
-      &:-webkit-autofill:hover,
-      &:-webkit-autofill:focus {
-        -webkit-box-shadow: 0 0 0 100rem ${({ theme }) => theme.colors.bgSurface} inset;
-        -webkit-text-fill-color: ${({ theme }) => theme.colors.textPrimary};
-        transition: background-color 9999s ease-out;
-      }
-      ${typography.body2}
-      border: none;
-      height: 4rem;
-      color: ${({ theme }) => theme.colors.textPrimary};
-
-      &::placeholder {
-        ${typography.body2}
-        color: ${({ theme }) => theme.colors.textDisabled};
-      }
-    }
-
-    i {
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: 0;
-      bottom: 1.3rem;
-      width: 1.6rem;
-      height: 1.6rem;
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    marginTop: '1rem',
+    marginBottom: '1rem',
+  },
+  input: {
+    ...typographyStyles.body2,
+    background: 'transparent',
+    borderWidth: 0,
+    borderStyle: 'none',
+    height: '4rem',
+    color: colorVars['--color-textPrimary'],
+    '::placeholder': {
+      ...typographyStyles.body2,
+      color: colorVars['--color-textDisabled'],
+    },
+  },
+  icon: {
+    cursor: 'pointer',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+    bottom: '1.3rem',
+    width: '1.6rem',
+    height: '1.6rem',
+  },
+  trashIcon: {
+    opacity: 0.5,
+  },
+});

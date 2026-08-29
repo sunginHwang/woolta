@@ -1,9 +1,11 @@
 'use client';
 
 import { mergeRefs } from '@common';
-import { Text, typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
-import { styled, useTheme } from 'styled-components';
 import { IconCloseCircle } from '../../icons';
 
 interface Props
@@ -56,7 +58,6 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
     },
     parentRef,
   ) => {
-    const { colors } = useTheme();
     const isExistInputValue = value !== '' && isShowCloseBtn && !disable;
     const inputRef = useRef<HTMLInputElement>(null);
     const [focus, setFocus] = useState(false);
@@ -99,13 +100,14 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
 
     return (
       <>
-        <SC.Container ref={parentRef} $isFocus={focus} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+        <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
           {label && (
             <Text variant='small1Regular' color={focus ? 'orangePrimary' : 'textTertiary'} as='label' mb={8}>
               {label}
             </Text>
           )}
           <input
+            {...stylex.props(styles.input, focus ? styles.inputFocus : styles.inputBlur)}
             ref={mergeRefs([inputRef, parentRef])}
             data-cy={name}
             type={type === 'number' ? 'text' : type}
@@ -123,50 +125,57 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
             {...restInputProps}
           />
           {isExistInputValue && (
-            <i onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
-              <IconCloseCircle width={24} height={28} fill={colors.textTertiary} />
+            <i {...stylex.props(styles.clearIcon)} onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
+              <IconCloseCircle width={24} height={28} fill={colorVars['--color-textTertiary']} />
             </i>
           )}
-        </SC.Container>
+        </div>
         {useLengthInfo && (
-          <SC.ValueLength>
+          <p {...stylex.props(styles.valueLength)}>
             {valueLength}/{maxLength}자
-          </SC.ValueLength>
+          </p>
         )}
       </>
     );
   },
 );
 
-const SC = {
-  Container: styled.div<{ $isFocus: boolean }>`
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin: 1rem 0;
-
-    input {
-      ${typography.body1}
-      border: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
-      background-color: ${({ $isFocus, theme }) => ($isFocus ? theme.colors.bgSurface : theme.colors.bgSurfaceSecondary)};
-      border-radius: 0.8rem;
-      padding: 0 1rem;
-      height: 4rem;
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-
-    i {
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: 1.2rem;
-      bottom: 0;
-      opacity: 0.5;
-    }
-  `,
-  ValueLength: styled.p`
-    font-size: 1.2rem;
-    color: ${({ theme }) => theme.colors.textDisabled};
-  `,
-};
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    marginTop: '1rem',
+    marginBottom: '1rem',
+  },
+  input: {
+    ...typographyStyles.body1,
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-borderSubtle'],
+    borderRadius: '0.8rem',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    height: '4rem',
+    color: colorVars['--color-textPrimary'],
+  },
+  inputFocus: {
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  inputBlur: {
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  clearIcon: {
+    cursor: 'pointer',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: '1.2rem',
+    bottom: 0,
+    opacity: 0.5,
+  },
+  valueLength: {
+    fontSize: '1.2rem',
+    color: colorVars['--color-textDisabled'],
+  },
+});

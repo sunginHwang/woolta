@@ -1,11 +1,12 @@
 'use client';
 
 import { useIsDashboardHost } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { memo, ReactNode } from 'react';
-import { styled } from 'styled-components';
 import { AccountBook } from '../_shared/hooks/useAccountBookListQuery';
 import { useWoolbankRoutes } from '../_shared/routes/context';
 import { selectedAccountBookIdAtom } from '../_shared/stores/selectedAccountBook';
@@ -32,22 +33,22 @@ const Item = ({ accountBook }: Props) => {
 
   const content: ReactNode = (
     <>
-      <SC.Left>
-        <SC.IconWrapper>
-          <img src={iconImage} alt='' />
-        </SC.IconWrapper>
+      <div {...stylex.props(styles.left)}>
+        <div {...stylex.props(styles.iconWrapper)}>
+          <img {...stylex.props(styles.icon)} src={iconImage} alt='' />
+        </div>
         <div>
-          <Text className='title' variant='small1Regular' color='grayPrimary' as='p'>
+          <Text variant='small1Regular' color='grayPrimary' as='p'>
             {title}
           </Text>
-          <SC.Info>
-            <Text className='category' variant='small3Regular' color='textTertiary' as='p'>
+          <div {...stylex.props(styles.info)}>
+            <Text xstyle={styles.category} variant='small3Regular' color='textTertiary' as='p'>
               {category.name} {isRegularExpenditure && ' | 매월'}
             </Text>
-          </SC.Info>
+          </div>
         </div>
-      </SC.Left>
-      <Text className='price' variant='body3' color={isIncomeType ? 'statusError' : 'textTertiary'} as='p'>
+      </div>
+      <Text xstyle={styles.price} variant='body3' color={isIncomeType ? 'statusError' : 'textTertiary'} as='p'>
         {displayAmount.toLocaleString('ko-KR')}원
       </Text>
     </>
@@ -55,77 +56,68 @@ const Item = ({ accountBook }: Props) => {
 
   if (isDashboardHost) {
     return (
-      <SC.Item as='button' type='button' $isActive={selectedId === id} onClick={() => setSelectedId(id)}>
+      <button
+        type='button'
+        {...stylex.props(styles.item, selectedId === id && styles.itemActive)}
+        onClick={() => setSelectedId(id)}
+      >
         {content}
-      </SC.Item>
+      </button>
     );
   }
 
   return (
     <Link href={`${routes.save}?id=${id}`}>
-      <SC.Item>{content}</SC.Item>
+      <div {...stylex.props(styles.item)}>{content}</div>
     </Link>
   );
 };
 
 export default memo(Item);
 
-const SC = {
-  Left: styled.div`
-    display: flex;
-    align-items: center;
-  `,
-  IconWrapper: styled.div`
-    width: 30px;
-    height: 30px;
-    background-color: ${({ theme }) => theme.colors.red150};
-    border-radius: 30px;
-    margin-right: 10px;
-
-    img {
-      width: 20px;
-      height: 20px;
-      margin: 5px;
-    }
-  `,
-  Item: styled.div<{ $isActive?: boolean }>`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 1.8rem;
-    text-align: left;
-    border-radius: 0.8rem;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurfaceSecondary : 'transparent')};
-
-    .category {
-      width: 7.5rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      margin-right: 1rem;
-    }
-
-    .price {
-      white-space: nowrap;
-    }
-    > div:first-child {
-      display: flex;
-      justify-content: flex-start;
-    }
-  `,
-  Info: styled.div`
-    display: flex;
-    align-items: center;
-
-    span {
-      text-overflow: ellipsis;
-      word-break: break-all;
-      overflow-wrap: break-word;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-    }
-  `,
-};
+const styles = stylex.create({
+  left: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  iconWrapper: {
+    width: '30px',
+    height: '30px',
+    backgroundColor: colorVars['--color-red150'],
+    borderRadius: '30px',
+    marginRight: '10px',
+  },
+  icon: {
+    width: '20px',
+    height: '20px',
+    margin: '5px',
+  },
+  item: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: '1.8rem',
+    textAlign: 'left',
+    borderRadius: '0.8rem',
+    backgroundColor: 'transparent',
+  },
+  itemActive: {
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  info: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  category: {
+    width: '7.5rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    marginRight: '1rem',
+  },
+  price: {
+    whiteSpace: 'nowrap',
+  },
+});

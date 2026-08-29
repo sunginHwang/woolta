@@ -1,9 +1,10 @@
 'use client';
 
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import { ClipLoader } from 'react-spinners';
-import { styled, useTheme } from 'styled-components';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -28,7 +29,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fill,
       disabled,
       loading,
-      className = 'test',
+      className,
       startIcon,
       endIcon,
       children,
@@ -37,132 +38,120 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const {
-      colors: { white },
-    } = useTheme();
-
-    const buttonClassName = ['button-info', variant, size, className].join(' ');
+    const sx = stylex.props(
+      styles.button,
+      fill && styles.fill,
+      size === 'large' ? styles.large : size === 'small' ? styles.small : styles.medium,
+      variant === 'primary'
+        ? styles.primary
+        : variant === 'tertiaryColor'
+        ? styles.tertiaryColor
+        : variant === 'tertiaryGray'
+        ? styles.tertiaryGray
+        : styles.secondaryGray,
+    );
 
     return (
-      <SC.BaseButton $isFull={fill}>
-        <button disabled={disabled} className={buttonClassName} ref={ref} {...props}>
-          {!loading && (
-            <>
-              {startIcon}
-              {children}
-              {endIcon}
-            </>
-          )}
-          {loading && (
-            <SC.Loading>
-              <ClipLoader color={white} size={20} />
-            </SC.Loading>
-          )}
-        </button>
-      </SC.BaseButton>
+      <button
+        {...props}
+        {...sx}
+        className={className ? `${sx.className ?? ''} ${className}` : sx.className}
+        disabled={disabled}
+        ref={ref}
+      >
+        {!loading && (
+          <>
+            {startIcon}
+            {children}
+            {endIcon}
+          </>
+        )}
+        {loading && (
+          <div {...stylex.props(styles.loading)}>
+            <ClipLoader color={colorVars['--color-white']} size={20} />
+          </div>
+        )}
+      </button>
     );
   },
 );
 
-const SC = {
-  BaseButton: styled.div<{ $isFull?: boolean }>`
-    ${({ $isFull }) => $isFull && 'width: 100%;'}
-    .button-info {
-      ${({ $isFull }) => $isFull && 'width: 100%;'}
-      border-radius: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-
-      > svg {
-        margin: 0 4px;
-      }
-    }
-
-    &:enabled {
-      &:active {
-        opacity: 0.7;
-      }
-    }
-
-    .large {
-      min-width: 47px;
-      height: 52px;
-      padding: 0 24px;
-      ${typography.title4Medium};
-    }
-
-    .medium {
-      min-width: 58px;
-      height: 42px;
-      padding: 0 16px;
-      ${typography.title5Medium};
-    }
-
-    .small {
-      min-width: 63px;
-      height: 36px;
-      padding: 0 12px;
-      ${typography.body4Medium};
-    }
-
-    .primary {
-      color: ${({ theme }) => theme.colors.white};
-      background-color: ${({ theme }) => theme.colors.orangePrimary};
-      border: 1px solid ${({ theme }) => theme.colors.orangePrimary};
-
-      &:disabled {
-        opacity: 0.3;
-      }
-    }
-
-    .tertiaryColor {
-      color: ${({ theme }) => theme.colors.orangePrimary};
-      background-color: ${({ theme }) => theme.colors.white};
-      border: 1px solid ${({ theme }) => theme.colors.orangePrimary};
-
-      &:disabled {
-        color: ${({ theme }) => theme.colors.orange500};
-        border: 1px solid ${({ theme }) => theme.colors.orange500};
-        background-color: ${({ theme }) => theme.colors.white};
-      }
-    }
-
-    .tertiaryGray {
-      color: ${({ theme }) => theme.colors.gray600};
-      background-color: ${({ theme }) => theme.colors.white};
-      border: 1px solid ${({ theme }) => theme.colors.border2};
-
-      &:disabled {
-        color: ${({ theme }) => theme.colors.gray300};
-      }
-    }
-
-    .secondaryGray {
-      color: ${({ theme }) => theme.colors.graySecondary};
-      background-color: ${({ theme }) => theme.colors.bgSecondary};
-      border: 1px solid ${({ theme }) => theme.colors.bgSecondary};
-
-      &:enabled {
-        &:hover {
-          background-color: ${({ theme }) => theme.colors.gray100};
-        }
-
-        &:disabled {
-          color: ${({ theme }) => theme.colors.gray100};
-        }
-      }
-    }
-  `,
-  Loading: styled.div`
-    position: absolute;
-    visibility: visible;
-    display: flex;
-    left: 50%;
-    transform: translate(-50%);
-    width: 40px;
-  `,
-};
+const styles = stylex.create({
+  button: {
+    borderRadius: '0.8rem',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+    verticalAlign: 'middle',
+    opacity: { 'default': 1, ':active': 0.7 },
+  },
+  fill: {
+    width: '100%',
+  },
+  large: {
+    minWidth: '47px',
+    height: '52px',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: '24px',
+    paddingRight: '24px',
+    ...typographyStyles.title4Medium,
+  },
+  medium: {
+    minWidth: '58px',
+    height: '42px',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    ...typographyStyles.title5Medium,
+  },
+  small: {
+    minWidth: '63px',
+    height: '36px',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: '12px',
+    paddingRight: '12px',
+    ...typographyStyles.body4Medium,
+  },
+  primary: {
+    color: colorVars['--color-white'],
+    backgroundColor: colorVars['--color-orangePrimary'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-orangePrimary'],
+    opacity: { 'default': 1, ':disabled': 0.3 },
+  },
+  tertiaryColor: {
+    color: { 'default': colorVars['--color-orangePrimary'], ':disabled': colorVars['--color-orange500'] },
+    backgroundColor: colorVars['--color-white'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: { 'default': colorVars['--color-orangePrimary'], ':disabled': colorVars['--color-orange500'] },
+  },
+  tertiaryGray: {
+    color: { 'default': colorVars['--color-gray600'], ':disabled': colorVars['--color-gray300'] },
+    backgroundColor: colorVars['--color-white'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-border2'],
+  },
+  secondaryGray: {
+    color: colorVars['--color-graySecondary'],
+    backgroundColor: { 'default': colorVars['--color-bgSecondary'], ':hover': colorVars['--color-gray100'] },
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-bgSecondary'],
+  },
+  loading: {
+    position: 'absolute',
+    visibility: 'visible',
+    display: 'flex',
+    left: '50%',
+    transform: 'translate(-50%)',
+    width: '40px',
+  },
+});

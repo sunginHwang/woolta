@@ -1,20 +1,19 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import { styled } from 'styled-components';
 
 interface Props {
   msg: string;
 }
 
 // Inlined SVG — no .svg file in the package (SVGR not available)
-const NoDataSvg = () => (
+const NoDataSvg = (svgProps: ReturnType<typeof stylex.props>) => (
   <svg
+    {...svgProps}
     id='b21613c9-2bf0-4d37-bef0-3b193d34fc5d'
     data-name='Layer 1'
     xmlns='http://www.w3.org/2000/svg'
-    width='647.63626'
-    height='632.17383'
     viewBox='0 0 647.63626 632.17383'
   >
     <path
@@ -60,39 +59,37 @@ const NoDataSvg = () => (
  */
 export const EmptyInfo = ({ msg }: Props) => {
   return (
-    <SC.EmptyData>
-      <SC.SvgWrapper>
-        <NoDataSvg />
-      </SC.SvgWrapper>
-      <Text variant='body1' color='grayInactive' as='p' alignment='center'>
+    <div {...stylex.props(styles.emptyData)}>
+      <div {...stylex.props(styles.svgWrapper)}>
+        <NoDataSvg {...stylex.props(styles.svg)} />
+      </div>
+      <Text variant='body1' color='grayInactive' as='p' alignment='center' xstyle={styles.message}>
         {msg}
       </Text>
-    </SC.EmptyData>
+    </div>
   );
 };
 
-const SC = {
-  EmptyData: styled.div`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    p {
-      padding-left: 2rem;
-      padding-right: 2rem;
-      margin-top: 2rem;
-    }
-  `,
-  SvgWrapper: styled.div`
-    width: 60%;
-    margin: 4rem 0;
-
-    svg {
-      width: 100%;
-      height: auto;
-    }
-  `,
-};
+const styles = stylex.create({
+  emptyData: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  svgWrapper: {
+    width: '60%',
+    marginBlock: '4rem',
+    marginInline: 0,
+  },
+  svg: {
+    width: '100%',
+    height: 'auto',
+  },
+  message: {
+    paddingInline: '2rem',
+    marginTop: '2rem',
+  },
+});

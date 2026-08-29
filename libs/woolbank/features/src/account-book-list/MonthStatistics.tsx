@@ -1,11 +1,11 @@
 'use client';
 
 import { useToggle, withSuspense } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
 import { useMemo } from 'react';
-import { styled } from 'styled-components';
 import { BottomSheet } from '../_shared/bottom-sheet/BottomSheet';
 import { BottomMenu } from '../_shared/bottom-sheet/menu-sheet/MenuSheet';
 import { DropdownTitle } from '../_shared/components/dropdown-title/DropdownTitle';
@@ -48,15 +48,15 @@ const MonthStatistics = () => {
 
   return (
     <>
-      <SC.Container>
+      <header {...stylex.props(styles.container)}>
         <DropdownTitle
           title={titleMsg}
           onNextMonthClick={handleNextMonthClick}
           onPrevMonthClick={handlePrevMonthClick}
           onClick={openMonthPicker}
         />
-        <SC.TotalSection>
-          <div className='item'>
+        <section {...stylex.props(styles.totalSection)}>
+          <div {...stylex.props(styles.item)}>
             <Text variant='body3' color='textTertiary' mt={5} as='p'>
               지출
             </Text>
@@ -64,7 +64,7 @@ const MonthStatistics = () => {
               {totalExpenditureAmount.toLocaleString('ko-KR')}원
             </Text>
           </div>
-          <div className='item'>
+          <div {...stylex.props(styles.item)}>
             <Text variant='body3' color='textTertiary' mt={5} as='p'>
               수입
             </Text>
@@ -72,8 +72,8 @@ const MonthStatistics = () => {
               {totalIncomeAmount.toLocaleString('ko-KR')}원
             </Text>
           </div>
-        </SC.TotalSection>
-      </SC.Container>
+        </section>
+      </header>
       <BottomSheet.Menu
         title='월 선택하기'
         menus={fiveYearMonthList}
@@ -101,17 +101,18 @@ function getTitleMsg(selectedDate: string) {
 
 export default withSuspense(MonthStatistics, <MonthStatisticsSkeleton />);
 
-const SC = {
-  Container: styled.header`
-    padding: 1rem 1.6rem 0;
-  `,
-  TotalSection: styled.section`
-    margin-top: 1.6rem;
-
-    .item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    paddingTop: '1rem',
+    paddingBottom: 0,
+    paddingInline: '1.6rem',
+  },
+  totalSection: {
+    marginTop: '1.6rem',
+  },
+  item: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.6rem',
+  },
+});

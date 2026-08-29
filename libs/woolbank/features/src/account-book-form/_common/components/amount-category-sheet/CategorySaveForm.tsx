@@ -1,9 +1,10 @@
 'use client';
 
 import { useInput } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { BaseInput } from '../../../../_shared/components/base-input/BaseInput';
 import { BottomFloatingButton } from '../../../../_shared/components/bottom-floating-button/BottomFloatingButton';
 import { Header } from '../../../../_shared/components/header/Header';
@@ -58,9 +59,9 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
 
   return (
     // container-relative: position absolute fills the nearest positioned ancestor (the screen wrapper)
-    <SC.CategorySave>
+    <div {...stylex.props(styles.categorySave)}>
       <Header title={`${typeMsg} 카테고리 작성`} onBackClick={onClose} />
-      <SC.InputArea>
+      <div {...stylex.props(styles.inputArea)}>
         <BaseInput
           label={`${typeMsg} 카테고리`}
           placeholder={`추가하실 ${typeMsg} 카테고리를 작성해 주세요.`}
@@ -75,14 +76,17 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
         <Text variant='small1Regular' color='textTertiary' as='p' mb={16} mt={24}>
           아이콘
         </Text>
-        <SC.IconList>
+        <section {...stylex.props(styles.iconList)}>
           {accountBookCategoryImages.map(({ id, name, imageUrl }) => (
-            <SC.IconInfo $isActive={iconId === id} key={name}>
-              <img src={imageUrl} alt={name} onClick={() => setIconId(id)} />
-            </SC.IconInfo>
+            <div
+              key={name}
+              {...stylex.props(styles.iconInfo, iconId === id ? styles.iconInfoActive : styles.iconInfoInactive)}
+            >
+              <img {...stylex.props(styles.icon)} src={imageUrl} alt={name} onClick={() => setIconId(id)} />
+            </div>
           ))}
-        </SC.IconList>
-      </SC.InputArea>
+        </section>
+      </div>
 
       <BottomFloatingButton
         isShow
@@ -92,43 +96,49 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
       >
         추가하기
       </BottomFloatingButton>
-    </SC.CategorySave>
+    </div>
   );
 };
 
-const SC = {
+const styles = stylex.create({
   // Container-relative: fills the nearest positioned ancestor (screen wrapper must have position: relative)
-  CategorySave: styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100%;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    z-index: ${({ theme }) => theme.zIndex.fullDeem};
-  `,
-  InputArea: styled.div`
-    margin-top: 2.5rem;
-    padding: 0 1.6rem;
-  `,
-  IconList: styled.section`
-    display: grid;
-    overflow: scroll;
-    grid-template-columns: repeat(4, 1fr);
-    max-height: 40rem;
-    margin-top: 0.8rem;
-  `,
-  IconInfo: styled.div<{ $isActive: boolean }>`
-    img {
-      width: 40px;
-      height: 40px;
-    }
-    height: 6rem;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 8px;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSecondary : theme.colors.bgSurface)};
-  `,
-};
+  categorySave: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    minHeight: '100%',
+    backgroundColor: colorVars['--color-bgSurface'],
+    zIndex: zIndexConsts.fullDeem,
+  },
+  inputArea: {
+    marginTop: '2.5rem',
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+  iconList: {
+    display: 'grid',
+    overflow: 'scroll',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    maxHeight: '40rem',
+    marginTop: '0.8rem',
+  },
+  iconInfo: {
+    height: '6rem',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: '8px',
+  },
+  iconInfoActive: {
+    backgroundColor: colorVars['--color-bgSecondary'],
+  },
+  iconInfoInactive: {
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  icon: {
+    width: '40px',
+    height: '40px',
+  },
+});

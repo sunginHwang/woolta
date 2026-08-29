@@ -1,10 +1,11 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { useState } from 'react';
-import styled, { useTheme } from 'styled-components';
 import { useAccountBookList } from '../_shared/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../_shared/stores/accountbookDate';
 import { AccountBookBottomSheet, AccountBookSheetItem } from './AccountBookBottomSheet';
@@ -14,7 +15,6 @@ import { WeekInfo } from './WeekInfo';
 const WEEK_DAY_KO_LIST = ['일', '월', '화', '수', '목', '금', '토'];
 
 export const AccountBookCalendar = () => {
-  const { colors } = useTheme();
   const { accountBookListGroupByDay } = useAccountBookList();
   const selectedAccountBookDate = useAtomValue(selectedAccountBookDateAtom);
   const [accountBookSheetItemList, setAccountBookSheetItemList] = useState<AccountBookSheetItem[]>([]);
@@ -48,12 +48,12 @@ export const AccountBookCalendar = () => {
 
       return (
         <div key={`week-${index}`}>
-          <SC.Week>
+          <div {...stylex.props(styles.week)}>
             {weekDays.map((day, index) => {
               const key = `day-${day}-${index}`;
 
               if (day === 0) {
-                return <SC.Empty key={key} />;
+                return <div key={key} {...stylex.props(styles.empty)} />;
               }
               const accountBookByDay = accountBookListByWeek.find((accountBook) => Number(accountBook.days) === day);
 
@@ -78,7 +78,7 @@ export const AccountBookCalendar = () => {
                 />
               );
             })}
-          </SC.Week>
+          </div>
           <WeekInfo expenditure_amount={weekInfo.expenditureAmount} income_amount={weekInfo.incomeAmount} />
         </div>
       );
@@ -87,23 +87,23 @@ export const AccountBookCalendar = () => {
 
   return (
     <>
-      <SC.Container>
-        <SC.Week>
+      <div {...stylex.props(styles.container)}>
+        <div {...stylex.props(styles.week)}>
           {WEEK_DAY_KO_LIST.map((day) => (
-            <SC.WeekDay key={day}>
+            <div key={day} {...stylex.props(styles.weekDay)}>
               <Text variant='body2' color='gray600' alignment='center' mb={5} as='p'>
                 {day}
               </Text>
-            </SC.WeekDay>
+            </div>
           ))}
-        </SC.Week>
-        <SC.DaysContainer>{renderCalendar()}</SC.DaysContainer>
-      </SC.Container>
+        </div>
+        <div {...stylex.props(styles.daysContainer)}>{renderCalendar()}</div>
+      </div>
       <AccountBookBottomSheet
         isOpen={accountBookSheetItemList.length !== 0}
         list={accountBookSheetItemList}
         title='일자별 통계 내역'
-        titleColor={colors.textSecondary}
+        titleColor={colorVars['--color-textSecondary']}
         onClose={() => {
           setAccountBookSheetItemList([]);
         }}
@@ -112,29 +112,30 @@ export const AccountBookCalendar = () => {
   );
 };
 
-const SC = {
-  WeekDay: styled.div`
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `,
-  Container: styled.div`
-    border-radius: 5px;
-    width: 100%;
-    margin: 0 auto;
-    margin-top: 1rem;
-  `,
-  DaysContainer: styled.div`
-    display: grid;
-    gap: 5px;
-  `,
-  Week: styled.div`
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-  `,
-  Empty: styled.div`
-    visibility: hidden;
-    flex: 1;
-  `,
-};
+const styles = stylex.create({
+  weekDay: {
+    height: '2rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    borderRadius: '5px',
+    width: '100%',
+    marginInline: 'auto',
+    marginTop: '1rem',
+    marginBottom: 0,
+  },
+  daysContainer: {
+    display: 'grid',
+    gap: '5px',
+  },
+  week: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+  },
+  empty: {
+    visibility: 'hidden',
+    flex: 1,
+  },
+});

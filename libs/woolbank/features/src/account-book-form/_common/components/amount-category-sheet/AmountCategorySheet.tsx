@@ -1,7 +1,7 @@
 'use client';
 
 import { useToggle } from '@common';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
 import { BottomSheet } from '../../../../_shared/bottom-sheet/BottomSheet';
 import { Button } from '../../../../_shared/components/button/Button';
 import { AccountBookCategory, AccountBookCategoryType, useAccountBookCategories } from '../../hooks/useAccountBookCategories';
@@ -32,8 +32,8 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
   return (
     <>
       <BottomSheet title={titleMsg} visible={open} oncloseModal={onClose}>
-        <SC.CategorySelectBox>
-          <SC.CategoryList>
+        <div>
+          <section {...stylex.props(styles.categoryList)}>
             {categories.map((c) => {
               return (
                 <CategoryItem
@@ -44,13 +44,13 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
                 />
               );
             })}
-          </SC.CategoryList>
-          <SC.Footer>
+          </section>
+          <div {...stylex.props(styles.footer)}>
             <Button fill onClick={onOpenSaveForm}>
               + {titleMsg}
             </Button>
-          </SC.Footer>
-        </SC.CategorySelectBox>
+          </div>
+        </div>
       </BottomSheet>
       {isOpenSaveForm && (
         <CategorySaveForm
@@ -64,13 +64,14 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
   );
 };
 
-const SC = {
-  CategorySelectBox: styled.div``,
-  CategoryList: styled.section`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  `,
-  Footer: styled.div`
-    margin: 1.5rem 2rem 0 2rem;
-  `,
-};
+const styles = stylex.create({
+  categoryList: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+  },
+  footer: {
+    marginTop: '1.5rem',
+    marginInline: '2rem',
+    marginBottom: 0,
+  },
+});

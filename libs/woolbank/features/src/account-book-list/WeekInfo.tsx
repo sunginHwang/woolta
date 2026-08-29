@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import styled from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 interface Props {
   income_amount?: number;
@@ -10,7 +11,7 @@ interface Props {
 
 export const WeekInfo = ({ income_amount = 0, expenditure_amount = 0 }: Props) => {
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       {income_amount > 0 && (
         <Text variant='small1Medium' color='red500' as='p'>
           +{income_amount.toLocaleString('ko-KR')}원
@@ -21,21 +22,19 @@ export const WeekInfo = ({ income_amount = 0, expenditure_amount = 0 }: Props) =
           -{expenditure_amount.toLocaleString('ko-KR')}원
         </Text>
       )}
-    </SC.Container>
+    </div>
   );
 };
 
-const SC = {
-  Container: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 16px;
-    height: 2rem;
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-
-    > * + * {
-      margin-left: 1rem;
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBlock: 0,
+    paddingInline: '16px',
+    height: '2rem',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    gap: '1rem',
+  },
+});

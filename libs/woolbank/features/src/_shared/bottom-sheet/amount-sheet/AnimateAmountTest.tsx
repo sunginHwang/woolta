@@ -1,9 +1,9 @@
 'use client';
 
 import { usePreviousValue } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, memo, useMemo } from 'react';
-import { styled } from 'styled-components';
 
 const ANIMATION_INITIAL_WITH_MOTION = { y: -30, opacity: 0 } as const;
 const ANIMATION_INITIAL_NO_MOTION = { y: 0, opacity: 1 } as const;
@@ -34,7 +34,7 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
   const previousAmountDigitList = useMemo(() => String(previousAmount).split(''), [previousAmount]);
 
   if (amount === 0) {
-    return <SC.PlaceHolder>{placeholder}</SC.PlaceHolder>;
+    return <span {...stylex.props(styles.placeholder)}>{placeholder}</span>;
   }
 
   return (
@@ -86,8 +86,8 @@ const AnimatedComma = memo(({ index }: { index: number }) => {
   );
 });
 
-const SC = {
-  PlaceHolder: styled.span`
-    opacity: 0.2;
-  `,
-};
+const styles = stylex.create({
+  placeholder: {
+    opacity: 0.2,
+  },
+});

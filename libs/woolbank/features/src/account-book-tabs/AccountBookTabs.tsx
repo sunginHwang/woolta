@@ -1,11 +1,12 @@
 'use client';
 
 import { useScrollDirection } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { motion } from 'motion/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
 import { useAccountBookListRouterQuery } from '../_shared/hooks/useAccountBookListRouterQuery';
 import { useWoolbankRoutes } from '../_shared/routes/context';
 
@@ -27,26 +28,28 @@ export const AccountBookTabs = () => {
   const selectedIndex = TAB_LIST.findIndex((tab) => tab.value === activeTab);
 
   return (
-    <SC.StickyWrapper
+    <motion.div
+      {...stylex.props(styles.stickyWrapper)}
       initial={{ y: 0 }}
       animate={{ y: isShowNavigationBar ? 0 : 56 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
-      <SC.Container>
-        <ul>
+      <div {...stylex.props(styles.container)}>
+        <ul {...stylex.props(styles.tabList)}>
           {TAB_LIST.map(({ link, value, label }) => {
             const isActive = activeTab === value;
             return (
-              <SC.Item key={label}>
-                <Link replace href={link}>
+              <li key={label} {...stylex.props(styles.item)}>
+                <Link replace href={link} {...stylex.props(styles.itemLink)}>
                   <Text variant='title6Bold' color={isActive ? 'textPrimary' : 'textTertiary'} as='p'>
                     {label}
                   </Text>
                 </Link>
-              </SC.Item>
+              </li>
             );
           })}
-          <SC.Animate
+          <motion.div
+            {...stylex.props(styles.animate)}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             initial={{ left: 0 }}
             animate={{
@@ -54,65 +57,67 @@ export const AccountBookTabs = () => {
             }}
           />
         </ul>
-      </SC.Container>
-    </SC.StickyWrapper>
+      </div>
+    </motion.div>
   );
 };
 
-const SC = {
+const styles = stylex.create({
   // sticky keeps the tab bar at the bottom of the dashboard scroll container, not the viewport
-  StickyWrapper: styled(motion.div)`
-    position: sticky;
-    bottom: 1rem;
-    left: 0;
-    right: 0;
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-bottom: constant(safe-area-inset-bottom);
-    display: flex;
-    justify-content: center;
-    z-index: 10;
-    pointer-events: none;
-  `,
-  Container: styled.div`
-    margin-top: 1rem;
-    padding: 8px 12px;
-    pointer-events: auto;
-
-    ul {
-      display: flex;
-      width: 120px;
-      padding: 2px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 32px;
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-      position: relative;
-      z-index: 1;
-    }
-  `,
-  Item: styled.li`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    justify-content: center;
-
-    a {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  `,
-  Animate: styled(motion.div)`
-    position: absolute;
-    height: calc(100% - 12px);
-    width: calc(50% - 16px);
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    border: 0.1rem solid ${({ theme }) => theme.colors.borderDefault};
-    border-radius: 32px;
-    z-index: -1;
-    margin: 8px;
-  `,
-};
+  stickyWrapper: {
+    position: 'sticky',
+    bottom: '1rem',
+    left: 0,
+    right: 0,
+    paddingBottom: 'env(safe-area-inset-bottom)',
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: 10,
+    pointerEvents: 'none',
+  },
+  container: {
+    marginTop: '1rem',
+    paddingBlock: '8px',
+    paddingInline: '12px',
+    pointerEvents: 'auto',
+  },
+  tabList: {
+    display: 'flex',
+    width: '120px',
+    paddingBlock: '2px',
+    paddingInline: '2px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '32px',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    position: 'relative',
+    zIndex: 1,
+  },
+  item: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    paddingBlock: '8px',
+    paddingInline: '16px',
+    justifyContent: 'center',
+  },
+  itemLink: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  animate: {
+    position: 'absolute',
+    height: 'calc(100% - 12px)',
+    width: 'calc(50% - 16px)',
+    backgroundColor: colorVars['--color-bgSurface'],
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-borderDefault'],
+    borderRadius: '32px',
+    zIndex: -1,
+    margin: '8px',
+  },
+});

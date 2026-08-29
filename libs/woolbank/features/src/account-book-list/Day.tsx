@@ -1,8 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { FC } from 'react';
-import styled from 'styled-components';
 
 interface Props {
   day: number;
@@ -19,13 +19,13 @@ export const Day: FC<Props> = ({ day, income_amount = 0, expenditure_amount = 0,
   };
 
   return (
-    <SC.Container onClick={handleClick}>
-      <div className='day'>
+    <div {...stylex.props(styles.container)} onClick={handleClick}>
+      <div {...stylex.props(styles.day)}>
         <Text variant='body3' color='gray700' as='p' mt={10}>
           {day}
         </Text>
       </div>
-      <div className='amount'>
+      <div {...stylex.props(styles.amount)}>
         {expenditure_amount > 0 && (
           <Text variant='small3Regular' color='gray700'>
             -{expenditure_amount.toLocaleString('ko-KR')}
@@ -37,31 +37,30 @@ export const Day: FC<Props> = ({ day, income_amount = 0, expenditure_amount = 0,
           </Text>
         )}
       </div>
-    </SC.Container>
+    </div>
   );
 };
 
-const SC = {
-  Container: styled.div`
-    flex-direction: column;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 7rem;
-
-    .day {
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .amount {
-      height: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '7rem',
+  },
+  day: {
+    height: '2rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  amount: {
+    height: '5rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+});

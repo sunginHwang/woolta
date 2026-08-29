@@ -1,7 +1,7 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { ChangeEvent, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { BottomSheet } from '../../_shared/bottom-sheet/BottomSheet';
 import { BaseInput } from '../../_shared/components/base-input/BaseInput';
 import { Button } from '../../_shared/components/button/Button';
@@ -102,7 +102,7 @@ export const ScheduledPaymentBottomSheet = ({
 
   return (
     <BottomSheet visible={is_open} oncloseModal={onCloseModal} title='반복/할부'>
-      <SC.Content>
+      <div {...stylex.props(styles.content)}>
         <ToggleTab
           tabs={TAB_LIST}
           value={scheduledPaymentsTypeState}
@@ -112,7 +112,7 @@ export const ScheduledPaymentBottomSheet = ({
             setScheduledPaymentsTypeState(tab.type as ScheduledPaymentType);
           }}
         />
-        <div className='input-group'>
+        <div {...stylex.props(styles.inputGroup)}>
           <BaseInput
             type='number'
             onChange={handleSchedulePaymentValueChange}
@@ -135,26 +135,26 @@ export const ScheduledPaymentBottomSheet = ({
         <Button disabled={!isEnableFormStatus} fill onClick={handleSaveClick}>
           저장
         </Button>
-      </SC.Content>
+      </div>
     </BottomSheet>
   );
 };
 
-const SC = {
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1.6rem;
-    gap: 2rem;
-
-    .input-group {
-      width: 100%;
-      margin-bottom: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-  `,
-};
+const styles = stylex.create({
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+    gap: '2rem',
+  },
+  inputGroup: {
+    width: '100%',
+    marginBottom: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.8rem',
+  },
+});

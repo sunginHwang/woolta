@@ -1,7 +1,8 @@
 'use client';
+
+import * as stylex from '@stylexjs/stylex';
 import { useEffect, PropsWithChildren, ReactNode } from 'react';
 import Sheet from 'react-modal-sheet';
-import styled from 'styled-components';
 
 interface Props extends PropsWithChildren {
   isOpen?: boolean;
@@ -36,21 +37,21 @@ export const SnapSheet = ({ isOpen = false, snapPhase = 1, useDeem = true, heade
         {header || <Sheet.Header />}
         <Sheet.Content>{children}</Sheet.Content>
       </Sheet.Container>
-      <SC.Backdrop onClick={onClose} />
+      <div {...stylex.props(styles.backdrop)} onClick={onClose} />
     </Sheet>
   );
 };
 
-const SC = {
-  Backdrop: styled.div`
-    z-index: 1;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(51, 51, 51, 0.5);
-    touch-action: none;
-    opacity: 1;
-  `,
-};
+const styles = stylex.create({
+  backdrop: {
+    zIndex: 1,
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(51, 51, 51, 0.5)',
+    touchAction: 'none',
+    opacity: 1,
+  },
+});

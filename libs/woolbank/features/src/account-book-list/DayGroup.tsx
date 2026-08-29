@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { ReactNode } from 'react';
-import { styled } from 'styled-components';
 
 interface Props {
   days: string;
@@ -17,34 +18,33 @@ interface Props {
 const DayGroup = ({ days, totalAmount, children }: Props) => {
   const isSavedAmount = totalAmount > 0;
   return (
-    <SC.DayGroup>
-      <SC.DayInfo>
+    <div {...stylex.props(styles.dayGroup)}>
+      <div {...stylex.props(styles.dayInfo)}>
         <Text variant='body3' color='textTertiary'>
           {days}일
         </Text>
         <Text variant='title5Medium' color={isSavedAmount ? 'statusError' : 'textPrimary'}>
           {totalAmount.toLocaleString('ko-KR')}원
         </Text>
-      </SC.DayInfo>
+      </div>
       {children}
-    </SC.DayGroup>
+    </div>
   );
 };
 
 export default DayGroup;
 
-const SC = {
-  DayGroup: styled.div`
-    & + & {
-      margin-top: 3.4rem;
-    }
-  `,
-  DayInfo: styled.div`
-    padding-bottom: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin: 1rem 0;
-  `,
-};
+const styles = stylex.create({
+  dayGroup: {},
+  dayInfo: {
+    paddingBottom: '1rem',
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBlock: '1rem',
+    marginInline: 0,
+  },
+});

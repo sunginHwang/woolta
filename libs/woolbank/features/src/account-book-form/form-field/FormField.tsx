@@ -1,8 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 
 interface Props {
   title: string;
@@ -12,37 +12,34 @@ interface Props {
 
 export const FormField = ({ title, onClick, children }: Props) => {
   return (
-    <SC.FormLabel onClick={onClick}>
-      <Text className='label' variant='body3' color='textTertiary'>
+    <div {...stylex.props(styles.formLabel)} onClick={onClick}>
+      <Text xstyle={styles.label} variant='body3' color='textTertiary'>
         {title}
       </Text>
-      <div className='info'>
-        <div className='item'>{children}</div>
+      <div {...stylex.props(styles.info)}>
+        <div {...stylex.props(styles.item)}>{children}</div>
       </div>
-    </SC.FormLabel>
+    </div>
   );
 };
 
-const SC = {
-  FormLabel: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 5.2rem;
-
-    .label {
-      width: 16rem;
-    }
-
-    .info {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .item {
-        flex: 1;
-      }
-    }
-  `,
-};
+const styles = stylex.create({
+  formLabel: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '5.2rem',
+  },
+  label: {
+    width: '16rem',
+  },
+  info: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  item: {
+    flex: 1,
+  },
+});
