@@ -115,3 +115,19 @@ export const shadowVars = stylex.defineVars({
   '--shadow-overlay': '0 1.2rem 3.2rem rgba(0, 0, 0, 0.18), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.1)',
   '--shadow-popover': '0 0.4rem 1.6rem rgba(0, 0, 0, 0.15)',
 });
+
+/**
+ * z-index 토큰 (컴파일 타임 상수).
+ * stylex.create 안에서는 일반 모듈 import 값을 쓸 수 없어 defineConsts 로 제공한다.
+ * 값은 zIndex.ts 와 동기 유지 — styled-components 쪽은 theme.zIndex 를 계속 사용한다.
+ */
+export const zIndexConsts = stylex.defineConsts({
+  navigationBar: '100',
+  header: '100',
+  phase: '300',
+  floatButton: '400',
+  layer: '450',
+  modalDeem: '500',
+  fullDeem: '510',
+  notification: '600',
+});
