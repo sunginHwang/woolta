@@ -6,8 +6,7 @@
   "dependencies": {
     "@woolta/common": "workspace:*",
     "@woolta/memo-features": "workspace:*",
-    "@woolta/wds": "workspace:*",
-    "styled-components": "^6.5.3"
+    "@woolta/wds": "workspace:*"
   },
   "peerDependencies": {
     "next": "15.5.24",

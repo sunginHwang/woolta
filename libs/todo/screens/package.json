@@ -7,8 +7,7 @@
     "@woolta/common": "workspace:*",
     "@woolta/todo-features": "workspace:*",
     "@woolta/wds": "workspace:*",
-    "react-icons": "^4.11.0",
-    "styled-components": "^6.5.3"
+    "react-icons": "^4.11.0"
   },
   "peerDependencies": {
     "next": "15.5.24",

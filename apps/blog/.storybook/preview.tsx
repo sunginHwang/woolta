@@ -1,12 +1,11 @@
 import type { Decorator, Preview } from '@storybook/nextjs-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { theme } from '@wds';
-import { ThemeProvider } from 'styled-components';
+import '../app/global.css';
+import '@wds/colors/darkTheme.css';
 
 /**
  * 앱의 components/layout/providers/Providers.tsx 와 같은 컨텍스트를 주입한다.
- * 이전 preview 는 폐기된 @storybook/addon-styling 의 withThemeFromJSXProvider 를
- * GlobalStyles 만 넘겨 호출했던 탓에 테마도 쿼리 클라이언트도 비어 있었다.
+ * 색상 토큰은 StyleX 가 만든 CSS 변수라 위의 전역 CSS import 로 들어온다.
  */
 const withApp: Decorator = (Story) => {
   const queryClient = new QueryClient({
@@ -15,7 +14,7 @@ const withApp: Decorator = (Story) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme.light}>
+      <>
         <link
           rel='stylesheet'
           as='style'
@@ -25,7 +24,7 @@ const withApp: Decorator = (Story) => {
         <div>
           <Story />
         </div>
-      </ThemeProvider>
+      </>
     </QueryClientProvider>
   );
 };

@@ -5,8 +5,7 @@
   "main": "src/index.ts",
   "dependencies": {
     "@woolta/article-curations-features": "workspace:*",
-    "@woolta/wds": "workspace:*",
-    "styled-components": "^6.5.3"
+    "@woolta/wds": "workspace:*"
   },
   "peerDependencies": {
     "next": "15.5.24",

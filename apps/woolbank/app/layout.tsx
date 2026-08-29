@@ -1,5 +1,7 @@
 // StyleX 캐리어 CSS — 빌드 시 추출된 실제 CSS로 치환된다
+import '@wds/colors/darkTheme.css';
 import './stylex.css';
+import './global.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { RootProvider } from '../domains/layout/root-provider/RootProvider';

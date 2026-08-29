@@ -1,0 +1,59 @@
+/*
+ * woolta 앱 전역 스타일. 이전에는 styled-components 의 createGlobalStyle 이었다.
+ * 색상은 tokens.stylex 가 만드는 리터럴 CSS 변수(var(--color-*))로 연결한다.
+ */
+
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Pretendard", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  background-color: var(--color-bgPage);
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus,
+button:focus {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}

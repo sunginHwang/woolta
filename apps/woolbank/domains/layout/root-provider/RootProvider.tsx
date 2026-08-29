@@ -3,14 +3,10 @@ import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
-import { theme } from '@wds/colors';
 import { Provider as JotaiProvider } from 'jotai';
-import { ThemeProvider } from 'styled-components';
 import { ConfirmProvider } from '../../../components/Confirm/ConfirmContext';
 import { setConfig } from '../../../utils/config';
 import { Layout } from '../Layout';
-import { GlobalStyle } from './GlobalStyle';
-import { StyledComponentsRegistry } from './StyleRegistry';
 
 setConfig();
 
@@ -44,14 +40,9 @@ export const RootProvider = ({ children }: { children: React.ReactNode }) => {
         <ReactQueryStreamedHydration>
           {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
           <JotaiProvider>
-            <StyledComponentsRegistry>
-              <ThemeProvider theme={theme.light}>
-                <GlobalStyle />
-                <ConfirmProvider>
-                  <Layout>{children}</Layout>
-                </ConfirmProvider>
-              </ThemeProvider>
-            </StyledComponentsRegistry>
+            <ConfirmProvider>
+              <Layout>{children}</Layout>
+            </ConfirmProvider>
           </JotaiProvider>
         </ReactQueryStreamedHydration>
       </QueryClientProvider>

@@ -1,8 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 
 /**
- * typography(styled-components css, font.ts)와 동일 값의 StyleX 버전.
- * StyleX 로 이관된 컴포넌트는 이 객체를 사용한다 — 값 수정 시 font.ts 와 동기 유지.
+ * 타이포그래피 스케일. 모든 컴포넌트가 이 객체를 사용한다.
  */
 export const typographyStyles = stylex.create({
   title1Bold: { fontSize: '24px', lineHeight: '31.2px', fontWeight: 600 },
@@ -36,3 +35,6 @@ export const typographyStyles = stylex.create({
   small4Medium: { fontSize: '9px', lineHeight: '12.6px', fontWeight: 500 },
   small4Regular: { fontSize: '9px', lineHeight: '12.6px', fontWeight: 400 },
 });
+
+/** typographyStyles 의 키 — 컴포넌트 variant prop 타입으로 쓴다 */
+export type FontVarient = keyof typeof typographyStyles;

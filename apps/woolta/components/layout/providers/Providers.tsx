@@ -2,73 +2,12 @@
 
 import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ConfirmProvider, darkThemeCssVariables, type ThemeType, theme } from '@wds';
+import { ConfirmProvider, type ThemeType } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { useEffect } from 'react';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import AppShell from '../app-shell/AppShell';
 import { themeTypeAtom } from '../store';
-import StyleRegistry from './StyledComponentsRegistry';
-
-const GlobalStyles = createGlobalStyle`
-  /* 테마는 html[data-theme] 가 결정한다 — 다크는 WDS 토큰(CSS 변수) 재정의로 적용 */
-  :root {
-    color-scheme: light;
-  }
-
-  :root[data-theme='dark'] {
-    color-scheme: dark;
-    ${darkThemeCssVariables}
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html {
-    font-size: 62.5%;
-    font-family: 'Pretendard', 'sans-serif';
-  }
-
-  html,
-  body {
-    height: 100%;
-  }
-
-  body {
-    font-size: 1.6rem;
-    line-height: 1.5;
-    background-color: ${({ theme }) => theme.colors.bgPage};
-  }
-
-  ol,
-  ul,
-  li {
-    list-style: none;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  a:focus,
-  button:focus {
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  button {
-    background: none;
-    border: 0;
-    color: inherit;
-    font: inherit;
-    cursor: pointer;
-  }
-`;
 
 let browserQueryClient: QueryClient | undefined;
 
@@ -114,12 +53,9 @@ const ThemedApp = ({ children }: { children: React.ReactNode }) => {
   }, [themeType]);
 
   return (
-    <ThemeProvider theme={theme[themeType]}>
-      <GlobalStyles />
-      <ConfirmProvider>
-        <AppShell>{children}</AppShell>
-      </ConfirmProvider>
-    </ThemeProvider>
+    <ConfirmProvider>
+      <AppShell>{children}</AppShell>
+    </ConfirmProvider>
   );
 };
 
@@ -137,9 +73,7 @@ export const Providers = ({ initialThemeType, children }: Props) => {
       <QueryClientProvider client={queryClient}>
         <JotaiProvider>
           <ThemeHydration initialThemeType={initialThemeType}>
-            <StyleRegistry>
-              <ThemedApp>{children}</ThemedApp>
-            </StyleRegistry>
+            <ThemedApp>{children}</ThemedApp>
           </ThemeHydration>
         </JotaiProvider>
       </QueryClientProvider>

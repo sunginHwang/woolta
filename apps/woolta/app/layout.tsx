@@ -1,5 +1,7 @@
 // StyleX 캐리어 CSS — 빌드 시 추출된 실제 CSS로 치환된다
+import '@wds/colors/darkTheme.css';
 import './stylex.css';
+import './global.css';
 import { cookies } from 'next/headers';
 import { Providers } from '../components/layout/providers/Providers';
 import { parseThemeType, THEME_COOKIE_NAME } from '../components/layout/store/themeCookie';

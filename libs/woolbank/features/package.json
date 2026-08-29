@@ -15,8 +15,7 @@
     "lodash-es": "^4.17.21",
     "react-calendar": "^4.7.0",
     "react-modal-sheet": "^2.2.0",
-    "react-spinners": "^0.13.8",
-    "styled-components": "^6.5.3"
+    "react-spinners": "^0.13.8"
   },
   "peerDependencies": {
     "next": "15.5.24",

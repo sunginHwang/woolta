@@ -1,0 +1,158 @@
+/*
+ * TipTap(ProseMirror) 이 렌더하는 에디터 내부 DOM 의 자손 스타일.
+ * StyleX 는 자손 선택자를 지원하지 않아 CSS Module 로 둔다.
+ * `:global()` + `.editorArea` 래퍼로 원래 styled-components 가 갖던 스코프를 유지하고,
+ * 색상은 tokens.stylex 가 만드는 리터럴 CSS 변수(var(--color-*))로 연결한다.
+ */
+.editorArea {
+  flex: 1;
+}
+
+.editorArea :global(.ProseMirror) {
+  outline: none;
+  min-height: 40rem;
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: var(--color-textPrimary);
+}
+
+.editorArea :global(.ProseMirror p) {
+  margin: 0.4rem 0;
+}
+
+.editorArea :global(.ProseMirror h1),
+.editorArea :global(.ProseMirror h2),
+.editorArea :global(.ProseMirror h3) {
+  margin: 1.6rem 0 0.6rem;
+  color: var(--color-textPrimary);
+}
+
+.editorArea :global(.ProseMirror h1) {
+  font-size: 2.4rem;
+}
+
+.editorArea :global(.ProseMirror h2) {
+  font-size: 2rem;
+}
+
+.editorArea :global(.ProseMirror h3) {
+  font-size: 1.7rem;
+}
+
+.editorArea :global(.ProseMirror ul),
+.editorArea :global(.ProseMirror ol) {
+  padding-left: 2.2rem;
+  margin: 0.4rem 0;
+}
+
+.editorArea :global(.ProseMirror ul li),
+.editorArea :global(.ProseMirror ol li) {
+  list-style: revert;
+}
+
+.editorArea :global(.ProseMirror blockquote) {
+  margin: 0.8rem 0;
+  padding-left: 1.2rem;
+  border-left: 0.3rem solid var(--color-borderStrong);
+  color: var(--color-textSecondary);
+}
+
+.editorArea :global(.ProseMirror code) {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.4rem;
+  font-size: 1.3rem;
+  background-color: var(--color-bgSurfaceSecondary);
+}
+
+.editorArea :global(.ProseMirror pre) {
+  margin: 0.8rem 0;
+  padding: 1.2rem 1.4rem;
+  border-radius: 0.8rem;
+  background-color: var(--color-bgSurfaceSecondary);
+}
+
+.editorArea :global(.ProseMirror pre code) {
+  padding: 0;
+  background: none;
+}
+
+.editorArea :global(.ProseMirror pre .hljs-comment),
+.editorArea :global(.ProseMirror pre .hljs-quote) {
+  color: var(--color-textTertiary);
+  font-style: italic;
+}
+
+.editorArea :global(.ProseMirror pre .hljs-keyword),
+.editorArea :global(.ProseMirror pre .hljs-selector-tag),
+.editorArea :global(.ProseMirror pre .hljs-doctag),
+.editorArea :global(.ProseMirror pre .hljs-tag) {
+  color: var(--color-brandPrimary);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-string),
+.editorArea :global(.ProseMirror pre .hljs-regexp),
+.editorArea :global(.ProseMirror pre .hljs-addition) {
+  color: var(--color-statusSuccess);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-number),
+.editorArea :global(.ProseMirror pre .hljs-literal),
+.editorArea :global(.ProseMirror pre .hljs-symbol),
+.editorArea :global(.ProseMirror pre .hljs-bullet),
+.editorArea :global(.ProseMirror pre .hljs-meta) {
+  color: var(--color-statusWarning);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-title),
+.editorArea :global(.ProseMirror pre .hljs-section),
+.editorArea :global(.ProseMirror pre .hljs-name),
+.editorArea :global(.ProseMirror pre .hljs-function) {
+  color: var(--color-statusInfo);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-attr),
+.editorArea :global(.ProseMirror pre .hljs-attribute),
+.editorArea :global(.ProseMirror pre .hljs-variable),
+.editorArea :global(.ProseMirror pre .hljs-template-variable),
+.editorArea :global(.ProseMirror pre .hljs-type),
+.editorArea :global(.ProseMirror pre .hljs-selector-class),
+.editorArea :global(.ProseMirror pre .hljs-selector-id),
+.editorArea :global(.ProseMirror pre .hljs-property) {
+  color: var(--color-interactivePrimary);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-built_in),
+.editorArea :global(.ProseMirror pre .hljs-builtin-name) {
+  color: var(--color-statusError);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-deletion) {
+  color: var(--color-statusError);
+}
+
+.editorArea :global(.ProseMirror pre .hljs-emphasis) {
+  font-style: italic;
+}
+
+.editorArea :global(.ProseMirror pre .hljs-strong) {
+  font-weight: 700;
+}
+
+.editorArea :global(.ProseMirror img) {
+  max-width: 100%;
+  border-radius: 0.8rem;
+}
+
+.editorArea :global(.ProseMirror hr) {
+  margin: 1.6rem 0;
+  border: 0;
+  border-top: 0.1rem solid var(--color-borderSubtle);
+}
+
+.editorArea :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--color-textTertiary);
+}

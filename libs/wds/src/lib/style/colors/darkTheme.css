@@ -1,0 +1,63 @@
+/*
+ * 다크 테마 토큰 오버라이드 — 이 파일이 단일 소스다.
+ * tokens.stylex.ts(라이트 기본값)가 만든 CSS 변수를 여기서 재정의한다.
+ * 라이트와 값이 같은 키는 생략되어 있다.
+ *
+ * 이전에는 darkTokens.ts 가 문자열을 만들어 createGlobalStyle 에 보간했으나,
+ * 그 문자열 외에 쓰이는 곳이 없어 CSS 로 옮겼다.
+ */
+
+:root[data-theme="dark"] {
+  --color-white: #1e1e1e;
+  --color-black: #f5f5f5;
+  --color-orangePrimary: #ff6b6b;
+  --color-grayPrimary: #e0e0e0;
+  --color-graySecondary: #a0a0a0;
+  --color-grayTertiary: #6b6b6b;
+  --color-grayActive: #f5f5f5;
+  --color-grayInactive: #787878;
+  --color-grayDisabled: #4a4a4a;
+  --color-grayInactiveFilled: #4a4a4a;
+  --color-customGray: #4a5058;
+  --color-border1: #3a3a3a;
+  --color-border2: #2e2e2e;
+  --color-border3: #252525;
+  --color-border4: #1f1f1f;
+  --color-bgPrimary: #121212;
+  --color-bgSecondary: #1e1e1e;
+  --color-pinkPrimary: #ff4d8a;
+  --color-pinkInactive: #ff8ab5;
+  --color-pinkDisabled: #804060;
+  --color-blogPrimary: rgba(30, 30, 30, 0.88);
+  --color-grayMain: rgba(30, 30, 30, 0.88);
+  --color-textPrimary: #e0e0e0;
+  --color-textSecondary: #a0a0a0;
+  --color-textTertiary: #6b6b6b;
+  --color-textDisabled: #4a4a4a;
+  --color-textInverse: #242424;
+  --color-textActive: #f5f5f5;
+  --color-textInactive: #787878;
+  --color-bgPage: #121212;
+  --color-bgSurface: #1e1e1e;
+  --color-bgSurfaceSecondary: #2a2a2a;
+  --color-bgElevated: #333333;
+  --color-bgOverlay: rgba(0, 0, 0, 0.6);
+  --color-bgInverse: #f5f5f5;
+  --color-borderDefault: #3a3a3a;
+  --color-borderSubtle: #2e2e2e;
+  --color-borderStrong: #555555;
+  --color-borderFaint: #1f1f1f;
+  --color-interactivePrimary: #ff6b6b;
+  --color-interactivePrimaryHover: #ff5252;
+  --color-interactivePrimaryDisabled: #4a4a4a;
+  --color-brandPrimary: #ff4d8a;
+  --color-brandLight: #ff8ab5;
+  --color-brandDisabled: #804060;
+  --color-statusSuccess: #6bd975;
+  --color-statusWarning: #ffd54f;
+  --color-statusError: #ff5252;
+  --color-statusInfo: #6b8aff;
+  --shadow-overlay:
+    0 1.6rem 4rem rgba(0, 0, 0, 0.64), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.48), 0 0 0 0.1rem rgba(255, 255, 255, 0.12);
+  --shadow-popover: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.56), 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
+}

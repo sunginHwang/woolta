@@ -11,7 +11,6 @@
     "@woolta/wds": "workspace:*",
     "motion": "^13.1.1",
     "react-icons": "^4.11.0",
-    "styled-components": "^6.5.3",
     "zustand": "^5.0.3"
   },
   "peerDependencies": {

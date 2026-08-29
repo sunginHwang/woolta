@@ -9,8 +9,7 @@
     "@woolta/wds": "workspace:*",
     "@woolta/woolbank-features": "workspace:*",
     "dayjs": "^1.11.10",
-    "jotai": "^2.5.0",
-    "styled-components": "^6.5.3"
+    "jotai": "^2.5.0"
   },
   "peerDependencies": {
     "next": "15.5.24",

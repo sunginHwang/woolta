@@ -7,9 +7,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@nivo/pie', 'lodash-es', '@woolta/wds'],
   },
-  compiler: {
-    styledComponents: true,
-  },
   images: {
     disableStaticImages: true,
     remotePatterns: [

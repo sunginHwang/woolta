@@ -1,5 +1,7 @@
 // StyleX 캐리어 CSS — 빌드 시 추출된 실제 CSS로 치환된다
+import '@wds/colors/darkTheme.css';
 import './stylex.css';
+import './global.css';
 import { Providers } from '../components/layout/providers/Providers';
 import { setConfig } from '../utils/config';
 

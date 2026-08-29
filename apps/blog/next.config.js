@@ -16,9 +16,6 @@ const nextConfig = {
       },
     ];
   },
-  compiler: {
-    styledComponents: true,
-  },
 };
 
 module.exports = withStylex(nextConfig);

@@ -6,9 +6,9 @@
 
 /* 리스트 마지막 요소 네비게이션 영역 패딩 처리 */
 .listContent :global(a:last-child) > div {
-  margin-bottom: 5.5rem;
-  margin-bottom: calc(constant(safe-area-inset-bottom) + 5.5rem);
-  margin-bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
+  /* 원본은 5.5rem → constant() → env() 3중 폴백이었다. env() 의 fallback 인자로 같은 결과를 한 줄에 낸다
+     (constant() 는 iOS 11.2 이전 문법이라 제거). */
+  margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem);
 }
 
 /* 슬라이드 뷰어 스타일 제어 */

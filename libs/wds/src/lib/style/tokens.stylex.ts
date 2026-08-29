@@ -6,8 +6,8 @@ import * as stylex from '@stylexjs/stylex';
  * - 키를 CSS 변수명 그대로('--color-*') 사용해 생성되는 변수 이름을 예측 가능하게 한다.
  * - 값은 라이트 테마 기준. 다크 테마는 colors/darkTokens.ts 의 오버라이드가
  *   `:root[data-theme='dark']` 에서 같은 변수를 재정의한다.
- * - styled-components 쪽은 colors/theme.ts 가 이 변수들의 var() 참조로 브리지되어
- *   두 스타일 시스템이 같은 토큰을 읽는다.
+ * - 키가 '--' 로 시작하면 StyleX 가 그 이름을 그대로 CSS 변수로 쓴다. 덕분에
+ *   자손 선택자 때문에 CSS Module 로 남은 스타일도 var(--color-*) 로 같은 토큰을 읽는다.
  *
  * ※ 이 파일은 scripts 없이 관리한다 — 값 수정 시 darkTokens.ts, palette.ts 와 동기 유지.
  * ※ StyleX 제약: defineVars 는 *.stylex.ts 파일에서만 선언 가능, 다른 모듈 import 금지(리터럴만).
@@ -119,7 +119,7 @@ export const shadowVars = stylex.defineVars({
 /**
  * z-index 토큰 (컴파일 타임 상수).
  * stylex.create 안에서는 일반 모듈 import 값을 쓸 수 없어 defineConsts 로 제공한다.
- * 값은 zIndex.ts 와 동기 유지 — styled-components 쪽은 theme.zIndex 를 계속 사용한다.
+ * 값은 zIndex.ts 와 동기 유지.
  */
 export const zIndexConsts = stylex.defineConsts({
   navigationBar: '100',

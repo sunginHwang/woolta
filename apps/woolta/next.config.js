@@ -26,9 +26,6 @@ const nextConfig = {
       },
     ],
   },
-  compiler: {
-    styledComponents: true,
-  },
   // 브라우저 API 호출을 동일 오리진으로 프록시해 CORS를 우회한다 (쿠키는 그대로 전달됨)
   async rewrites() {
     return [

@@ -1,7 +1,4 @@
-export * from './animations';
 export * from './colors';
-export * from './font';
-export * from './mixins';
-export * from './reset';
 export * from './shadows';
+export type { FontVarient } from './typography.stylex';
 export * from './zIndex';
