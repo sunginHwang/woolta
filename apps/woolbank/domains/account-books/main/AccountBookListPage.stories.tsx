@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import AccountBooks from './AccountBookListPage';
 
 const meta: Meta<typeof AccountBooks> = { component: AccountBooks };

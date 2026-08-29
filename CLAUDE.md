@@ -16,6 +16,8 @@ Woolta 서비스들을 관리하는 Turborepo 기반 모노레포입니다.
 - TypeScript 5.1.3
 - React 18.2.0
 - Styled Components 6.1.8
+- Vitest 4 (유닛 + 스토리 테스트)
+- Storybook 10 (`@storybook/nextjs-vite`)
 - Jotai (상태 관리)
 - TanStack React Query (데이터 페칭)
 - Turborepo (모노레포)
@@ -47,9 +49,13 @@ pnpm lint          # biome check .
 pnpm lint:fix      # biome check --write .
 pnpm format        # biome format --write .
 
-# Storybook
+# Storybook (Storybook 10 + @storybook/nextjs-vite)
 pnpm turbo run storybook --filter=blog        # port 4400
 pnpm turbo run storybook --filter=woolbank
+
+# 스토리 테스트 (실제 브라우저 렌더링)
+pnpm test:storybook                            # blog + woolbank
+npx vitest run --project storybook-woolbank    # 하나만
 ```
 
 ## 프로젝트 구조
@@ -102,6 +108,8 @@ domains/{feature}/
 | `turbo.json` | Turborepo 설정, 태스크 파이프라인 정의 |
 | `tsconfig.base.json` | 기본 TypeScript 설정, path aliases |
 | `biome.json` | Biome 린트/포맷 설정 |
+| `vitest.config.mts` | Vitest 루트 설정, 프로젝트 목록 |
+| `vitest.shared.mts` | 프로젝트 공용 Vitest 설정 (alias, 테스트 환경, StyleX 플러그인) |
 | `apps/*/package.json` | 각 앱의 스크립트 및 의존성 |
 
 ## 개발 시 주의사항
@@ -115,8 +123,12 @@ domains/{feature}/
 
 ## 테스트
 
-- Jest + Testing Library
-- lodash-es는 변환 예외 처리됨 (transformIgnorePatterns)
+- Vitest + Testing Library (`describe`/`it`/`expect` 는 globals 로 제공)
+- 루트 `vitest.config.mts` 가 모든 프로젝트를 모은다
+  - 유닛 프로젝트 8개: 각 패키지 `vitest.config.mts` 가 `vitest.shared.mts`(alias, jsdom, StyleX 플러그인)를 공유
+  - 스토리 프로젝트 2개(`storybook-blog`, `storybook-woolbank`): `@storybook/addon-vitest` 가 스토리를 실제 크로미움에서 렌더링해 검증
+- StyleX 변환(`tools/stylex/viteStylexPlugin.mts`)과 워크스페이스 alias(`tools/workspaceAlias.mts`)는 Vitest 와 Storybook 이 같은 모듈을 공유한다
+- `pnpm test` 는 turbo 로 패키지별 유닛 테스트만 돌린다. 스토리까지 포함하려면 루트에서 `npx vitest run`
 
 ## 환경별 URL
 

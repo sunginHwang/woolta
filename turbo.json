@@ -12,7 +12,7 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "../../jest.preset.js"]
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.shared.ts", "$TURBO_ROOT$/tools/stylex/viteStylexPlugin.js"]
     },
     "e2e": {
       "dependsOn": ["^build"],

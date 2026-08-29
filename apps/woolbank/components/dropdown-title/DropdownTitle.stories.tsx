@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { DropdownTitle } from './DropdownTitle';
 
 const meta: Meta<typeof DropdownTitle> = { component: DropdownTitle };

@@ -28,9 +28,9 @@ Woolta 서비스들을 관리하는 Nx 기반 모노레포입니다.
 - **Animation**: Framer Motion 10.17.4
 
 ### 개발 도구
-- **Testing**: Jest 29.4.1, Testing Library, Cypress 12.16.0
+- **Testing**: Vitest 4.1.11 (+ @storybook/addon-vitest), Testing Library, Cypress 12.16.0
 - **Linting**: ESLint 8.47.0, Prettier 2.6.2
-- **Documentation**: Storybook 7.3.0
+- **Documentation**: Storybook 10.5.10 (@storybook/nextjs-vite)
 - **Bundler**: SWC
 
 ## 프로젝트 구조
@@ -195,11 +195,14 @@ nx run-many -t lint
 
 ```bash
 # 실행
-nx storybook blog      # port 4400
-nx storybook woolbank
+pnpm turbo run storybook --filter=blog       # port 4400
+pnpm turbo run storybook --filter=woolbank
 
 # 빌드
-nx build-storybook blog
+pnpm turbo run build-storybook --filter=blog
+
+# 스토리 테스트 (@storybook/addon-vitest, 실제 크로미움 렌더링)
+pnpm test:storybook
 ```
 
 ## 코드 컨벤션

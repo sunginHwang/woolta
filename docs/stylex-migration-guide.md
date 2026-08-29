@@ -115,7 +115,7 @@ const sx = stylex.props(styles.base);
 
 ```bash
 npx tsc --noEmit -p <해당 lib 또는 앱 tsconfig>   # 타입
-npx jest --silent                                  # 루트에서 전체 테스트
+npx vitest run                                     # 루트에서 전체 테스트
 cd apps/<consumer> && npx next build               # 소비 앱 빌드 (dev 서버 실행 중이면 금지)
 npx eslint "<변경 경로>/**/*.tsx"
 ```

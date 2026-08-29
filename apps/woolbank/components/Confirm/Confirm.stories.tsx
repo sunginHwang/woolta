@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Confirm } from './Confirm';
 
 const meta: Meta<typeof Confirm> = { component: Confirm };

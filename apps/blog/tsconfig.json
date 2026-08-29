@@ -16,7 +16,7 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": ["vitest/globals", "node"]
   },
   "include": [
     "**/*.ts",
@@ -30,10 +30,11 @@
   ],
   "exclude": [
     "node_modules",
-    "jest.config.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
     "**/*.stories.ts",
-    "**/*.stories.js"
+    "**/*.stories.js",
+    "**/*.stories.tsx",
+    "**/*.stories.jsx"
   ]
 }
