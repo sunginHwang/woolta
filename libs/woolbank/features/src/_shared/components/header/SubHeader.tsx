@@ -6,7 +6,7 @@ import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import React, { FC, useCallback } from 'react';
 import { IconChevronLeft } from '../../icons';
-import { layout } from '../../style/layout';
+import { layoutConsts } from '../../style/layout.stylex';
 
 interface Props {
   title: string;
@@ -74,7 +74,7 @@ const styles = stylex.create({
   inner: {
     paddingLeft: '1.6rem',
     paddingRight: '1.6rem',
-    height: layout.headerHeight,
+    height: layoutConsts.headerHeight,
     display: 'flex',
     alignItems: 'center',
   },

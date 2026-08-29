@@ -97,7 +97,6 @@ const styles = stylex.create({
     paddingBottom: 0,
     paddingLeft: '24px',
     paddingRight: '24px',
-    ...typographyStyles.title4Medium,
   },
   medium: {
     minWidth: '58px',
@@ -106,7 +105,6 @@ const styles = stylex.create({
     paddingBottom: 0,
     paddingLeft: '16px',
     paddingRight: '16px',
-    ...typographyStyles.title5Medium,
   },
   small: {
     minWidth: '63px',
@@ -115,7 +113,6 @@ const styles = stylex.create({
     paddingBottom: 0,
     paddingLeft: '12px',
     paddingRight: '12px',
-    ...typographyStyles.body4Medium,
   },
   primary: {
     color: colorVars['--color-white'],

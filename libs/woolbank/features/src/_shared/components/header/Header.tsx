@@ -4,7 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { PropsWithChildren, ReactNode } from 'react';
-import { layout } from '../../style/layout';
+import { layoutConsts } from '../../style/layout.stylex';
 import SubHeader from './SubHeader';
 
 interface Props extends PropsWithChildren {
@@ -54,7 +54,7 @@ const styles = stylex.create({
     zIndex: zIndexConsts.header,
   },
   inner: {
-    height: layout.headerHeight,
+    height: layoutConsts.headerHeight,
     paddingLeft: '1.6rem',
     paddingRight: '1.6rem',
     display: 'flex',

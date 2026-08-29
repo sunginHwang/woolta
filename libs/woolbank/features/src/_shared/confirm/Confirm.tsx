@@ -48,10 +48,10 @@ export const Confirm: FC<Props> = ({
             )}
             {!loading && (
               <div {...stylex.props(styles.buttons)}>
-                <button {...stylex.props(styles.button)} data-cy='icoCancel' onClick={onCancel}>
+                <button {...stylex.props(typographyStyles.body2, styles.button)} data-cy='icoCancel' onClick={onCancel}>
                   {cancelMsg}
                 </button>
-                <button {...stylex.props(styles.button, styles.confirmButton)} data-cy='icoConfirm' onClick={onConfirm}>
+                <button {...stylex.props(typographyStyles.body2, styles.button, styles.confirmButton)} data-cy='icoConfirm' onClick={onConfirm}>
                   {confirmMsg}
                 </button>
               </div>
@@ -110,7 +110,6 @@ const styles = stylex.create({
     display: 'flex',
   },
   button: {
-    ...typographyStyles.body2,
     width: '100%',
     flex: 1,
     display: 'flex',

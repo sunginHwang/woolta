@@ -30,7 +30,7 @@ export const AccountBookBottomSheet = ({ isOpen, title, titleColor, list, onClos
   return (
     <BottomSheet visible={isOpen} oncloseModal={onClose} contentHeight={600}>
       <div {...stylex.props(styles.categoryBottomSheet)}>
-        <h3 {...stylex.props(styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
+        <h3 {...stylex.props(typographyStyles.title3Medium, styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
         <ul {...stylex.props(styles.list)}>
           {list.map(({ title, amount, iconImageUrl, registerDateTime }, key) => (
             <li key={key} {...stylex.props(styles.item)}>
@@ -80,7 +80,6 @@ const styles = stylex.create({
   },
   title: {
     textAlign: 'left',
-    ...typographyStyles.title3Medium,
     marginBottom: '1.5rem',
   },
   list: {

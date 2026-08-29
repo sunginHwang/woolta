@@ -107,7 +107,7 @@ export const BaseInput = forwardRef<HTMLInputElement, Props>(
             </Text>
           )}
           <input
-            {...stylex.props(styles.input, focus ? styles.inputFocus : styles.inputBlur)}
+            {...stylex.props(typographyStyles.body1, styles.input, focus ? styles.inputFocus : styles.inputBlur)}
             ref={mergeRefs([inputRef, parentRef])}
             data-cy={name}
             type={type === 'number' ? 'text' : type}
@@ -149,7 +149,6 @@ const styles = stylex.create({
     marginBottom: '1rem',
   },
   input: {
-    ...typographyStyles.body1,
     borderWidth: '0.1rem',
     borderStyle: 'solid',
     borderColor: colorVars['--color-borderSubtle'],

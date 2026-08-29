@@ -84,7 +84,7 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     return (
       <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
         <input
-          {...stylex.props(styles.input)}
+          {...stylex.props(typographyStyles.body2, styles.input)}
           ref={mergeRefs([inputRef, parentRef])}
           data-cy={name}
           type={type}
@@ -123,14 +123,15 @@ const styles = stylex.create({
     marginBottom: '1rem',
   },
   input: {
-    ...typographyStyles.body2,
     background: 'transparent',
     borderWidth: 0,
     borderStyle: 'none',
     height: '4rem',
     color: colorVars['--color-textPrimary'],
     '::placeholder': {
-      ...typographyStyles.body2,
+      fontSize: '15px',
+      lineHeight: '21px',
+      fontWeight: 400,
       color: colorVars['--color-textDisabled'],
     },
   },
