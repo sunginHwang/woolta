@@ -1,9 +1,10 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import { KeyboardEvent, MouseEvent, useState } from 'react';
 import { FiEdit2, FiHash, FiTrash2 } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { TODO_BASE_PATH, getCategoryListKey, getTodoListHref, isTodoListActive } from '../../../_shared/routes';
 import { useTodoStore } from '../../../_shared/stores/useTodoStore';
 import { TodoCategory } from '../../../_shared/types';
@@ -70,16 +71,17 @@ export const CategoryItem = ({ category, count, pathname }: Props) => {
 
   if (isEditing) {
     return (
-      <SC.EditRow>
+      <li {...stylex.props(styles.editRow)}>
         <FiHash size={14} />
-        <SC.EditInput
+        <input
           autoFocus
           value={editName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditName(e.target.value)}
           onBlur={submitEdit}
           onKeyDown={handleEditKeyDown}
+          {...stylex.props(styles.editInput)}
         />
-      </SC.EditRow>
+      </li>
     );
   }
 
@@ -92,50 +94,59 @@ export const CategoryItem = ({ category, count, pathname }: Props) => {
       isActive={isActive}
       hoverActions={
         <>
-          <SC.ActionButton type='button' title='이름 변경' onClick={handleEditClick}>
+          <button type='button' title='이름 변경' onClick={handleEditClick} {...stylex.props(styles.actionButton)}>
             <FiEdit2 size={12} />
-          </SC.ActionButton>
-          <SC.ActionButton type='button' title='삭제' onClick={handleRemoveClick}>
+          </button>
+          <button type='button' title='삭제' onClick={handleRemoveClick} {...stylex.props(styles.actionButton, styles.actionButtonDanger)}>
             <FiTrash2 size={12} />
-          </SC.ActionButton>
+          </button>
         </>
       }
     />
   );
 };
 
-const SC = {
-  EditRow: styled.li`
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.4rem 1rem;
-    color: ${({ theme }) => theme.colors.textSecondary};
-  `,
-  EditInput: styled.input`
-    flex: 1;
-    min-width: 0;
-    padding: 0.3rem 0.6rem;
-    border: 1px solid ${({ theme }) => theme.colors.interactivePrimary};
-    border-radius: 0.6rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    outline: none;
-  `,
-  ActionButton: styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.2rem;
-    border: none;
-    border-radius: 0.4rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    cursor: pointer;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.statusError};
-    }
-  `,
-};
+const styles = stylex.create({
+  editRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+    paddingBlock: '0.4rem',
+    paddingInline: '1rem',
+    color: colorVars['--color-textSecondary'],
+  },
+  editInput: {
+    flex: 1,
+    minWidth: 0,
+    paddingBlock: '0.3rem',
+    paddingInline: '0.6rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-interactivePrimary'],
+    borderRadius: '0.6rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+    fontSize: '1.3rem',
+    outline: 'none',
+  },
+  actionButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0.2rem',
+    borderWidth: 0,
+    borderRadius: '0.4rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    cursor: 'pointer',
+  },
+  actionButtonDanger: {
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-statusError'],
+    },
+  },
+});

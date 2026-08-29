@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { TodoSidebar } from '@todo/features';
-import { styled } from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 /**
  * Todo 앱 좌측 패널 — 스마트 리스트/카테고리 사이드바.
@@ -9,16 +10,16 @@ import { styled } from 'styled-components';
  */
 export const TodoSidebarScreen = () => {
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <TodoSidebar />
-    </SC.Panel>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    height: 100%;
-    padding: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    height: '100%',
+    padding: '1.6rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+});

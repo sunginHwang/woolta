@@ -1,6 +1,7 @@
 'use client';
 
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { PriorityFlag } from '../../../_shared/components/PriorityFlag';
 import { TodoPriority } from '../../../_shared/types';
 
@@ -21,37 +22,42 @@ interface Props {
 /** 상세 패널의 우선순위 선택. 깃발 아이콘 + 네이티브 select 조합 */
 export const PrioritySelect = ({ priority, onPriorityChange }: Props) => {
   return (
-    <SC.Field>
+    <div {...stylex.props(styles.field)}>
       <PriorityFlag priority={priority} />
-      <SC.Select value={priority} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onPriorityChange(e.target.value as TodoPriority)}>
+      <select
+        value={priority}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onPriorityChange(e.target.value as TodoPriority)}
+        {...stylex.props(styles.select)}
+      >
         {PRIORITY_OPTIONS.map(({ value, label }) => (
           <option key={value} value={value}>
             우선순위: {label}
           </option>
         ))}
-      </SC.Select>
-    </SC.Field>
+      </select>
+    </div>
   );
 };
 
-const SC = {
-  Field: styled.div`
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.6rem;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-  Select: styled.select`
-    border: none;
-    background: transparent;
-    color: ${({ theme }) => theme.colors.textSecondary};
-    font-size: 1.2rem;
-    cursor: pointer;
-    outline: none;
-  `,
-};
+const styles = stylex.create({
+  field: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4rem',
+    paddingBlock: '0.2rem',
+    paddingInline: '0.4rem',
+    borderRadius: '0.6rem',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+  },
+  select: {
+    borderWidth: 0,
+    background: 'transparent',
+    color: colorVars['--color-textSecondary'],
+    fontSize: '1.2rem',
+    cursor: 'pointer',
+    outline: 'none',
+  },
+});

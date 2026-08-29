@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { ChangeEvent, KeyboardEvent, UIEvent, useRef } from 'react';
 import { FiCalendar, FiHash, FiPlus, FiX } from 'react-icons/fi';
-import { css, styled } from 'styled-components';
 import { TodoListKey } from '../../../_shared/types';
 import { formatDueDate } from '../../../_shared/utils/formatDueDate';
 import { getTodayKey } from '../../../_shared/utils/todoDate';
@@ -69,161 +70,209 @@ export const TodoAddInputRoot = ({ listKey, variant = 'inline', autoFocus = fals
   const hasChip = dateToken !== null || categoryToken !== null;
 
   return (
-    <SC.Container $isOverlay={isOverlay}>
-      <SC.InputRow $isOverlay={isOverlay}>
-        <SC.PlusIcon>
+    <div {...stylex.props(styles.container, isOverlay ? styles.containerOverlay : styles.containerInline)}>
+      <div {...stylex.props(styles.inputRow, isOverlay ? styles.inputRowOverlay : styles.inputRowInline)}>
+        <span {...stylex.props(styles.plusIcon)}>
           <FiPlus size={isOverlay ? 20 : 16} />
-        </SC.PlusIcon>
-        <SC.InputWrapper>
-          <SC.Mirror ref={mirrorRef} aria-hidden $isOverlay={isOverlay}>
+        </span>
+        <div {...stylex.props(styles.inputWrapper)}>
+          <div
+            ref={mirrorRef}
+            aria-hidden
+            {...stylex.props(styles.mirror, isOverlay ? styles.typographyOverlay : styles.typographyInline)}
+          >
             {highlightSegments.map(({ startIndex, text: segmentText, variant: segmentVariant }) =>
               segmentVariant === null ? (
                 <span key={startIndex}>{segmentText}</span>
               ) : (
-                <SC.TokenHighlight key={startIndex} $variant={segmentVariant}>
+                <span
+                  key={startIndex}
+                  {...stylex.props(segmentVariant === 'date' ? styles.tokenHighlightDate : styles.tokenHighlightCategory)}
+                >
                   {segmentText}
-                </SC.TokenHighlight>
+                </span>
               ),
             )}
-          </SC.Mirror>
-          <SC.Input
+          </div>
+          <input
             autoFocus={autoFocus}
             placeholder='할 일 추가 — 예: 내일 업무 회의 준비'
             value={text}
-            $isOverlay={isOverlay}
             onChange={handleTextChange}
             onScroll={handleInputScroll}
             onKeyDown={handleInputKeyDown}
+            {...stylex.props(styles.input, isOverlay ? styles.typographyOverlay : styles.typographyInline)}
           />
-        </SC.InputWrapper>
-      </SC.InputRow>
+        </div>
+      </div>
       {hasChip && (
-        <SC.ChipRow $isOverlay={isOverlay}>
+        <div {...stylex.props(styles.chipRow, isOverlay ? styles.chipRowOverlay : styles.chipRowInline)}>
           {dateToken !== null && (
-            <SC.Chip $variant='date'>
+            <span {...stylex.props(styles.chip, styles.chipDate)}>
               <FiCalendar size={12} />
               {formatDueDate(dateToken.date, getTodayKey()).label}
-              <SC.ChipRemoveButton type='button' title='날짜 제거' onClick={() => ignoreToken(dateToken.token.text)}>
+              <button type='button' title='날짜 제거' onClick={() => ignoreToken(dateToken.token.text)} {...stylex.props(styles.chipRemoveButton)}>
                 <FiX size={12} />
-              </SC.ChipRemoveButton>
-            </SC.Chip>
+              </button>
+            </span>
           )}
           {categoryToken !== null && (
-            <SC.Chip $variant='category'>
+            <span {...stylex.props(styles.chip, styles.chipCategory)}>
               <FiHash size={12} />
               {categoryToken.name}
-              <SC.ChipRemoveButton
+              <button
                 type='button'
                 title='카테고리 제거'
                 onClick={() => ignoreToken(categoryToken.token.text)}
+                {...stylex.props(styles.chipRemoveButton)}
               >
                 <FiX size={12} />
-              </SC.ChipRemoveButton>
-            </SC.Chip>
+              </button>
+            </span>
           )}
-        </SC.ChipRow>
+        </div>
       )}
-    </SC.Container>
+    </div>
   );
 };
 
-/**
- * 입력 텍스트와 하이라이트 mirror 의 글자 위치가 정확히 겹쳐야 하므로
- * 두 요소에 동일한 타이포그래피를 적용한다.
- */
-const inputTypography = ($isOverlay: boolean) => css`
-  font-size: ${$isOverlay ? '1.7rem' : '1.4rem'};
-  line-height: ${$isOverlay ? '2.6rem' : '2rem'};
-  font-family: inherit;
-  letter-spacing: normal;
-`;
-
-const SC = {
-  Container: styled.div<{ $isOverlay: boolean }>`
-    border: 1px solid ${({ theme, $isOverlay }) => ($isOverlay ? theme.colors.borderStrong : theme.colors.borderSubtle)};
-    border-radius: ${({ $isOverlay }) => ($isOverlay ? '1.2rem' : '0.8rem')};
-    background-color: ${({ theme, $isOverlay }) => ($isOverlay ? theme.colors.bgElevated : theme.colors.bgSurface)};
-    transition: border-color 0.15s ease;
-
-    &:focus-within {
-      border-color: ${({ theme }) => theme.colors.interactivePrimary};
-    }
-  `,
-  InputRow: styled.div<{ $isOverlay: boolean }>`
-    display: flex;
-    align-items: center;
-    gap: ${({ $isOverlay }) => ($isOverlay ? '1.2rem' : '0.8rem')};
-    padding: ${({ $isOverlay }) => ($isOverlay ? '1.6rem 1.8rem' : '0.9rem 1.2rem')};
-  `,
-  PlusIcon: styled.span`
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    color: ${({ theme }) => theme.colors.textTertiary};
-  `,
-  InputWrapper: styled.div`
-    position: relative;
-    flex: 1;
-    min-width: 0;
-  `,
-  Mirror: styled.div<{ $isOverlay: boolean }>`
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    white-space: pre;
-    color: transparent;
-    pointer-events: none;
-    ${({ $isOverlay }) => inputTypography($isOverlay)}
-  `,
-  TokenHighlight: styled.span<{ $variant: HighlightVariant }>`
-    background-color: ${({ theme, $variant }) =>
-      $variant === 'date' ? theme.colors.brandLight : theme.colors.statusInfo};
-    border-radius: 0.3rem;
-  `,
-  Input: styled.input<{ $isOverlay: boolean }>`
-    position: relative;
-    display: block;
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: ${({ theme }) => theme.colors.textPrimary};
-    outline: none;
-    padding: 0;
-    ${({ $isOverlay }) => inputTypography($isOverlay)}
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.textTertiary};
-    }
-  `,
-  ChipRow: styled.div<{ $isOverlay: boolean }>`
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: ${({ $isOverlay }) => ($isOverlay ? '0 1.8rem 1.4rem 5.4rem' : '0 1.2rem 0.9rem 3.6rem')};
-  `,
-  Chip: styled.span<{ $variant: HighlightVariant }>`
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.6rem;
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    color: ${({ theme, $variant }) =>
-      $variant === 'date' ? theme.colors.interactivePrimary : theme.colors.statusInfo};
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-  `,
-  ChipRemoveButton: styled.button`
-    display: inline-flex;
-    align-items: center;
-    padding: 0;
-    border: none;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    cursor: pointer;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    transitionProperty: 'border-color',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'ease',
+  },
+  containerInline: {
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: {
+      default: colorVars['--color-borderSubtle'],
+      ':focus-within': colorVars['--color-interactivePrimary'],
+    },
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  containerOverlay: {
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: {
+      default: colorVars['--color-borderStrong'],
+      ':focus-within': colorVars['--color-interactivePrimary'],
+    },
+    borderRadius: '1.2rem',
+    backgroundColor: colorVars['--color-bgElevated'],
+  },
+  inputRow: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  inputRowInline: {
+    gap: '0.8rem',
+    paddingBlock: '0.9rem',
+    paddingInline: '1.2rem',
+  },
+  inputRowOverlay: {
+    gap: '1.2rem',
+    paddingBlock: '1.6rem',
+    paddingInline: '1.8rem',
+  },
+  plusIcon: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    color: colorVars['--color-textTertiary'],
+  },
+  inputWrapper: {
+    position: 'relative',
+    flex: 1,
+    minWidth: 0,
+  },
+  mirror: {
+    position: 'absolute',
+    inset: 0,
+    overflow: 'hidden',
+    whiteSpace: 'pre',
+    color: 'transparent',
+    pointerEvents: 'none',
+  },
+  /** 입력 텍스트와 mirror 의 글자 위치가 정확히 겹쳐야 하므로 동일한 타이포그래피를 적용한다. */
+  typographyInline: {
+    fontSize: '1.4rem',
+    lineHeight: '2rem',
+    fontFamily: 'inherit',
+    letterSpacing: 'normal',
+  },
+  typographyOverlay: {
+    fontSize: '1.7rem',
+    lineHeight: '2.6rem',
+    fontFamily: 'inherit',
+    letterSpacing: 'normal',
+  },
+  tokenHighlightDate: {
+    backgroundColor: colorVars['--color-brandLight'],
+    borderRadius: '0.3rem',
+  },
+  tokenHighlightCategory: {
+    backgroundColor: colorVars['--color-statusInfo'],
+    borderRadius: '0.3rem',
+  },
+  input: {
+    position: 'relative',
+    display: 'block',
+    width: '100%',
+    borderWidth: 0,
+    background: 'transparent',
+    color: colorVars['--color-textPrimary'],
+    outline: 'none',
+    padding: 0,
+    '::placeholder': {
+      color: colorVars['--color-textTertiary'],
+    },
+  },
+  chipRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.6rem',
+  },
+  chipRowInline: {
+    paddingTop: 0,
+    paddingRight: '1.2rem',
+    paddingBottom: '0.9rem',
+    paddingLeft: '3.6rem',
+  },
+  chipRowOverlay: {
+    paddingTop: 0,
+    paddingRight: '1.8rem',
+    paddingBottom: '1.4rem',
+    paddingLeft: '5.4rem',
+  },
+  chip: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4rem',
+    paddingBlock: '0.3rem',
+    paddingInline: '0.6rem',
+    borderRadius: '0.6rem',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    fontSize: '1.2rem',
+    lineHeight: '1.6rem',
+  },
+  chipDate: {
+    color: colorVars['--color-interactivePrimary'],
+  },
+  chipCategory: {
+    color: colorVars['--color-statusInfo'],
+  },
+  chipRemoveButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: 0,
+    borderWidth: 0,
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    cursor: 'pointer',
+  },
+});

@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { shadowVars, zIndexConsts } from '@wds/tokens.stylex';
 import { AnimatePresence, motion } from 'motion/react';
 import { MouseEvent } from 'react';
-import { styled } from 'styled-components';
 import { TodoListKey } from '../../../_shared/types';
 import { useTodoAddShortcut } from '../../_shared/hooks/useTodoAddShortcut';
 import { TodoAddInputRoot } from './TodoAddInputRoot';
@@ -35,45 +36,47 @@ export const TodoAddInputOverlay = ({ listKey }: Props) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <SC.Layer
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
           onClick={close}
+          {...stylex.props(styles.layer)}
         >
-          <SC.SheetArea>
-            <SC.Sheet {...SHEET_MOTION} onClick={handleSheetClick}>
+          <div {...stylex.props(styles.sheetArea)}>
+            <motion.div {...SHEET_MOTION} onClick={handleSheetClick} {...stylex.props(styles.sheet)}>
               <TodoAddInputRoot listKey={listKey} variant='overlay' autoFocus onSubmitted={close} />
-            </SC.Sheet>
-          </SC.SheetArea>
-        </SC.Layer>
+            </motion.div>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
 };
 
-const SC = {
+const styles = stylex.create({
   /** 배경을 가리지 않는 투명 레이어. 바깥 클릭으로 닫기 위한 영역만 담당한다. */
-  Layer: styled(motion.div)`
-    position: absolute;
-    inset: 0;
-    background-color: transparent;
-    z-index: ${({ theme }) => theme.zIndex.layer};
-  `,
+  layer: {
+    position: 'absolute',
+    inset: 0,
+    backgroundColor: 'transparent',
+    zIndex: zIndexConsts.layer,
+  },
   /** 패널 높이의 25% 지점에 입력창을 배치한다. */
-  SheetArea: styled.div`
-    position: absolute;
-    top: 25%;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    padding: 0 2.4rem;
-  `,
-  Sheet: styled(motion.div)`
-    max-width: 60rem;
-    border-radius: 1.2rem;
-    box-shadow: ${({ theme }) => theme.shadows.overlay};
-  `,
-};
+  sheetArea: {
+    position: 'absolute',
+    top: '25%',
+    left: 0,
+    right: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    paddingBlock: 0,
+    paddingInline: '2.4rem',
+  },
+  sheet: {
+    maxWidth: '60rem',
+    borderRadius: '1.2rem',
+    boxShadow: shadowVars['--shadow-overlay'],
+  },
+});

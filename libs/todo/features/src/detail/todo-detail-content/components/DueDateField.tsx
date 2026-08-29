@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { ChangeEvent } from 'react';
 import { FiCalendar, FiX } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { formatDueDate } from '../../../_shared/utils/formatDueDate';
 import { getTodayKey } from '../../../_shared/utils/todoDate';
 
@@ -20,76 +21,83 @@ export const DueDateField = ({ dueDate, onDueDateChange }: Props) => {
   };
 
   const labelInfo = dueDate !== null ? formatDueDate(dueDate, getTodayKey()) : null;
+  const isOverdue = labelInfo?.isOverdue ?? false;
+  const hasValue = dueDate !== null;
 
   return (
-    <SC.Field>
-      <SC.DateButton $isOverdue={labelInfo?.isOverdue ?? false} $hasValue={dueDate !== null}>
+    <div {...stylex.props(styles.field)}>
+      <label {...stylex.props(styles.dateButton, hasValue && styles.dateButtonHasValue, isOverdue && styles.dateButtonOverdue)}>
         <FiCalendar size={13} />
         {labelInfo?.label ?? '날짜 없음'}
-        <SC.DateInput type='date' value={dueDate ?? ''} onChange={handleDateChange} />
-      </SC.DateButton>
+        <input
+          type='date'
+          value={dueDate ?? ''}
+          onChange={handleDateChange}
+          {...stylex.props(styles.dateInput)}
+        />
+      </label>
       {dueDate !== null && (
-        <SC.ClearButton type='button' title='날짜 제거' onClick={() => onDueDateChange(null)}>
+        <button type='button' title='날짜 제거' onClick={() => onDueDateChange(null)} {...stylex.props(styles.clearButton)}>
           <FiX size={12} />
-        </SC.ClearButton>
+        </button>
       )}
-    </SC.Field>
+    </div>
   );
 };
 
-const SC = {
-  Field: styled.div`
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-  `,
-  DateButton: styled.label<{ $isOverdue: boolean; $hasValue: boolean }>`
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.6rem;
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    cursor: pointer;
-    color: ${({ theme, $isOverdue, $hasValue }) => {
-      if ($isOverdue) {
-        return theme.colors.statusError;
-      }
-      return $hasValue ? theme.colors.interactivePrimary : theme.colors.textTertiary;
-    }};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-  DateInput: styled.input`
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-
-    &::-webkit-calendar-picker-indicator {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-  `,
-  ClearButton: styled.button`
-    display: inline-flex;
-    align-items: center;
-    padding: 0.3rem;
-    border: none;
-    border-radius: 0.4rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    cursor: pointer;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  `,
-};
+const styles = stylex.create({
+  field: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.2rem',
+  },
+  dateButton: {
+    position: 'relative',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4rem',
+    paddingBlock: '0.4rem',
+    paddingInline: '0.8rem',
+    borderRadius: '0.6rem',
+    fontSize: '1.2rem',
+    lineHeight: '1.6rem',
+    cursor: 'pointer',
+    color: colorVars['--color-textTertiary'],
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+  },
+  dateButtonHasValue: {
+    color: colorVars['--color-interactivePrimary'],
+  },
+  dateButtonOverdue: {
+    color: colorVars['--color-statusError'],
+  },
+  dateInput: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 0,
+    cursor: 'pointer',
+    '::-webkit-calendar-picker-indicator': {
+      position: 'absolute',
+      inset: 0,
+      width: '100%',
+      height: '100%',
+      cursor: 'pointer',
+    },
+  },
+  clearButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: '0.3rem',
+    borderWidth: 0,
+    borderRadius: '0.4rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    cursor: 'pointer',
+  },
+});

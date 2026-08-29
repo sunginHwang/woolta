@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { ChangeEvent, useState } from 'react';
-import { styled } from 'styled-components';
 
 const PLACEHOLDER = '제목 없음';
 interface Props {
@@ -20,31 +21,34 @@ export const Title = ({ title, isCompleted, readOnly, onTitleChange }: Props) =>
   };
 
   return (
-    <SC.TitleInput
+    <input
       placeholder={PLACEHOLDER}
       value={titleState}
       readOnly={readOnly}
-      $isCompleted={isCompleted}
       onChange={handleTitleChange}
+      {...stylex.props(styles.titleInput, isCompleted && styles.titleInputCompleted)}
     />
   );
 };
 
-const SC = {
-  TitleInput: styled.input<{ $isCompleted: boolean }>`
-    width: 100%;
-    margin-top: 1.6rem;
-    border: none;
-    background: transparent;
-    color: ${({ theme, $isCompleted }) => ($isCompleted ? theme.colors.textTertiary : theme.colors.textPrimary)};
-    text-decoration: ${({ $isCompleted }) => ($isCompleted ? 'line-through' : 'none')};
-    font-size: 1.8rem;
-    line-height: 2.6rem;
-    font-weight: 600;
-    outline: none;
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.textDisabled};
-    }
-  `,
-};
+const styles = stylex.create({
+  titleInput: {
+    width: '100%',
+    marginTop: '1.6rem',
+    borderWidth: 0,
+    background: 'transparent',
+    color: colorVars['--color-textPrimary'],
+    textDecoration: 'none',
+    fontSize: '1.8rem',
+    lineHeight: '2.6rem',
+    fontWeight: 600,
+    outline: 'none',
+    '::placeholder': {
+      color: colorVars['--color-textDisabled'],
+    },
+  },
+  titleInputCompleted: {
+    color: colorVars['--color-textTertiary'],
+    textDecoration: 'line-through',
+  },
+});

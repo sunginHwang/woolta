@@ -1,9 +1,10 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import { KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { getCategoryListKey, getTodoListHref } from '../../../_shared/routes';
 import { useTodoStore } from '../../../_shared/stores/useTodoStore';
 
@@ -40,52 +41,59 @@ export const CategoryAddForm = () => {
 
   if (isAdding) {
     return (
-      <SC.Input
+      <input
         autoFocus
         placeholder='리스트 이름'
         value={name}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
         onBlur={submit}
         onKeyDown={handleInputKeyDown}
+        {...stylex.props(styles.input)}
       />
     );
   }
 
   return (
-    <SC.AddButton type='button' onClick={() => setIsAdding(true)}>
+    <button type='button' onClick={() => setIsAdding(true)} {...stylex.props(styles.addButton)}>
       <FiPlus size={14} />
       리스트 추가
-    </SC.AddButton>
+    </button>
   );
 };
 
-const SC = {
-  AddButton: styled.button`
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    width: 100%;
-    padding: 0.7rem 1rem;
-    border: none;
-    border-radius: 0.8rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 1.3rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  `,
-  Input: styled.input`
-    width: 100%;
-    padding: 0.7rem 1rem;
-    border: 1px solid ${({ theme }) => theme.colors.interactivePrimary};
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    outline: none;
-  `,
-};
+const styles = stylex.create({
+  addButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+    width: '100%',
+    paddingBlock: '0.7rem',
+    paddingInline: '1rem',
+    borderWidth: 0,
+    borderRadius: '0.8rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    fontSize: '1.3rem',
+    cursor: 'pointer',
+  },
+  input: {
+    width: '100%',
+    paddingBlock: '0.7rem',
+    paddingInline: '1rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-interactivePrimary'],
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+    fontSize: '1.3rem',
+    outline: 'none',
+  },
+});

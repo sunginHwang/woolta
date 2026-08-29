@@ -1,9 +1,10 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { useMemo } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { TodoItem } from '../../../../_shared/components/TodoItem';
 import { TodoSection } from '../../../../_shared/components/TodoSection';
 import { useFilteredTodoList } from '../../../../_shared/hooks/useFilteredTodoList';
@@ -56,111 +57,115 @@ export const TodoListView = ({ listKey }: Props) => {
 
   if (overdueTodos.length === 0 && todos.length === 0 && completedTodos.length === 0) {
     return (
-      <SC.Empty>
+      <div {...stylex.props(styles.empty)}>
         <Text as='p' variant='body3' color='textTertiary' alignment='center'>
           {EMPTY_MESSAGES[getCategoryIdFromListKey(listKey) === null ? listKey : 'inbox'] ?? '할 일이 없어요'}
         </Text>
-      </SC.Empty>
+      </div>
     );
   }
 
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       {listKey === 'trash' && (
-        <SC.TrashBar>
-          <SC.EmptyTrashButton type='button' onClick={handleEmptyTrashClick}>
+        <div {...stylex.props(styles.trashBar)}>
+          <button type='button' onClick={handleEmptyTrashClick} {...stylex.props(styles.emptyTrashButton)}>
             <FiTrash2 size={13} />
             휴지통 비우기
-          </SC.EmptyTrashButton>
-        </SC.TrashBar>
+          </button>
+        </div>
       )}
       {overdueTodos.length > 0 && (
         <TodoSection title='지난' count={overdueTodos.length} isEmphasized>
-          <SC.Items>
+          <ul {...stylex.props(styles.items)}>
             {overdueTodos.map((todo) => (
               <TodoItem key={todo.id} todo={todo} />
             ))}
-          </SC.Items>
+          </ul>
         </TodoSection>
       )}
       {categoryColumns ? (
         categoryColumns.map((column) => (
           <TodoSection key={column.id} title={column.title} count={column.todos.length}>
-            <SC.Items>
+            <ul {...stylex.props(styles.items)}>
               {column.todos.map((todo) => (
                 <TodoItem key={todo.id} todo={todo} />
               ))}
-            </SC.Items>
+            </ul>
           </TodoSection>
         ))
       ) : overdueTodos.length > 0 ? (
         <TodoSection title='오늘' count={todos.length}>
-          <SC.Items>
+          <ul {...stylex.props(styles.items)}>
             {todos.map((todo) => (
               <TodoItem key={todo.id} todo={todo} />
             ))}
-          </SC.Items>
+          </ul>
         </TodoSection>
       ) : (
-        <SC.Items>
+        <ul {...stylex.props(styles.items)}>
           {todos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
-        </SC.Items>
+        </ul>
       )}
       {completedTodos.length > 0 && (
         <TodoSection title='완료' count={completedTodos.length} defaultCollapsed>
-          <SC.Items>
+          <ul {...stylex.props(styles.items)}>
             {completedTodos.map((todo) => (
               <TodoItem key={todo.id} todo={todo} />
             ))}
-          </SC.Items>
+          </ul>
         </TodoSection>
       )}
-    </SC.Container>
+    </div>
   );
 };
 
-const SC = {
-  Container: styled.div`
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-  `,
-  Items: styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  `,
-  Empty: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 4rem 0;
-  `,
-  TrashBar: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 0.8rem;
-  `,
-  EmptyTrashButton: styled.button`
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    border-radius: 0.8rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.statusError};
-    font-size: 1.2rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+  },
+  items: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.2rem',
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+  },
+  empty: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    paddingBlock: '4rem',
+    paddingInline: 0,
+  },
+  trashBar: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingBottom: '0.8rem',
+  },
+  emptyTrashButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4rem',
+    paddingBlock: '0.5rem',
+    paddingInline: '1rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-borderSubtle'],
+    borderRadius: '0.8rem',
+    background: 'none',
+    color: colorVars['--color-statusError'],
+    fontSize: '1.2rem',
+    cursor: 'pointer',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+  },
+});

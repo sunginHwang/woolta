@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { DragEvent } from 'react';
-import { styled } from 'styled-components';
 import { DueDateLabel } from '../../../../../_shared/components/DueDateLabel';
 import { PriorityFlag } from '../../../../../_shared/components/PriorityFlag';
 import { TodoCheckbox } from '../../../../../_shared/components/TodoCheckbox';
@@ -26,63 +27,71 @@ export const KanbanCard = ({ todo, isDragging, onCardDragStart, onCardDragEnd }:
   const toggleComplete = useTodoStore((state) => state.toggleComplete);
 
   return (
-    <SC.Card
+    <li
       draggable
-      $isActive={todo.id === selectedTodoId}
-      $isDragging={isDragging}
       onClick={() => selectTodo(todo.id)}
       onDragStart={onCardDragStart}
       onDragEnd={onCardDragEnd}
+      {...stylex.props(styles.card, todo.id === selectedTodoId && styles.cardActive, isDragging && styles.cardDragging)}
     >
-      <SC.TitleRow>
+      <div {...stylex.props(styles.titleRow)}>
         <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id)} />
-        <SC.Title>{todo.title}</SC.Title>
-      </SC.TitleRow>
+        <span {...stylex.props(styles.title)}>{todo.title}</span>
+      </div>
       {(todo.dueDate !== null || todo.priority !== 'none') && (
-        <SC.MetaRow>
+        <div {...stylex.props(styles.metaRow)}>
           {todo.dueDate !== null && <DueDateLabel dueDate={todo.dueDate} />}
           <PriorityFlag priority={todo.priority} />
-        </SC.MetaRow>
+        </div>
       )}
-    </SC.Card>
+    </li>
   );
 };
 
-const SC = {
-  Card: styled.li<{ $isActive: boolean; $isDragging: boolean }>`
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    padding: 1rem 1.2rem;
-    border: 1px solid
-      ${({ theme, $isActive }) => ($isActive ? theme.colors.interactivePrimary : theme.colors.borderSubtle)};
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    opacity: ${({ $isDragging }) => ($isDragging ? 0.4 : 1)};
-    cursor: grab;
-
-    &:hover {
-      border-color: ${({ theme, $isActive }) =>
-        $isActive ? theme.colors.interactivePrimary : theme.colors.borderStrong};
-    }
-  `,
-  TitleRow: styled.div`
-    display: flex;
-    align-items: flex-start;
-    gap: 0.8rem;
-  `,
-  Title: styled.span`
-    flex: 1;
-    min-width: 0;
-    font-size: 1.3rem;
-    line-height: 1.8rem;
-    color: ${({ theme }) => theme.colors.textPrimary};
-    word-break: break-word;
-  `,
-  MetaRow: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding-left: 2.6rem;
-  `,
-};
+const styles = stylex.create({
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.6rem',
+    paddingBlock: '1rem',
+    paddingInline: '1.2rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: {
+      default: colorVars['--color-borderSubtle'],
+      ':hover': colorVars['--color-borderStrong'],
+    },
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    opacity: 1,
+    cursor: 'grab',
+  },
+  cardActive: {
+    borderColor: {
+      default: colorVars['--color-interactivePrimary'],
+      ':hover': colorVars['--color-interactivePrimary'],
+    },
+  },
+  cardDragging: {
+    opacity: 0.4,
+  },
+  titleRow: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '0.8rem',
+  },
+  title: {
+    flex: 1,
+    minWidth: 0,
+    fontSize: '1.3rem',
+    lineHeight: '1.8rem',
+    color: colorVars['--color-textPrimary'],
+    wordBreak: 'break-word',
+  },
+  metaRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+    paddingLeft: '2.6rem',
+  },
+});

@@ -1,7 +1,7 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { useMemo } from 'react';
-import { styled } from 'styled-components';
 import { useCategoryList } from '../../../../_shared/hooks/useCategoryList';
 import { useFilteredTodoList } from '../../../../_shared/hooks/useFilteredTodoList';
 import { TodoListKey } from '../../../../_shared/types';
@@ -39,7 +39,7 @@ export const TodoKanbanView = ({ listKey }: Props) => {
   ];
 
   return (
-    <SC.Board>
+    <div {...stylex.props(styles.board)}>
       {columns.map(({ categoryId, title }) => (
         <KanbanColumn
           key={categoryId ?? INBOX_COLUMN_ID}
@@ -56,18 +56,18 @@ export const TodoKanbanView = ({ listKey }: Props) => {
           onColumnDrop={handleColumnDrop(categoryId)}
         />
       ))}
-    </SC.Board>
+    </div>
   );
 };
 
-const SC = {
-  Board: styled.div`
-    display: flex;
-    align-items: flex-start;
-    gap: 1.2rem;
-    flex: 1;
-    min-height: 0;
-    overflow-x: auto;
-    padding-bottom: 0.8rem;
-  `,
-};
+const styles = stylex.create({
+  board: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '1.2rem',
+    flex: 1,
+    minHeight: 0,
+    overflowX: 'auto',
+    paddingBottom: '0.8rem',
+  },
+});

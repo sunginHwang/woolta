@@ -1,6 +1,6 @@
 'use client';
 
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
 import { TodoItem } from '../../../../../_shared/components/TodoItem';
 import { TodoSection } from '../../../../../_shared/components/TodoSection';
 import { Todo } from '../../../../../_shared/types';
@@ -18,22 +18,22 @@ interface Props {
 export const DateGroup = ({ date, todos }: Props) => {
   return (
     <TodoSection title={formatDateGroupLabel(date, getTodayKey())} count={todos.length}>
-      <SC.Items>
+      <ul {...stylex.props(styles.items)}>
         {todos.map((todo) => (
           <TodoItem key={todo.id} todo={todo} />
         ))}
-      </SC.Items>
+      </ul>
     </TodoSection>
   );
 };
 
-const SC = {
-  Items: styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  `,
-};
+const styles = stylex.create({
+  items: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.2rem',
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+  },
+});

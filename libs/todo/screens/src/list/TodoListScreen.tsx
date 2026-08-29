@@ -1,5 +1,6 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import {
   TodoAddInput,
   TodoListEmpty,
@@ -8,7 +9,7 @@ import {
   useTodoBoardView,
   type TodoListKey,
 } from '@todo/features';
-import { styled } from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 interface Props {
   /** 라우트가 지정한 리스트 키 */
@@ -24,36 +25,36 @@ export const TodoListScreen = ({ listKey }: Props) => {
 
   if (isMissingCategory) {
     return (
-      <SC.Panel>
+      <div {...stylex.props(styles.panel)}>
         <TodoListEmpty />
-      </SC.Panel>
+      </div>
     );
   }
 
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <TodoListHeader listKey={listKey} />
       {isTodoAddVisible && (
-        <SC.TodoAddArea>
+        <div {...stylex.props(styles.todoAddArea)}>
           <TodoAddInput listKey={listKey} />
-        </SC.TodoAddArea>
+        </div>
       )}
       {isTodoAddVisible && <TodoAddInput.Overlay listKey={listKey} />}
       <TodoListViewer listKey={listKey} />
-    </SC.Panel>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.bgPage};
-  `,
-  TodoAddArea: styled.div`
-    padding-bottom: 1.2rem;
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    padding: '1.6rem',
+    backgroundColor: colorVars['--color-bgPage'],
+  },
+  todoAddArea: {
+    paddingBottom: '1.2rem',
+  },
+});

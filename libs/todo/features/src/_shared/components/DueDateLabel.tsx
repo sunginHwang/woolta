@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { FiCalendar } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { formatDueDate } from '../utils/formatDueDate';
 import { getTodayKey } from '../utils/todoDate';
 
@@ -15,21 +16,24 @@ export const DueDateLabel = ({ dueDate }: Props) => {
   const { label, isOverdue } = formatDueDate(dueDate, getTodayKey());
 
   return (
-    <SC.Label $isOverdue={isOverdue}>
+    <span {...stylex.props(styles.label, isOverdue && styles.labelOverdue)}>
       <FiCalendar size={11} />
       {label}
-    </SC.Label>
+    </span>
   );
 };
 
-const SC = {
-  Label: styled.span<{ $isOverdue: boolean }>`
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 1.1rem;
-    line-height: 1.4rem;
-    color: ${({ theme, $isOverdue }) => ($isOverdue ? theme.colors.statusError : theme.colors.interactivePrimary)};
-    white-space: nowrap;
-  `,
-};
+const styles = stylex.create({
+  label: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.3rem',
+    fontSize: '1.1rem',
+    lineHeight: '1.4rem',
+    color: colorVars['--color-interactivePrimary'],
+    whiteSpace: 'nowrap',
+  },
+  labelOverdue: {
+    color: colorVars['--color-statusError'],
+  },
+});

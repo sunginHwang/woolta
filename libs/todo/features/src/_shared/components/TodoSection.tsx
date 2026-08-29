@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { ReactNode, useState } from 'react';
 import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
-import { styled } from 'styled-components';
 
 interface Props {
   /** 섹션 제목 */
@@ -22,44 +23,50 @@ export const TodoSection = ({ title, count, defaultCollapsed = false, isEmphasiz
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
   return (
-    <SC.Section>
-      <SC.Header type='button' $isEmphasized={isEmphasized} onClick={() => setIsCollapsed((prev) => !prev)}>
+    <section {...stylex.props(styles.section)}>
+      <button
+        type='button'
+        onClick={() => setIsCollapsed((prev) => !prev)}
+        {...stylex.props(styles.header, isEmphasized && styles.headerEmphasized)}
+      >
         {isCollapsed ? <FiChevronRight size={13} /> : <FiChevronDown size={13} />}
         {title}
-        <SC.Count>{count}</SC.Count>
-      </SC.Header>
+        <span {...stylex.props(styles.count)}>{count}</span>
+      </button>
       {!isCollapsed && children}
-    </SC.Section>
+    </section>
   );
 };
 
-const SC = {
-  Section: styled.section`
-    margin-top: 1.2rem;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  `,
-  Header: styled.button<{ $isEmphasized: boolean }>`
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.6rem;
-    border: none;
-    border-radius: 0.6rem;
-    background: none;
-    color: ${({ theme, $isEmphasized }) => ($isEmphasized ? theme.colors.statusError : theme.colors.textSecondary)};
-    font-size: 1.2rem;
-    font-weight: 600;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-  Count: styled.span`
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-weight: 400;
-  `,
-};
+const styles = stylex.create({
+  section: {
+    marginTop: {
+      default: '1.2rem',
+      ':first-child': 0,
+    },
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.4rem',
+    padding: '0.4rem 0.6rem',
+    borderWidth: 0,
+    borderRadius: '0.6rem',
+    background: 'none',
+    color: colorVars['--color-textSecondary'],
+    fontSize: '1.2rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+  },
+  headerEmphasized: {
+    color: colorVars['--color-statusError'],
+  },
+  count: {
+    color: colorVars['--color-textTertiary'],
+    fontWeight: 400,
+  },
+});

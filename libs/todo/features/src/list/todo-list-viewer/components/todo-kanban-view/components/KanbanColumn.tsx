@@ -1,9 +1,10 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { DragEvent, KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
 import { Todo, TodoListKey } from '../../../../../_shared/types';
 import { getDefaultTodoDraft } from '../../../../../_shared/utils/getDefaultTodoDraft';
@@ -76,21 +77,21 @@ export const KanbanColumn = ({
   };
 
   return (
-    <SC.Column
-      $isDragOver={isDragOver}
+    <div
       onDragOver={onColumnDragOver}
       onDragLeave={onColumnDragLeave}
       onDrop={onColumnDrop}
+      {...stylex.props(styles.column, isDragOver && styles.columnDragOver)}
     >
-      <SC.Header>
+      <div {...stylex.props(styles.header)}>
         <Text variant='body4Bold' color='textPrimary'>
           {title}
         </Text>
         <Text variant='small1Regular' color='textTertiary'>
           {todos.length}
         </Text>
-      </SC.Header>
-      <SC.Cards>
+      </div>
+      <ul {...stylex.props(styles.cards)}>
         {todos.map((todo) => (
           <KanbanCard
             key={todo.id}
@@ -100,83 +101,99 @@ export const KanbanColumn = ({
             onCardDragEnd={onCardDragEnd}
           />
         ))}
-      </SC.Cards>
+      </ul>
       {isAdding ? (
-        <SC.AddInput
+        <input
           autoFocus
           placeholder='할 일 추가'
           value={newTitle}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTitle(e.target.value)}
           onBlur={submitAdd}
           onKeyDown={handleAddInputKeyDown}
+          {...stylex.props(styles.addInput)}
         />
       ) : (
-        <SC.AddButton type='button' onClick={() => setIsAdding(true)}>
+        <button type='button' onClick={() => setIsAdding(true)} {...stylex.props(styles.addButton)}>
           <FiPlus size={13} />
           추가
-        </SC.AddButton>
+        </button>
       )}
-    </SC.Column>
+    </div>
   );
 };
 
-const SC = {
-  Column: styled.div<{ $isDragOver: boolean }>`
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    width: 26rem;
-    max-height: 100%;
-    padding: 1rem;
-    border-radius: 1.2rem;
-    background-color: ${({ theme, $isDragOver }) =>
-      $isDragOver ? theme.colors.bgSurfaceSecondary : theme.colors.bgPage};
-    border: 1px dashed ${({ theme, $isDragOver }) => ($isDragOver ? theme.colors.interactivePrimary : 'transparent')};
-    transition: background-color 0.15s ease, border-color 0.15s ease;
-  `,
-  Header: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0 0.4rem 0.8rem;
-  `,
-  Cards: styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    flex: 1;
-    min-height: 4rem;
-    overflow-y: auto;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  `,
-  AddButton: styled.button`
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.6rem;
-    padding: 0.6rem 0.8rem;
-    border: none;
-    border-radius: 0.8rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 1.2rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  `,
-  AddInput: styled.input`
-    margin-top: 0.6rem;
-    padding: 0.6rem 0.8rem;
-    border: 1px solid ${({ theme }) => theme.colors.interactivePrimary};
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    outline: none;
-  `,
-};
+const styles = stylex.create({
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexShrink: 0,
+    width: '26rem',
+    maxHeight: '100%',
+    padding: '1rem',
+    borderRadius: '1.2rem',
+    backgroundColor: colorVars['--color-bgPage'],
+    borderWidth: '1px',
+    borderStyle: 'dashed',
+    borderColor: 'transparent',
+    transitionProperty: 'background-color, border-color',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'ease',
+  },
+  columnDragOver: {
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    borderColor: colorVars['--color-interactivePrimary'],
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.6rem',
+    paddingTop: 0,
+    paddingInline: '0.4rem',
+    paddingBottom: '0.8rem',
+  },
+  cards: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.6rem',
+    flex: 1,
+    minHeight: '4rem',
+    overflowY: 'auto',
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+  },
+  addButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.4rem',
+    marginTop: '0.6rem',
+    paddingBlock: '0.6rem',
+    paddingInline: '0.8rem',
+    borderWidth: 0,
+    borderRadius: '0.8rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    fontSize: '1.2rem',
+    cursor: 'pointer',
+  },
+  addInput: {
+    marginTop: '0.6rem',
+    paddingBlock: '0.6rem',
+    paddingInline: '0.8rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-interactivePrimary'],
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+    fontSize: '1.3rem',
+    outline: 'none',
+  },
+});

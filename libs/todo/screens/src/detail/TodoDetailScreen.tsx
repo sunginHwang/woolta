@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { TodoDetailContent, TodoDetailHeader } from '@todo/features';
-import { styled } from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 /**
  * Todo 앱 우측 패널 — 선택된 할 일 상세.
@@ -10,25 +11,25 @@ import { styled } from 'styled-components';
  */
 export const TodoDetailScreen = () => {
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <TodoDetailHeader />
-      <SC.Content>
+      <div {...stylex.props(styles.content)}>
         <TodoDetailContent />
-      </SC.Content>
-    </SC.Panel>
+      </div>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-  Content: styled.div`
-    flex: 1;
-    min-height: 0;
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    padding: '1.6rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  content: {
+    flex: 1,
+    minHeight: 0,
+  },
+});

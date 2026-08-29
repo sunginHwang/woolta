@@ -1,9 +1,10 @@
 'use client';
 
 import { useManualSave } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text, useConfirm } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { FiCheck, FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { TodoCheckbox } from '../../_shared/components/TodoCheckbox';
 import { useSelectedTodo } from '../../_shared/hooks/useSelectedTodo';
 import { useTodoStore } from '../../_shared/stores/useTodoStore';
@@ -58,118 +59,122 @@ const Content = ({ todo }: ContentProps) => {
   };
 
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       {isTrashed && (
-        <SC.TrashBanner>
+        <div {...stylex.props(styles.trashBanner)}>
           <Text variant='small1Regular' color='textSecondary'>
             휴지통에 있는 할 일이에요
           </Text>
-        </SC.TrashBanner>
+        </div>
       )}
-      <SC.Toolbar>
+      <div {...stylex.props(styles.toolbar)}>
         <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id)} />
         <DueDateField dueDate={todo.dueDate} onDueDateChange={(dueDate) => updateTodo(todo.id, { dueDate })} />
-        <SC.ToolbarSpacer />
+        <div {...stylex.props(styles.toolbarSpacer)} />
         {!isTrashed && isJustSaved && (
-          <SC.SavedIndicator>
+          <span {...stylex.props(styles.savedIndicator)}>
             <FiCheck size={12} />
             저장됨
-          </SC.SavedIndicator>
+          </span>
         )}
         <PrioritySelect priority={todo.priority} onPriorityChange={(priority) => updateTodo(todo.id, { priority })} />
-      </SC.Toolbar>
+      </div>
       <Title title={todo.title} readOnly={isTrashed} isCompleted={todo.isCompleted} onTitleChange={saveTitle} />
       <Memo memo={todo.memo} readOnly={isTrashed} onMemoChange={saveMemo} />
-      <SC.Footer>
+      <div {...stylex.props(styles.footer)}>
         <CategorySelect
           categoryId={todo.categoryId}
           onCategoryChange={(categoryId) => updateTodo(todo.id, { categoryId })}
         />
-        <SC.FooterSpacer />
+        <div {...stylex.props(styles.footerSpacer)} />
         {isTrashed ? (
           <>
-            <SC.FooterButton type='button' title='복원' onClick={() => restoreTodo(todo.id)}>
+            <button type='button' title='복원' onClick={() => restoreTodo(todo.id)} {...stylex.props(styles.footerButton)}>
               <FiRotateCcw size={14} />
-            </SC.FooterButton>
-            <SC.FooterButton type='button' title='영구 삭제' $isDanger onClick={handleDeleteForeverClick}>
+            </button>
+            <button type='button' title='영구 삭제' onClick={handleDeleteForeverClick} {...stylex.props(styles.footerButton, styles.footerButtonDanger)}>
               <FiX size={15} />
-            </SC.FooterButton>
+            </button>
           </>
         ) : (
-          <SC.FooterButton type='button' title='휴지통으로 이동' $isDanger onClick={handleTrashClick}>
+          <button type='button' title='휴지통으로 이동' onClick={handleTrashClick} {...stylex.props(styles.footerButton, styles.footerButtonDanger)}>
             <FiTrash2 size={14} />
-          </SC.FooterButton>
+          </button>
         )}
-      </SC.Footer>
-    </SC.Container>
+      </div>
+    </div>
   );
 };
 
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.6rem 2rem;
-  `,
-  Empty: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2rem;
-    height: 100%;
-    color: ${({ theme }) => theme.colors.textDisabled};
-  `,
-  TrashBanner: styled.div`
-    padding: 0.8rem 1.2rem;
-    margin-bottom: 1.2rem;
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-  `,
-  Toolbar: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding-bottom: 1.2rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.borderFaint};
-  `,
-  ToolbarSpacer: styled.div`
-    flex: 1;
-  `,
-  SavedIndicator: styled.span`
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 1.1rem;
-    line-height: 1.6rem;
-    color: ${({ theme }) => theme.colors.statusSuccess};
-  `,
-
-  Footer: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding-top: 1.2rem;
-    border-top: 1px solid ${({ theme }) => theme.colors.borderFaint};
-  `,
-  FooterSpacer: styled.div`
-    flex: 1;
-  `,
-  FooterButton: styled.button<{ $isDanger?: boolean }>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 0.6rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-      color: ${({ theme, $isDanger }) => ($isDanger ? theme.colors.statusError : theme.colors.textPrimary)};
-    }
-  `,
-};
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    paddingBlock: '1.6rem',
+    paddingInline: '2rem',
+  },
+  trashBanner: {
+    paddingBlock: '0.8rem',
+    paddingInline: '1.2rem',
+    marginBottom: '1.2rem',
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    paddingBottom: '1.2rem',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderFaint'],
+  },
+  toolbarSpacer: {
+    flex: 1,
+  },
+  savedIndicator: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.3rem',
+    fontSize: '1.1rem',
+    lineHeight: '1.6rem',
+    color: colorVars['--color-statusSuccess'],
+  },
+  footer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.6rem',
+    paddingTop: '1.2rem',
+    borderTopWidth: '1px',
+    borderTopStyle: 'solid',
+    borderTopColor: colorVars['--color-borderFaint'],
+  },
+  footerSpacer: {
+    flex: 1,
+  },
+  footerButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0.5rem',
+    borderWidth: 0,
+    borderRadius: '0.6rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    cursor: 'pointer',
+  },
+  footerButtonDanger: {
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-statusError'],
+    },
+  },
+});

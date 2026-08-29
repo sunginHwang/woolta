@@ -1,9 +1,10 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { useTodoBoardView, useTodoDetailVisibility, type TodoListKey } from '@todo/features';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { FiColumns, FiList, FiSidebar } from 'react-icons/fi';
-import { styled } from 'styled-components';
 
 interface Props {
   /** 라우트가 지정한 리스트 키 */
@@ -15,88 +16,96 @@ export const TodoListHeader = ({ listKey }: Props) => {
   const { isDetailVisible, toggleDetail } = useTodoDetailVisibility();
 
   return (
-    <SC.Header>
-      <Text as='h2' variant='title5Bold' color='textPrimary'>
+    <div {...stylex.props(styles.header)}>
+      <Text as='h2' variant='title5Bold' color='textPrimary' xstyle={styles.title}>
         {listTitle}
       </Text>
       {isViewToggleVisible && (
-        <SC.ViewToggle>
-          <SC.ViewButton
+        <div {...stylex.props(styles.viewToggle)}>
+          <button
             type='button'
             title='리스트 뷰'
-            $isActive={viewMode === 'list'}
             onClick={() => setViewMode('list')}
+            {...stylex.props(styles.viewButton, viewMode === 'list' && styles.viewButtonActive)}
           >
             <FiList size={14} />
-          </SC.ViewButton>
-          <SC.ViewButton
+          </button>
+          <button
             type='button'
             title='칸반 뷰'
-            $isActive={viewMode === 'kanban'}
             onClick={() => setViewMode('kanban')}
+            {...stylex.props(styles.viewButton, viewMode === 'kanban' && styles.viewButtonActive)}
           >
             <FiColumns size={14} />
-          </SC.ViewButton>
-        </SC.ViewToggle>
+          </button>
+        </div>
       )}
-      <SC.DetailToggleButton
+      <button
         type='button'
         title={isDetailVisible ? '상세 보기 닫기' : '상세 보기 열기'}
-        $isActive={isDetailVisible}
         onClick={toggleDetail}
+        {...stylex.props(styles.detailToggleButton, isDetailVisible && styles.detailToggleButtonActive)}
       >
         <FiSidebar size={14} />
-      </SC.DetailToggleButton>
-    </SC.Header>
+      </button>
+    </div>
   );
 };
 
-const SC = {
-  Header: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding-bottom: 1.2rem;
-
-    /* 제목이 남는 공간을 차지하고 버튼들은 우측에 붙는다 */
-    & > h2 {
-      flex: 1;
-      min-width: 0;
-    }
-  `,
-  ViewToggle: styled.div`
-    display: inline-flex;
-    gap: 0.2rem;
-    padding: 0.2rem;
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-  `,
-  ViewButton: styled.button<{ $isActive: boolean }>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 0.8rem;
-    border: none;
-    border-radius: 0.6rem;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurface : 'transparent')};
-    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.textPrimary : theme.colors.textTertiary)};
-    cursor: pointer;
-  `,
-  DetailToggleButton: styled.button<{ $isActive: boolean }>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0.6rem;
-    border: none;
-    border-radius: 0.6rem;
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurfaceSecondary : 'transparent')};
-    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.textPrimary : theme.colors.textTertiary)};
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  `,
-};
+const styles = stylex.create({
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+    paddingBottom: '1.2rem',
+  },
+  title: {
+    flex: 1,
+    minWidth: 0,
+  },
+  viewToggle: {
+    display: 'inline-flex',
+    gap: '0.2rem',
+    padding: '0.2rem',
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  viewButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBlock: '0.5rem',
+    paddingInline: '0.8rem',
+    borderWidth: 0,
+    borderRadius: '0.6rem',
+    backgroundColor: 'transparent',
+    color: colorVars['--color-textTertiary'],
+    cursor: 'pointer',
+  },
+  viewButtonActive: {
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+  },
+  detailToggleButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    padding: '0.6rem',
+    borderWidth: 0,
+    borderRadius: '0.6rem',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    cursor: 'pointer',
+  },
+  detailToggleButtonActive: {
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    color: colorVars['--color-textPrimary'],
+  },
+});

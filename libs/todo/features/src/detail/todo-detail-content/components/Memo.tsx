@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { ChangeEvent, useState } from 'react';
-import { styled } from 'styled-components';
 
 const PLACEHOLDER = '메모를 입력해 주세요.';
 interface Props {
@@ -20,26 +21,31 @@ export const Memo = ({ memo, readOnly, onMemoChange }: Props) => {
   };
 
   return (
-    <SC.MemoTextarea placeholder={PLACEHOLDER} value={memoState} readOnly={readOnly} onChange={handleMemoChange} />
+    <textarea
+      placeholder={PLACEHOLDER}
+      value={memoState}
+      readOnly={readOnly}
+      onChange={handleMemoChange}
+      {...stylex.props(styles.memoTextarea)}
+    />
   );
 };
 
-const SC = {
-  MemoTextarea: styled.textarea`
-    flex: 1;
-    width: 100%;
-    margin-top: 1.2rem;
-    border: none;
-    background: transparent;
-    color: ${({ theme }) => theme.colors.textSecondary};
-    font-size: 1.4rem;
-    line-height: 2.2rem;
-    font-family: inherit;
-    resize: none;
-    outline: none;
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.textDisabled};
-    }
-  `,
-};
+const styles = stylex.create({
+  memoTextarea: {
+    flex: 1,
+    width: '100%',
+    marginTop: '1.2rem',
+    borderWidth: 0,
+    background: 'transparent',
+    color: colorVars['--color-textSecondary'],
+    fontSize: '1.4rem',
+    lineHeight: '2.2rem',
+    fontFamily: 'inherit',
+    resize: 'none',
+    outline: 'none',
+    '::placeholder': {
+      color: colorVars['--color-textDisabled'],
+    },
+  },
+});

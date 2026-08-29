@@ -1,9 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { usePathname } from 'next/navigation';
 import { FiCalendar, FiCheckCircle, FiInbox, FiSun, FiTrash2 } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { useCategoryList } from '../../_shared/hooks/useCategoryList';
 import { useTodoCounts } from '../../_shared/hooks/useTodoCounts';
 import { getTodoListHref, isTodoListActive } from '../../_shared/routes';
@@ -18,8 +18,8 @@ export const TodoSidebar = () => {
   const counts = useTodoCounts();
 
   return (
-    <SC.Container>
-      <SC.Section>
+    <div {...stylex.props(styles.container)}>
+      <ul {...stylex.props(styles.section)}>
         <SidebarItem
           href={getTodoListHref('today')}
           icon={<FiSun size={14} />}
@@ -41,14 +41,14 @@ export const TodoSidebar = () => {
           count={counts.inbox}
           isActive={isTodoListActive('inbox', pathname)}
         />
-      </SC.Section>
+      </ul>
 
-      <SC.Section>
-        <SC.SectionTitle>
+      <ul {...stylex.props(styles.section)}>
+        <li {...stylex.props(styles.sectionTitle)}>
           <Text variant='small1Bold' color='textTertiary'>
             리스트
           </Text>
-        </SC.SectionTitle>
+        </li>
         {categoryList.map((category) => (
           <CategoryItem
             key={category.id}
@@ -58,9 +58,9 @@ export const TodoSidebar = () => {
           />
         ))}
         <CategoryAddForm />
-      </SC.Section>
-      <SC.Spacer />
-      <SC.Section>
+      </ul>
+      <div {...stylex.props(styles.spacer)} />
+      <ul {...stylex.props(styles.section)}>
         <SidebarItem
           href={getTodoListHref('completed')}
           icon={<FiCheckCircle size={14} />}
@@ -75,31 +75,36 @@ export const TodoSidebar = () => {
           count={counts.trash}
           isActive={isTodoListActive('trash', pathname)}
         />
-      </SC.Section>
-    </SC.Container>
+      </ul>
+    </div>
   );
 };
 
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.6rem 1.2rem;
-    overflow-y: auto;
-  `,
-  Section: styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    list-style: none;
-    margin: 0 0 1.6rem;
-    padding: 0;
-  `,
-  SectionTitle: styled.li`
-    padding: 0 1rem 0.6rem;
-  `,
-  Spacer: styled.div`
-    flex: 1;
-  `,
-};
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    paddingBlock: '1.6rem',
+    paddingInline: '1.2rem',
+    overflowY: 'auto',
+  },
+  section: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.2rem',
+    listStyle: 'none',
+    marginTop: 0,
+    marginInline: 0,
+    marginBottom: '1.6rem',
+    padding: 0,
+  },
+  sectionTitle: {
+    paddingTop: 0,
+    paddingInline: '1rem',
+    paddingBottom: '0.6rem',
+  },
+  spacer: {
+    flex: 1,
+  },
+});

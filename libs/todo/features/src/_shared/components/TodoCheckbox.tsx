@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { MouseEvent } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { styled } from 'styled-components';
 
 interface Props {
   /** 완료 여부 */
@@ -19,36 +20,42 @@ export const TodoCheckbox = ({ isCompleted, onCheckClick }: Props) => {
   };
 
   return (
-    <SC.Checkbox
+    <button
       type='button'
       role='checkbox'
       aria-checked={isCompleted}
-      $isCompleted={isCompleted}
       onClick={handleCheckClick}
+      {...stylex.props(styles.checkbox, isCompleted && styles.checkboxCompleted)}
     >
       {isCompleted && <FiCheck size={12} />}
-    </SC.Checkbox>
+    </button>
   );
 };
 
-const SC = {
-  Checkbox: styled.button<{ $isCompleted: boolean }>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 1.8rem;
-    height: 1.8rem;
-    border-radius: 50%;
-    border: 1px solid
-      ${({ theme, $isCompleted }) => ($isCompleted ? theme.colors.interactivePrimary : theme.colors.borderStrong)};
-    background-color: ${({ theme, $isCompleted }) => ($isCompleted ? theme.colors.interactivePrimary : 'transparent')};
-    color: ${({ theme }) => theme.colors.textInverse};
-    cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
-
-    &:hover {
-      border-color: ${({ theme }) => theme.colors.interactivePrimary};
-    }
-  `,
-};
+const styles = stylex.create({
+  checkbox: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    width: '1.8rem',
+    height: '1.8rem',
+    borderRadius: '50%',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: {
+      default: colorVars['--color-borderStrong'],
+      ':hover': colorVars['--color-interactivePrimary'],
+    },
+    backgroundColor: 'transparent',
+    color: colorVars['--color-textInverse'],
+    cursor: 'pointer',
+    transitionProperty: 'background-color, border-color',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'ease',
+  },
+  checkboxCompleted: {
+    borderColor: colorVars['--color-interactivePrimary'],
+    backgroundColor: colorVars['--color-interactivePrimary'],
+  },
+});
