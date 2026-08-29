@@ -1,6 +1,7 @@
-import { styled } from 'styled-components';
 import type { Meta, StoryObj } from '@storybook/react';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import AccountOutline from './AccountOutline';
 import BucketOutline from './BucketOutline';
 import ChevronDown from './ChevronDown';
@@ -34,52 +35,62 @@ type Story = StoryObj<typeof AccountOutline>;
 export const 아이콘_정보: Story = {
   render: () => (
     <main>
-      <SC.Wrapper>
+      <div {...stylex.props(styles.wrapper)}>
         {ICON_COMPONENT_LIST.map((Icon) => (
-          <SC.IconCard key={Icon.name}>
-            <SC.Thumbnail>
+          <div key={Icon.name} {...stylex.props(styles.iconCard)}>
+            <div {...stylex.props(styles.thumbnail)}>
               <Icon />
-            </SC.Thumbnail>
+            </div>
             <Text variant='body2' color='gray700'>
               {Icon.name}
             </Text>
-          </SC.IconCard>
+          </div>
         ))}
-      </SC.Wrapper>
+      </div>
     </main>
   ),
 };
 
-const SC = {
-  Wrapper: styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 8px 0;
-    margin-bottom: 10px;
-
-    @media screen and (max-width: 450px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  `,
-  IconCard: styled.div`
-    min-width: 14%;
-    padding: 8px;
-    flex-shrink: 0;
-    min-height: 80px;
-    border: 1px solid gray;
-    margin: 0 0 -1px -1px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    &:hover {
-      background: ${({ theme }) => theme.colors.gray150};
-      cursor: pointer;
-    }
-  `,
-  Thumbnail: styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `,
-};
+const styles = stylex.create({
+  wrapper: {
+    display: 'grid',
+    gridTemplateColumns: {
+      default: 'repeat(4, 1fr)',
+      '@media screen and (max-width: 450px)': 'repeat(3, 1fr)',
+    },
+    marginTop: '8px',
+    marginBottom: '10px',
+    marginInline: 0,
+  },
+  iconCard: {
+    minWidth: '14%',
+    paddingBlock: '8px',
+    paddingInline: '8px',
+    flexShrink: 0,
+    minHeight: '80px',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'gray',
+    marginTop: 0,
+    marginBottom: '-1px',
+    marginLeft: '-1px',
+    marginRight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-gray150'],
+    },
+    cursor: {
+      default: 'default',
+      ':hover': 'pointer',
+    },
+  },
+  thumbnail: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

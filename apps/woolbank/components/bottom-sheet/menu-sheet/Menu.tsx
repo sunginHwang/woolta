@@ -1,5 +1,6 @@
-import { Text, safeAreaInsetMarginBottom } from '@wds';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { BottomMenu } from './MenuSheet';
 
 interface Props {
@@ -19,22 +20,30 @@ export const Menu = ({ menu, isActive, onMenuSelect }: Props) => {
   };
 
   return (
-    <SC.Menu key={menu.type} onClick={onClick} $isActive={isActive}>
+    <li
+      key={menu.type}
+      onClick={onClick}
+      {...stylex.props(styles.menu, isActive && styles.menuActive)}
+    >
       <Text variant='title4Medium' color='gray700' alignment='left'>
         {menu.value}
       </Text>
-    </SC.Menu>
+    </li>
   );
 };
 
-const SC = {
-  Menu: styled.li<{ $isActive: boolean }>`
-    padding: 1.4rem;
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.gray200 : theme.colors.white)};
-    border-radius: 0.8rem;
-
-    &:last-child {
-      ${safeAreaInsetMarginBottom('2.5rem')}
-    }
-  `,
-};
+const styles = stylex.create({
+  menu: {
+    paddingBlock: '1.4rem',
+    paddingInline: '1.4rem',
+    backgroundColor: colorVars['--color-white'],
+    borderRadius: '0.8rem',
+    marginBottom: {
+      default: 0,
+      ':last-child': 'calc(env(safe-area-inset-bottom, 0px) + 2.5rem)',
+    },
+  },
+  menuActive: {
+    backgroundColor: colorVars['--color-gray200'],
+  },
+});

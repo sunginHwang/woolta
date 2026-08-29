@@ -1,7 +1,8 @@
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import { ClipLoader } from 'react-spinners';
-import { styled, useTheme } from 'styled-components';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -51,7 +52,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fill,
       disabled,
       loading,
-      className = 'test',
+      className,
       startIcon,
       endIcon,
       children,
@@ -59,147 +60,143 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const {
-      colors: { white },
-    } = useTheme();
+    const sizeStyleMap = {
+      large: styles.sizeLarge,
+      medium: styles.sizeMedium,
+      small: styles.sizeSmall,
+    } as const;
 
-    const buttonClassName = ['button-info', variant, size, className].join(' ');
+    const sizeTypographyMap = {
+      large: typographyStyles.title4Medium,
+      medium: typographyStyles.title5Medium,
+      small: typographyStyles.body4Medium,
+    } as const;
+
+    const variantStyleMap = {
+      primary: styles.variantPrimary,
+      tertiaryColor: styles.variantTertiaryColor,
+      tertiaryGray: styles.variantTertiaryGray,
+      secondaryGray: styles.variantSecondaryGray,
+    } as const;
+
+    const sxProps = stylex.props(
+      styles.base,
+      fill && styles.baseFull,
+      sizeStyleMap[size],
+      sizeTypographyMap[size],
+      variantStyleMap[variant],
+    );
 
     return (
-      <SC.BaseButton $isFull={fill}>
-        <button disabled={disabled} className={buttonClassName} ref={ref} {...props}>
+      <div {...stylex.props(styles.wrapper, fill && styles.wrapperFull)}>
+        <button
+          disabled={disabled}
+          ref={ref}
+          {...props}
+          className={[sxProps.className, className].filter(Boolean).join(' ')}
+          style={sxProps.style}
+        >
           {!loading && (
             <>
-              {startIcon}
+              {startIcon && <span {...stylex.props(styles.iconSlot)}>{startIcon}</span>}
               {children}
-              {endIcon}
+              {endIcon && <span {...stylex.props(styles.iconSlot)}>{endIcon}</span>}
             </>
           )}
           {loading && (
-            <SC.Loading>
-              <ClipLoader color={white} size={20} />
-            </SC.Loading>
+            <div {...stylex.props(styles.loading)}>
+              <ClipLoader color='#FFFFFF' size={20} />
+            </div>
           )}
         </button>
-      </SC.BaseButton>
+      </div>
     );
   },
 );
 
-const SC = {
-  BaseButton: styled.div<{ $isFull?: boolean }>`
-    ${({ $isFull }) => $isFull && 'width: 100%;'}
-    .button-info {
-      ${({ $isFull }) => $isFull && 'width: 100%;'}
-      border-radius: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-
-      > svg {
-        margin: 0 4px;
-      }
-    }
-    /* border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    position: relative;
-    vertical-align: middle;
-
-    > svg {
-      margin: 0 4px;
-    }
-
-    &:focus {
-      outline: 0;
-    } */
-
-    &:enabled {
-      &:active {
-        opacity: 0.7;
-      }
-    }
-
-    .large {
-      min-width: 47px;
-      height: 52px;
-      padding: 0 24px;
-      ${typography.title4Medium};
-    }
-
-    .medium {
-      min-width: 58px;
-      height: 42px;
-      padding: 0 16px;
-      ${typography.title5Medium};
-    }
-
-    .small {
-      min-width: 63px;
-      height: 36px;
-      padding: 0 12px;
-      ${typography.body4Medium};
-    }
-
-    .primary {
-      color: ${({ theme }) => theme.colors.white};
-      background-color: ${({ theme }) => theme.colors.orangePrimary};
-      border: 1px solid ${({ theme }) => theme.colors.orangePrimary};
-
-      &:disabled {
-        opacity: 0.3;
-      }
-    }
-
-    .tertiaryColor {
-      color: ${({ theme }) => theme.colors.orangePrimary};
-      background-color: ${({ theme }) => theme.colors.white};
-      border: 1px solid ${({ theme }) => theme.colors.orangePrimary};
-
-      &:disabled {
-        color: ${({ theme }) => theme.colors.orange500};
-        border: 1px solid ${({ theme }) => theme.colors.orange500};
-        background-color: ${({ theme }) => theme.colors.white};
-      }
-    }
-
-    .tertiaryGray {
-      color: ${({ theme }) => theme.colors.gray600};
-      background-color: ${({ theme }) => theme.colors.white};
-      border: 1px solid ${({ theme }) => theme.colors.border2};
-
-      &:disabled {
-        color: ${({ theme }) => theme.colors.gray300};
-      }
-    }
-
-    .secondaryGray {
-      color: ${({ theme }) => theme.colors.graySecondary};
-      background-color: ${({ theme }) => theme.colors.bgSecondary};
-      border: 1px solid ${({ theme }) => theme.colors.bgSecondary};
-
-      &:enabled {
-        &:hover {
-          background-color: ${({ theme }) => theme.colors.gray100};
-        }
-
-        &:disabled {
-          color: ${({ theme }) => theme.colors.gray100};
-        }
-      }
-    }
-  `,
-  Loading: styled.div`
-    position: absolute;
-    visibility: visible;
-    display: flex;
-    left: 50%;
-    transform: translate(-50%);
-    width: 40px;
-  `,
-};
+const styles = stylex.create({
+  wrapper: {},
+  wrapperFull: {
+    width: '100%',
+  },
+  base: {
+    borderRadius: '0.8rem',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+    verticalAlign: 'middle',
+    ':active': {
+      opacity: 0.7,
+    },
+  },
+  baseFull: {
+    width: '100%',
+  },
+  iconSlot: {
+    display: 'inline-flex',
+    marginInline: '4px',
+  },
+  sizeLarge: {
+    minWidth: '47px',
+    height: '52px',
+    paddingBlock: 0,
+    paddingInline: '24px',
+  },
+  sizeMedium: {
+    minWidth: '58px',
+    height: '42px',
+    paddingBlock: 0,
+    paddingInline: '16px',
+  },
+  sizeSmall: {
+    minWidth: '63px',
+    height: '36px',
+    paddingBlock: 0,
+    paddingInline: '12px',
+  },
+  variantPrimary: {
+    color: colorVars['--color-white'],
+    backgroundColor: colorVars['--color-orangePrimary'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-orangePrimary'],
+    opacity: {
+      default: 1,
+      ':disabled': 0.3,
+    },
+  },
+  variantTertiaryColor: {
+    color: colorVars['--color-orangePrimary'],
+    backgroundColor: colorVars['--color-white'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-orangePrimary'],
+  },
+  variantTertiaryGray: {
+    color: colorVars['--color-gray600'],
+    backgroundColor: colorVars['--color-white'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-border2'],
+  },
+  variantSecondaryGray: {
+    color: colorVars['--color-graySecondary'],
+    backgroundColor: colorVars['--color-bgSecondary'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-bgSecondary'],
+    ':hover': {
+      backgroundColor: colorVars['--color-gray100'],
+    },
+  },
+  loading: {
+    position: 'absolute',
+    visibility: 'visible',
+    display: 'flex',
+    left: '50%',
+    transform: 'translate(-50%)',
+    width: '40px',
+  },
+});

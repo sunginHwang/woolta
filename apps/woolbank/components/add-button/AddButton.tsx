@@ -1,10 +1,10 @@
 'use client';
 
-import { safeAreaInsetBottom, typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import Link from 'next/link';
-import { ComponentProps, FC } from 'react';
-import { styled } from 'styled-components';
-import { layout } from '../../style/layout';
+import { ComponentProps } from 'react';
 
 type Props = ComponentProps<typeof Link>;
 
@@ -15,28 +15,27 @@ type Props = ComponentProps<typeof Link>;
 export const AddButton = ({ ...rest }: Props) => {
   return (
     <aside>
-      <SC.Container {...rest} data-cy='addButton'>
+      <Link data-cy='addButton' {...rest} {...stylex.props(typographyStyles.title1Bold, styles.container)}>
         +
-      </SC.Container>
+      </Link>
     </aside>
   );
 };
 
-const SC = {
-  Container: styled(Link)`
-    ${typography.title1Bold}
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    ${safeAreaInsetBottom('8rem')}
-    right: 2rem;
-    width: 5rem;
-    height: 5rem;
-    color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.red500};
-    border-radius: 100% !important;
-    box-shadow: 0.2rem 0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.16);
-    z-index: ${layout.zIndex.floatButton};
-  `,
-};
+const styles = stylex.create({
+  container: {
+    position: 'fixed',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 'calc(env(safe-area-inset-bottom, 0px) + 8rem)',
+    right: '2rem',
+    width: '5rem',
+    height: '5rem',
+    color: colorVars['--color-white'],
+    backgroundColor: colorVars['--color-red500'],
+    borderRadius: '100%',
+    boxShadow: '0.2rem 0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.16)',
+    zIndex: zIndexConsts.floatButton,
+  },
+});

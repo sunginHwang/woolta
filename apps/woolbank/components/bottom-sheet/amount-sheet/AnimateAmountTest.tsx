@@ -1,7 +1,7 @@
 import { usePreviousValue } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, memo, useMemo } from 'react';
-import { styled } from 'styled-components';
 
 // 애니메이션 상수 (컴포넌트 외부에 정의하여 객체 참조 안정화)
 const ANIMATION_INITIAL_WITH_MOTION = { y: -30, opacity: 0 } as const;
@@ -33,7 +33,7 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
   const previousAmountDigitList = useMemo(() => String(previousAmount).split(''), [previousAmount]);
 
   if (amount === 0) {
-    return <SC.PlaceHolder>{placeholder}</SC.PlaceHolder>;
+    return <span {...stylex.props(styles.placeHolder)}>{placeholder}</span>;
   }
 
   return (
@@ -67,7 +67,8 @@ export const AmountDisplayText = memo(({ amount, placeholder }: Props) => {
 });
 
 // 숫자 애니메이션 컴포넌트
-const AnimatedNumber = memo(({ digit, index, use_animation }: { digit: string; index: number; use_animation?: boolean }) => {
+interface AnimatedNumberProps { digit: string; index: number; use_animation?: boolean }
+const AnimatedNumber = memo(({ digit, index, use_animation }: AnimatedNumberProps) => {
   const normalAnimation = useMemo(
     () => ({
       initial: use_animation ? ANIMATION_INITIAL_WITH_MOTION : ANIMATION_INITIAL_NO_MOTION,
@@ -103,8 +104,8 @@ const AnimatedComma = memo(({ index }: { index: number }) => {
   );
 });
 
-const SC = {
-  PlaceHolder: styled.span`
-    opacity: 0.2;
-  `,
-};
+const styles = stylex.create({
+  placeHolder: {
+    opacity: 0.2,
+  },
+});

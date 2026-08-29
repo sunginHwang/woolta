@@ -1,5 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
 import { gray500 } from '@wds';
-import styled from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 interface Props {
   percent: number;
@@ -28,81 +29,85 @@ export const Progress = ({
   messageColor = gray500,
 }: Props) => {
   return (
-    <SC.ProgressWrapper>
-      <SC.Label $percent={percent}>
+    <div {...stylex.props(styles.progressWrapper)}>
+      <span {...stylex.props(styles.label, dynamicStyles.labelLeft(percent))}>
         {labelPrefix}
         {label}
         {labelSuffix}
-      </SC.Label>
-      <SC.Progress>
-        <SC.Bar $percent={percent} $color={color} />
-      </SC.Progress>
-      <SC.Info $color={messageColor}>
-        <span>{startMessage}</span>
-        <span>{endMessage}</span>
-      </SC.Info>
-    </SC.ProgressWrapper>
+      </span>
+      <div {...stylex.props(styles.progress)}>
+        <div {...stylex.props(styles.bar, dynamicStyles.barWidth(percent), dynamicStyles.barColor(color))} />
+      </div>
+      <div {...stylex.props(styles.info)}>
+        <span {...stylex.props(styles.infoText, dynamicStyles.infoColor(messageColor))}>{startMessage}</span>
+        <span {...stylex.props(styles.infoText, dynamicStyles.infoColor(messageColor))}>{endMessage}</span>
+      </div>
+    </div>
   );
 };
 
-const SC = {
-  ProgressWrapper: styled.div`
-    width: 100%;
-  `,
-  Label: styled.span<{ $percent: number }>`
-    width: 5rem;
-    max-width: 6rem;
-    height: 3rem;
-    left: ${({ $percent }) => $percent}%;
-    top: -1.2rem;
-    line-height: 3rem;
-    text-align: center;
-    background: ${({ theme }) => theme.colors.red500};
-    color: ${({ theme }) => theme.colors.white};
-    font-size: 1.4rem;
-    display: block;
-    position: relative;
-    transform: translate(-50%, 0);
-    border-radius: 2.3rem;
+const dynamicStyles = stylex.create({
+  labelLeft: (percent: number) => ({ left: `${percent}%` }),
+  barWidth: (percent: number) => ({ width: `${percent}%` }),
+  barColor: (color: string) => ({ backgroundColor: color }),
+  infoColor: (color: string) => ({ color }),
+});
 
-    &:before {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-top: 0.5rem solid ${({ theme }) => theme.colors.red500};
-      border-left: 0.5rem solid transparent;
-      border-right: 0.5rem solid transparent;
-      top: 100%;
-      left: 50%;
-      margin-left: -0.5rem;
-      margin-top: -0.1rem;
-    }
-  `,
-  Progress: styled.div`
-    height: 0.5rem;
-    width: 100%;
-    background-color: ${({ theme }) => theme.colors.gray600};
-    border-radius: 1.2rem;
-  `,
-  Bar: styled.div<{
-    $percent: number;
-    $color: string;
-  }>`
-    height: 0.5rem;
-    border-radius: 1.2rem;
-    width: ${({ $percent }) => $percent}%;
-    background-color: ${({ $color }) => $color};
-  `,
-  Info: styled.div<{ $color: string }>`
-    display: flex;
-    width: 100%;
-    margin-top: 0.5rem;
-    justify-content: space-between;
-
-    > span {
-      font-size: 1.2rem;
-      color: ${({ $color }) => $color};
-    }
-  `,
-};
+const styles = stylex.create({
+  progressWrapper: {
+    width: '100%',
+  },
+  label: {
+    width: '5rem',
+    maxWidth: '6rem',
+    height: '3rem',
+    top: '-1.2rem',
+    lineHeight: '3rem',
+    textAlign: 'center',
+    background: colorVars['--color-red500'],
+    color: colorVars['--color-white'],
+    fontSize: '1.4rem',
+    display: 'block',
+    position: 'relative',
+    transform: 'translate(-50%, 0)',
+    borderRadius: '2.3rem',
+    '::before': {
+      content: '""',
+      position: 'absolute',
+      width: 0,
+      height: 0,
+      borderTopWidth: '0.5rem',
+      borderTopStyle: 'solid',
+      borderTopColor: colorVars['--color-red500'],
+      borderLeftWidth: '0.5rem',
+      borderLeftStyle: 'solid',
+      borderLeftColor: 'transparent',
+      borderRightWidth: '0.5rem',
+      borderRightStyle: 'solid',
+      borderRightColor: 'transparent',
+      top: '100%',
+      left: '50%',
+      marginLeft: '-0.5rem',
+      marginTop: '-0.1rem',
+    },
+  },
+  progress: {
+    height: '0.5rem',
+    width: '100%',
+    backgroundColor: colorVars['--color-gray600'],
+    borderRadius: '1.2rem',
+  },
+  bar: {
+    height: '0.5rem',
+    borderRadius: '1.2rem',
+  },
+  info: {
+    display: 'flex',
+    width: '100%',
+    marginTop: '0.5rem',
+    justifyContent: 'space-between',
+  },
+  infoText: {
+    fontSize: '1.2rem',
+  },
+});

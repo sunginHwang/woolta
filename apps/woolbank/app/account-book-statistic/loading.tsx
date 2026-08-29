@@ -1,21 +1,22 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { StatisticChartSkeleton } from '../../domains/account-book-statistic/Statistic/statistic-chart/StatisticChartSkeleton';
-import styled from 'styled-components';
 
 export default function Loading() {
   return (
     <>
-      <SC.Header>
+      <header {...stylex.props(styles.header)}>
         <SkeletonBar width='10rem' height='2.6rem' />
-        <div className='filter'>
+        <div {...stylex.props(styles.filter)}>
           <SkeletonBar width='9.4rem' height='33px' radius={13} />
           <SkeletonBar width='5rem' height='33px' radius={13} />
           <SkeletonBar width='12rem' height='33px' radius={13} />
         </div>
-        <div className='bar' />
-      </SC.Header>
+        <div {...stylex.props(styles.bar)} />
+      </header>
       <main>
         <StatisticChartSkeleton />
       </main>
@@ -23,27 +24,22 @@ export default function Loading() {
   );
 }
 
-const SC = {
-  Header: styled.header`
-    padding: 2rem 1.6rem 0;
-
-    .filter {
-      margin: 2rem 0 1.5rem;
-      display: flex;
-      gap: 1rem;
-    }
-
-    .bar {
-      background-color: ${({ theme }) => theme.colors.gray100};
-      height: 0.7rem;
-      margin: 0 -1.6rem;
-    }
-  `,
-  Content: styled.main`
-    padding: 0 1.6rem;
-
-    .title {
-      margin: 2rem 0 2rem;
-    }
-  `,
-};
+const styles = stylex.create({
+  header: {
+    paddingTop: '2rem',
+    paddingInline: '1.6rem',
+    paddingBottom: 0,
+  },
+  filter: {
+    marginTop: '2rem',
+    marginBottom: '1.5rem',
+    display: 'flex',
+    gap: '1rem',
+  },
+  bar: {
+    backgroundColor: colorVars['--color-gray100'],
+    height: '0.7rem',
+    marginBlock: 0,
+    marginInline: '-1.6rem',
+  },
+});

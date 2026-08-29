@@ -1,5 +1,6 @@
-import React, { FC, PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { PropsWithChildren } from 'react';
 
 interface Props extends PropsWithChildren {
   useSideMargin?: boolean;
@@ -11,18 +12,23 @@ interface Props extends PropsWithChildren {
  */
 
 export const CardItem = ({ children, useSideMargin = false }: Props) => {
-  return <SC.CardItem $useSideMargin={useSideMargin}>{children}</SC.CardItem>;
+  return (
+    <div {...stylex.props(styles.cardItem, useSideMargin && styles.cardItemWithMargin)}>{children}</div>
+  );
 };
 
-const SC = {
-  CardItem: styled.div<{ $useSideMargin: boolean }>`
-    padding: 2rem;
-    ${({ $useSideMargin }) => $useSideMargin && 'margin: 0 2rem'};
-    background-color: ${({ theme }) => theme.colors.white};
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.6rem;
-    border-radius: 1.2rem;
-    box-shadow: rgb(220, 220, 233) 0.1rem 0.3rem 1rem 0.3rem;
-  `,
-};
+const styles = stylex.create({
+  cardItem: {
+    paddingBlock: '2rem',
+    paddingInline: '2rem',
+    backgroundColor: colorVars['--color-white'],
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '1.6rem',
+    borderRadius: '1.2rem',
+    boxShadow: 'rgb(220, 220, 233) 0.1rem 0.3rem 1rem 0.3rem',
+  },
+  cardItemWithMargin: {
+    marginInline: '2rem',
+  },
+});

@@ -1,7 +1,8 @@
-import { Text, white } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { Text } from '@wds';
+import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { PropsWithChildren, ReactNode } from 'react';
-import { styled } from 'styled-components';
-import { layout } from '../../style/layout';
+import { layoutConsts } from '../../style/layout.stylex';
 import SubHeader from './SubHeader';
 
 interface Props extends PropsWithChildren {
@@ -22,45 +23,48 @@ interface Props extends PropsWithChildren {
  * 페이지 헤더 영역
  * @component
  */
-const _Header = ({ title, right, bgColor = white }: Props) => {
+const _Header = ({ title, right, bgColor = '#FFFFFF' }: Props) => {
   const isTextTitle = typeof title === 'string';
   return (
-    <SC.Container color={bgColor}>
-      <div className='inner'>
+    <header {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.inner, dynamicStyles.bgColor(bgColor))}>
         {isTextTitle && (
           <Text variant='title4Bold' color='grayPrimary' data-cy='title'>
             {title}
           </Text>
         )}
         {!isTextTitle && title}
-        <SC.rightHeader>{right}</SC.rightHeader>
+        <div {...stylex.props(styles.rightHeader)}>{right}</div>
       </div>
-    </SC.Container>
+    </header>
   );
 };
 
-const SC = {
-  Container: styled.header<{ color: string }>`
-    position: sticky;
-    left: 0;
-    top: 0;
-    width: 100%;
-    z-index: ${({ theme }) => theme.zIndex.header};
+const dynamicStyles = stylex.create({
+  bgColor: (color: string) => ({ backgroundColor: color }),
+});
 
-    .inner {
-      height: ${layout.headerHeight};
-      padding: 0 1.6rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: ${({ color }) => color};
-    }
-  `,
-  rightHeader: styled.div`
-    padding-top: 0.4rem;
-    color: ${({ theme }) => theme.colors.graySecondary};
-  `,
-};
+const styles = stylex.create({
+  container: {
+    position: 'sticky',
+    left: 0,
+    top: 0,
+    width: '100%',
+    zIndex: zIndexConsts.header,
+  },
+  inner: {
+    height: layoutConsts.headerHeight,
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rightHeader: {
+    paddingTop: '0.4rem',
+    color: colorVars['--color-graySecondary'],
+  },
+});
 
 export const Header = Object.assign(_Header, {
   Sub: SubHeader,

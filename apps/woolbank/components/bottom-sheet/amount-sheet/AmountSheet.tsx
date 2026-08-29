@@ -1,6 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { useCallback } from 'react';
-import { styled, useTheme } from 'styled-components';
 import { IconCloseCircle } from '../../atom/Icon';
 import { DefaultBottomSheet } from '../DefaultBottomSheet';
 import AmountForm from './AmountForm';
@@ -25,9 +25,6 @@ export const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseMo
     currentAmount,
     onAmountChange: onChange,
   });
-  const {
-    colors: { gray150 },
-  } = useTheme();
 
   const handleCompleteClick = useCallback(() => {
     onComplete(amount);
@@ -35,14 +32,14 @@ export const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseMo
 
   return (
     <DefaultBottomSheet title={title} visible={visible} oncloseModal={oncloseModal}>
-      <SC.AmountDisplay>
+      <div {...stylex.props(styles.amountDisplay)}>
         <Text variant='title1Medium' color='black' as='p'>
           <AmountDisplayText amount={amount} placeholder='0원' />
         </Text>
         <i onClick={initAmount}>
-          <IconCloseCircle width={20} height={20} fill={gray150} />
+          <IconCloseCircle width={20} height={20} fill='#F0F0F0' />
         </i>
-      </SC.AmountDisplay>
+      </div>
       <AmountForm
         useCompleteBtn
         isZeroAmount={amount === 0}
@@ -54,12 +51,14 @@ export const AmountSheet = ({ title, visible, currentAmount, onChange, oncloseMo
   );
 };
 
-const SC = {
-  AmountDisplay: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 5rem 2rem 5rem;
-    padding-top: 3rem;
-  `,
-};
+const styles = stylex.create({
+  amountDisplay: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 0,
+    marginBottom: '2rem',
+    marginInline: '5rem',
+    paddingTop: '3rem',
+  },
+});

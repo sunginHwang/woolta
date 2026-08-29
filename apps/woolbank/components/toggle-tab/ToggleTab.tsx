@@ -1,6 +1,7 @@
 import { useWindowDimensions } from '@common';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
 
 export interface ToggleTabItem {
   type: string;
@@ -20,6 +21,13 @@ interface Props {
   // 탭 변경 이벤트
   onChangeTab?: (tab: ToggleTabItem) => void;
 }
+
+const getHeightStyle = (useOutline: boolean, size: 'small' | 'medium') => {
+  if (useOutline && size === 'small') return styles.heightOutlineSmall;
+  if (useOutline) return styles.heightOutlineMedium;
+  if (size === 'small') return styles.heightNoOutlineSmall;
+  return styles.heightNoOutlineMedium;
+};
 
 /**
  * 토글 탭
@@ -54,101 +62,157 @@ export const ToggleTab = ({
   if (useListType) {
     renderTabs = tabs.map((tab) => {
       return (
-        <S.ListTab key={tab.type} $isActive={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
+        <button
+          type='button'
+          key={tab.type}
+          onClick={() => onChangeTab && onChangeTab(tab)}
+          {...stylex.props(
+            styles.listTab,
+            tab.type === value && styles.listTabActive,
+            size === 'small' ? styles.buttonSmall : styles.buttonMedium,
+          )}
+        >
           {tab.name}
-        </S.ListTab>
+        </button>
       );
     });
   } else {
     if (useOutline) {
       // 아웃라인 탭 구조
-
-      renderTabs =
-        useOutline &&
-        tabs.map((tab, index) => {
-          return (
-            <S.TabOutLine key={tab.type} $isActive={tab.type === value} onClick={() => onChangeTab && onChangeTab(tab)}>
-              {tab.name}
-            </S.TabOutLine>
-          );
-        });
+      renderTabs = tabs.map((tab, index) => {
+        return (
+          <button
+            type='button'
+            key={tab.type}
+            onClick={() => onChangeTab && onChangeTab(tab)}
+            {...stylex.props(
+              styles.tabOutline,
+              tab.type === value && styles.tabOutlineActive,
+              index === 0 && styles.tabOutlineFirst,
+              index === tabs.length - 1 && styles.tabOutlineLast,
+              size === 'small' ? styles.buttonSmall : styles.buttonMedium,
+            )}
+          >
+            {tab.name}
+          </button>
+        );
+      });
     } else {
       // 라인 없는 탭 구조
       renderTabs = tabs.map((tab, index) => {
         return (
-          <S.Tab key={tab.type} $isActive={tab.type === value} onClick={() => onTabClick(tab, index)}>
+          <button
+            type='button'
+            key={tab.type}
+            onClick={() => onTabClick(tab, index)}
+            {...stylex.props(
+              styles.tab,
+              tab.type === value && styles.tabActive,
+              size === 'small' ? styles.buttonSmall : styles.buttonMedium,
+            )}
+          >
             {tab.name}
-          </S.Tab>
+          </button>
         );
       });
     }
   }
 
   return (
-    <S.ToggleTab $useOutline={useOutline} $useListType={useListType} $size={size}>
+    <div
+      {...stylex.props(
+        styles.toggleTab,
+        getHeightStyle(useOutline, size),
+        useListType ? styles.justifyStart : styles.justifyAround,
+        !useListType && !useOutline ? styles.withShadow : null,
+      )}
+    >
       {renderTabs}
-      {!useListType && !useOutline && <S.BottomLine width={indicatorWidth} left={indicatorLeftPosition} />}
-    </S.ToggleTab>
+      {!useListType && !useOutline && (
+        <span
+          {...stylex.props(
+            styles.bottomLine,
+            dynamicStyles.bottomLineWidth(indicatorWidth),
+            dynamicStyles.bottomLineLeft(indicatorLeftPosition),
+          )}
+        />
+      )}
+    </div>
   );
 };
 
-type ToggleTabSProps = {
-  $useOutline: boolean;
-  $useListType: boolean;
-  $size: 'small' | 'medium';
-};
+const dynamicStyles = stylex.create({
+  bottomLineWidth: (w: number) => ({ width: `${w}px` }),
+  bottomLineLeft: (l: number) => ({ left: `${l}px` }),
+});
 
-type BottomLineProps = { width: number; left: number };
-
-const S = {
-  ToggleTab: styled.div<ToggleTabSProps>`
-    width: 100%;
-    position: relative;
-    height: ${({ $useOutline, $size }) => ($useOutline ? ($size === 'small' ? 3 : 4) : $size === 'small' ? 4 : 5)}rem;
-    display: flex;
-    justify-content: ${({ $useListType }) => ($useListType ? 'flex-start' : 'space-around')};
-    ${({ $useListType, $useOutline }) =>
-      !$useListType &&
-      !$useOutline &&
-      'box-shadow: 0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14),\n      0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12);'};
-
-    button {
-      font-size: ${({ $size }) => ($size === 'small' ? '1.1rem' : '1.3rem')};
-    }
-  `,
-  Tab: styled.button<{ $isActive: boolean }>`
-    width: 100%;
-    font-weight: bold;
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.grayPrimary : theme.colors.gray150)};
-  `,
-  ListTab: styled.button<{ $isActive: boolean }>`
-    margin-right: 2.5rem;
-    font-weight: 800;
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.gray800 : theme.colors.gray600)};
-  `,
-  TabOutLine: styled.button<{ $isActive: boolean }>`
-    width: 100%;
-    border: 0.1rem solid ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.gray300)};
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.white)};
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.white : theme.colors.gray600)};
-
-    &:first-child {
-      border-bottom-left-radius: 1.3rem;
-      border-top-left-radius: 1.3rem;
-    }
-
-    &:last-child {
-      border-bottom-right-radius: 1.3rem;
-      border-top-right-radius: 1.3rem;
-    }
-  `,
-  BottomLine: styled.span<BottomLineProps>`
-    bottom: 0;
-    width: ${({ width }) => width}px;
-    left: ${({ left }) => left}px;
-    height: 2px;
-    position: absolute;
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: ${({ theme }) => theme.colors.orangePrimary};
-  `,
-};
+const styles = stylex.create({
+  toggleTab: {
+    width: '100%',
+    position: 'relative',
+    display: 'flex',
+  },
+  // height variants
+  heightOutlineSmall: { height: '3rem' },
+  heightOutlineMedium: { height: '4rem' },
+  heightNoOutlineSmall: { height: '4rem' },
+  heightNoOutlineMedium: { height: '5rem' },
+  // justify-content
+  justifyStart: { justifyContent: 'flex-start' },
+  justifyAround: { justifyContent: 'space-around' },
+  // shadow
+  withShadow: {
+    boxShadow:
+      '0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14), 0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12)',
+  },
+  // button font sizes
+  buttonSmall: { fontSize: '1.1rem' },
+  buttonMedium: { fontSize: '1.3rem' },
+  // tab variants
+  tab: {
+    width: '100%',
+    fontWeight: 'bold',
+    color: colorVars['--color-gray150'],
+  },
+  tabActive: {
+    color: colorVars['--color-grayPrimary'],
+  },
+  listTab: {
+    marginRight: '2.5rem',
+    fontWeight: 800,
+    color: colorVars['--color-gray600'],
+  },
+  listTabActive: {
+    color: colorVars['--color-gray800'],
+  },
+  tabOutline: {
+    width: '100%',
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-gray300'],
+    backgroundColor: colorVars['--color-white'],
+    color: colorVars['--color-gray600'],
+  },
+  tabOutlineActive: {
+    borderColor: colorVars['--color-orangePrimary'],
+    backgroundColor: colorVars['--color-orangePrimary'],
+    color: colorVars['--color-white'],
+  },
+  tabOutlineFirst: {
+    borderBottomLeftRadius: '1.3rem',
+    borderTopLeftRadius: '1.3rem',
+  },
+  tabOutlineLast: {
+    borderBottomRightRadius: '1.3rem',
+    borderTopRightRadius: '1.3rem',
+  },
+  bottomLine: {
+    bottom: 0,
+    height: '2px',
+    position: 'absolute',
+    transitionProperty: 'all',
+    transitionDuration: '300ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    backgroundColor: colorVars['--color-orangePrimary'],
+  },
+});

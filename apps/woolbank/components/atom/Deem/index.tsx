@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Portal } from '@wds';
+import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { FC, MouseEvent, PropsWithChildren, useCallback, useRef } from 'react';
-import { styled } from 'styled-components';
 
 interface Props extends PropsWithChildren {
   visible: boolean;
@@ -23,24 +24,27 @@ const Deem: FC<Props> = ({ visible, children, onDeemClick }) => {
 
   return (
     <Portal targetId='modalDeem'>
-      <SC.Deem ref={modalDeemRef} $isActive={visible} onClick={onModalDeemClick}>
+      <div ref={modalDeemRef} onClick={onModalDeemClick} {...stylex.props(styles.deem, visible && styles.deemVisible)}>
         {children}
-      </SC.Deem>
+      </div>
     </Portal>
   );
 };
 
 export default Deem;
 
-const SC = {
-  Deem: styled.div<{ $isActive: boolean }>`
-    position: fixed;
-    visibility: ${({ $isActive }) => ($isActive ? 'visible' : 'hidden')};
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: ${({ theme }) => theme.zIndex.modalDeem};
-    background-color: rgba(0, 0, 0, 0.75);
-  `,
-};
+const styles = stylex.create({
+  deem: {
+    position: 'fixed',
+    visibility: 'hidden',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    zIndex: zIndexConsts.modalDeem,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  },
+  deemVisible: {
+    visibility: 'visible',
+  },
+});

@@ -1,6 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
 import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, memo, useMemo } from 'react';
-import { styled } from 'styled-components';
 
 interface Props {
   amount: number;
@@ -11,7 +11,7 @@ export const AmountDisplay = memo(({ amount, digitList, placeholder }: Props) =>
   const amountDigitList = useMemo(() => String(amount).split(''), [amount]);
 
   if (amount === 0) {
-    return <SC.PlaceHolder>{placeholder}</SC.PlaceHolder>;
+    return <span {...stylex.props(styles.placeHolder)}>{placeholder}</span>;
   }
 
   return (
@@ -72,8 +72,8 @@ const AnimatedNumber = ({ digit, index, use_animation }: { digit: string; index:
   );
 };
 
-const SC = {
-  PlaceHolder: styled.span`
-    opacity: 0.2;
-  `,
-};
+const styles = stylex.create({
+  placeHolder: {
+    opacity: 0.2,
+  },
+});

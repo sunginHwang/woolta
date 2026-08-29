@@ -1,5 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import { styled } from 'styled-components';
 
 interface Props {
   onClick: () => void;
@@ -14,7 +14,7 @@ interface Props {
  */
 export const DropdownTitle = ({ title, onClick, onPrevMonthClick, onNextMonthClick }: Props) => {
   return (
-    <SC.Title>
+    <div {...stylex.props(styles.title)}>
       <Text onClick={onPrevMonthClick} variant='small3Regular' color='grayPrimary' as='p'>
         ◀
       </Text>
@@ -24,14 +24,14 @@ export const DropdownTitle = ({ title, onClick, onPrevMonthClick, onNextMonthCli
       <Text onClick={onNextMonthClick} variant='small3Regular' color='grayPrimary' as='p'>
         ▶
       </Text>
-    </SC.Title>
+    </div>
   );
 };
 
-const SC = {
-  Title: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-  `,
-};
+const styles = stylex.create({
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1.2rem',
+  },
+});

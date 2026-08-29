@@ -1,6 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { ClipLoader } from 'react-spinners';
-import { styled, useTheme } from 'styled-components';
 import Deem from '../atom/Deem';
 
 interface Props {
@@ -9,34 +9,31 @@ interface Props {
 }
 
 export const FullScreenLoading = ({ loading = false, message }: Props) => {
-  const { colors } = useTheme();
-
   return (
     <Deem visible={loading}>
-      <SC.SpinnerLoading>
-        <ClipLoader color={colors.orangePrimary} size={40} />
+      <div {...stylex.props(styles.spinnerLoading)}>
+        <ClipLoader color='#f25e5e' size={40} />
         {message && (
-          <Text className='message' variant='small1Regular' color='white' as='p'>
+          <Text variant='small1Regular' color='white' as='p' xstyle={styles.message}>
             {message}
           </Text>
         )}
-      </SC.SpinnerLoading>
+      </div>
     </Deem>
   );
 };
 
-const SC = {
-  SpinnerLoading: styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .message {
-      margin-top: 2rem;
-      opacity: 0.7;
-    }
-  `,
-};
+const styles = stylex.create({
+  spinnerLoading: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  message: {
+    marginTop: '2rem',
+    opacity: 0.7,
+  },
+});

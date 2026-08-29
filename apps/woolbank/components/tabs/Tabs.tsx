@@ -1,10 +1,11 @@
 'use client';
 
 import { useWindowDimensions } from '@common';
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import Link from 'next/link';
 import { HTMLAttributes, useEffect, useState } from 'react';
-import { styled, css } from 'styled-components';
 
 export interface Tab {
   label: string;
@@ -40,71 +41,108 @@ export const Tabs = ({ tabs, value, stickeyHeight, onChange, ...rest }: Props) =
     onChange && onChange(tab);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { className: _cls, style: _sty, ...restProps } = rest;
+
   return (
-    <SC.Tabs data-cy='tabs' $stickeyheight={stickeyHeight} {...rest}>
+    <div
+      data-cy='tabs'
+      {...restProps}
+      {...stylex.props(
+        styles.tabs,
+        stickeyHeight ? styles.tabsSticky : null,
+        stickeyHeight ? dynamicStyles.stickyTop(stickeyHeight) : null,
+      )}
+    >
       {tabs.map((tab, index) => {
         if (tab.link) {
           return (
-            <Link replace href={tab?.link} key={tab.value}>
-              <SC.Tab $isActive={tab.value === value} data-cy={tab.label} onClick={() => onTabClick(tab, index)}>
+            <Link replace href={tab?.link} key={tab.value} {...stylex.props(styles.link)}>
+              <button
+                type='button'
+                data-cy={tab.label}
+                onClick={() => onTabClick(tab, index)}
+                {...stylex.props(
+                  typographyStyles.title5Medium,
+                  styles.tab,
+                  tab.value === value ? styles.tabActive : null,
+                )}
+              >
                 {tab.label}
-              </SC.Tab>
+              </button>
             </Link>
           );
         }
         return (
-          <SC.Tab
+          <button
             key={tab.value}
-            $isActive={tab.value === value}
+            type='button'
             data-cy={tab.label}
             onClick={() => onTabClick(tab, index)}
+            {...stylex.props(
+              typographyStyles.title5Medium,
+              styles.tab,
+              tab.value === value ? styles.tabActive : null,
+            )}
           >
             {tab.label}
-          </SC.Tab>
+          </button>
         );
       })}
-      <SC.BottomLine $width={indicatorWidth} $left={indicatorLeftPosition} />
-    </SC.Tabs>
+      <span
+        {...stylex.props(
+          styles.bottomLine,
+          dynamicStyles.indicatorWidth(indicatorWidth),
+          dynamicStyles.indicatorLeft(indicatorLeftPosition),
+        )}
+      />
+    </div>
   );
 };
 
-const SC = {
-  Tabs: styled.div<{ $stickeyheight?: string }>`
-    width: 100%;
-    height: 4.8rem;
-    background-color: ${({ theme }) => theme.colors.white};
-    position: relative;
-    display: flex;
-    ${({ $stickeyheight }) =>
-      $stickeyheight &&
-      css`
-        position: sticky;
-        top: ${$stickeyheight};
-        z-index: 10;
-      `}
+const dynamicStyles = stylex.create({
+  stickyTop: (height: string) => ({ top: height }),
+  indicatorWidth: (w: number) => ({ width: `${w}px` }),
+  indicatorLeft: (l: number) => ({ left: `${l}px` }),
+});
 
-    a {
-      width: 100%;
-      cursor: pointer;
-    }
-  `,
-  Tab: styled.button<{ $isActive: boolean }>`
-    ${typography.title5Medium}
-    width: 100%;
-    height: 100%;
-    border-bottom: ${({ $isActive, theme }) => ($isActive ? '' : `.2rem solid ${theme.colors.gray300}`)};
-    color: ${({ $isActive, theme }) => ($isActive ? theme.colors.orangePrimary : theme.colors.grayInactive)};
-  `,
-  BottomLine: styled.span<{
-    $width: number;
-    $left: number;
-  }>`
-    bottom: -0.1rem;
-    width: ${({ $width }) => $width}px;
-    left: ${({ $left }) => $left}px;
-    height: 0.2rem;
-    position: absolute;
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: ${({ theme }) => theme.colors.orangePrimary};
-  `,
-};
+const styles = stylex.create({
+  tabs: {
+    width: '100%',
+    height: '4.8rem',
+    backgroundColor: colorVars['--color-white'],
+    position: 'relative',
+    display: 'flex',
+  },
+  tabsSticky: {
+    position: 'sticky',
+    zIndex: 10,
+  },
+  link: {
+    width: '100%',
+    cursor: 'pointer',
+  },
+  tab: {
+    width: '100%',
+    height: '100%',
+    borderBottomWidth: '0.2rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-gray300'],
+    color: colorVars['--color-grayInactive'],
+  },
+  tabActive: {
+    color: colorVars['--color-orangePrimary'],
+    borderBottomWidth: 0,
+    borderBottomStyle: 'none',
+    borderBottomColor: 'transparent',
+  },
+  bottomLine: {
+    bottom: '-0.1rem',
+    height: '0.2rem',
+    position: 'absolute',
+    transitionProperty: 'all',
+    transitionDuration: '300ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    backgroundColor: colorVars['--color-orangePrimary'],
+  },
+});

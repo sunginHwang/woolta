@@ -1,21 +1,24 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
-import styled from 'styled-components';
+import { colorVars } from '@wds/tokens.stylex';
 
 export default function Loading() {
+  const { className: titleCls } = stylex.props(styles.headerTitle);
+
   return (
     <>
-      <SC.Header>
-        <SkeletonBar className='title' width='100%' height='5.2rem' radius={18} />
+      <header {...stylex.props(styles.header)}>
+        <SkeletonBar className={titleCls} width='100%' height='5.2rem' radius={18} />
         <SkeletonBar width='100%' height='8rem' radius={18} />
-        <div className='bar' />
-      </SC.Header>
-      <SC.Content>
+        <div {...stylex.props(styles.bar)} />
+      </header>
+      <main {...stylex.props(styles.content)}>
         {[...Array(10)].map((_, index) => {
           return (
-            <div className='item' key={index}>
-              <div className='top'>
+            <div {...stylex.props(styles.item)} key={index}>
+              <div {...stylex.props(styles.itemTop)}>
                 <SkeletonBar width='9rem' height='3rem' />
                 <SkeletonBar width='6rem' height='2.1rem' />
               </div>
@@ -23,37 +26,36 @@ export default function Loading() {
             </div>
           );
         })}
-      </SC.Content>
+      </main>
     </>
   );
 }
 
-const SC = {
-  Header: styled.header`
-    padding: 3rem 1.6rem 0;
-
-    .title {
-      margin-bottom: 2rem;
-    }
-
-    .bar {
-      background-color: ${({ theme }) => theme.colors.gray100};
-      height: 0.7rem;
-      margin-top: 2rem;
-    }
-  `,
-  Content: styled.main`
-    padding: 0 1.6rem;
-
-    .item {
-      margin-top: 3rem;
-
-      .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-    }
-  `,
-};
+const styles = stylex.create({
+  header: {
+    paddingTop: '3rem',
+    paddingInline: '1.6rem',
+    paddingBottom: 0,
+  },
+  headerTitle: {
+    marginBottom: '2rem',
+  },
+  bar: {
+    backgroundColor: colorVars['--color-gray100'],
+    height: '0.7rem',
+    marginTop: '2rem',
+  },
+  content: {
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+  item: {
+    marginTop: '3rem',
+  },
+  itemTop: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1rem',
+  },
+});
