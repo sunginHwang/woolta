@@ -1,10 +1,10 @@
 'use client';
 
 import { useInputs } from '@common';
-import dayjs, { Dayjs } from 'dayjs';
-import { ToggleTabItem } from '../../../_shared/components/toggle-tab/ToggleTab';
-import { AccountBookCategoryType } from '../../../_shared/utils/account-books';
-import { AccountBookCategory } from './useAccountBookCategories';
+import dayjs, { type Dayjs } from 'dayjs';
+import type { ToggleTabItem } from '../../../_shared/components/toggle-tab/ToggleTab';
+import type { AccountBookCategoryType } from '../../../_shared/utils/account-books';
+import type { AccountBookCategory } from './useAccountBookCategories';
 
 export type ScheduledPaymentType = 'repeat' | 'installment';
 
@@ -45,9 +45,13 @@ const INIT_FORM_DATA: AccountBookSaveForm = {
 };
 
 export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
-  const { inputs: formData, onChange, setInput, onClear, setInputs } = useInputs<AccountBookSaveForm>(
-    saveForm ?? INIT_FORM_DATA,
-  );
+  const {
+    inputs: formData,
+    onChange,
+    setInput,
+    onClear,
+    setInputs,
+  } = useInputs<AccountBookSaveForm>(saveForm ?? INIT_FORM_DATA);
 
   const validateForm = () => {
     if (formData.title.length > 20) {
@@ -106,6 +110,8 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
   };
 
   const isActiveSubmit = isValidSubmit(formData);
+  // 수정 폼에서 최초 값과 달라졌는지 여부. 신규 작성(초기값 없음)은 항상 변경으로 본다.
+  const isFormChanged = saveForm === undefined || !isSameSaveForm(saveForm, formData);
 
   return {
     formData,
@@ -121,10 +127,27 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
     setScheduledPayment,
     validateForm,
     isActiveSubmit,
+    isFormChanged,
   };
 };
 
 function isValidSubmit(form: AccountBookSaveForm) {
   const { title, type, amount, category } = form;
   return title.length > 0 && type.length > 0 && amount > 0 && category.id > 0;
+}
+
+// 날짜는 선택 UI 정밀도(분)까지만 비교한다.
+function isSameSaveForm(a: AccountBookSaveForm, b: AccountBookSaveForm) {
+  return (
+    a.title === b.title &&
+    a.amount === b.amount &&
+    a.memo === b.memo &&
+    a.type === b.type &&
+    a.category.id === b.category.id &&
+    Boolean(a.isDisabledBudget) === Boolean(b.isDisabledBudget) &&
+    a.scheduledPaymentType === b.scheduledPaymentType &&
+    a.scheduledPaymentDay === b.scheduledPaymentDay &&
+    a.installmentMonth === b.installmentMonth &&
+    a.registerDateTime.isSame(b.registerDateTime, 'minute')
+  );
 }

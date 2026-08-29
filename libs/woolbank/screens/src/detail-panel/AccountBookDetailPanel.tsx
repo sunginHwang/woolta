@@ -1,19 +1,41 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import {
-  AccountBookDetail,
+  type AccountBookDetail,
   AccountBookForm,
+  NEW_ACCOUNT_BOOK_ID,
   selectedAccountBookIdAtom,
   useAccountBookDetail,
 } from '@woolta/woolbank-features';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
-import styled from 'styled-components';
 import { ScreenBoundary } from '../common/ScreenBoundary';
 
-const DetailContent = ({ accountBookId }: { accountBookId: number }) => {
-  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(String(accountBookId));
+const styles = stylex.create({
+  container: {
+    position: 'relative',
+    minHeight: '100%',
+    padding: '1.6rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  empty: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    padding: '2rem',
+  },
+});
+
+const DetailContent = ({ accountBookId }: { accountBookId: number | null }) => {
+  // accountBookId 가 null 이면 작성 모드 — detail fetch 를 건너뛰고 빈 작성 폼을 보여준다.
+  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(
+    accountBookId === null ? null : String(accountBookId),
+  );
   const accountBookForm = getAccountBookForm(accountBookDetail);
 
   return (
@@ -34,23 +56,28 @@ export const AccountBookDetailPanel = () => {
 
   if (selectedId === null) {
     return (
-      <SC.Empty>
+      <div {...stylex.props(styles.empty)}>
         <Text as='p' variant='title5Bold' color='textSecondary' alignment='center'>
           내역을 선택하세요
         </Text>
         <Text as='p' variant='body3' color='textTertiary' alignment='center' mt={8}>
           좌측 리스트에서 내역을 선택하면 상세가 여기에 표시됩니다
         </Text>
-      </SC.Empty>
+        <Text as='p' variant='body3' color='textTertiary' alignment='center' mt={4}>
+          Q 키 또는 + 버튼으로 새 내역을 작성할 수 있어요
+        </Text>
+      </div>
     );
   }
 
+  const accountBookId = selectedId === NEW_ACCOUNT_BOOK_ID ? null : selectedId;
+
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <ScreenBoundary mountGate>
-        <DetailContent key={selectedId} accountBookId={selectedId} />
+        <DetailContent key={selectedId} accountBookId={accountBookId} />
       </ScreenBoundary>
-    </SC.Container>
+    </div>
   );
 };
 
@@ -75,20 +102,3 @@ function getAccountBookForm(accountBookDetail: AccountBookDetail | null | undefi
     type,
   };
 }
-
-const SC = {
-  Container: styled.div`
-    position: relative;
-    min-height: 100%;
-    padding: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-  Empty: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 2rem;
-  `,
-};

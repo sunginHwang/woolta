@@ -1,8 +1,33 @@
 'use client';
 
-import { AccountBookActiveTab, AccountBookTabs, MonthStatistics } from '@woolta/woolbank-features';
-import styled from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import {
+  AccountBookActiveTab,
+  AccountBookAddButton,
+  AccountBookTabs,
+  MonthStatistics,
+} from '@woolta/woolbank-features';
 import { ScreenBoundary } from '../common/ScreenBoundary';
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '72rem',
+    minHeight: '100%',
+    padding: '1.6rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  main: {
+    flex: 1,
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+  line: {
+    minHeight: '3rem',
+  },
+});
 
 /**
  * 가계부 메인 스크린 (리스트 + 캘린더 탭)
@@ -10,33 +35,15 @@ import { ScreenBoundary } from '../common/ScreenBoundary';
 export const AccountBookMainScreen = () => {
   return (
     <ScreenBoundary>
-      <SC.Container>
+      <div {...stylex.props(styles.container)}>
         <MonthStatistics />
-        <SC.Line />
-        <SC.Main>
+        <div {...stylex.props(styles.line)} />
+        <main {...stylex.props(styles.main)}>
           <AccountBookActiveTab />
-        </SC.Main>
+        </main>
         <AccountBookTabs />
-      </SC.Container>
+        <AccountBookAddButton />
+      </div>
     </ScreenBoundary>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 72rem;
-    min-height: 100%;
-    padding: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-  Main: styled.main`
-    flex: 1;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-  Line: styled.div`
-    min-height: 3rem;
-  `,
 };

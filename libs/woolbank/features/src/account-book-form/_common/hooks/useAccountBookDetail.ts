@@ -1,18 +1,17 @@
 'use client';
 
+import { useIsDashboardHost } from '@common';
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useAtomValue } from 'jotai';
-import { useIsDashboardHost } from '@common';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
-import { selectedAccountBookIdAtom } from '../../../_shared/stores/selectedAccountBook';
 import { deleteData, getData, postData, putData } from '../../../_shared/api';
 import { useAccountBookList } from '../../../_shared/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../../../_shared/stores/accountbookDate';
+import { selectedAccountBookIdAtom } from '../../../_shared/stores/selectedAccountBook';
 import { useToast } from '../../../_shared/toast/useToast';
-import { AccountBookCategoryType } from './useAccountBookCategories';
-import { AccountBookSaveForm, ScheduledPaymentType } from './useAccountBookForm';
+import type { AccountBookCategoryType } from './useAccountBookCategories';
+import type { AccountBookSaveForm, ScheduledPaymentType } from './useAccountBookForm';
 
 export interface AccountBookDetail {
   id: number;
@@ -46,8 +45,17 @@ export const deleteAccountBook = async (accountBookId: string) => {
 };
 
 export const addAccountBook = async (accountBookForm: AccountBookSaveForm) => {
-  const { title, type, amount, memo, category, isDisabledBudget, scheduledPaymentType, scheduledPaymentDay, installmentMonth } =
-    accountBookForm;
+  const {
+    title,
+    type,
+    amount,
+    memo,
+    category,
+    isDisabledBudget,
+    scheduledPaymentType,
+    scheduledPaymentDay,
+    installmentMonth,
+  } = accountBookForm;
   const requestParam = {
     title,
     registerDateTime: accountBookForm.registerDateTime.toDate(),
@@ -108,7 +116,11 @@ export const useAccountBookDetail = (id: string | null) => {
   const selectedAccountBookDate = useAtomValue(selectedAccountBookDateAtom);
 
   const { data, ...rest } = useSuspenseQuery(getAccountBookFetchInfo(id));
-  const { remove: removeAccountBookList, add: addAccountBookItem, update: updateAccountBookList } = useAccountBookList();
+  const {
+    remove: removeAccountBookList,
+    add: addAccountBookItem,
+    update: updateAccountBookList,
+  } = useAccountBookList();
 
   // BUG FIX: removed console.log + early return that made this unreachable
   const upsertAccountBook = (accountBookForm: AccountBookSaveForm) => {
@@ -121,6 +133,7 @@ export const useAccountBookDetail = (id: string | null) => {
           if (registerDateMonth === selectedAccountBookDate) {
             addAccountBookItem(convertDate(accountBook));
           }
+          onToast('작성되었습니다.');
           closeDetail();
         },
         onError: () => onToast('다시 시도해 주세요.'),

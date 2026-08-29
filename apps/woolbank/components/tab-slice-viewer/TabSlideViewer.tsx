@@ -1,9 +1,25 @@
+import * as stylex from '@stylexjs/stylex';
 import { type ReactNode, useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import styled from 'styled-components';
 import { BucketListItem } from '../../domains/bucket-list/main/BucketListItem';
 import { type Tab, Tabs } from '../tabs/Tabs';
 import { Empty } from './Empty';
+import viewerCss from './tabSlideViewer.module.css';
+
+const styles = stylex.create({
+  listContent: {
+    paddingBlock: '2rem',
+    paddingInline: 0,
+  },
+  listWrapper: {
+    height: 'calc(100vh - 9.6rem)',
+  },
+});
+
+const listContentSx = stylex.props(styles.listContent);
+const listContentClassName = `${listContentSx.className ?? ''} ${viewerCss.listContent}`;
+const listWrapperSx = stylex.props(styles.listWrapper);
+const listWrapperClassName = `${listWrapperSx.className ?? ''} ${viewerCss.listWrapper}`;
 
 interface Props {
   tabs: Tab[];
@@ -42,34 +58,38 @@ export const TabSlideViewer = Object.assign(
       return (
         <>
           <Tabs tabs={tabs} value={activeTab.value ?? ''} onChange={onTabChange} />
-          <SC.ListWrapper>
-            <SC.ListContent>
+          <div {...listWrapperSx} className={listWrapperClassName}>
+            <div {...listContentSx} className={listContentClassName}>
               {[...Array(10)].map((_, key) => (
                 <div key={key}>
                   <BucketListItem.Skeleton />
                 </div>
               ))}
-            </SC.ListContent>
-          </SC.ListWrapper>
+            </div>
+          </div>
         </>
       );
     }
     const SwipeableViewsStyle = { height: '100%' };
 
     const renderContent = () => {
-      return slideViewList.map((view, index) => <SC.ListContent key={index}>{view}</SC.ListContent>);
+      return slideViewList.map((view, index) => (
+        <div key={index} {...listContentSx} className={listContentClassName}>
+          {view}
+        </div>
+      ));
     };
 
     return (
       <>
         <Tabs tabs={tabs} value={activeTab.value ?? ''} onChange={onTabChange} />
-        <SC.ListWrapper>
+        <div {...listWrapperSx} className={listWrapperClassName}>
           <SwipeableViews index={tabIndex} onChangeIndex={onSlideTo} style={SwipeableViewsStyle}>
             {/* @eslint-disable-next-line @typescript-eslint/ban-ts-comment
              * @ts-ignore */}
             {renderContent}
           </SwipeableViews>
-        </SC.ListWrapper>
+        </div>
       </>
     );
   },
@@ -77,32 +97,3 @@ export const TabSlideViewer = Object.assign(
     Empty,
   },
 );
-
-const SC = {
-  ListContent: styled.div`
-    padding: 2rem 0;
-
-    // 리스트 마지막 요소 네이게이션 영역 패딩 처리
-    a:last-child {
-      > div {
-        margin-bottom: 5.5rem;
-        margin-bottom: calc(constant(safe-area-inset-bottom) + 5.5rem);
-        margin-bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
-      }
-    }
-  `,
-  ListWrapper: styled.div`
-    height: calc(100vh - 9.6rem);
-
-    /*슬라이드 뷰어 스타일 제어*/
-    .swiper-slide {
-      height: 100%;
-      padding: 3.5rem 0 15rem 0;
-      overflow-y: scroll;
-    }
-
-    .swiper-tab-slide-viewer {
-      height: 100%;
-    }
-  `,
-};

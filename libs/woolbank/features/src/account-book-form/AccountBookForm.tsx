@@ -1,9 +1,11 @@
 'use client';
 
 import { delay, useIsDashboardHost } from '@common';
-import { Text, typography } from '@wds';
-import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
-import { styled, useTheme } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { grayTertiary, Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
+import { type ChangeEvent, type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '../_shared/components/button/Button';
 import { ToggleTab } from '../_shared/components/toggle-tab/ToggleTab';
 import { useConfirm } from '../_shared/confirm/ConfirmContext';
@@ -11,12 +13,106 @@ import { useUserInfo } from '../_shared/hooks/useUserInfo';
 import { IconCalendar, IconChevronRight, IconSwap, IconTrashCan } from '../_shared/icons';
 import { useToast } from '../_shared/toast/useToast';
 import getCategoryMsg from '../_shared/utils/account-books';
-import { AccountBookSaveForm, ScheduledPaymentType, useAccountBookForm } from './_common/hooks/useAccountBookForm';
+import {
+  type AccountBookSaveForm,
+  type ScheduledPaymentType,
+  useAccountBookForm,
+} from './_common/hooks/useAccountBookForm';
 import { useAccountBookSaveRouterProps } from './_common/hooks/useAccountBookSaveRouterProps';
 import { FormField } from './form-field/FormField';
 import { FormInput } from './form-field/FormInput';
 import { Switch } from './form-field/Switch';
 import { FormModal } from './form-modal/FormModal';
+
+const styles = stylex.create({
+  form: {
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+  formDashboard: { marginTop: 0 },
+  formDefault: { marginTop: '3rem' },
+  // 원본의 `> div + div { margin-top: 4rem }` — 두 번째 div(필드 블록)에 직접 준다
+  fieldsBlock: { marginTop: '4rem' },
+  contentWrapper: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    gap: '1rem',
+  },
+  centerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '4px',
+  },
+  // 원본의 `.center-box svg { margin-bottom: 2px }`
+  centerBoxIcon: { marginBottom: '2px' },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  toggle: {
+    width: '120px',
+    marginBottom: '2rem',
+  },
+  title: {
+    marginBlock: '3rem',
+    marginInline: 0,
+    fontSize: '4rem',
+  },
+  amountRow: {
+    display: 'flex',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+    gap: '0.2rem',
+  },
+  amountInput: {
+    minWidth: '1ch',
+    maxWidth: '100%',
+    borderStyle: 'none',
+    background: 'transparent',
+    textAlign: 'right',
+    color: colorVars['--color-textPrimary'],
+    caretColor: colorVars['--color-orangePrimary'],
+    '::placeholder': { color: colorVars['--color-textDisabled'] },
+  },
+  memo: {
+    borderRadius: '1.3rem',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    height: '15rem',
+    padding: '1.6rem',
+    width: '100%',
+    boxSizing: 'border-box',
+    borderStyle: 'none',
+    color: colorVars['--color-textPrimary'],
+  },
+  formContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBlock: '1.6rem',
+    paddingInline: 0,
+  },
+  buttonArea: {
+    position: 'sticky',
+    bottom: 0,
+    width: '100%',
+    height: '5.5rem',
+    zIndex: 100,
+  },
+  bottomWrapper: {
+    display: 'flex',
+    gap: '0.8rem',
+  },
+});
+
+const dynamicStyles = stylex.create({
+  amountWidth: (ch: number) => ({ width: `${ch}ch` }),
+});
 
 const TAB_LIST = [
   {
@@ -38,10 +134,10 @@ interface Props {
 }
 
 export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBookForm }: Props) => {
-  const { colors } = useTheme();
   const {
     formData,
     isActiveSubmit,
+    isFormChanged,
     onChange,
     setAmount,
     setType,
@@ -63,9 +159,10 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
     setAmount(digits === '' ? 0 : Number(digits));
   };
 
-  const amountDisplayLength =
-    formData.amount === 0 ? 1 : formData.amount.toLocaleString('ko-KR').length;
+  const amountDisplayLength = formData.amount === 0 ? 1 : formData.amount.toLocaleString('ko-KR').length;
   const { is_insert_mode: isInsertMode } = useAccountBookSaveRouterProps();
+  // 대시보드 패널은 URL 쿼리가 없어 isInsertMode 가 항상 true 이므로, 작성 여부는 초기 폼 유무로 판단한다
+  const isCreateForm = !accountBookForm;
   const [openModalName, setModalName] = useState('');
   const title_ref = useRef<HTMLInputElement>(null);
 
@@ -103,6 +200,20 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
     }
   };
 
+  // 원본 앱의 "금액 시트 완료 → 지출처 포커스" 연속 흐름을 인라인 input 의 Enter 로 재현한다.
+  // keydown 에서 포커스를 옮기면 이어지는 keyup 이 지출처 FormInput 에 전달되어
+  // 내부 Enter-blur 로직이 포커스를 즉시 해제하므로, keyup 시점에 옮긴다.
+  const handleAmountKeyUpEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    if (isCreateForm) {
+      title_ref.current?.focus();
+      return;
+    }
+    e.currentTarget.blur();
+  };
+
   // AOS에서는 이 이벤트 가 동작하지 않는다 (IOS키보드 오픈)
   const handleTitleKeyDownEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
     const isKeyboardEnter = e.key === 'Enter';
@@ -136,41 +247,53 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
   };
 
   const typeMsg = getCategoryMsg(formData.type);
-  const isUpdateForm = !accountBookForm;
 
   return (
     <>
-      <SC.Form $isDashboardHost={isDashboardHost}>
-        <SC.Content>
-          <div className='toggle'>
+      <main {...stylex.props(styles.form, isDashboardHost ? styles.formDashboard : styles.formDefault)}>
+        <div {...stylex.props(styles.content)}>
+          <div {...stylex.props(styles.toggle)}>
             <ToggleTab size='small' tabs={TAB_LIST} value={formData.type} onChangeTab={setType} />
           </div>
-          <div className='center-box' onClick={openFormBottomSheet('registerDateTime')}>
+          <div {...stylex.props(styles.centerBox)} onClick={openFormBottomSheet('registerDateTime')}>
             <Text variant='body3' color='textTertiary' as='p'>
               {formData.registerDateTime.format('YYYY-MM-DD')}
             </Text>
-            <IconCalendar width={12} height={12} fill={colors.textTertiary} />
+            <IconCalendar width={12} height={12} fill={grayTertiary} {...stylex.props(styles.centerBoxIcon)} />
           </div>
           {isDashboardHost ? (
-            <SC.AmountRow>
-              <SC.AmountInput
+            <div {...stylex.props(styles.amountRow)}>
+              <input
                 inputMode='numeric'
                 placeholder='0'
+                autoFocus={isCreateForm}
+                enterKeyHint='next'
                 value={formData.amount === 0 ? '' : formData.amount.toLocaleString('ko-KR')}
                 onChange={handleAmountInputChange}
-                style={{ width: `${Math.max(1, amountDisplayLength)}ch` }}
+                onKeyUp={handleAmountKeyUpEnter}
+                {...stylex.props(
+                  typographyStyles.title1Bold,
+                  styles.amountInput,
+                  dynamicStyles.amountWidth(Math.max(1, amountDisplayLength)),
+                )}
               />
               <Text variant='title1Bold' color='textPrimary'>
                 원
               </Text>
-            </SC.AmountRow>
+            </div>
           ) : (
-            <Text className='title' variant='title1Bold' color='textPrimary' onClick={openFormBottomSheet('amount')} as='p'>
+            <Text
+              xstyle={styles.title}
+              variant='title1Bold'
+              color='textPrimary'
+              onClick={openFormBottomSheet('amount')}
+              as='p'
+            >
               {`${formData.amount.toLocaleString('ko-KR')}원`}
             </Text>
           )}
-        </SC.Content>
-        <div>
+        </div>
+        <div {...stylex.props(styles.fieldsBlock)}>
           <FormField title={`${typeMsg}처`}>
             <FormInput
               ref={title_ref}
@@ -186,15 +309,15 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             />
           </FormField>
           <FormField title='카테고리' onClick={openFormBottomSheet('category')}>
-            <SC.FormContent>
+            <div {...stylex.props(styles.formContent)}>
               <Text variant='body1' color='textPrimary'>
                 {formData.category.name}
               </Text>
-              <IconChevronRight width={16} height={16} fill={colors.textTertiary} />
-            </SC.FormContent>
+              <IconChevronRight width={16} height={16} fill={grayTertiary} />
+            </div>
           </FormField>
           <FormField title='예산에서 제외'>
-            <div className='content-wrapper'>
+            <div {...stylex.props(styles.contentWrapper)}>
               <Switch checked={formData.isDisabledBudget} onClick={toggleDisabledBudget} />
             </div>
           </FormField>
@@ -206,7 +329,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             }
             onClick={isInsertMode ? openFormBottomSheet('scheduled') : undefined}
           >
-            <div className='content-wrapper'>
+            <div {...stylex.props(styles.contentWrapper)}>
               {formData.scheduledPaymentDay && (
                 <Text variant='body3' color='red500'>
                   {formData.scheduledPaymentType === 'repeat' && `${formData.scheduledPaymentDay}일`}
@@ -214,27 +337,35 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
                     `매월${formData.installmentMonth}일 (1/${formData.scheduledPaymentDay})`}
                 </Text>
               )}
-              {isInsertMode && <IconSwap width={16} height={16} fill={colors.textTertiary} />}
+              {isInsertMode && <IconSwap width={16} height={16} fill={grayTertiary} />}
             </div>
           </FormField>
           <FormField title='메모' />
-          <SC.Memo name='memo' value={formData.memo} tabIndex={-1} maxLength={100} onChange={onChange} />
+          <textarea
+            name='memo'
+            value={formData.memo}
+            tabIndex={-1}
+            maxLength={100}
+            onChange={onChange}
+            {...stylex.props(styles.memo)}
+          />
         </div>
         {!isShareUser && (
-          <SC.ButtonArea>
-            <div className='bottom-wrapper'>
-              {!isUpdateForm && (
+          <footer {...stylex.props(styles.buttonArea)}>
+            <div {...stylex.props(styles.bottomWrapper)}>
+              {!isCreateForm && (
                 <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
                   <IconTrashCan />
                 </Button>
               )}
-              <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
-                {isUpdateForm ? '작성하기' : '수정하기'}
+              {/* 수정 폼은 실제 변경이 있을 때만 제출 가능하다 */}
+              <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit || !isFormChanged}>
+                {isCreateForm ? '작성하기' : '수정하기'}
               </Button>
             </div>
-          </SC.ButtonArea>
+          </footer>
         )}
-      </SC.Form>
+      </main>
       <FormModal
         openModalName={openModalName}
         formData={formData}
@@ -246,102 +377,4 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
       />
     </>
   );
-};
-
-const SC = {
-  AmountRow: styled.div`
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.2rem;
-  `,
-  AmountInput: styled.input`
-    ${typography.title1Bold}
-    min-width: 1ch;
-    max-width: 100%;
-    border: none;
-    background: transparent;
-    text-align: right;
-    color: ${({ theme }) => theme.colors.textPrimary};
-    caret-color: ${({ theme }) => theme.colors.orangePrimary};
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.textDisabled};
-    }
-  `,
-  Form: styled.main<{ $isDashboardHost: boolean }>`
-    margin-top: ${({ $isDashboardHost }) => ($isDashboardHost ? '0' : '3rem')};
-    padding: 0 1.6rem;
-
-    .content-wrapper {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 100%;
-      gap: 1rem;
-    }
-
-    .center-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-
-      svg {
-        margin-bottom: 2px;
-      }
-    }
-    > div + div {
-      margin-top: 4rem;
-    }
-  `,
-  MemoWrapper: styled.div`
-    height: 15rem;
-    width: 100%;
-  `,
-  Memo: styled.textarea`
-    border-radius: 1.3rem;
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    height: 15rem;
-    padding: 1.6rem;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    color: ${({ theme }) => theme.colors.textPrimary};
-  `,
-  FormContent: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.6rem 0;
-  `,
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    .toggle {
-      width: 120px;
-      margin-bottom: 2rem;
-    }
-
-    .title {
-      margin: 3rem 0;
-      font-size: 4rem;
-    }
-  `,
-  ButtonArea: styled.footer`
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    height: 5.5rem;
-    z-index: 100;
-
-    .bottom-wrapper {
-      display: flex;
-      gap: 0.8rem;
-    }
-  `,
 };
