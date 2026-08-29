@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "main": "src/index.ts",
-  "scripts": {
-    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\""
-  },
   "dependencies": {
     "@woolta/common": "workspace:*",
     "@woolta/todo-features": "workspace:*",
