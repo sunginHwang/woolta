@@ -1,6 +1,6 @@
-import { invisibleScrollBar, white } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { forwardRef, type PropsWithChildren } from 'react';
-import { styled } from 'styled-components';
 
 interface Props extends PropsWithChildren {
   /**
@@ -14,45 +14,50 @@ interface Props extends PropsWithChildren {
   padding?: string;
 }
 
+const styles = stylex.create({
+  container: {
+    whiteSpace: 'nowrap',
+    overflowX: 'scroll',
+    overflowY: 'hidden',
+    position: 'relative',
+    gap: '6px',
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: colorVars['--color-white'],
+    // invisibleScrollBar mixin
+    scrollbarWidth: 'none',
+    msOverflowStyle: 'none',
+    '::-webkit-scrollbar': { display: 'none' },
+  },
+  stickey: {
+    position: 'sticky',
+    zIndex: 1,
+  },
+});
+
+const dynamicStyles = stylex.create({
+  padding: (padding: string) => ({ padding }),
+  top: (top: number | undefined) => ({ top: top === undefined ? null : `${top}px` }),
+});
+
 export const ChipLayout = forwardRef<HTMLUListElement, Props>(
   ({ padding = '.8rem 1rem', stickey_height, children, ...rest }, parents_ref) => {
+    // 원본과 동일: stickey_height 가 없을 때 sticky 를 건다
+    const use_stickey = !stickey_height;
+
     return (
-      <SC.Container
+      <ul
         ref={parents_ref}
-        $use_stickey={!stickey_height}
-        $stickey_height={stickey_height}
-        $padding={padding}
         {...rest}
+        {...stylex.props(
+          styles.container,
+          dynamicStyles.padding(padding),
+          use_stickey && styles.stickey,
+          use_stickey && dynamicStyles.top(stickey_height),
+        )}
       >
         {children}
-      </SC.Container>
+      </ul>
     );
   },
 );
-
-const SC = {
-  Container: styled.ul<{ $use_stickey?: boolean; $stickey_height?: number; $padding?: string }>`
-    ${invisibleScrollBar}
-    padding: ${({ $padding = '0.8rem 1.6rem;' }) => $padding};
-    white-space: nowrap;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    position: relative;
-    gap: 6px;
-    display: flex;
-    align-items: center;
-    scrollbar-width: none;
-    ${({ $use_stickey, $stickey_height }) =>
-      $use_stickey &&
-      `
-        position: sticky;
-        z-index: 1;
-        top: ${$stickey_height}px;
-    `}
-    background-color: ${white};
-
-    a:active {
-      background-color: ${white};
-    }
-  `,
-};

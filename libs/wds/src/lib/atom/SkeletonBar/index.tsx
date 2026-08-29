@@ -1,5 +1,6 @@
 'use client';
 
+import type { StyleXStyles } from '@stylexjs/stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { FC, HTMLAttributes } from 'react';
 
@@ -7,6 +8,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   width?: string;
   height?: string;
   radius?: number;
+  /** 외부에서 StyleX 스타일을 주입한다 (wds 공통 컨벤션) */
+  xstyle?: StyleXStyles;
 }
 
 const loading = stylex.keyframes({
@@ -32,8 +35,15 @@ const dynamicStyles = stylex.create({
   }),
 });
 
-export const SkeletonBar: FC<Props> = ({ width = '20rem', height = '3.2rem', radius = 3, className, ...rest }) => {
-  const sx = stylex.props(styles.base, dynamicStyles.size(width, height, radius));
+export const SkeletonBar: FC<Props> = ({
+  width = '20rem',
+  height = '3.2rem',
+  radius = 3,
+  className,
+  xstyle,
+  ...rest
+}) => {
+  const sx = stylex.props(styles.base, dynamicStyles.size(width, height, radius), xstyle);
 
   return <div {...rest} {...sx} className={className ? `${sx.className ?? ''} ${className}` : sx.className} />;
 };

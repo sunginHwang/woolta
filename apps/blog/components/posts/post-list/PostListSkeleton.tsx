@@ -1,66 +1,59 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
-import { styled } from 'styled-components';
-import layouts from '../../../style/layouts';
+import { colorVars } from '@wds/tokens.stylex';
+import { layoutConsts } from '../../../style/layouts.stylex';
 import { makeArray } from '../../../utils/array';
+
+const styles = stylex.create({
+  container: {
+    maxWidth: layoutConsts.contentMaxWidth,
+    marginBlock: 0,
+    marginInline: 'auto',
+    paddingLeft: { default: null, '@media screen and (max-width: 1024px)': '2rem' },
+    paddingRight: { default: null, '@media screen and (max-width: 1024px)': '2rem' },
+  },
+  // phoneWidth(450px) 는 mobileWidth(1024px) 보다 좁아 뒤에 와야 last-wins 로 덮는다
+  containerPhone: {
+    paddingLeft: { default: null, '@media screen and (max-width: 450px)': '1rem' },
+    paddingRight: { default: null, '@media screen and (max-width: 450px)': '1rem' },
+  },
+  postItem: {
+    textAlign: 'left',
+    paddingBottom: { default: '1em', '@media screen and (max-width: 450px)': '0.5em' },
+    paddingTop: { default: '1.7em', '@media screen and (max-width: 450px)': '1.2em' },
+    borderBottomWidth: '2px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-gray600'],
+  },
+  line: {
+    marginBottom: '1.5rem',
+  },
+  // 원본의 `* + * { margin-top: 0.5rem }` — 자손 선택자를 못 쓰므로 두 번째 이후 항목에 직접 준다
+  stacked: {
+    marginTop: '0.5rem',
+  },
+});
 
 export const PostListSkeleton = () => {
   return (
-    <SC.Container>
-      {[
-        makeArray(10).map((index) => (
-          <SC.PostItem key={index}>
-            <SC.Line>
-              <SkeletonBar width='65%' height='2.88rem' />
-            </SC.Line>
-            <SC.Line>
-              <SkeletonBar width='60%' height='1.7rem' />
-              <SkeletonBar width='80%' height='1.7rem' />
-              <SkeletonBar width='40%' height='1.7rem' />
-            </SC.Line>
-            <SC.Line>
-              <SkeletonBar width='15%' height='1.28rem' />
-            </SC.Line>
-          </SC.PostItem>
-        )),
-      ]}
-    </SC.Container>
+    <div {...stylex.props(styles.container, styles.containerPhone)}>
+      {makeArray(10).map((index) => (
+        <div key={index} {...stylex.props(styles.postItem)}>
+          <div {...stylex.props(styles.line)}>
+            <SkeletonBar width='65%' height='2.88rem' />
+          </div>
+          <div {...stylex.props(styles.line)}>
+            <SkeletonBar width='60%' height='1.7rem' />
+            <SkeletonBar width='80%' height='1.7rem' xstyle={styles.stacked} />
+            <SkeletonBar width='40%' height='1.7rem' xstyle={styles.stacked} />
+          </div>
+          <div {...stylex.props(styles.line)}>
+            <SkeletonBar width='15%' height='1.28rem' />
+          </div>
+        </div>
+      ))}
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    margin-top: 2em;
-    max-width: ${layouts.contentMaxWidth};
-    margin: 0 auto;
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-
-    @media screen and (max-width: ${layouts.phoneWidth}) {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-  `,
-  PostItem: styled.div`
-    text-align: left;
-    padding-bottom: 1em;
-    padding-top: 1.7em;
-    border-bottom: 2px solid ${({ theme }) => theme.colors.gray600};
-
-    @media screen and (max-width: ${layouts.phoneWidth}) {
-      padding-bottom: 0.5em;
-      padding-top: 1.2em;
-    }
-  `,
-  Line: styled.div`
-    margin-bottom: 1.5rem;
-
-    * + * {
-      margin-top: 0.5rem;
-    }
-  `,
 };

@@ -4,14 +4,22 @@ import { javascript } from '@codemirror/lang-javascript';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { languages } from '@codemirror/language-data';
+import * as stylex from '@stylexjs/stylex';
 import { useCodeMirror } from '@uiw/react-codemirror';
 import { useAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
-import { styled } from 'styled-components';
 import { splitWithIndex } from '../../_shared/utils/string';
 import { postContentAtom } from '../../_shared/write-store';
 import { useImageDndAndPaste } from '../hooks/useImageDndAndPaste';
-import { themeCss } from './theme';
+import editorCss from './editor.module.css';
+
+const styles = stylex.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    textAlign: 'left',
+  },
+});
 
 const UPLOAD_PREV_TEXT = `![업로드중..]()\n`;
 const CONTENT_PLACEHOLDER = '멋진 글을 공유해 주세요.';
@@ -69,40 +77,7 @@ export const Content = () => {
     }
   }, [setContainer]);
 
-  return <SC.Container ref={editorRef} />;
-};
+  const sx = stylex.props(styles.container);
 
-const SC = {
-  Container: styled.div`
-    ${themeCss}
-    width: 100%;
-    height: 100%;
-    text-align: left;
-
-    .CodeMirror-wrap pre {
-      word-break: break-word;
-    }
-    .cm-scroller {
-      font-family: 'Pretendard', 'sans-serif';
-    }
-
-    .cm-line {
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      word-break: normal;
-    }
-
-    .cm-editor {
-      height: 100%;
-      padding: 0 16px;
-    }
-
-    .cm-content {
-      white-space: pre-wrap;
-    }
-
-    .cm-focused {
-      outline: none;
-    }
-  `,
+  return <div ref={editorRef} {...sx} className={`${sx.className ?? ''} ${editorCss.editor}`} />;
 };

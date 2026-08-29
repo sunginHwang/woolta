@@ -1,10 +1,9 @@
 import dayjs, { type Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import { styled } from 'styled-components';
 import type { CalendarValue } from '../calendarValue';
 import { DefaultBottomSheet } from '../DefaultBottomSheet';
-import { calendarStyle } from './style';
+import calendarCss from './calendar.module.css';
 import { TimePicker } from './TimePicker';
 
 interface Props {
@@ -47,17 +46,11 @@ export const DateTimeSheet = ({ date, visible, onChangeDateTime, onClose }: Prop
   return (
     <DefaultBottomSheet visible={visible} title='시간 선택' oncloseModal={onClose}>
       {isDatePhase && (
-        <SC.Wrapper>
+        <div className={calendarCss.calendar}>
           <Calendar value={date.toDate()} showFixedNumberOfWeeks onChange={onChangeCalendar} />
-        </SC.Wrapper>
+        </div>
       )}
       {!isDatePhase && <TimePicker time={time} onChangeTime={onChangeTime} />}
     </DefaultBottomSheet>
   );
-};
-
-const SC = {
-  Wrapper: styled.div`
-    ${calendarStyle}
-  `,
 };

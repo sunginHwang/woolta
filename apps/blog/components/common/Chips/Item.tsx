@@ -1,6 +1,15 @@
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import { forwardRef, type MouseEvent } from 'react';
 import Chip, { type ChipItem } from './Chip';
+
+// ChipLayout 의 `a:active` 자손 선택자를 옮겨온 것 — StyleX 는 자손 선택자를 지원하지 않는다
+const styles = stylex.create({
+  link: {
+    backgroundColor: { default: null, ':active': colorVars['--color-white'] },
+  },
+});
 
 export interface ChipItemWithLink extends ChipItem {
   href?: string;
@@ -30,7 +39,7 @@ const Item = forwardRef<HTMLLIElement, Props>(
     return (
       <li ref={parents_ref} onClick={handleChipClick}>
         {chip.href ? (
-          <Link {...link_props}>
+          <Link {...link_props} {...stylex.props(styles.link)}>
             <Chip text={chip.name} active={chip.value === active_chip_value} className={class_name} />
           </Link>
         ) : (
