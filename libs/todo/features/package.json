@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@croquiscom/monolith": "^0.9.0",
+    "@tanstack/react-query": "^5.4.3",
     "@woolta/common": "workspace:*",
     "@woolta/wds": "workspace:*",
     "dayjs": "^1.11.10",

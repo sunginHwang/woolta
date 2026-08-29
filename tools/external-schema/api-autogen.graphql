@@ -1,0 +1,902 @@
+# 전 도메인 통합 GraphQL 스키마 — FE codegen 용.
+# scripts/mergeSchema.ts 가 생성. 직접 수정 금지 (npm run mergeSchema 로 재생성).
+
+scalar DateTime
+
+scalar JSON
+
+type Query {
+  account(id: ID!): Account
+  accountBook(id: ID!): AccountBook
+  accountBookCategoryImageList: AccountBookCategoryImageList!
+  accountBookCategoryList: AccountBookCategoryList!
+  accountBookList(dateTime: DateTime!): AccountBookList!
+  accountList(limitCount: Int): AccountList!
+  articleCategoryList: ArticleCategoryList!
+  articleList(categoryId: String): ArticleList!
+  bucketList(id: ID!): BucketList
+  bucketListSummaryList(limitCount: Int): BucketListSummaryList!
+  categoryList: CategoryList!
+  checkAccess: Int!
+  checkToken: CheckTokenResult!
+  getAccountBookStatisticList(endDate: DateTime!, startDate: DateTime!, type: AccountBookCategoryType!): StatisticList!
+  getAccountLastUpdatedDate: DateTime!
+  getBucketListItemLastUpdatedDate(id: ID!): DateTime!
+  getBucketListLastUpdatedDate: DateTime!
+  getRecentPostList(limitCount: Int): PostList!
+  getShareCode: String!
+  mainInfo: MainInfo!
+  me: UserInfo!
+  memo(id: String!): Memo
+  memoList: MemoList!
+  post(categoryNo: Int!, postNo: Int!): Post
+  postList(categoryId: Int): PostList!
+  regularExpenditureGroupList(limitCount: Int): RegularExpenditureGroupList!
+  todoCategoryList: TodoCategoryList!
+  todoList: TodoList!
+  user(id: ID!): User
+  weeklyCurationList: WeeklyCurationList!
+}
+
+type Mutation {
+  addArticleToCuration(input: AddArticleToCurationInput!): WeeklyCuration!
+  checkRefreshToken(input: CheckRefreshTokenInput!): AuthTokens!
+  completeAccountExpiration(input: CompleteAccountExpirationInput!): Boolean!
+  completeBucketList(input: CompleteBucketListInput!): Boolean!
+  completeTodo(input: CompleteTodoInput!): Todo!
+  createAccount(input: CreateAccountInput!): Account!
+  createAccountBook(input: CreateAccountBookInput!): AccountBook!
+  createAccountBookCategory(input: CreateAccountBookCategoryInput!): AccountBookCategory!
+  createArticle(input: CreateArticleInput!): Article!
+  createArticleCategory(input: CreateArticleCategoryInput!): ArticleCategory!
+  createBucketList(input: CreateBucketListInput!): BucketList!
+  createBucketListTodo(input: CreateBucketListTodoInput!): BucketListTodo!
+  createDeposit(input: CreateDepositInput!): Deposit!
+  createMemo: Memo!
+  createPost(input: CreatePostInput!): PostUpsertResult!
+  createRegularExpenditure(input: CreateRegularExpenditureInput!): RegularExpenditure!
+  createTodo(input: CreateTodoInput!): Todo!
+  createTodoCategory(input: CreateTodoCategoryInput!): TodoCategory!
+  deleteAccount(input: DeleteAccountInput!): Boolean!
+  deleteAccountBook(input: DeleteAccountBookInput!): Boolean!
+  deleteAccountBookCategory(input: DeleteAccountBookCategoryInput!): Boolean!
+  deleteArticle(input: DeleteArticleInput!): Boolean!
+  deleteArticleCategory(input: DeleteArticleCategoryInput!): Boolean!
+  deleteBucketList(input: DeleteBucketListInput!): Boolean!
+  deleteBucketListTodo(input: DeleteBucketListTodoInput!): Boolean!
+  deleteMemo(input: DeleteMemoInput!): Boolean!
+  deletePost(input: DeletePostInput!): Boolean!
+  deleteRegularExpenditure(input: DeleteRegularExpenditureInput!): Boolean!
+  deleteTodo(input: DeleteTodoInput!): Boolean!
+  deleteTodoCategory(input: DeleteTodoCategoryInput!): Boolean!
+  emptyTrash: Boolean!
+  importArticleList(input: ImportArticleListInput!): ArticleImportResult!
+  importMemoList(input: ImportMemoListInput!): MemoImportResult!
+  importTodoList(input: ImportTodoListInput!): TodoImportResult!
+  loginByShareCode(input: LoginByShareCodeInput!): LoginResult!
+  loginBySocial(input: LoginBySocialInput!): LoginResult!
+  logout: Boolean!
+  removeArticleFromCuration(input: RemoveArticleFromCurationInput!): WeeklyCuration!
+  restoreTodo(input: RestoreTodoInput!): Todo!
+  sendPushToAll(input: SendPushToAllInput!): Boolean!
+  subscribeWebPush(input: SubscribeWebPushInput!): Boolean!
+  trashTodo(input: TrashTodoInput!): Todo!
+  unsubscribeWebPush(input: UnsubscribeWebPushInput!): Boolean!
+  updateAccountBook(input: UpdateAccountBookInput!): AccountBook!
+  updateArticle(input: UpdateArticleInput!): Article!
+  updateArticleCategory(input: UpdateArticleCategoryInput!): ArticleCategory!
+  updateBucketList(input: UpdateBucketListInput!): BucketList!
+  updateBucketListTodoComplete(input: UpdateBucketListTodoCompleteInput!): BucketListTodo!
+  updateMemo(input: UpdateMemoInput!): Memo!
+  updatePost(input: UpdatePostInput!): PostUpsertResult!
+  updateTodo(input: UpdateTodoInput!): Todo!
+  updateTodoCategory(input: UpdateTodoCategoryInput!): TodoCategory!
+  upsertShareCode: String!
+}
+
+type Account {
+  amount: Int!
+  createdAt: DateTime!
+  currentAmount: Int!
+  deposits: [Deposit!]!
+  endDate: DateTime!
+  id: ID!
+  isExpiration: Boolean!
+  rate: Float!
+  regularTransferDate: Int!
+  savingType: SavingType!
+  savingTypeId: Int!
+  startDate: DateTime!
+  taxType: String!
+  title: String!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type AccountBook {
+  accountBookCategory: AccountBookCategory!
+  accountBookCategoryId: Int!
+  amount: Int!
+  createdAt: DateTime!
+  id: ID!
+  installmentMonth: Int
+  isDisabledBudget: Boolean!
+  isRegularExpenditure: Boolean!
+  memo: String!
+  paidInstallmentMonth: Int
+  registerDateTime: DateTime!
+  regularDate: Int
+  title: String!
+  type: AccountBookCategoryType!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type AccountBookCategory {
+  accountBookCategoryImage: AccountBookCategoryImage!
+  accountBookCategoryImageId: Int!
+  createdAt: DateTime!
+  delYn: Boolean!
+  id: ID!
+  name: String!
+  type: AccountBookCategoryType!
+  updatedAt: DateTime!
+  useStatistic: Boolean!
+  userId: Int!
+}
+
+type AccountBookCategoryImage {
+  createdAt: DateTime!
+  id: ID!
+  imageUrl: String!
+  name: String!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type AccountBookCategoryImageList {
+  itemList: [AccountBookCategoryImage!]!
+  totalCount: Int!
+}
+
+type AccountBookCategoryList {
+  itemList: [AccountBookCategory!]!
+  totalCount: Int!
+}
+
+enum AccountBookCategoryType {
+  EXPENDITURE
+  INCOME
+}
+
+type AccountBookList {
+  itemList: [AccountBook!]!
+  totalCount: Int!
+}
+
+type AccountList {
+  itemList: [Account!]!
+  totalCount: Int!
+}
+
+input AddArticleToCurationInput {
+  articleId: String!
+  weekKey: String!
+}
+
+type Article {
+  categoryId: String!
+  createdAt: DateTime!
+  id: String!
+  seo: ArticleSeo
+  title: String!
+  updatedAt: DateTime!
+  url: String!
+}
+
+type ArticleCategory {
+  createdAt: DateTime!
+  id: String!
+  name: String!
+  order: Int!
+}
+
+type ArticleCategoryList {
+  itemList: [ArticleCategory!]!
+  totalCount: Int!
+}
+
+type ArticleIdMapping {
+  from: String!
+  to: String!
+}
+
+type ArticleImportResult {
+  articleIdMap: [ArticleIdMapping!]!
+  categoryIdMap: [ArticleIdMapping!]!
+}
+
+type ArticleList {
+  itemList: [Article!]!
+  totalCount: Int!
+}
+
+type ArticleSeo {
+  description: String
+  imageUrl: String
+  title: String
+}
+
+input ArticleSeoInput {
+  description: String
+  imageUrl: String
+  title: String
+}
+
+type AuthTokens {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type BucketList {
+  completeDate: DateTime!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  imageUrl: String!
+  isComplete: Boolean!
+  thumbImageUrl: String!
+  title: String!
+  todoList: [BucketListTodo!]!
+  updatedAt: DateTime!
+  user: WoolBankUser
+  userId: Int!
+}
+
+type BucketListSummary {
+  completeDate: DateTime!
+  completeTodoCount: Int!
+  id: ID!
+  isComplete: Boolean!
+  thumbImageUrl: String!
+  title: String!
+  todoCount: Int!
+  updatedAt: DateTime!
+}
+
+type BucketListSummaryList {
+  itemList: [BucketListSummary!]!
+  totalCount: Int!
+}
+
+type BucketListTodo {
+  bucketList: BucketList
+  bucketListId: Int!
+  createdAt: DateTime!
+  id: ID!
+  isComplete: Boolean!
+  title: String!
+  updatedAt: DateTime!
+  user: WoolBankUser
+  userId: Int!
+}
+
+input BucketListTodoInput {
+  isComplete: Boolean!
+  title: String!
+}
+
+type Category {
+  label: String!
+  value: Int!
+}
+
+type CategoryList {
+  itemList: [Category!]!
+  totalCount: Int!
+}
+
+input CheckRefreshTokenInput {
+  refreshToken: String!
+}
+
+type CheckTokenResult {
+  authTokens: AuthTokens!
+  userInfo: UserInfo!
+}
+
+input CompleteAccountExpirationInput {
+  id: ID!
+}
+
+input CompleteBucketListInput {
+  id: ID!
+}
+
+input CompleteTodoInput {
+  id: String!
+  isCompleted: Boolean!
+}
+
+input CreateAccountBookCategoryInput {
+  accountBookCategoryImageId: Int!
+  name: String!
+  type: AccountBookCategoryType!
+  useStatistic: Boolean!
+}
+
+input CreateAccountBookInput {
+  amount: Int!
+  categoryId: Int!
+  installmentMonth: Int
+  isDisabledBudget: Boolean
+  memo: String
+  registerDateTime: DateTime!
+  scheduledPaymentDay: Int
+  scheduledPaymentType: ScheduledPaymentType
+  title: String!
+  type: AccountBookCategoryType!
+}
+
+input CreateAccountInput {
+  amount: Int!
+  endDate: DateTime!
+  rate: Float!
+  regularTransferDate: Int!
+  savingTypeId: Int!
+  startDate: DateTime!
+  taxType: String!
+  title: String!
+}
+
+input CreateArticleCategoryInput {
+  name: String!
+}
+
+input CreateArticleInput {
+  categoryId: String!
+  seo: ArticleSeoInput
+  title: String!
+  url: String!
+}
+
+input CreateBucketListInput {
+  completeDate: DateTime!
+  description: String!
+  imageUrl: String
+  thumbImageUrl: String
+  title: String!
+  todoList: [BucketListTodoInput!]
+}
+
+input CreateBucketListTodoInput {
+  bucketListId: Int!
+  isComplete: Boolean!
+  title: String!
+}
+
+input CreateDepositInput {
+  accountId: Int!
+  amount: Int!
+  depositDate: DateTime
+}
+
+input CreatePostInput {
+  categoryNo: Int!
+  contents: String!
+  title: String!
+}
+
+input CreateRegularExpenditureInput {
+  amount: Int!
+  categoryId: Int!
+  isAutoExpenditure: Boolean!
+  regularDate: Int!
+  title: String!
+}
+
+input CreateTodoCategoryInput {
+  name: String!
+}
+
+input CreateTodoInput {
+  categoryId: String
+  dueDate: String
+  priority: TodoPriority
+  title: String!
+}
+
+type CustomRegularExpenditure {
+  accountBookCategory: AccountBookCategory!
+  accountBookCategoryId: Int!
+  amount: Int!
+  createdAt: DateTime!
+  id: ID!
+  isAutoExpenditure: Boolean!
+  regularDate: Int!
+  regularExpenditureDay: DateTime!
+  title: String!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+input DeleteAccountBookCategoryInput {
+  id: ID!
+}
+
+input DeleteAccountBookInput {
+  id: ID!
+}
+
+input DeleteAccountInput {
+  id: ID!
+}
+
+input DeleteArticleCategoryInput {
+  id: String!
+}
+
+input DeleteArticleInput {
+  id: String!
+}
+
+input DeleteBucketListInput {
+  id: ID!
+}
+
+input DeleteBucketListTodoInput {
+  todoId: ID!
+}
+
+input DeleteMemoInput {
+  id: String!
+}
+
+input DeletePostInput {
+  categoryNo: Int!
+  postNo: Int!
+}
+
+input DeleteRegularExpenditureInput {
+  id: ID!
+}
+
+input DeleteTodoCategoryInput {
+  id: String!
+}
+
+input DeleteTodoInput {
+  id: String!
+}
+
+type Deposit {
+  account: Account
+  accountId: Int!
+  amount: Int!
+  createdAt: DateTime!
+  depositDate: DateTime!
+  id: ID!
+  prevTotalAmount: Int!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type IdMapping {
+  from: String!
+  to: String!
+}
+
+input ImportArticleCategoryInput {
+  clientId: String!
+  createdAt: DateTime
+  name: String!
+  order: Int!
+}
+
+input ImportArticleInput {
+  categoryClientId: String!
+  clientId: String!
+  createdAt: DateTime
+  seo: ArticleSeoInput
+  title: String!
+  updatedAt: DateTime
+  url: String!
+}
+
+input ImportArticleListInput {
+  categoryList: [ImportArticleCategoryInput!]!
+  curationList: [ImportCurationInput!]!
+  itemList: [ImportArticleInput!]!
+}
+
+input ImportCurationInput {
+  articleClientIds: [String!]!
+  weekKey: String!
+}
+
+input ImportMemoInput {
+  clientId: String!
+  content: JSON!
+  createdAt: DateTime
+  title: String!
+  updatedAt: DateTime
+}
+
+input ImportMemoListInput {
+  itemList: [ImportMemoInput!]!
+}
+
+input ImportTodoCategoryInput {
+  clientId: String!
+  createdAt: DateTime
+  name: String!
+  order: Int!
+}
+
+input ImportTodoInput {
+  categoryClientId: String
+  clientId: String!
+  completedAt: DateTime
+  createdAt: DateTime
+  deletedAt: DateTime
+  dueDate: String
+  isCompleted: Boolean!
+  memo: String!
+  order: Int!
+  priority: TodoPriority!
+  title: String!
+  updatedAt: DateTime
+}
+
+input ImportTodoListInput {
+  categoryList: [ImportTodoCategoryInput!]!
+  itemList: [ImportTodoInput!]!
+}
+
+input LoginByShareCodeInput {
+  shareCode: String!
+}
+
+input LoginBySocialInput {
+  email: String
+  imageUrl: String!
+  loginType: SocialLoginType!
+  name: String
+  socialId: String!
+}
+
+type LoginResult {
+  accessToken: String!
+  refreshToken: String!
+  user: UserInfo!
+}
+
+type MainInfo {
+  accounts: [Account!]!
+  bucketList: [BucketListSummary!]!
+  totalSavedAmount: Int!
+  totalSavedAmountExceptCurrentMonth: Int!
+}
+
+type Memo {
+  content: JSON!
+  createdAt: DateTime!
+  id: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type MemoIdMapping {
+  from: String!
+  to: String!
+}
+
+type MemoImportResult {
+  memoIdMap: [MemoIdMapping!]!
+}
+
+type MemoList {
+  itemList: [MemoSummary!]!
+  totalCount: Int!
+}
+
+type MemoSummary {
+  createdAt: DateTime!
+  id: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type Post {
+  categoryLabel: String!
+  categoryNo: Int!
+  content: String
+  createdAt: DateTime!
+  postNo: Int!
+  title: String!
+  writer: Writer!
+}
+
+type PostList {
+  itemList: [PostSummary!]!
+  totalCount: Int!
+}
+
+type PostSummary {
+  author: String
+  categoryLabel: String!
+  categoryNo: Int!
+  createdAt: DateTime!
+  postNo: Int!
+  subDescription: String
+  title: String!
+}
+
+type PostUpsertResult {
+  categoryNo: Int!
+  postNo: Int!
+}
+
+type RegularExpenditure {
+  accountBookCategory: AccountBookCategory!
+  accountBookCategoryId: Int!
+  amount: Int!
+  createdAt: DateTime!
+  id: ID!
+  isAutoExpenditure: Boolean!
+  regularDate: Int!
+  title: String!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type RegularExpenditureGroup {
+  imageUrl: String!
+  list: [CustomRegularExpenditure!]!
+  name: String!
+  type: AccountBookCategoryType!
+}
+
+type RegularExpenditureGroupList {
+  itemList: [RegularExpenditureGroup!]!
+  totalCount: Int!
+}
+
+input RemoveArticleFromCurationInput {
+  articleId: String!
+  weekKey: String!
+}
+
+input RestoreTodoInput {
+  id: String!
+}
+
+type SavingType {
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  type: String!
+  updatedAt: DateTime!
+}
+
+enum ScheduledPaymentType {
+  INSTALLMENT
+  REPEAT
+}
+
+input SendPushToAllInput {
+  content: String!
+  title: String!
+  url: String!
+}
+
+enum SocialLoginType {
+  FACEBOOK
+  GOOGLE
+  KAKAO_TALK
+}
+
+type Statistic {
+  amount: Int!
+  categoryId: String!
+  categoryName: String!
+  list: [StatisticItem!]!
+  percentage: Float!
+  useStatistic: Boolean!
+}
+
+type StatisticItem {
+  amount: Int!
+  registerDateTime: DateTime!
+  title: String!
+}
+
+type StatisticList {
+  itemList: [Statistic!]!
+  totalCount: Int!
+}
+
+input SubscribeWebPushInput {
+  auth: String!
+  endPoint: String!
+  key: String!
+}
+
+type Todo {
+  categoryId: String
+  completedAt: DateTime
+  createdAt: DateTime!
+  deletedAt: DateTime
+  dueDate: String
+  id: String!
+  isCompleted: Boolean!
+  memo: String!
+  order: Int!
+  priority: TodoPriority!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type TodoCategory {
+  createdAt: DateTime!
+  id: String!
+  name: String!
+  order: Int!
+}
+
+type TodoCategoryList {
+  itemList: [TodoCategory!]!
+  totalCount: Int!
+}
+
+type TodoImportResult {
+  categoryIdMap: [IdMapping!]!
+  todoIdMap: [IdMapping!]!
+}
+
+type TodoList {
+  itemList: [Todo!]!
+  totalCount: Int!
+}
+
+enum TodoPriority {
+  HIGH
+  LOW
+  MEDIUM
+  NONE
+}
+
+input TrashTodoInput {
+  id: String!
+}
+
+input UnsubscribeWebPushInput {
+  key: String!
+}
+
+input UpdateAccountBookInput {
+  amount: Int
+  categoryId: Int
+  id: ID!
+  isDisabledBudget: Boolean
+  memo: String
+  registerDateTime: DateTime
+  title: String
+  type: AccountBookCategoryType
+}
+
+input UpdateArticleCategoryInput {
+  id: String!
+  name: String!
+}
+
+input UpdateArticleInput {
+  categoryId: String
+  id: String!
+  seo: ArticleSeoInput
+  title: String
+  url: String
+}
+
+input UpdateBucketListInput {
+  completeDate: DateTime!
+  description: String!
+  id: ID!
+  imageUrl: String
+  thumbImageUrl: String
+  title: String!
+}
+
+input UpdateBucketListTodoCompleteInput {
+  isComplete: Boolean!
+  todoId: ID!
+}
+
+input UpdateMemoInput {
+  content: JSON
+  id: String!
+  title: String
+}
+
+input UpdatePostInput {
+  categoryNo: Int!
+  contents: String!
+  id: Int!
+  title: String!
+}
+
+input UpdateTodoCategoryInput {
+  id: String!
+  name: String!
+}
+
+input UpdateTodoInput {
+  categoryId: String
+  dueDate: String
+  id: String!
+  memo: String
+  priority: TodoPriority
+  title: String
+}
+
+type User {
+  id: ID!
+  userId: String!
+  userName: String!
+}
+
+type UserInfo {
+  authType: String
+  createdAt: DateTime!
+  email: String!
+  id: Int!
+  loginType: String!
+  name: String!
+  profileImg: String!
+  socialId: String!
+  updatedAt: DateTime!
+}
+
+type UserShareCode {
+  createdAt: DateTime!
+  id: ID!
+  shareCode: String!
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type WeeklyCuration {
+  articleIds: [String!]!
+  articles: [Article!]!
+  weekKey: String!
+}
+
+type WeeklyCurationList {
+  itemList: [WeeklyCuration!]!
+  totalCount: Int!
+}
+
+type WoolBankUser {
+  accountBookCategories: [AccountBookCategory!]!
+  accountBookCategoryImages: [AccountBookCategoryImage!]!
+  accountBooks: [AccountBook!]!
+  accounts: [Account!]!
+  bucketLists: [BucketList!]!
+  createdAt: DateTime!
+  deposits: [Deposit!]!
+  email: String!
+  id: ID!
+  loginType: String!
+  name: String!
+  profileImg: String!
+  regularExpenditures: [RegularExpenditure!]!
+  socialId: String!
+  todos: [BucketListTodo!]!
+  updatedAt: DateTime!
+}
+
+type Writer {
+  imageUrl: String!
+  nickName: String
+  no: Int!
+}

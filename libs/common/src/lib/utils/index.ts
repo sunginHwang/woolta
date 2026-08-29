@@ -3,3 +3,4 @@ export * from './device';
 export * from './mergeRefs';
 export * from './nextjs';
 export * from './delay';
+export * from './graphqlFetch';

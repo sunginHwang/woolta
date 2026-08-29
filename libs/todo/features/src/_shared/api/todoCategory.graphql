@@ -1,0 +1,31 @@
+fragment TodoCategoryParts on TodoCategory {
+  id
+  name
+  order
+  createdAt
+}
+
+query TodoCategoryList {
+  todoCategoryList {
+    totalCount
+    itemList {
+      ...TodoCategoryParts
+    }
+  }
+}
+
+mutation CreateTodoCategory($input: CreateTodoCategoryInput!) {
+  createTodoCategory(input: $input) {
+    ...TodoCategoryParts
+  }
+}
+
+mutation UpdateTodoCategory($input: UpdateTodoCategoryInput!) {
+  updateTodoCategory(input: $input) {
+    ...TodoCategoryParts
+  }
+}
+
+mutation DeleteTodoCategory($input: DeleteTodoCategoryInput!) {
+  deleteTodoCategory(input: $input)
+}

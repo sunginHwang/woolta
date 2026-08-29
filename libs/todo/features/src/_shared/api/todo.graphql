@@ -1,0 +1,74 @@
+fragment TodoParts on Todo {
+  id
+  title
+  memo
+  dueDate
+  categoryId
+  priority
+  isCompleted
+  completedAt
+  deletedAt
+  order
+  createdAt
+  updatedAt
+}
+
+query TodoList {
+  todoList {
+    totalCount
+    itemList {
+      ...TodoParts
+    }
+  }
+}
+
+mutation CreateTodo($input: CreateTodoInput!) {
+  createTodo(input: $input) {
+    ...TodoParts
+  }
+}
+
+mutation UpdateTodo($input: UpdateTodoInput!) {
+  updateTodo(input: $input) {
+    ...TodoParts
+  }
+}
+
+mutation CompleteTodo($input: CompleteTodoInput!) {
+  completeTodo(input: $input) {
+    ...TodoParts
+  }
+}
+
+mutation TrashTodo($input: TrashTodoInput!) {
+  trashTodo(input: $input) {
+    ...TodoParts
+  }
+}
+
+mutation RestoreTodo($input: RestoreTodoInput!) {
+  restoreTodo(input: $input) {
+    ...TodoParts
+  }
+}
+
+mutation DeleteTodo($input: DeleteTodoInput!) {
+  deleteTodo(input: $input)
+}
+
+mutation EmptyTrash {
+  emptyTrash
+}
+
+mutation ImportTodoList($input: ImportTodoListInput!) {
+  importTodoList(input: $input) {
+    categoryIdMap {
+      from
+      to
+    }
+    todoIdMap {
+      from
+      to
+    }
+  }
+}
