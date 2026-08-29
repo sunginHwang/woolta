@@ -1,6 +1,6 @@
 import { Content } from './content/Content';
-import { Title } from './title/Title';
 import styles from './Post.module.css';
+import { Title } from './title/Title';
 
 export const Post = () => {
   return (

@@ -1,6 +1,7 @@
-import { typography, bgPrimary, border3, grayActive, graySecondary, pinkPrimary, white } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
-import { styled, css, RuleSet } from 'styled-components';
 
 type ChipVarient = 'filled' | 'outlined' | 'event';
 type ChipColor = 'primary';
@@ -12,187 +13,153 @@ export interface ChipItem<T = string> {
 }
 
 export interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * active 상태 여부를 지정합니다.
-   * @default false
-   */
   active?: boolean;
-  /**
-   * varient 여부를 지정합니다.
-   * @default filled
-   */
   varient?: ChipVarient;
-  /**
-   * 색상 값을 지정합니다.
-   * @default primary
-   */
   color?: ChipColor;
-  /**
-   * chip 크기를 지정 합니다.
-   * @default medium
-   */
   size?: ChipSize;
-  /**
-   * chip 비활성화 여부를 정의합니다.
-   * @default false
-   */
   disabled?: boolean;
-  /**
-   * Chip 텍스트 좌측의 아이콘을 넣을 수 있습니다.
-   */
   start_icon?: ReactNode;
-  /**
-   * Chip 텍스트 우측의 아이콘을 넣을 수 있습니다.
-   */
   end_icon?: ReactNode;
-  /**
-   * chip을 눌렀을때 동작하는 함수를 정의합니다.
-   * @default () => {}
-   */
   onClick?: () => void;
-  /**
-   * chip안에 포함되는 text를 정의합니다.
-   * @default ''
-   */
   text?: string;
 }
 
-/**
- * 공통 Chip 컴포넌트
- * @component
- */
+const EVENT_GRADIENT =
+  'linear-gradient(0deg, white, white) padding-box, linear-gradient(115.62deg, #e62f71 6.59%, #ff6d1c 45.24%, #e62fb3 88.05%) border-box';
+
+const styles = stylex.create({
+  base: {
+    borderRadius: '18px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+    verticalAlign: 'middle',
+  },
+  enabled: {
+    cursor: 'pointer',
+    opacity: 1,
+  },
+  disabled: {
+    cursor: 'not-allowed',
+    opacity: 0.5,
+  },
+  sizeSmall: {
+    paddingTop: '7px',
+    paddingBottom: '6px',
+    paddingInline: '12px',
+    height: '32px',
+  },
+  sizeMedium: {
+    paddingTop: '9px',
+    paddingBottom: '8px',
+    paddingInline: '12px',
+    height: '36px',
+  },
+  filledDefault: {
+    backgroundColor: colorVars['--color-bgPrimary'],
+    color: colorVars['--color-graySecondary'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-border3'],
+  },
+  filledActive: {
+    backgroundColor: colorVars['--color-grayActive'],
+    color: colorVars['--color-white'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-grayActive'],
+  },
+  outlinedDefault: {
+    backgroundColor: colorVars['--color-white'],
+    color: colorVars['--color-graySecondary'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-border3'],
+  },
+  outlinedActive: {
+    backgroundColor: colorVars['--color-white'],
+    color: colorVars['--color-grayActive'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-grayActive'],
+  },
+  eventVariant: {
+    background: {
+      default: EVENT_GRADIENT,
+      ':active': EVENT_GRADIENT,
+    },
+    color: colorVars['--color-pinkPrimary'],
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'transparent',
+    boxShadow: '0px 2px 4px 0px #e62f7126',
+  },
+  iconStart: {
+    marginRight: '4px',
+    pointerEvents: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+  },
+  iconEnd: {
+    marginLeft: '4px',
+    pointerEvents: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+  },
+});
+
+const sizeStyleMap: Record<ChipSize, stylex.StyleXStyles> = {
+  small: styles.sizeSmall,
+  medium: styles.sizeMedium,
+};
+
+function getColorStyle(varient: ChipVarient, active: boolean): stylex.StyleXStyles | null {
+  if (varient === 'event') return styles.eventVariant;
+  if (varient === 'filled') return active ? styles.filledActive : styles.filledDefault;
+  if (varient === 'outlined') return active ? styles.outlinedActive : styles.outlinedDefault;
+  return null;
+}
+
 const Chip = forwardRef<HTMLButtonElement, ChipProps>(
   (
     {
       disabled = false,
       className,
-      children,
       text,
       active = false,
       size = 'small',
       varient = 'filled',
-      color = 'primary',
+      color: _color = 'primary',
       start_icon,
       end_icon,
       ...props
     },
     ref,
   ) => {
-    const chip_style = [
-      chip_size_css[size],
-      getChipColorVarient(color, active)[varient],
-      getIconSpace(start_icon, end_icon),
-    ];
+    const colorStyle = getColorStyle(varient, active);
+    const sx = stylex.props(
+      typographyStyles.body4Medium,
+      styles.base,
+      disabled ? styles.disabled : styles.enabled,
+      sizeStyleMap[size],
+      colorStyle,
+    );
 
     return (
-      <SC.Chip
+      <button
         ref={ref}
-        css={chip_style}
-        className={className}
-        $disabled={disabled}
+        {...sx}
+        className={className ? `${sx.className ?? ''} ${className}` : sx.className}
         {...props}
       >
-        {start_icon}
+        {start_icon && <span {...stylex.props(styles.iconStart)}>{start_icon}</span>}
         {text}
-        {end_icon}
-      </SC.Chip>
+        {end_icon && <span {...stylex.props(styles.iconEnd)}>{end_icon}</span>}
+      </button>
     );
   },
 );
 
-function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): RuleSet<object> {
-  if (start_icon && end_icon) {
-    return css`
-      svg {
-        &:fitst-of-type {
-          margin-right: 4px;
-        }
-
-        &:last-of-type {
-          margin-left: 4px;
-        }
-      }
-    `;
-  }
-
-  if (start_icon) {
-    return css`
-      svg {
-        margin-right: 4px;
-      }
-    `;
-  }
-
-  if (end_icon) {
-    return css`
-      svg {
-        margin-left: 4px;
-      }
-    `;
-  }
-  return css``;
-}
-
-function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVarient, RuleSet<object>> {
-  switch (color) {
-    case 'primary':
-      return {
-        filled: css`
-          background-color: ${active ? grayActive : bgPrimary};
-          color: ${active ? white : graySecondary};
-          border: ${`1px solid ${active ? grayActive : border3}`};
-        `,
-        outlined: css`
-          background-color: white;
-          color: ${active ? grayActive : graySecondary};
-          border: ${`1px solid ${active ? grayActive : border3}`};
-        `,
-        event: css`
-          ${typography.body4Medium}
-          ${event_style};
-          color: ${pinkPrimary};
-          border: 1px solid transparent;
-          box-shadow: 0px 2px 4px 0px #e62f7126;
-          &:active {
-            ${event_style};
-          }
-        `,
-      };
-  }
-}
-
-const chip_size_css: Record<ChipSize, RuleSet<object>> = {
-  small: css`
-    padding: 7px 12px 6px;
-    height: 32px;
-  `,
-  medium: css`
-    padding: 9px 12px 8px;
-    height: 36px;
-  `,
-};
-
-const event_style = css`
-  background: linear-gradient(0deg, white, white) padding-box,
-    linear-gradient(115.62deg, #e62f71 6.59%, #ff6d1c 45.24%, #e62fb3 88.05%) border-box;
-`;
-
-const SC = {
-  Chip: styled.button<{ $disabled: boolean }>`
-    ${typography.body4Medium}
-    cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-    border-radius: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    position: relative;
-    vertical-align: middle;
-    opacity: ${({ $disabled }) => ($disabled ? '0.5' : '1')};
-
-    svg path {
-      pointer-events: none;
-    }
-  `,
-};
 export default Chip;

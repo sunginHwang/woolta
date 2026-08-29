@@ -1,8 +1,21 @@
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler } from 'react';
-import { styled } from 'styled-components';
 import { postTitleAtom } from '../store';
+
+const styles = stylex.create({
+  input: {
+    backgroundColor: colorVars['--color-white'],
+    display: 'block',
+    width: '100%',
+    outlineStyle: 'none',
+    borderStyle: 'none',
+    paddingBlock: '8px',
+    paddingInline: '16px',
+  },
+});
 
 export const Title = () => {
   const [postTitle, setPostTitle] = useAtom(postTitleAtom);
@@ -11,18 +24,12 @@ export const Title = () => {
     setPostTitle(e.target.value);
   };
 
-  return <SC.Container value={postTitle} onChange={handleTitleChange} placeholder='제목을 입력해 주세요.' />;
-};
-
-const SC = {
-  Container: styled.input`
-    ${typography.title1Medium}
-    background-color: ${({ theme }) => theme.colors.white};
-    display: block;
-    padding: 0px;
-    width: 100%;
-    outline: none;
-    border: none;
-    padding: 8px 16px;
-  `,
+  return (
+    <input
+      {...stylex.props(typographyStyles.title1Medium, styles.input)}
+      value={postTitle}
+      onChange={handleTitleChange}
+      placeholder='제목을 입력해 주세요.'
+    />
+  );
 };

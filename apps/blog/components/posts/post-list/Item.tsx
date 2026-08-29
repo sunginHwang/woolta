@@ -1,68 +1,69 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import { FC } from 'react';
-import { styled } from 'styled-components';
-import layouts from '../../../style/layouts';
 import { Post } from './PostList';
 
 interface Props {
   post: Post;
 }
 
+const styles = stylex.create({
+  container: {
+    textAlign: 'left',
+    paddingBlock: '1.6rem',
+    paddingInline: 0,
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'rgb(244, 244, 244)',
+    cursor: 'pointer',
+  },
+  content: {
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    WebkitLineClamp: 2,
+  },
+  subInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  chip: {
+    paddingTop: '3px',
+    paddingBottom: '4px',
+    paddingInline: '8px',
+    backgroundColor: colorVars['--color-bgSecondary'],
+    borderRadius: '40px',
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
+
 const Item: FC<Props> = ({ post }) => {
   return (
-    <SC.Container>
+    <article {...stylex.props(styles.container)}>
       <Link href={`/categories/${post.categoryNo}/posts/${post.postNo}`}>
-        <Text className='title' variant='title3Bold' color='grayPrimary' as='h2' mb={8}>
+        <Text variant='title3Bold' color='grayPrimary' as='h2' mb={8}>
           {post.title}
         </Text>
-        <Text className='content' variant='body3' color='graySecondary' as='p' mb={15}>
+        <Text xstyle={styles.content} variant='body3' color='graySecondary' as='p' mb={15}>
           {post.subDescription}
         </Text>
-        <SC.SubInfo>
-          <SC.Chip>
-            <Text variant='small3Bold' color='graySecondary' className='label'>
+        <div {...stylex.props(styles.subInfo)}>
+          <div {...stylex.props(styles.chip)}>
+            <Text variant='small3Bold' color='graySecondary'>
               {post.categoryLabel}
             </Text>
-          </SC.Chip>
-          <Text variant='small1Regular' color='grayTertiary' className='meta'>
+          </div>
+          <Text variant='small1Regular' color='grayTertiary'>
             {post.createdAt}
           </Text>
-        </SC.SubInfo>
+        </div>
       </Link>
-    </SC.Container>
+    </article>
   );
 };
 
 export default Item;
-
-const SC = {
-  Container: styled.article`
-    text-align: left;
-    padding: 1.6rem 0;
-    border-bottom: 0.1rem solid rgb(244, 244, 244);
-    cursor: pointer;
-
-    @media screen and (max-width: ${layouts.phoneWidth}) {
-    }
-
-    .content {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      -webkit-line-clamp: 2;
-    }
-  `,
-  SubInfo: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  `,
-  Chip: styled.div`
-    padding: 3px 8px 4px 8px;
-    background-color: ${({ theme }) => theme.colors.bgSecondary};
-    border-radius: 40px;
-    display: flex;
-    align-items: center;
-  `,
-};

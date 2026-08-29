@@ -1,13 +1,48 @@
 'use client';
 
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { useAtomValue } from 'jotai';
-import { styled } from 'styled-components';
 import { MarkdownViewer } from '../common/mark-down-viewer/MarkdownViewer';
 import { useTempSavePost } from './hooks/useTempSavePost';
 import { useUpsertPost } from './hooks/useUpsertPost';
 import { PostEditor } from './post-editor/PostEditor';
 import { postAtom } from './store';
+
+const styles = stylex.create({
+  container: {
+    width: '100%',
+    height: 'calc(100vh - 61px)',
+    display: 'flex',
+  },
+  item: {
+    display: 'flex',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '0%',
+    overflowY: 'scroll',
+    position: 'relative',
+  },
+  viewer: {
+    paddingBlock: 0,
+    paddingInline: '2rem',
+    borderLeftWidth: '1px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: colorVars['--color-bgSecondary'],
+  },
+  writeButton: {
+    position: 'absolute',
+    bottom: '16px',
+    right: '16px',
+    height: '30px',
+    width: '85px',
+    borderRadius: '40px',
+    backgroundColor: colorVars['--color-bgSecondary'],
+    color: colorVars['--color-customGray'],
+    borderStyle: 'none',
+  },
+});
 
 export const PostWrite = () => {
   useTempSavePost();
@@ -27,49 +62,16 @@ export const PostWrite = () => {
   };
 
   return (
-    <SC.Container className='test'>
-      <div className='item'>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.item)}>
         <PostEditor />
       </div>
-      <div className='item viewer'>
+      <div {...stylex.props(styles.item, styles.viewer)}>
         <MarkdownViewer markdown={content} />
-        <button className='button' onClick={handleWriteClick}>
+        <button {...stylex.props(typographyStyles.body2, styles.writeButton)} onClick={handleWriteClick}>
           {isUpdatePost ? '수정하기' : '작성하기'}
         </button>
       </div>
-    </SC.Container>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    width: 100%;
-    height: calc(100vh - 61px);
-    display: flex;
-
-    .item {
-      display: flex;
-      flex: 1 1 0%;
-      overflow-y: scroll;
-      position: relative;
-    }
-
-    .button {
-      ${typography.body2}
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      height: 30px;
-      width: 85px;
-      border-radius: 40px;
-      background-color: ${({ theme }) => theme.colors.bgSecondary};
-      color: ${({ theme }) => theme.colors.customGray};
-      border: none;
-    }
-
-    .viewer {
-      padding: 0 2rem;
-      border-left: 1px solid ${({ theme }) => theme.colors.bgSecondary};
-    }
-  `,
 };

@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import { PostCategories } from './post-categories/PostCategories';
-import { RecentPostList } from './recent-post-list/RecentPostList';
 import { PostListSkeleton } from '../posts/post-list/PostListSkeleton';
 import styles from './Home.module.css';
+import { PostCategories } from './post-categories/PostCategories';
+import { RecentPostList } from './recent-post-list/RecentPostList';
 
 export const Home = () => {
   return (

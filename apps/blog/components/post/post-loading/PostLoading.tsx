@@ -1,56 +1,61 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
-import { styled } from 'styled-components';
-import layouts from '../../../style/layouts';
+import { colorVars } from '@wds/tokens.stylex';
+
+const styles = stylex.create({
+  container: {
+    textAlign: 'left',
+    maxWidth: '1200px',
+    marginBlock: 0,
+    marginInline: 'auto',
+    paddingLeft: {
+      default: null,
+      '@media screen and (max-width: 1024px)': '2rem',
+      '@media screen and (max-width: 450px)': '1rem',
+    },
+    paddingRight: {
+      default: null,
+      '@media screen and (max-width: 1024px)': '2rem',
+      '@media screen and (max-width: 450px)': '1rem',
+    },
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-bgSecondary'],
+  },
+  title: {
+    marginTop: '3rem',
+    marginInline: 0,
+    marginBottom: '5rem',
+  },
+  subInfo: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '2rem',
+  },
+  content: {
+    marginTop: '3.2rem',
+  },
+});
 
 export const PostLoading = () => {
   return (
-    <SC.Container>
-      <SC.Header>
-        <SkeletonBar className='title' width='65%' height='2.6rem' />
-        <div className='sub-info'>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.header)}>
+        <SkeletonBar {...stylex.props(styles.title)} width='65%' height='2.6rem' />
+        <div {...stylex.props(styles.subInfo)}>
           <SkeletonBar width='147px' height='1.6rem' />
         </div>
-      </SC.Header>
-      <SkeletonBar className='content' width='100%' height='100rem' />
-    </SC.Container>
+      </div>
+      <SkeletonBar {...stylex.props(styles.content)} width='100%' height='100rem' />
+    </div>
   );
-};
-
-const SC = {
-  Header: styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.bgSecondary};
-
-    .title {
-      margin: 3rem 0 5rem;
-    }
-
-    .sub-info {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-    }
-  `,
-  Container: styled.div`
-    text-align: left;
-    margin-top: 2rem;
-
-    .content {
-      margin-top: 3.2rem;
-    }
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      padding: 0 2rem 0 2rem;
-    }
-
-    @media screen and (max-width: ${layouts.phoneWidth}) {
-      padding: 0 1.6rem 0 1.6rem;
-    }
-  `,
 };

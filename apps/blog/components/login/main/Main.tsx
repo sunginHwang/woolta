@@ -1,9 +1,86 @@
 'use client';
 
 import { useInputs } from '@common';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useLogin } from '../../../hooks/queries/useLogin';
-import layouts from '../../../style/layouts';
+
+const styles = stylex.create({
+  container: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    marginTop: {
+      default: '9.6rem',
+      '@media screen and (max-width: 1024px)': '3.2rem',
+    },
+    marginBottom: '48rem',
+    maxWidth: {
+      default: null,
+      '@media screen and (max-width: 1024px)': '100%',
+    },
+  },
+  title: {
+    color: colorVars['--color-green200'],
+    fontSize: {
+      default: '2.5rem',
+      '@media screen and (max-width: 1024px)': '2rem',
+    },
+    fontWeight: 'bold',
+    marginBottom: '3.2rem',
+  },
+  form: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    maxWidth: '45rem',
+  },
+  input: {
+    fontSize: {
+      default: '2rem',
+      '@media screen and (max-width: 1024px)': '1.5rem',
+    },
+    width: {
+      default: '100%',
+      '@media screen and (max-width: 1024px)': '80%',
+    },
+    height: '4.8rem',
+    marginBottom: '1.6rem',
+    outlineStyle: 'none',
+    color: colorVars['--color-green200'],
+    backgroundColor: colorVars['--color-white'],
+    borderStyle: 'none',
+    borderBottomWidth: '0.2rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-gray300'],
+  },
+  button: {
+    width: {
+      default: '100%',
+      '@media screen and (max-width: 1024px)': '80%',
+    },
+    maxWidth: '45rem',
+    marginTop: {
+      default: '3.2rem',
+      '@media screen and (max-width: 1024px)': '2rem',
+    },
+    fontSize: '2rem',
+    outlineStyle: 'none',
+    borderRadius: '3rem',
+    height: '4.8rem',
+    color: colorVars['--color-green200'],
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-green200'],
+    textAlign: 'center',
+    fontWeight: 'bold',
+    backgroundColor: colorVars['--color-white'],
+  },
+});
 
 export const Login = () => {
   const { inputs, onChange } = useInputs({ id: '', password: '' });
@@ -23,87 +100,22 @@ export const Login = () => {
   };
 
   return (
-    <SC.Container>
-      <SC.Title>로그인 후 포스팅 해봐요!</SC.Title>
-      <SC.Form>
-        <input placeholder='Id' name='id' value={inputs.id} onChange={onChange} />
-        <input placeholder='Password' name='password' value={inputs.password} type='password' onChange={onChange} />
-      </SC.Form>
-      <SC.Button onClick={handleLogin}>로그인</SC.Button>
-    </SC.Container>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.title)}>로그인 후 포스팅 해봐요!</div>
+      <div {...stylex.props(styles.form)}>
+        <input {...stylex.props(styles.input)} placeholder='Id' name='id' value={inputs.id} onChange={onChange} />
+        <input
+          {...stylex.props(styles.input)}
+          placeholder='Password'
+          name='password'
+          value={inputs.password}
+          type='password'
+          onChange={onChange}
+        />
+      </div>
+      <button {...stylex.props(styles.button)} onClick={handleLogin}>
+        로그인
+      </button>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 9.6rem;
-    margin-bottom: 48rem;
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      margin-top: 3.2rem;
-    }
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      max-width: 100%;
-    }
-  `,
-  Title: styled.div`
-    color: ${({ theme }) => theme.colors.green200};
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 3.2rem;
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      font-size: 2rem;
-    }
-  `,
-  Form: styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 45rem;
-
-    input {
-      font-size: 2rem;
-      width: 100%;
-      height: 4.8rem;
-      margin-bottom: 1.6rem;
-      outline-style: none;
-      color: ${(props) => props.theme.colors.green200};
-      background-color: ${(props) => props.theme.colors.white};
-      border: none;
-      border-bottom: 0.2rem solid ${(props) => props.theme.colors.gray300};
-
-      @media screen and (max-width: ${layouts.mobileWidth}) {
-        font-size: 1.5rem;
-        width: 80%;
-      }
-    }
-  `,
-  Button: styled.button`
-    width: 100%;
-    max-width: 45rem;
-    margin-top: 3.2rem;
-    font-size: 2rem;
-    outline-style: none;
-    border-radius: 3rem;
-    height: 4.8rem;
-    color: ${(props) => props.theme.colors.green200};
-    border: 0.1rem solid ${(props) => props.theme.colors.green200};
-    text-align: center;
-    font-weight: bold;
-    background-color: ${(props) => props.theme.colors.white};
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      margin-top: 2rem;
-      width: 80%;
-    }
-  `,
 };

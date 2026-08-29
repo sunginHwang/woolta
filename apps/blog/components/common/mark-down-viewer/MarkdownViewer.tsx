@@ -2,9 +2,9 @@ import { FC } from 'react';
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import tomorrow from 'react-syntax-highlighter/dist/esm/styles/prism/tomorrow';
+import rehypeRaw from 'rehype-raw';
 import { styled } from 'styled-components';
 import layouts from '../../../style/layouts';
-import rehypeRaw from 'rehype-raw';
 
 interface Props {
   markdown: string;

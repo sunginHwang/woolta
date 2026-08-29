@@ -5,11 +5,11 @@ import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { theme } from '@wds';
 import { Provider as JotaiProvider } from 'jotai';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import Layout from '../Layout';
-import StyleRegistry from './StyledComponentsRegistry';
+import { settingAccessHeaderToken } from '../../../utils/api';
 import config, { setConfig } from '../../../utils/config';
 import { getCookie } from '../../../utils/cookie';
-import { settingAccessHeaderToken } from '../../../utils/api';
+import Layout from '../Layout';
+import StyleRegistry from './StyledComponentsRegistry';
 
 setConfig();
 

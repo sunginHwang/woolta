@@ -1,11 +1,30 @@
-import { gray400, green200 } from '@wds';
+import * as stylex from '@stylexjs/stylex';
 import { FC } from 'react';
 import { HashLoader } from 'react-spinners';
-import { styled } from 'styled-components';
 
 interface Props {
   isLoading: boolean;
 }
+
+const styles = stylex.create({
+  container: {
+    zIndex: 1000,
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    verticalAlign: 'middle',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  loader: {
+    zIndex: 1001,
+    position: 'fixed',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+});
 
 const Loading: FC<Props> = ({ isLoading }) => {
   if (!isLoading) {
@@ -13,40 +32,12 @@ const Loading: FC<Props> = ({ isLoading }) => {
   }
 
   return (
-    <SC.Contaienr>
-      <div>
-        <HashLoader color={green200} loading />
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.loader)}>
+        <HashLoader color='#6E827F' loading />
       </div>
-    </SC.Contaienr>
+    </div>
   );
 };
 
 export default Loading;
-
-const SC = {
-  Contaienr: styled.div`
-    background-color: ${gray400};
-    z-index: 1000;
-    position: fixed;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100%;
-    height: 100%;
-    vertical-align: middle;
-    background-color: rgba(0, 0, 0, 0.2);
-
-    div {
-      z-index: 1001;
-
-      position: fixed;
-      left: 50%;
-      top: 50%;
-
-      -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      -o-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
-  `,
-};
