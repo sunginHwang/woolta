@@ -3,8 +3,8 @@
 import dayjs, { type Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import type { Value } from 'react-calendar/dist/cjs/shared/types';
 import { styled } from 'styled-components';
+import type { CalendarValue } from '../calendarValue';
 import { DefaultBottomSheet } from '../DefaultBottomSheet';
 import { calendarStyle } from '../style';
 import { TimePicker } from './TimePicker';
@@ -30,7 +30,7 @@ export const DateTimeSheet = ({ date, visible, onChangeDateTime, onClose }: Prop
     setModalPhase('date');
   }, [visible]);
 
-  const onChangeCalendar = (changeDate: Value) => {
+  const onChangeCalendar = (changeDate: CalendarValue) => {
     setDateTime(dayjs(String(changeDate)).hour(dateTime.hour()).minute(dateTime.minute()));
     setModalPhase('time');
   };

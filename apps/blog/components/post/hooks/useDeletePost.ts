@@ -1,9 +1,9 @@
 'use client';
 
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import useToast from 'apps/blog/hooks/useToast';
-import apiCall from 'apps/blog/utils/api';
 import { useRouter } from 'next/navigation';
+import useToast from '../../../hooks/useToast';
+import apiCall from '../../../utils/api';
 import { POSTS_QUERY_KEY } from '../../home/hooks/usePostList';
 
 interface DeletePostInfo {

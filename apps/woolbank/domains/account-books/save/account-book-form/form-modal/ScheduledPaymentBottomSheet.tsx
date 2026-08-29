@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
-import { Button } from 'apps/woolbank/components/atom/Button';
-import { BaseInput } from 'apps/woolbank/components/base-input/BaseInput';
-import { BottomSheet } from 'apps/woolbank/components/bottom-sheet/BottomSheet';
-import { ToggleTab } from 'apps/woolbank/components/toggle-tab/ToggleTab';
 import { type ChangeEvent, useEffect, useState } from 'react';
+import { Button } from '../../../../../components/atom/Button';
+import { BaseInput } from '../../../../../components/base-input/BaseInput';
+import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
+import { ToggleTab } from '../../../../../components/toggle-tab/ToggleTab';
 import type { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 
 const TAB_LIST = [

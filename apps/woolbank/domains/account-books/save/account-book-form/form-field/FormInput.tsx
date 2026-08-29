@@ -4,8 +4,6 @@ import { mergeRefs } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colors } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { IconCloseCircle } from 'apps/woolbank/components/atom/Icon';
-import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
 import {
   type ChangeEvent,
   forwardRef,
@@ -15,6 +13,8 @@ import {
   useRef,
   useState,
 } from 'react';
+import { IconCloseCircle } from '../../../../../components/atom/Icon';
+import { IconChevronRight } from '../../../../../components/atom/Icon/ChevronRight';
 
 interface Props
   extends Omit<

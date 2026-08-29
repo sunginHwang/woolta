@@ -1,9 +1,9 @@
 import { useInput, useMount } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import { IconBlackCircle } from 'apps/woolbank/components/atom/Icon';
 import type React from 'react';
 import { type FC, useRef } from 'react';
+import { IconBlackCircle } from '../../../../components/atom/Icon';
 
 interface Props {
   onAdd: (title: string) => void;

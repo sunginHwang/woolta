@@ -1,9 +1,9 @@
 'use client';
 
 import Calendar from 'react-calendar';
-import type { Value } from 'react-calendar/dist/cjs/shared/types';
 import { styled } from 'styled-components';
 import Deem from '../../components/deem/Deem';
+import type { CalendarValue } from '../calendarValue';
 import { calendarStyle } from '../style';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const DateSheet = ({ date, visible, onDateChange, onclose }: Props) => {
-  const handleCalendarChange = (date: Value) => {
+  const handleCalendarChange = (date: CalendarValue) => {
     onDateChange(String(date));
   };
 
