@@ -15,5 +15,12 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit"
-  }
+  },
+  // TS7 네이티브 언어서버(tsgo)를 쓴다. 내장 tsserver 대신 native-preview 확장이 붙으므로
+  // 확장 설치가 필수다(extensions.json 추천에 포함). 미설치 시 IntelliSense 가 뜨지 않는다.
+  "typescript.experimental.useTsgo": true,
+  // useTsgo 를 끄면 이 경로의 TS6 로 폴백한다.
+  // node_modules/typescript 는 TS7 이라 tsserver.js 가 없고,
+  // @typescript/typescript6 은 재수출 shim 이라 역시 없다 — 본체는 @typescript/old.
+  "typescript.tsdk": "node_modules/@typescript/old/lib"
 }

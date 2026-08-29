@@ -32,6 +32,7 @@ Woolta 서비스들을 관리하는 Nx 기반 모노레포입니다.
 - **Linting**: ESLint 8.47.0, Prettier 2.6.2
 - **Documentation**: Storybook 10.5.10 (@storybook/nextjs-vite)
 - **Bundler**: SWC
+- **TypeScript**: 7.0.2 (네이티브). TS6 는 `tsc6` 로 병행 설치
 
 ## 프로젝트 구조
 

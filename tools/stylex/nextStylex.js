@@ -1,6 +1,4 @@
 //@ts-check
-// moduleResolution:node(node10)는 exports 서브패스의 타입 선언을 해석하지 못한다 — 런타임 해석은 정상
-// @ts-expect-error
 const stylexPluginModule = require('@stylexswc/nextjs-plugin/turbopack');
 // CJS/ESM interop — 런타임은 모듈 자체가 함수지만 타입 선언은 default export
 const stylexPlugin = stylexPluginModule.default ?? stylexPluginModule;

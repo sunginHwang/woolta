@@ -1,3 +1,3 @@
 {
-  "recommendations": ["nrwl.angular-console", "vitest.explorer", "biomejs.biome"]
+  "recommendations": ["vitest.explorer", "biomejs.biome", "typescriptteam.native-preview"]
 }

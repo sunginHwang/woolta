@@ -9,7 +9,8 @@
     "test": "vitest run --passWithNoTests",
     "storybook": "storybook dev -p 4400 -c .storybook",
     "build-storybook": "storybook build -o ../../dist/storybook/blog -c .storybook",
-    "test-storybook": "pnpm -w exec vitest run --project storybook-blog"
+    "test-storybook": "pnpm -w exec vitest run --project storybook-blog",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.storybook.json"
   },
   "dependencies": {
     "@woolta/common": "workspace:*",

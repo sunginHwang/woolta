@@ -13,7 +13,7 @@ Woolta 서비스들을 관리하는 Turborepo 기반 모노레포입니다.
 ## 기술 스택
 
 - Next.js 16.3.3 (App Router, Turbopack — StyleX는 turbopack 로더 + postcss 추출)
-- TypeScript 5.1.3
+- TypeScript 7.0.2 (네이티브 Go 컴파일러. `tsc6` = TypeScript 6.0.3 escape hatch)
 - React 18.2.0
 - Styled Components 6.1.8
 - Vitest 4 (유닛 + 스토리 테스트)
@@ -43,6 +43,11 @@ pnpm turbo run build
 # 테스트
 pnpm turbo run test --filter={app-name}
 pnpm turbo run test
+
+# 타입체크 (TS7)
+pnpm typecheck                                 # turbo, 전 패키지
+pnpm turbo run typecheck --filter=woolbank
+npx tsc6 --noEmit -p <tsconfig>                # TS6 로 교차검증
 
 # 린트/포맷 (Biome, 루트에서 레포 전체 검사)
 pnpm lint          # biome check .
@@ -110,6 +115,7 @@ domains/{feature}/
 | `biome.json` | Biome 린트/포맷 설정 |
 | `vitest.config.mts` | Vitest 루트 설정, 프로젝트 목록 |
 | `vitest.shared.mts` | 프로젝트 공용 Vitest 설정 (alias, 테스트 환경, StyleX 플러그인) |
+| `pnpm-workspace.yaml` | 워크스페이스 + **pnpm overrides** (package.json 의 `overrides` 는 npm 문법이라 pnpm 이 무시한다) |
 | `apps/*/package.json` | 각 앱의 스크립트 및 의존성 |
 
 ## 개발 시 주의사항
@@ -120,6 +126,18 @@ domains/{feature}/
 4. **blog/woolbank에서 SVGR 설정이 다름**
    - blog: SVGR 미사용
    - woolbank: SVGR 활성화 (SVG를 React 컴포넌트로 사용)
+
+## TypeScript
+
+- **TS7(7.0.2) 이 기본**. `tsc` = TS7, `tsc6` = TS6(6.0.3).
+- TS7 은 레거시 컴파일러 API(`lib/typescript.js`)를 제공하지 않는다. API 가 필요한 도구가 생기면
+  그 패키지에만 pnpm scoped override 로 TS6 를 주입한다 (예: `react-docgen-typescript>typescript`).
+  현재 레포에 API 소비자는 없다 — Storybook docgen 은 `reactDocgen: 'react-docgen'` 으로 고정했다.
+- Next 16 은 `experimental.useTypeScriptCli` 가 기본 true 라 `tsc` 바이너리를 spawn 한다 → 빌드 타입체크도 TS7.
+- TS7 이 제거한 옵션이라 쓸 수 없는 것: `baseUrl`, `moduleResolution: node10`, `esModuleInterop: false`.
+  `tsconfig.base.json` 의 `paths` 는 baseUrl 없이 그 파일(레포 루트) 기준 상대경로로 해석된다.
+- 알려진 TS6/TS7 진단 차이: `apps/woolbank/next.config.js` 의 `config.turbopack.rules` 대입을
+  TS6 만 expando 선언으로 보고 TS2300 을 낸다. 기준 컴파일러인 TS7 은 클린.
 
 ## 테스트
 

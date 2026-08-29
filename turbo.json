@@ -12,7 +12,17 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.shared.ts", "$TURBO_ROOT$/tools/stylex/viteStylexPlugin.js"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/vitest.shared.mts",
+        "$TURBO_ROOT$/tools/stylex/viteStylexPlugin.mts",
+        "$TURBO_ROOT$/tools/workspaceAlias.mts"
+      ]
+    },
+    "typecheck": {
+      // tsc --noEmit(TS7). 라이브러리는 소스로 참조되고 Next 생성 타입도 없어도 통과하므로
+      // ^build 에 의존시키지 않는다 — 빌드 없이 바로 돌릴 수 있어야 한다.
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tsconfig.base.json", "$TURBO_ROOT$/typings/**"]
     },
     "e2e": {
       "dependsOn": ["^build"],

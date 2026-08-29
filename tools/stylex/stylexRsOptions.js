@@ -5,6 +5,11 @@ const path = require('path');
  * StyleX rs-compiler 공통 옵션.
  * next.config의 Turbopack 로더와 postcss 추출 플러그인이 동일한 옵션을 공유해야
  * 양쪽에서 생성되는 클래스명이 일치한다.
+ *
+ * 타입 주석이 없으면 styleResolution 등이 리터럴이 아닌 string 으로 추론돼
+ * 플러그인의 StyleXOptions 에 대입되지 않는다.
+ *
+ * @type {NonNullable<import('@stylexswc/webpack-plugin').StyleXPluginOption['rsOptions']>}
  */
 const rsOptions = {
   dev: process.env.NODE_ENV === 'development',

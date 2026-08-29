@@ -6,3 +6,17 @@ packages:
   - 'libs/memo/*'
   - 'libs/todo/*'
   - 'libs/woolbank/*'
+
+# 여기가 pnpm 이 실제로 읽는 위치다. package.json 의 top-level "overrides" 는
+# npm 문법이라 pnpm 이 무시하므로, 그동안 아래 핀이 걸려 있지 않았다.
+overrides:
+  next: 16.3.3
+  react: 19.2.8
+  react-dom: 19.2.8
+  '@types/react': ^19.2.0
+  '@types/react-dom': ^19.2.0
+  # [TS7] 전이 의존이 다른 TypeScript 를 끌어오지 못하게 고정.
+  #   컴파일러 API 가 필요한 도구가 생기면 그 패키지에만 scoped override 로
+  #   @typescript/typescript6 을 주입한다 (예: react-docgen-typescript>typescript).
+  typescript: 7.0.2
+
