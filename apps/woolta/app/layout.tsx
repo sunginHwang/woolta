@@ -1,5 +1,5 @@
 // StyleX 캐리어 CSS — 빌드 시 추출된 실제 CSS로 치환된다
-import '@stylexswc/webpack-plugin/stylex.css';
+import './stylex.css';
 import { cookies } from 'next/headers';
 import { Providers } from '../components/layout/providers/Providers';
 import { parseThemeType, THEME_COOKIE_NAME } from '../components/layout/store/themeCookie';
@@ -13,7 +13,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialThemeType = parseThemeType((await cookies()).get(THEME_COOKIE_NAME)?.value);
 
   return (
-    <html lang='ko' data-theme={initialThemeType}>
+    <html lang='ko' data-theme={initialThemeType} data-scroll-behavior='smooth'>
       <head>
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />

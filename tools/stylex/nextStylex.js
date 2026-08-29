@@ -1,31 +1,21 @@
 //@ts-check
-const path = require('path');
-const stylexPluginModule = require('@stylexswc/nextjs-plugin');
+// moduleResolution:node(node10)는 exports 서브패스의 타입 선언을 해석하지 못한다 — 런타임 해석은 정상
+// @ts-expect-error
+const stylexPluginModule = require('@stylexswc/nextjs-plugin/turbopack');
 // CJS/ESM interop — 런타임은 모듈 자체가 함수지만 타입 선언은 default export
 const stylexPlugin = stylexPluginModule.default ?? stylexPluginModule;
+const rsOptions = require('./stylexRsOptions');
 
 /**
- * 모노레포 공통 StyleX(SWC) Next.js 플러그인 설정.
+ * 모노레포 공통 StyleX(SWC) Next.js 플러그인 설정 (Turbopack).
  * 각 앱 next.config.js에서 `module.exports = withStylex(nextConfig)` 로 사용한다.
  *
- * - SWC 기반(rs-compiler)이라 babel 없이 동작 — compiler.styledComponents와 공존 가능
- * - 각 앱 layout.tsx에서 `import '@stylexswc/webpack-plugin/stylex.css'` (캐리어 CSS) 필요
+ * - 변환은 @stylexswc/turbopack-plugin 로더가, CSS 추출은 각 앱의
+ *   postcss.config.js(@stylexswc/postcss-plugin)가 담당한다 — rsOptions 공유 필수
+ * - 각 앱 layout.tsx에서 `@stylex;` 지시자를 담은 CSS(import './stylex.css') 필요
+ * - 주의: 이 래퍼는 turbopack.rules를 통째로 재정의하므로 앱별 추가 rules(SVGR 등)는
+ *   withStylex(nextConfig) 결과에 사후 병합한다
  */
-const withStylex = stylexPlugin({
-  rsOptions: {
-    dev: process.env.NODE_ENV === 'development',
-    runtimeInjection: false,
-    treeshakeCompensation: true,
-    styleResolution: 'application-order',
-    enableDebugClassNames: process.env.NODE_ENV === 'development',
-    // '@wds/tokens.stylex' 등 토큰 파일 직접 import 를 컴파일러가 해석할 수 있게 한다 (tsconfig paths 와 동기)
-    aliases: {
-      '@wds/*': [path.join(__dirname, '../../libs/wds/src/lib/style/*')],
-    },
-    unstable_moduleResolution: {
-      type: 'commonJS',
-    },
-  },
-});
+const withStylex = stylexPlugin({ rsOptions });
 
 module.exports = withStylex;

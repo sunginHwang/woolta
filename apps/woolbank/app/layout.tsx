@@ -1,5 +1,5 @@
 // StyleX 캐리어 CSS — 빌드 시 추출된 실제 CSS로 치환된다
-import '@stylexswc/webpack-plugin/stylex.css';
+import './stylex.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { RootProvider } from '../domains/layout/root-provider/RootProvider';
@@ -20,7 +20,7 @@ setConfig();
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang='ko'>
+    <html lang='ko' data-scroll-behavior='smooth'>
       <head>
         <meta charSet='utf-8' />
         <link rel='icon' href='/static/woolta.ico' type='icon' />

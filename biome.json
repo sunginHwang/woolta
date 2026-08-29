@@ -6,7 +6,16 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/.next", "!**/dist", "!**/coverage", "!**/*.generated.ts", "!cert", "!pnpm-lock.yaml"]
+    "includes": [
+      "**",
+      "!**/.next",
+      "!**/dist",
+      "!**/coverage",
+      "!**/*.generated.ts",
+      "!**/next-env.d.ts",
+      "!cert",
+      "!pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -62,6 +71,18 @@
       }
     }
   },
+  "overrides": [
+    {
+      "includes": ["**/stylex.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noUnknownAtRules": "off"
+          }
+        }
+      }
+    }
+  ],
   "assist": {
     "enabled": true,
     "actions": {
