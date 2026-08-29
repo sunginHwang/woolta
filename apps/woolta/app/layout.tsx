@@ -13,7 +13,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialThemeType = parseThemeType((await cookies()).get(THEME_COOKIE_NAME)?.value);
 
   return (
-    <html lang='ko'>
+    <html lang='ko' data-theme={initialThemeType}>
       <head>
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />

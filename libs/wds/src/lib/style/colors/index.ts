@@ -5,6 +5,7 @@ import type { LegacyColorKey } from './types';
 export { palette } from './palette';
 export { lightSemanticTokens, darkSemanticTokens } from './semanticTokens';
 export { theme } from './theme';
+export { darkTokenOverrides, darkThemeCssVariables } from './darkTokens';
 export type { ColorType, ThemeType, SemanticColorTokens, LegacyColorKey } from './types';
 
 // --- Individual color constants (backward compatibility) ---

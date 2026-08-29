@@ -2,15 +2,26 @@
 
 import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ConfirmProvider, theme, type ThemeType } from '@wds';
+import { ConfirmProvider, darkThemeCssVariables, theme, type ThemeType } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
+import { useEffect } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import AppShell from '../app-shell/AppShell';
 import { themeTypeAtom } from '../store';
 import StyleRegistry from './StyledComponentsRegistry';
 
 const GlobalStyles = createGlobalStyle`
+  /* 테마는 html[data-theme] 가 결정한다 — 다크는 WDS 토큰(CSS 변수) 재정의로 적용 */
+  :root {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    ${darkThemeCssVariables}
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -96,6 +107,11 @@ const ThemeHydration = ({ initialThemeType, children }: ThemeHydrationProps) => 
 
 const ThemedApp = ({ children }: { children: React.ReactNode }) => {
   const themeType = useAtomValue(themeTypeAtom);
+
+  // 서버 렌더는 layout 이 data-theme 을 지정하고, 클라이언트 토글은 여기서 동기화한다.
+  useEffect(() => {
+    document.documentElement.dataset.theme = themeType;
+  }, [themeType]);
 
   return (
     <ThemeProvider theme={theme[themeType]}>

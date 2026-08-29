@@ -1,12 +1,12 @@
 import { DefaultTheme } from 'styled-components';
-import { darkShadows, lightShadows, type ShadowTokens } from '../shadows';
+import { type ShadowTokens } from '../shadows';
+import { colorVars, shadowVars } from '../tokens.stylex';
 import { zIndex } from '../zIndex';
 import { palette } from './palette';
-import { lightSemanticTokens, darkSemanticTokens } from './semanticTokens';
 import type { ColorType, ThemeType } from './types';
 
 // --- Light Legacy Colors ---
-const lightLegacyColors: Record<string, string> = {
+export const lightLegacyColors: Record<string, string> = {
   // Primitives
   white: palette.white,
   black: palette.black,
@@ -81,7 +81,7 @@ const lightLegacyColors: Record<string, string> = {
 };
 
 // --- Dark Legacy Colors ---
-const darkLegacyColors: Record<string, string> = {
+export const darkLegacyColors: Record<string, string> = {
   // Primitives (same hex values in both themes)
   gray050: palette.gray[50],
   gray100: palette.gray[100],
@@ -155,17 +155,37 @@ const darkLegacyColors: Record<string, string> = {
   grayMain: 'rgba(30, 30, 30, 0.88)',
 };
 
+/**
+ * StyleX 토큰 브리지.
+ * theme.colors 값을 실제 색상값 대신 tokens.stylex.ts 가 정의한 CSS 변수의 var() 참조로 채운다.
+ * - styled-components(미이관 코드)와 StyleX(이관 코드)가 같은 토큰을 읽는다.
+ * - 다크 테마는 ThemeProvider 가 아니라 html 의 data-theme 속성이 결정한다
+ *   (darkTokens.ts 오버라이드가 :root[data-theme='dark'] 에서 변수 재정의).
+ *   따라서 light/dark 테마 객체는 동일한 var() 참조를 공유한다.
+ */
+const bridgeVars = <K extends string>(vars: Record<string, string>, prefix: string) =>
+  Object.fromEntries(
+    Object.entries(vars)
+      .filter(([key]) => key.startsWith(prefix))
+      .map(([key, value]) => [key.slice(prefix.length), value]),
+  ) as Record<K, string>;
+
+const bridgedColors = bridgeVars<ColorType>(colorVars as unknown as Record<string, string>, '--color-');
+
+const bridgedShadows: ShadowTokens = {
+  overlay: shadowVars['--shadow-overlay'],
+  popover: shadowVars['--shadow-popover'],
+};
+
+const sharedTheme: DefaultTheme = {
+  zIndex,
+  shadows: bridgedShadows,
+  colors: bridgedColors,
+};
+
 export const theme: Record<ThemeType, DefaultTheme> = {
-  light: {
-    zIndex,
-    shadows: lightShadows,
-    colors: { ...lightLegacyColors, ...lightSemanticTokens } as Record<ColorType, string>,
-  },
-  dark: {
-    zIndex,
-    shadows: darkShadows,
-    colors: { ...darkLegacyColors, ...darkSemanticTokens } as Record<ColorType, string>,
-  },
+  light: sharedTheme,
+  dark: sharedTheme,
 };
 
 declare module 'styled-components' {
