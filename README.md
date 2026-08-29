@@ -22,7 +22,7 @@ Woolta 서비스들을 관리하는 Nx 기반 모노레포입니다.
 
 ### Frontend
 - **UI Library**: React 18.2.0
-- **Styling**: Styled Components 6.1.8
+- **Styling**: StyleX 0.19 (+ 서드파티 DOM 용 CSS Module)
 - **State Management**: Jotai 2.5.0
 - **Data Fetching**: TanStack React Query 5.4.3
 - **Animation**: Framer Motion 10.17.4

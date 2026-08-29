@@ -15,7 +15,7 @@ Woolta 서비스들을 관리하는 Turborepo 기반 모노레포입니다.
 - Next.js 16.3.3 (App Router, Turbopack — StyleX는 turbopack 로더 + postcss 추출)
 - TypeScript 7.0.2 (네이티브 Go 컴파일러. `tsc6` = TypeScript 6.0.3 escape hatch)
 - React 18.2.0
-- Styled Components 6.1.8
+- StyleX 0.19 (스타일링. styled-components 는 제거됨)
 - Vitest 4 (유닛 + 스토리 테스트)
 - Storybook 10 (`@storybook/nextjs-vite`)
 - Jotai (상태 관리)
@@ -93,8 +93,8 @@ libs/
 ### 컴포넌트 구조
 ```
 components/ComponentName/
-├── index.tsx              # 메인 컴포넌트
-├── ComponentName.styles.ts # Styled Components
+├── index.tsx                 # 메인 컴포넌트 (stylex.create 를 모듈 상단에 둔다)
+├── ComponentName.module.css  # StyleX 로 못 쓰는 자손/서드파티 선택자만 (선택)
 └── ComponentName.stories.tsx # Storybook (선택)
 ```
 
@@ -126,6 +126,19 @@ domains/{feature}/
 4. **blog/woolbank에서 SVGR 설정이 다름**
    - blog: SVGR 미사용
    - woolbank: SVGR 활성화 (SVG를 React 컴포넌트로 사용)
+
+## 스타일링
+
+- **StyleX 단일 체계**. styled-components 는 제거됐다.
+- 토큰: `@wds/tokens.stylex`(colorVars/shadowVars/zIndexConsts), `@wds/typography.stylex`.
+  `defineVars` 키가 `--` 로 시작해 CSS 변수명이 리터럴로 나온다 → CSS 파일에서도 `var(--color-*)` 로 같은 토큰을 읽는다.
+- **StyleX 로 표현할 수 없는 것은 CSS Module 로 둔다** — 자손 선택자와 서드파티 DOM 타겟팅이 그렇다.
+  `:global()` + 래퍼 클래스로 스코프를 유지한다:
+  `calendar.module.css`(react-calendar), `editor.module.css`(CodeMirror),
+  `markdownViewer.module.css`, `tiptapEditor.module.css`, `cropper.module.css`
+- 전역 스타일: `apps/*/app/global.css`, 다크 토큰은 `@wds/colors/darkTheme.css` (이 CSS 가 단일 소스).
+  각 앱 `layout.tsx` 가 `darkTheme.css` → `stylex.css` → `global.css` 순으로 import 한다.
+- 전환 규칙과 레시피는 `docs/stylex-migration-guide.md` 참고.
 
 ## TypeScript
 
