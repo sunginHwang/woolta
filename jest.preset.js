@@ -8,6 +8,7 @@ module.exports = {
     '^@common/server$': path.resolve(__dirname, 'libs/common/src/server.ts'),
     '^@common/test$': path.resolve(__dirname, 'libs/common/test/src/index.ts'),
     '^@common$': path.resolve(__dirname, 'libs/common/src/index.ts'),
+    '^@wds/(.*)$': path.resolve(__dirname, 'libs/wds/src/lib/style/$1'),
     '^@wds$': path.resolve(__dirname, 'libs/wds/src/index.ts'),
     '^@blog/features$': path.resolve(__dirname, 'libs/blog/features/src/index.ts'),
     '^@memo/features$': path.resolve(__dirname, 'libs/memo/features/src/index.ts'),

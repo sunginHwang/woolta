@@ -1,133 +1,139 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FiChevronsLeft, FiChevronsRight, FiGrid, FiSettings } from 'react-icons/fi';
-import { styled } from 'styled-components';
-import layouts from '../../../style/layouts';
+import { layoutConsts } from '../../../style/layouts.stylex';
 import { railExpandedAtom } from '../store';
 import { APP_LIST } from './apps';
 import SettingsPopover from './SettingsPopover';
+
+const styles = stylex.create({
+  rail: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    gap: '0.8rem',
+    width: layoutConsts.railWidth,
+    flexShrink: 0,
+    paddingBlock: '1.2rem',
+    paddingInline: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    borderRightWidth: '0.1rem',
+    borderRightStyle: 'solid',
+    borderRightColor: colorVars['--color-borderSubtle'],
+    transitionProperty: 'width',
+    transitionDuration: '0.2s',
+    transitionTimingFunction: 'ease',
+    overflow: 'hidden',
+  },
+  railExpanded: {
+    width: layoutConsts.railExpandedWidth,
+  },
+  // RailLink/RailButton 공통 (원본 itemBaseCss)
+  item: {
+    display: 'flex',
+    alignItems: 'center',
+    height: layoutConsts.railItemSize,
+    borderRadius: '1.2rem',
+    justifyContent: 'center',
+    padding: 0,
+    gap: '1rem',
+    color: colorVars['--color-textInactive'],
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+  },
+  itemExpanded: {
+    justifyContent: 'flex-start',
+    paddingBlock: 0,
+    paddingInline: '1rem',
+  },
+  itemActive: {
+    color: colorVars['--color-interactivePrimary'],
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  iconSlot: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    width: '2rem',
+  },
+  label: {
+    fontSize: '1.3rem',
+    fontWeight: 500,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  divider: {
+    height: '0.1rem',
+    marginBlock: 0,
+    marginInline: '0.8rem',
+    backgroundColor: colorVars['--color-borderSubtle'],
+  },
+  spacer: {
+    flex: 1,
+  },
+});
 
 const AppRail = () => {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useAtom(railExpandedAtom);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
+  const itemProps = (isActive: boolean) =>
+    stylex.props(styles.item, isExpanded && styles.itemExpanded, isActive && styles.itemActive);
+
   return (
-    <SC.Rail $isExpanded={isExpanded}>
-      <SC.RailLink href='/' title='홈' $isActive={pathname === '/'} $isExpanded={isExpanded}>
-        <SC.IconSlot>
+    <aside {...stylex.props(styles.rail, isExpanded && styles.railExpanded)}>
+      <Link href='/' title='홈' {...itemProps(pathname === '/')}>
+        <span {...stylex.props(styles.iconSlot)}>
           <FiGrid size={20} />
-        </SC.IconSlot>
-        {isExpanded && <SC.Label>홈</SC.Label>}
-      </SC.RailLink>
-      <SC.Divider />
+        </span>
+        {isExpanded && <span {...stylex.props(styles.label)}>홈</span>}
+      </Link>
+      <div {...stylex.props(styles.divider)} />
       {APP_LIST.map(({ key, name, href, icon: Icon }) => (
-        <SC.RailLink key={key} href={href} title={name} $isActive={pathname.startsWith(href)} $isExpanded={isExpanded}>
-          <SC.IconSlot>
+        <Link key={key} href={href} title={name} {...itemProps(pathname.startsWith(href))}>
+          <span {...stylex.props(styles.iconSlot)}>
             <Icon size={20} />
-          </SC.IconSlot>
-          {isExpanded && <SC.Label>{name}</SC.Label>}
-        </SC.RailLink>
+          </span>
+          {isExpanded && <span {...stylex.props(styles.label)}>{name}</span>}
+        </Link>
       ))}
-      <SC.Spacer />
-      <SC.RailButton
+      <div {...stylex.props(styles.spacer)} />
+      <button
         type='button'
         title={isExpanded ? '접기' : '펼치기'}
-        $isActive={false}
-        $isExpanded={isExpanded}
         onClick={() => setIsExpanded((prev) => !prev)}
+        {...itemProps(false)}
       >
-        <SC.IconSlot>{isExpanded ? <FiChevronsLeft size={20} /> : <FiChevronsRight size={20} />}</SC.IconSlot>
-        {isExpanded && <SC.Label>접기</SC.Label>}
-      </SC.RailButton>
-      <SC.RailButton
+        <span {...stylex.props(styles.iconSlot)}>
+          {isExpanded ? <FiChevronsLeft size={20} /> : <FiChevronsRight size={20} />}
+        </span>
+        {isExpanded && <span {...stylex.props(styles.label)}>접기</span>}
+      </button>
+      <button
         type='button'
         title='설정'
-        $isActive={isSettingsOpen}
-        $isExpanded={isExpanded}
         onClick={() => setIsSettingsOpen((prev) => !prev)}
+        {...itemProps(isSettingsOpen)}
       >
-        <SC.IconSlot>
+        <span {...stylex.props(styles.iconSlot)}>
           <FiSettings size={20} />
-        </SC.IconSlot>
-        {isExpanded && <SC.Label>설정</SC.Label>}
-      </SC.RailButton>
+        </span>
+        {isExpanded && <span {...stylex.props(styles.label)}>설정</span>}
+      </button>
       {isSettingsOpen && <SettingsPopover onClose={() => setIsSettingsOpen(false)} />}
-    </SC.Rail>
+    </aside>
   );
 };
 
 export default AppRail;
-
-const itemBaseCss = `
-  display: flex;
-  align-items: center;
-  height: ${layouts.railItemSize};
-  border-radius: 1.2rem;
-`;
-
-const SC = {
-  Rail: styled.aside<{ $isExpanded: boolean }>`
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.8rem;
-    width: ${({ $isExpanded }) => ($isExpanded ? layouts.railExpandedWidth : layouts.railWidth)};
-    flex-shrink: 0;
-    padding: 1.2rem 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    border-right: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
-    transition: width 0.2s ease;
-    overflow: hidden;
-  `,
-  RailLink: styled(Link)<{ $isActive: boolean; $isExpanded: boolean }>`
-    ${itemBaseCss}
-    justify-content: ${({ $isExpanded }) => ($isExpanded ? 'flex-start' : 'center')};
-    padding: ${({ $isExpanded }) => ($isExpanded ? '0 1rem' : '0')};
-    gap: 1rem;
-    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.interactivePrimary : theme.colors.textInactive)};
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurfaceSecondary : 'transparent')};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-  RailButton: styled.button<{ $isActive: boolean; $isExpanded: boolean }>`
-    ${itemBaseCss}
-    justify-content: ${({ $isExpanded }) => ($isExpanded ? 'flex-start' : 'center')};
-    padding: ${({ $isExpanded }) => ($isExpanded ? '0 1rem' : '0')};
-    gap: 1rem;
-    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.interactivePrimary : theme.colors.textInactive)};
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurfaceSecondary : 'transparent')};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-  IconSlot: styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 2rem;
-  `,
-  Label: styled.span`
-    font-size: 1.3rem;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  `,
-  Divider: styled.div`
-    height: 0.1rem;
-    margin: 0 0.8rem;
-    background-color: ${({ theme }) => theme.colors.borderSubtle};
-  `,
-  Spacer: styled.div`
-    flex: 1;
-  `,
-};

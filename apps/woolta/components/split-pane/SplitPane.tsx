@@ -1,7 +1,8 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { PointerEvent, ReactNode, useEffect, useRef, useState } from 'react';
-import { styled } from 'styled-components';
 
 interface Props {
   left: ReactNode;
@@ -17,6 +18,51 @@ interface Props {
 }
 
 const getStorageId = (storageKey: string) => `woolta:split-pane:${storageKey}`;
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+  },
+  containerDragging: {
+    userSelect: 'none',
+    cursor: 'col-resize',
+  },
+  leftPane: {
+    flexShrink: 0,
+    height: '100%',
+    overflowY: 'auto',
+  },
+  rightPane: {
+    flex: 1,
+    minWidth: 0,
+    height: '100%',
+    overflowY: 'auto',
+  },
+  divider: {
+    flexShrink: 0,
+    width: '0.5rem',
+    height: '100%',
+    cursor: 'col-resize',
+    touchAction: 'none',
+    backgroundColor: {
+      default: colorVars['--color-borderSubtle'],
+      ':hover': colorVars['--color-interactivePrimary'],
+    },
+    backgroundClip: 'content-box',
+    paddingBlock: 0,
+    paddingInline: '0.2rem',
+  },
+  dividerDragging: {
+    backgroundColor: colorVars['--color-interactivePrimary'],
+  },
+});
+
+const dynamicStyles = stylex.create({
+  width: (width: number) => ({ width }),
+});
 
 /**
  * 콘텐츠 영역을 좌/우 두 패널로 나누고, 중앙 바 드래그로 좌측 폭을 조절하는 컴포넌트.
@@ -83,58 +129,21 @@ const SplitPane = ({
   };
 
   return (
-    <SC.Container ref={containerRef} $isDragging={isDragging}>
-      <SC.LeftPane style={{ width: leftWidth }}>{left}</SC.LeftPane>
-      <SC.Divider
+    <div ref={containerRef} {...stylex.props(styles.container, isDragging && styles.containerDragging)}>
+      <div {...stylex.props(styles.leftPane, dynamicStyles.width(leftWidth))}>{left}</div>
+      <div
         role='separator'
         aria-orientation='vertical'
         title='드래그해서 폭 조절, 더블클릭으로 초기화'
-        $isDragging={isDragging}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onDoubleClick={handleReset}
+        {...stylex.props(styles.divider, isDragging && styles.dividerDragging)}
       />
-      <SC.RightPane>{right}</SC.RightPane>
-    </SC.Container>
+      <div {...stylex.props(styles.rightPane)}>{right}</div>
+    </div>
   );
 };
 
 export default SplitPane;
-
-const SC = {
-  Container: styled.div<{ $isDragging: boolean }>`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    ${({ $isDragging }) => $isDragging && 'user-select: none; cursor: col-resize;'}
-  `,
-  LeftPane: styled.div`
-    flex-shrink: 0;
-    height: 100%;
-    overflow-y: auto;
-  `,
-  RightPane: styled.div`
-    flex: 1;
-    min-width: 0;
-    height: 100%;
-    overflow-y: auto;
-  `,
-  Divider: styled.div<{ $isDragging: boolean }>`
-    flex-shrink: 0;
-    width: 0.5rem;
-    height: 100%;
-    cursor: col-resize;
-    touch-action: none;
-    background-color: ${({ theme, $isDragging }) =>
-      $isDragging ? theme.colors.interactivePrimary : theme.colors.borderSubtle};
-    background-clip: content-box;
-    padding: 0 0.2rem;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.interactivePrimary};
-      background-clip: content-box;
-    }
-  `,
-};

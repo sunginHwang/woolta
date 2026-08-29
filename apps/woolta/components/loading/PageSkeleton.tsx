@@ -1,7 +1,22 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
-import { styled } from 'styled-components';
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
+    maxWidth: '72rem',
+    padding: '2.4rem',
+  },
+  rows: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.2rem',
+  },
+});
 
 /**
  * 라우트 전환(RSC 로딩) 동안 콘텐츠 영역에 표시하는 공용 스켈레톤.
@@ -9,30 +24,15 @@ import { styled } from 'styled-components';
  */
 export const PageSkeleton = () => {
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <SkeletonBar width='18rem' height='2.8rem' radius={8} />
-      <SC.Rows>
+      <div {...stylex.props(styles.rows)}>
         <SkeletonBar width='100%' height='4.4rem' radius={10} />
         <SkeletonBar width='100%' height='4.4rem' radius={10} />
         <SkeletonBar width='82%' height='4.4rem' radius={10} />
         <SkeletonBar width='90%' height='4.4rem' radius={10} />
         <SkeletonBar width='70%' height='4.4rem' radius={10} />
-      </SC.Rows>
-    </SC.Container>
+      </div>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 72rem;
-    padding: 2.4rem;
-  `,
-  Rows: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-  `,
 };

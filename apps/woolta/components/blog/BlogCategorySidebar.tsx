@@ -1,13 +1,47 @@
 'use client';
 
 import { useCategories } from '@blog/features';
+import * as stylex from '@stylexjs/stylex';
 import { Suspense as MountGate, SkeletonBar, Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Component, ReactNode } from 'react';
-import { styled } from 'styled-components';
 
 const DEFAULT_CATEGORY = '-1';
+
+const styles = stylex.create({
+  header: {
+    paddingTop: '0.4rem',
+    paddingBottom: '1rem',
+    paddingInline: '1rem',
+  },
+  list: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.2rem',
+  },
+  categoryLink: {
+    paddingBlock: '0.9rem',
+    paddingInline: '1rem',
+    borderRadius: '0.8rem',
+    fontSize: '1.4rem',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    color: colorVars['--color-textSecondary'],
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    fontWeight: 400,
+  },
+  categoryLinkActive: {
+    color: colorVars['--color-interactivePrimary'],
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    fontWeight: 700,
+  },
+});
 
 const CategoryList = () => {
   const { categories } = useCategories();
@@ -17,27 +51,31 @@ const CategoryList = () => {
   const isListPath = pathname === '/blog';
 
   return (
-    <SC.List>
-      {categories.map((category) => (
-        <SC.CategoryLink
-          key={category.value}
-          href={`/blog?category=${category.value}`}
-          $isActive={isListPath && activeCategory === String(category.value)}
-        >
-          {category.label}
-        </SC.CategoryLink>
-      ))}
-    </SC.List>
+    <div {...stylex.props(styles.list)}>
+      {categories.map((category) => {
+        const isActive = isListPath && activeCategory === String(category.value);
+
+        return (
+          <Link
+            key={category.value}
+            href={`/blog?category=${category.value}`}
+            {...stylex.props(styles.categoryLink, isActive && styles.categoryLinkActive)}
+          >
+            {category.label}
+          </Link>
+        );
+      })}
+    </div>
   );
 };
 
 const CategoryListSkeleton = () => {
   return (
-    <SC.List>
+    <div {...stylex.props(styles.list)}>
       <SkeletonBar width='100%' height='3.6rem' radius={8} />
       <SkeletonBar width='100%' height='3.6rem' radius={8} />
       <SkeletonBar width='100%' height='3.6rem' radius={8} />
-    </SC.List>
+    </div>
   );
 };
 
@@ -67,11 +105,11 @@ class SilentBoundary extends Component<SilentBoundaryProps, { hasError: boolean 
 export const BlogCategorySidebar = () => {
   return (
     <>
-      <SC.Header>
+      <div {...stylex.props(styles.header)}>
         <Text as='h2' variant='small1Bold' color='textTertiary'>
           카테고리
         </Text>
-      </SC.Header>
+      </div>
       <MountGate fallback={<CategoryListSkeleton />}>
         <SilentBoundary>
           <CategoryList />
@@ -79,30 +117,4 @@ export const BlogCategorySidebar = () => {
       </MountGate>
     </>
   );
-};
-
-const SC = {
-  Header: styled.div`
-    padding: 0.4rem 1rem 1rem;
-  `,
-  List: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  `,
-  CategoryLink: styled(Link)<{ $isActive: boolean }>`
-    padding: 0.9rem 1rem;
-    border-radius: 0.8rem;
-    font-size: 1.4rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.interactivePrimary : theme.colors.textSecondary)};
-    background-color: ${({ theme, $isActive }) => ($isActive ? theme.colors.bgSurfaceSecondary : 'transparent')};
-    font-weight: ${({ $isActive }) => ($isActive ? 700 : 400)};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
 };

@@ -1,4 +1,5 @@
 //@ts-check
+const path = require('path');
 const stylexPluginModule = require('@stylexswc/nextjs-plugin');
 // CJS/ESM interop — 런타임은 모듈 자체가 함수지만 타입 선언은 default export
 const stylexPlugin = stylexPluginModule.default ?? stylexPluginModule;
@@ -17,6 +18,10 @@ const withStylex = stylexPlugin({
     treeshakeCompensation: true,
     styleResolution: 'application-order',
     enableDebugClassNames: process.env.NODE_ENV === 'development',
+    // '@wds/tokens.stylex' 등 토큰 파일 직접 import 를 컴파일러가 해석할 수 있게 한다 (tsconfig paths 와 동기)
+    aliases: {
+      '@wds/*': [path.join(__dirname, '../../libs/wds/src/lib/style/*')],
+    },
     unstable_moduleResolution: {
       type: 'commonJS',
     },

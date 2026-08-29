@@ -1,28 +1,29 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { ReactNode } from 'react';
-import { styled } from 'styled-components';
 import AppRail from './AppRail';
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    height: '100dvh',
+  },
+  content: {
+    flex: 1,
+    overflowY: 'auto',
+    backgroundColor: colorVars['--color-bgPage'],
+  },
+});
 
 const AppShell = ({ children }: { children: ReactNode }) => {
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <AppRail />
-      <SC.Content>{children}</SC.Content>
-    </SC.Container>
+      <main {...stylex.props(styles.content)}>{children}</main>
+    </div>
   );
 };
 
 export default AppShell;
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    height: 100dvh;
-  `,
-  Content: styled.main`
-    flex: 1;
-    overflow-y: auto;
-    background-color: ${({ theme }) => theme.colors.bgPage};
-  `,
-};

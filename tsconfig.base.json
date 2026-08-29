@@ -27,6 +27,7 @@
       "@common/server": ["libs/common/src/server.ts"],
       "@common/test": ["libs/common/test/src/index.ts"],
       "@wds": ["libs/wds/src/index.ts"],
+      "@wds/*": ["libs/wds/src/lib/style/*"],
       "@woolbank/features": ["libs/woolbank/features/src/index.ts"],
       "@woolbank/screens": ["libs/woolbank/screens/src/index.ts"]
     }
