@@ -1,7 +1,8 @@
 'use client';
 
 import { MemoList } from '@memo/features';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 
 /**
  * 메모 앱 좌측 패널 — 메모 목록.
@@ -9,15 +10,15 @@ import { styled } from 'styled-components';
  */
 export const MemoListPanel = () => {
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <MemoList />
-    </SC.Panel>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    height: 100%;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    height: '100%',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+});

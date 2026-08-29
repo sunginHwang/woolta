@@ -1,7 +1,8 @@
 'use client';
 
 import { ArticleSidebar } from '@article-curations/features';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 
 /**
  * 아티클 앱 좌측 패널 — 스마트 리스트/카테고리 사이드바.
@@ -9,15 +10,15 @@ import { styled } from 'styled-components';
  */
 export const ArticleSidebarScreen = () => {
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <ArticleSidebar />
-    </SC.Panel>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    height: 100%;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    height: '100%',
+    backgroundColor: colorVars['--color-bgSurface'],
+  },
+});

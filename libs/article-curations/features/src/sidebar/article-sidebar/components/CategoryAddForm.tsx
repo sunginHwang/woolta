@@ -1,11 +1,50 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import { KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { getArticleListHref, getCategoryListKey } from '../../../_shared/routes';
 import { useArticleStore } from '../../../_shared/stores/useArticleStore';
+
+const styles = stylex.create({
+  addButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.8rem',
+    width: '100%',
+    paddingBlock: '0.7rem',
+    paddingInline: '1rem',
+    borderWidth: 0,
+    borderStyle: 'none',
+    borderRadius: '0.8rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-textPrimary'],
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    fontSize: '1.3rem',
+    cursor: 'pointer',
+  },
+  input: {
+    width: '100%',
+    paddingBlock: '0.7rem',
+    paddingInline: '1rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-interactivePrimary'],
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+    fontSize: '1.3rem',
+    outline: 'none',
+  },
+});
 
 /** 사이드바 하단 카테고리 추가 폼. 버튼 클릭 시 인라인 입력으로 전환된다. */
 export const CategoryAddForm = () => {
@@ -40,7 +79,8 @@ export const CategoryAddForm = () => {
 
   if (isAdding) {
     return (
-      <SC.Input
+      <input
+        {...stylex.props(styles.input)}
         autoFocus
         placeholder='카테고리 이름'
         value={name}
@@ -52,40 +92,9 @@ export const CategoryAddForm = () => {
   }
 
   return (
-    <SC.AddButton type='button' onClick={() => setIsAdding(true)}>
+    <button type='button' {...stylex.props(styles.addButton)} onClick={() => setIsAdding(true)}>
       <FiPlus size={14} />
       카테고리 추가
-    </SC.AddButton>
+    </button>
   );
-};
-
-const SC = {
-  AddButton: styled.button`
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    width: 100%;
-    padding: 0.7rem 1rem;
-    border: none;
-    border-radius: 0.8rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 1.3rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  `,
-  Input: styled.input`
-    width: 100%;
-    padding: 0.7rem 1rem;
-    border: 1px solid ${({ theme }) => theme.colors.interactivePrimary};
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    outline: none;
-  `,
 };

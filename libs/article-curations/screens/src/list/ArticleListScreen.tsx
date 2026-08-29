@@ -1,7 +1,8 @@
 'use client';
 
 import { ArticleTable, type ArticleListKey } from '@article-curations/features';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 
 interface Props {
   /** 라우트가 지정한 리스트 키 */
@@ -14,19 +15,19 @@ interface Props {
  */
 export const ArticleListScreen = ({ listKey }: Props) => {
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <ArticleTable listKey={listKey} />
-    </SC.Panel>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.6rem;
-    background-color: ${({ theme }) => theme.colors.bgPage};
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    padding: '1.6rem',
+    backgroundColor: colorVars['--color-bgPage'],
+  },
+});

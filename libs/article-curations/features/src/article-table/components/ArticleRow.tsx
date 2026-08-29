@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { SyntheticEvent } from 'react';
 import { FiLink, FiStar, FiTrash2 } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { useWeeklyCuration } from '../../_shared/hooks/useWeeklyCuration';
 import { useArticleStore } from '../../_shared/stores/useArticleStore';
 import { Article } from '../../_shared/types';
@@ -16,6 +17,159 @@ interface Props {
   /** 카테고리 컬럼 노출 여부 (전체/큐레이션 뷰에서만 노출) */
   showCategory: boolean;
 }
+
+const styles = stylex.create({
+  // CSS 변수로 자손 opacity 토글 — Row hover 시 RemoveButton 이 나타남
+  row: {
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+    '--article-remove-opacity': {
+      default: '0',
+      ':hover': '1',
+    },
+  },
+  titleCell: {
+    paddingBlock: '1rem',
+    paddingInline: '1.2rem',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+    maxWidth: 0,
+    width: '100%',
+  },
+  titleWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    minWidth: 0,
+  },
+  thumbnail: {
+    flexShrink: 0,
+    width: '5.6rem',
+    height: '3.6rem',
+    objectFit: 'cover',
+    borderRadius: '0.6rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-borderSubtle'],
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  thumbnailFallback: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    width: '5.6rem',
+    height: '3.6rem',
+    borderRadius: '0.6rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-borderSubtle'],
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+    color: colorVars['--color-textTertiary'],
+  },
+  titleBody: {
+    minWidth: 0,
+  },
+  titleLink: {
+    display: 'block',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: {
+      default: colorVars['--color-textPrimary'],
+      ':hover': colorVars['--color-brandPrimary'],
+    },
+    fontSize: '1.3rem',
+    lineHeight: '1.8rem',
+    textDecoration: {
+      default: 'none',
+      ':hover': 'underline',
+    },
+  },
+  description: {
+    marginTop: '0.2rem',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: colorVars['--color-textTertiary'],
+    fontSize: '1.2rem',
+    lineHeight: '1.6rem',
+  },
+  cell: {
+    paddingBlock: '1rem',
+    paddingInline: '1.2rem',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+    color: colorVars['--color-textSecondary'],
+    fontSize: '1.2rem',
+    whiteSpace: 'nowrap',
+  },
+  actionCell: {
+    paddingBlock: '1rem',
+    paddingInline: '1.2rem',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+    whiteSpace: 'nowrap',
+  },
+  curationButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBlock: '0.3rem',
+    paddingInline: '0.3rem',
+    borderWidth: 0,
+    borderStyle: 'none',
+    borderRadius: '0.4rem',
+    background: 'none',
+    cursor: {
+      default: 'pointer',
+      ':disabled': 'not-allowed',
+    },
+    opacity: {
+      default: 1,
+      ':disabled': 0.4,
+    },
+  },
+  curationButtonCurated: {
+    color: {
+      default: colorVars['--color-brandPrimary'],
+      ':hover:not(:disabled)': colorVars['--color-brandPrimary'],
+    },
+  },
+  curationButtonDefault: {
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover:not(:disabled)': colorVars['--color-brandPrimary'],
+    },
+  },
+  // opacity 는 CSS 변수로 제어 — 부모 row hover 시 '1' 로 전환됨
+  removeButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: '0.4rem',
+    paddingBlock: '0.3rem',
+    paddingInline: '0.3rem',
+    borderWidth: 0,
+    borderStyle: 'none',
+    borderRadius: '0.4rem',
+    background: 'none',
+    color: {
+      default: colorVars['--color-textTertiary'],
+      ':hover': colorVars['--color-statusError'],
+    },
+    opacity: 'var(--article-remove-opacity)' as unknown as number,
+    transitionProperty: 'opacity',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'ease',
+    cursor: 'pointer',
+  },
+});
 
 /** 아티클 테이블 행 — 제목 링크 / 카테고리 / 등록일 / 큐레이션 토글 / 삭제 */
 export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
@@ -42,166 +196,58 @@ export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
   };
 
   return (
-    <SC.Row>
-      <SC.TitleCell>
-        <SC.TitleWrap>
+    <tr {...stylex.props(styles.row)}>
+      <td {...stylex.props(styles.titleCell)}>
+        <div {...stylex.props(styles.titleWrap)}>
           {article.seo?.imageUrl ? (
-            <SC.Thumbnail src={article.seo.imageUrl} alt='' loading='lazy' onError={handleThumbnailError} />
+            <img
+              {...stylex.props(styles.thumbnail)}
+              src={article.seo.imageUrl}
+              alt=''
+              loading='lazy'
+              onError={handleThumbnailError}
+            />
           ) : (
-            <SC.ThumbnailFallback>
+            <span {...stylex.props(styles.thumbnailFallback)}>
               <FiLink size={14} />
-            </SC.ThumbnailFallback>
+            </span>
           )}
-          <SC.TitleBody>
-            <SC.TitleLink href={article.url} target='_blank' rel='noreferrer' title={article.url}>
+          <div {...stylex.props(styles.titleBody)}>
+            <a {...stylex.props(styles.titleLink)} href={article.url} target='_blank' rel='noreferrer' title={article.url}>
               {article.title}
-            </SC.TitleLink>
-            {article.seo?.description && <SC.Description title={article.seo.description}>{article.seo.description}</SC.Description>}
-          </SC.TitleBody>
-        </SC.TitleWrap>
-      </SC.TitleCell>
-      {showCategory && <SC.Cell>{categoryName ?? '-'}</SC.Cell>}
-      <SC.Cell>{formatArticleDate(article.createdAt)}</SC.Cell>
-      <SC.ActionCell>
-        <SC.CurationButton
+            </a>
+            {article.seo?.description && (
+              <p {...stylex.props(styles.description)} title={article.seo.description}>
+                {article.seo.description}
+              </p>
+            )}
+          </div>
+        </div>
+      </td>
+      {showCategory && <td {...stylex.props(styles.cell)}>{categoryName ?? '-'}</td>}
+      <td {...stylex.props(styles.cell)}>{formatArticleDate(article.createdAt)}</td>
+      <td {...stylex.props(styles.actionCell)}>
+        <button
           type='button'
-          $isCurated={isCurated}
+          {...stylex.props(
+            styles.curationButton,
+            isCurated ? styles.curationButtonCurated : styles.curationButtonDefault,
+          )}
           disabled={isCurationDisabled}
           title={isCurationDisabled ? '이번 주 큐레이션이 가득 찼어요' : '이번 주 큐레이션 토글'}
           onClick={handleCurationClick}
         >
-          <FiStar size={14} />
-        </SC.CurationButton>
-        <SC.RemoveButton type='button' title='삭제' className='article-row-remove' onClick={handleRemoveClick}>
+          <FiStar size={14} fill={isCurated ? 'currentColor' : 'none'} />
+        </button>
+        <button
+          type='button'
+          {...stylex.props(styles.removeButton)}
+          title='삭제'
+          onClick={handleRemoveClick}
+        >
           <FiTrash2 size={14} />
-        </SC.RemoveButton>
-      </SC.ActionCell>
-    </SC.Row>
+        </button>
+      </td>
+    </tr>
   );
-};
-
-const SC = {
-  Row: styled.tr`
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-
-    &:hover .article-row-remove {
-      opacity: 1;
-    }
-  `,
-  TitleCell: styled.td`
-    padding: 1rem 1.2rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    max-width: 0;
-    width: 100%;
-  `,
-  TitleWrap: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    min-width: 0;
-  `,
-  Thumbnail: styled.img`
-    flex-shrink: 0;
-    width: 5.6rem;
-    height: 3.6rem;
-    object-fit: cover;
-    border-radius: 0.6rem;
-    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-  `,
-  ThumbnailFallback: styled.span`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 5.6rem;
-    height: 3.6rem;
-    border-radius: 0.6rem;
-    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    color: ${({ theme }) => theme.colors.textTertiary};
-  `,
-  TitleBody: styled.div`
-    min-width: 0;
-  `,
-  TitleLink: styled.a`
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    line-height: 1.8rem;
-    text-decoration: none;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.brandPrimary};
-      text-decoration: underline;
-    }
-  `,
-  Description: styled.p`
-    margin-top: 0.2rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-  `,
-  Cell: styled.td`
-    padding: 1rem 1.2rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    color: ${({ theme }) => theme.colors.textSecondary};
-    font-size: 1.2rem;
-    white-space: nowrap;
-  `,
-  ActionCell: styled.td`
-    padding: 1rem 1.2rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    white-space: nowrap;
-  `,
-  CurationButton: styled.button<{ $isCurated: boolean }>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem;
-    border: none;
-    border-radius: 0.4rem;
-    background: none;
-    color: ${({ theme, $isCurated }) => ($isCurated ? theme.colors.brandPrimary : theme.colors.textTertiary)};
-    cursor: pointer;
-
-    svg {
-      fill: ${({ $isCurated }) => ($isCurated ? 'currentColor' : 'none')};
-    }
-
-    &:hover:not(:disabled) {
-      color: ${({ theme }) => theme.colors.brandPrimary};
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-  `,
-  RemoveButton: styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.4rem;
-    padding: 0.3rem;
-    border: none;
-    border-radius: 0.4rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    cursor: pointer;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.statusError};
-    }
-  `,
 };

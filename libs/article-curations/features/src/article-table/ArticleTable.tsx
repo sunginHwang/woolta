@@ -1,9 +1,10 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { WEEKLY_CURATION_LIMIT } from '../_shared/constants';
 import { useArticleList } from '../_shared/hooks/useArticleList';
 import { useCategoryList } from '../_shared/hooks/useCategoryList';
@@ -16,6 +17,78 @@ interface Props {
   /** 라우트가 지정한 리스트 키 */
   listKey: ArticleListKey;
 }
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '1.2rem',
+    paddingBottom: '1.6rem',
+  },
+  headerInfo: {
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: '0.8rem',
+    minWidth: 0,
+  },
+  addButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    gap: '0.6rem',
+    paddingBlock: '0.7rem',
+    paddingInline: '1.2rem',
+    borderWidth: 0,
+    borderStyle: 'none',
+    borderRadius: '0.8rem',
+    backgroundColor: {
+      default: colorVars['--color-interactivePrimary'],
+      ':hover': colorVars['--color-interactivePrimaryHover'],
+    },
+    color: colorVars['--color-textInverse'],
+    fontSize: '1.3rem',
+    cursor: 'pointer',
+  },
+  tableWrapper: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+  },
+  headRow: {
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderDefault'],
+  },
+  headCell: {
+    paddingBlock: '0.8rem',
+    paddingInline: '1.2rem',
+    color: colorVars['--color-textTertiary'],
+    fontSize: '1.2rem',
+    fontWeight: 600,
+    textAlign: 'left',
+    whiteSpace: 'nowrap',
+  },
+  empty: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.6rem',
+    flex: 1,
+    paddingBlock: '4rem',
+    paddingInline: '1.6rem',
+  },
+});
 
 /** 아티클 테이블 — 리스트 헤더(제목/개수/등록 버튼) + 아티클 목록 테이블 + 등록 오버레이 */
 export const ArticleTable = ({ listKey }: Props) => {
@@ -32,11 +105,11 @@ export const ArticleTable = ({ listKey }: Props) => {
 
   if (categoryId !== null && currentCategory === undefined) {
     return (
-      <SC.Empty>
+      <div {...stylex.props(styles.empty)}>
         <Text variant='body2' color='textTertiary'>
           존재하지 않는 카테고리예요.
         </Text>
-      </SC.Empty>
+      </div>
     );
   }
 
@@ -44,26 +117,26 @@ export const ArticleTable = ({ listKey }: Props) => {
   const countLabel = isCurationView ? `${articleList.length}/${WEEKLY_CURATION_LIMIT}` : `${articleList.length}개`;
 
   return (
-    <SC.Container>
-      <SC.Header>
-        <SC.HeaderInfo>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.header)}>
+        <div {...stylex.props(styles.headerInfo)}>
           <Text as='h2' variant='title5Bold' color='textPrimary'>
             {title}
           </Text>
           <Text variant='small2Medium' color='textTertiary'>
             {countLabel}
           </Text>
-        </SC.HeaderInfo>
+        </div>
         {!isCurationView && (
-          <SC.AddButton type='button' onClick={() => setIsAddOpen(true)}>
+          <button type='button' {...stylex.props(styles.addButton)} onClick={() => setIsAddOpen(true)}>
             <FiPlus size={14} />
             아티클 등록
-          </SC.AddButton>
+          </button>
         )}
-      </SC.Header>
+      </div>
 
       {articleList.length === 0 ? (
-        <SC.Empty>
+        <div {...stylex.props(styles.empty)}>
           <Text variant='body2' color='textTertiary'>
             {isCurationView ? '이번 주 큐레이션한 아티클이 없어요.' : '아직 등록된 아티클이 없어요.'}
           </Text>
@@ -72,17 +145,17 @@ export const ArticleTable = ({ listKey }: Props) => {
               ? '아티클 리스트에서 별(★) 버튼으로 이번 주 아티클을 선정해 보세요.'
               : '등록 버튼을 눌러 첫 아티클을 추가해 보세요.'}
           </Text>
-        </SC.Empty>
+        </div>
       ) : (
-        <SC.TableWrapper>
-          <SC.Table>
+        <div {...stylex.props(styles.tableWrapper)}>
+          <table {...stylex.props(styles.table)}>
             <thead>
-              <SC.HeadRow>
-                <SC.HeadCell scope='col'>제목</SC.HeadCell>
-                {showCategoryColumn && <SC.HeadCell scope='col'>카테고리</SC.HeadCell>}
-                <SC.HeadCell scope='col'>등록일</SC.HeadCell>
-                <SC.HeadCell scope='col' aria-label='액션' />
-              </SC.HeadRow>
+              <tr {...stylex.props(styles.headRow)}>
+                <th {...stylex.props(styles.headCell)} scope='col'>제목</th>
+                {showCategoryColumn && <th {...stylex.props(styles.headCell)} scope='col'>카테고리</th>}
+                <th {...stylex.props(styles.headCell)} scope='col'>등록일</th>
+                <th {...stylex.props(styles.headCell)} scope='col' aria-label='액션' />
+              </tr>
             </thead>
             <tbody>
               {articleList.map((article) => (
@@ -94,78 +167,11 @@ export const ArticleTable = ({ listKey }: Props) => {
                 />
               ))}
             </tbody>
-          </SC.Table>
-        </SC.TableWrapper>
+          </table>
+        </div>
       )}
 
       <ArticleAddOverlay isOpen={isAddOpen} defaultCategoryId={categoryId} onClose={() => setIsAddOpen(false)} />
-    </SC.Container>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  `,
-  Header: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.2rem;
-    padding-bottom: 1.6rem;
-  `,
-  HeaderInfo: styled.div`
-    display: flex;
-    align-items: baseline;
-    gap: 0.8rem;
-    min-width: 0;
-  `,
-  AddButton: styled.button`
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    gap: 0.6rem;
-    padding: 0.7rem 1.2rem;
-    border: none;
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.interactivePrimary};
-    color: ${({ theme }) => theme.colors.textInverse};
-    font-size: 1.3rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.interactivePrimaryHover};
-    }
-  `,
-  TableWrapper: styled.div`
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-  `,
-  Table: styled.table`
-    width: 100%;
-    border-collapse: collapse;
-  `,
-  HeadRow: styled.tr`
-    border-bottom: 1px solid ${({ theme }) => theme.colors.borderDefault};
-  `,
-  HeadCell: styled.th`
-    padding: 0.8rem 1.2rem;
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-    white-space: nowrap;
-  `,
-  Empty: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    flex: 1;
-    padding: 4rem 1.6rem;
-  `,
 };

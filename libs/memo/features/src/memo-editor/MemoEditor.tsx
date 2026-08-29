@@ -1,27 +1,70 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { ChangeEvent, useState } from 'react';
-import { styled } from 'styled-components';
 import { useSelectedMemo } from '../_shared/hooks/useSelectedMemo';
 import { Memo } from '../_shared/types';
 import { formatMemoDate } from '../_shared/utils/formatMemoDate';
 import { useMemoAutoSave } from './hooks/useMemoAutoSave';
 import { TiptapEditor } from './TiptapEditor';
 
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '86rem',
+    minHeight: '100%',
+    marginBlock: 0,
+    marginInline: 'auto',
+    paddingBlock: '3.2rem',
+    paddingInline: '4rem',
+  },
+  titleInput: {
+    borderWidth: 0,
+    borderStyle: 'none',
+    background: 'transparent',
+    fontSize: '2.8rem',
+    fontWeight: 700,
+    color: colorVars['--color-textPrimary'],
+    '::placeholder': {
+      color: colorVars['--color-textDisabled'],
+    },
+  },
+  dateRow: {
+    display: 'flex',
+    gap: '1.6rem',
+    marginTop: '0.8rem',
+    marginBottom: '2rem',
+    marginInline: 0,
+    paddingBottom: '1.6rem',
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-borderSubtle'],
+  },
+  empty: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
+});
+
 export const MemoEditor = () => {
   const selectedMemo = useSelectedMemo();
 
   if (!selectedMemo) {
     return (
-      <SC.Empty>
+      <div {...stylex.props(styles.empty)}>
         <Text as='p' variant='title5Bold' color='textSecondary' alignment='center'>
           메모를 선택하세요
         </Text>
         <Text as='p' variant='body3' color='textTertiary' alignment='center' mt={8}>
           좌측 목록에서 메모를 선택하거나 새 메모를 만들어보세요
         </Text>
-      </SC.Empty>
+      </div>
     );
   }
 
@@ -43,53 +86,17 @@ const MemoEditorContent = ({ memo }: ContentProps) => {
   };
 
   return (
-    <SC.Container>
-      <SC.TitleInput placeholder='제목 없음' value={title} onChange={handleTitleChange} />
-      <SC.DateRow>
+    <div {...stylex.props(styles.container)}>
+      <input {...stylex.props(styles.titleInput)} placeholder='제목 없음' value={title} onChange={handleTitleChange} />
+      <div {...stylex.props(styles.dateRow)}>
         <Text variant='small3Regular' color='textTertiary'>
           작성일 {formatMemoDate(memo.createdAt)}
         </Text>
         <Text variant='small3Regular' color='textTertiary'>
           수정일 {formatMemoDate(memo.updatedAt)}
         </Text>
-      </SC.DateRow>
+      </div>
       <TiptapEditor initialContent={memo.content} onChangeContent={saveContent} />
-    </SC.Container>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    max-width: 86rem;
-    min-height: 100%;
-    margin: 0 auto;
-    padding: 3.2rem 4rem;
-  `,
-  TitleInput: styled.input`
-    border: 0;
-    background: transparent;
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: ${({ theme }) => theme.colors.textPrimary};
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.textDisabled};
-    }
-  `,
-  DateRow: styled.div`
-    display: flex;
-    gap: 1.6rem;
-    margin: 0.8rem 0 2rem;
-    padding-bottom: 1.6rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.borderSubtle};
-  `,
-  Empty: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  `,
 };

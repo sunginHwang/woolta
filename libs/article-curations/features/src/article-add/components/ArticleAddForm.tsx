@@ -1,8 +1,9 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { KeyboardEvent } from 'react';
-import { styled } from 'styled-components';
 import { useCategoryList } from '../../_shared/hooks/useCategoryList';
 import { useArticleAddForm } from '../hooks/useArticleAddForm';
 
@@ -12,6 +13,105 @@ interface Props {
   /** 폼 닫기 요청 (등록 완료/취소/Escape) */
   onClose: () => void;
 }
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.2rem',
+    padding: '2rem',
+    borderRadius: '1.2rem',
+    backgroundColor: colorVars['--color-bgElevated'],
+  },
+  field: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.4rem',
+  },
+  label: {
+    color: colorVars['--color-textTertiary'],
+    fontSize: '1.2rem',
+  },
+  select: {
+    paddingBlock: '0.8rem',
+    paddingInline: '1rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: {
+      default: colorVars['--color-borderDefault'],
+      ':focus': colorVars['--color-interactivePrimary'],
+    },
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+    fontSize: '1.3rem',
+    outline: 'none',
+  },
+  input: {
+    paddingBlock: '0.8rem',
+    paddingInline: '1rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: {
+      default: colorVars['--color-borderDefault'],
+      ':focus': colorVars['--color-interactivePrimary'],
+    },
+    borderRadius: '0.8rem',
+    backgroundColor: colorVars['--color-bgSurface'],
+    color: colorVars['--color-textPrimary'],
+    fontSize: '1.3rem',
+    outline: 'none',
+  },
+  thumbnailPreview: {
+    width: '100%',
+    maxHeight: '14rem',
+    objectFit: 'cover',
+    borderRadius: '0.8rem',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-borderSubtle'],
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: '0.8rem',
+    paddingTop: '0.4rem',
+  },
+  cancelButton: {
+    paddingBlock: '0.7rem',
+    paddingInline: '1.2rem',
+    borderWidth: 0,
+    borderStyle: 'none',
+    borderRadius: '0.8rem',
+    background: 'none',
+    color: colorVars['--color-textSecondary'],
+    fontSize: '1.3rem',
+    cursor: 'pointer',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-bgSurfaceSecondary'],
+    },
+  },
+  submitButton: {
+    paddingBlock: '0.7rem',
+    paddingInline: '1.6rem',
+    borderWidth: 0,
+    borderStyle: 'none',
+    borderRadius: '0.8rem',
+    backgroundColor: {
+      default: colorVars['--color-interactivePrimary'],
+      ':hover:not(:disabled)': colorVars['--color-interactivePrimaryHover'],
+      ':disabled': colorVars['--color-interactivePrimaryDisabled'],
+    },
+    color: colorVars['--color-textInverse'],
+    fontSize: '1.3rem',
+    cursor: {
+      default: 'pointer',
+      ':disabled': 'not-allowed',
+    },
+  },
+});
 
 /** 아티클 등록 폼 — 링크를 먼저 입력하면 SEO 를 수집해 제목/설명을 자동으로 채운다 */
 export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
@@ -48,13 +148,18 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
   };
 
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <Text as='h3' variant='title6Bold' color='textPrimary'>
         아티클 등록
       </Text>
-      <SC.Field>
-        <SC.Label htmlFor='article-add-category'>카테고리</SC.Label>
-        <SC.Select id='article-add-category' value={categoryId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryId(e.target.value)}>
+      <div {...stylex.props(styles.field)}>
+        <label {...stylex.props(styles.label)} htmlFor='article-add-category'>카테고리</label>
+        <select
+          {...stylex.props(styles.select)}
+          id='article-add-category'
+          value={categoryId}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryId(e.target.value)}
+        >
           <option value='' disabled>
             {categoryList.length === 0 ? '카테고리를 먼저 추가해 주세요' : '카테고리 선택'}
           </option>
@@ -63,11 +168,12 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
               {category.name}
             </option>
           ))}
-        </SC.Select>
-      </SC.Field>
-      <SC.Field>
-        <SC.Label htmlFor='article-add-url'>아티클 링크</SC.Label>
-        <SC.Input
+        </select>
+      </div>
+      <div {...stylex.props(styles.field)}>
+        <label {...stylex.props(styles.label)} htmlFor='article-add-url'>아티클 링크</label>
+        <input
+          {...stylex.props(styles.input)}
           autoFocus
           id='article-add-url'
           placeholder='https://... 링크를 넣으면 제목/설명을 자동으로 불러와요'
@@ -75,7 +181,7 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
           onKeyDown={handleInputKeyDown}
         />
-      </SC.Field>
+      </div>
       {isFetchingSeo && (
         <Text as='p' variant='small2Regular' color='textTertiary'>
           링크 정보를 불러오는 중...
@@ -83,128 +189,39 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
       )}
       {isDetailVisible && (
         <>
-          {thumbnailUrl && <SC.ThumbnailPreview src={thumbnailUrl} alt='' />}
-          <SC.Field>
-            <SC.Label htmlFor='article-add-title'>제목</SC.Label>
-            <SC.Input
+          {thumbnailUrl && <img {...stylex.props(styles.thumbnailPreview)} src={thumbnailUrl} alt='' />}
+          <div {...stylex.props(styles.field)}>
+            <label {...stylex.props(styles.label)} htmlFor='article-add-title'>제목</label>
+            <input
+              {...stylex.props(styles.input)}
               id='article-add-title'
               placeholder='아티클 제목'
               value={title}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
               onKeyDown={handleInputKeyDown}
             />
-          </SC.Field>
-          <SC.Field>
-            <SC.Label htmlFor='article-add-description'>설명</SC.Label>
-            <SC.Input
+          </div>
+          <div {...stylex.props(styles.field)}>
+            <label {...stylex.props(styles.label)} htmlFor='article-add-description'>설명</label>
+            <input
+              {...stylex.props(styles.input)}
               id='article-add-description'
               placeholder='아티클 설명 (선택)'
               value={description}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
               onKeyDown={handleInputKeyDown}
             />
-          </SC.Field>
+          </div>
         </>
       )}
-      <SC.Footer>
-        <SC.CancelButton type='button' onClick={onClose}>
+      <div {...stylex.props(styles.footer)}>
+        <button type='button' {...stylex.props(styles.cancelButton)} onClick={onClose}>
           취소
-        </SC.CancelButton>
-        <SC.SubmitButton type='button' disabled={!canSubmit} onClick={submit}>
+        </button>
+        <button type='button' {...stylex.props(styles.submitButton)} disabled={!canSubmit} onClick={submit}>
           등록
-        </SC.SubmitButton>
-      </SC.Footer>
-    </SC.Container>
+        </button>
+      </div>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    padding: 2rem;
-    border-radius: 1.2rem;
-    background-color: ${({ theme }) => theme.colors.bgElevated};
-  `,
-  Field: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  `,
-  Label: styled.label`
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 1.2rem;
-  `,
-  Select: styled.select`
-    padding: 0.8rem 1rem;
-    border: 1px solid ${({ theme }) => theme.colors.borderDefault};
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    outline: none;
-
-    &:focus {
-      border-color: ${({ theme }) => theme.colors.interactivePrimary};
-    }
-  `,
-  Input: styled.input`
-    padding: 0.8rem 1rem;
-    border: 1px solid ${({ theme }) => theme.colors.borderDefault};
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.bgSurface};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    font-size: 1.3rem;
-    outline: none;
-
-    &:focus {
-      border-color: ${({ theme }) => theme.colors.interactivePrimary};
-    }
-  `,
-  ThumbnailPreview: styled.img`
-    width: 100%;
-    max-height: 14rem;
-    object-fit: cover;
-    border-radius: 0.8rem;
-    border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-  `,
-  Footer: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.8rem;
-    padding-top: 0.4rem;
-  `,
-  CancelButton: styled.button`
-    padding: 0.7rem 1.2rem;
-    border: none;
-    border-radius: 0.8rem;
-    background: none;
-    color: ${({ theme }) => theme.colors.textSecondary};
-    font-size: 1.3rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.bgSurfaceSecondary};
-    }
-  `,
-  SubmitButton: styled.button`
-    padding: 0.7rem 1.6rem;
-    border: none;
-    border-radius: 0.8rem;
-    background-color: ${({ theme }) => theme.colors.interactivePrimary};
-    color: ${({ theme }) => theme.colors.textInverse};
-    font-size: 1.3rem;
-    cursor: pointer;
-
-    &:hover:not(:disabled) {
-      background-color: ${({ theme }) => theme.colors.interactivePrimaryHover};
-    }
-
-    &:disabled {
-      background-color: ${({ theme }) => theme.colors.interactivePrimaryDisabled};
-      cursor: not-allowed;
-    }
-  `,
 };

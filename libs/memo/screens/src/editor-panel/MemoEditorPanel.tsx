@@ -1,7 +1,8 @@
 'use client';
 
 import { MemoEditor } from '@memo/features';
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 
 /**
  * 메모 앱 우측 패널 — 선택된 메모 에디터.
@@ -9,15 +10,15 @@ import { styled } from 'styled-components';
  */
 export const MemoEditorPanel = () => {
   return (
-    <SC.Panel>
+    <div {...stylex.props(styles.panel)}>
       <MemoEditor />
-    </SC.Panel>
+    </div>
   );
 };
 
-const SC = {
-  Panel: styled.div`
-    height: 100%;
-    background-color: ${({ theme }) => theme.colors.bgPage};
-  `,
-};
+const styles = stylex.create({
+  panel: {
+    height: '100%',
+    backgroundColor: colorVars['--color-bgPage'],
+  },
+});

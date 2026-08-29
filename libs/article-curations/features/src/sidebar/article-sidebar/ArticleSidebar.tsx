@@ -1,15 +1,41 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { usePathname } from 'next/navigation';
 import { FiList, FiStar } from 'react-icons/fi';
-import { styled } from 'styled-components';
 import { useArticleCounts } from '../../_shared/hooks/useArticleCounts';
 import { useCategoryList } from '../../_shared/hooks/useCategoryList';
 import { getArticleListHref, isArticleListActive } from '../../_shared/routes';
 import { CategoryAddForm } from './components/CategoryAddForm';
 import { CategoryItem } from './components/CategoryItem';
 import { SidebarItem } from './components/SidebarItem';
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    paddingBlock: '1.6rem',
+    paddingInline: '1.2rem',
+    overflowY: 'auto',
+  },
+  section: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.2rem',
+    listStyle: 'none',
+    marginTop: 0,
+    marginBottom: '1.6rem',
+    marginInline: 0,
+    padding: 0,
+  },
+  sectionTitle: {
+    paddingTop: 0,
+    paddingBottom: '0.6rem',
+    paddingInline: '1rem',
+  },
+});
 
 /** 아티클 앱 사이드바 — 전체 아티클 / 주간 큐레이션 / 카테고리 */
 export const ArticleSidebar = () => {
@@ -18,8 +44,8 @@ export const ArticleSidebar = () => {
   const counts = useArticleCounts();
 
   return (
-    <SC.Container>
-      <SC.Section>
+    <div {...stylex.props(styles.container)}>
+      <ul {...stylex.props(styles.section)}>
         <SidebarItem
           href={getArticleListHref('all')}
           icon={<FiList size={14} />}
@@ -34,14 +60,14 @@ export const ArticleSidebar = () => {
           count={counts.curation}
           isActive={isArticleListActive('curation', pathname)}
         />
-      </SC.Section>
+      </ul>
 
-      <SC.Section>
-        <SC.SectionTitle>
+      <ul {...stylex.props(styles.section)}>
+        <li {...stylex.props(styles.sectionTitle)}>
           <Text variant='small1Bold' color='textTertiary'>
             카테고리
           </Text>
-        </SC.SectionTitle>
+        </li>
         {categoryList.map((category) => (
           <CategoryItem
             key={category.id}
@@ -51,28 +77,7 @@ export const ArticleSidebar = () => {
           />
         ))}
         <CategoryAddForm />
-      </SC.Section>
-    </SC.Container>
+      </ul>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 1.6rem 1.2rem;
-    overflow-y: auto;
-  `,
-  Section: styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    list-style: none;
-    margin: 0 0 1.6rem;
-    padding: 0;
-  `,
-  SectionTitle: styled.li`
-    padding: 0 1rem 0.6rem;
-  `,
 };
