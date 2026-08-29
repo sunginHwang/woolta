@@ -9,7 +9,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const ALLOW_ALL_USER_PAGE_LIST = ['/user/login'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const loginUrl = request.nextUrl.clone();
   loginUrl.pathname = '/user/login';
   const pathname = request.nextUrl.pathname;

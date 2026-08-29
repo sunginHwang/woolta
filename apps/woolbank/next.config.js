@@ -12,18 +12,21 @@ const nextConfig = {
   },
   images: {
     disableStaticImages: true,
-    domains: ['lh6.googleusercontent.com'],
-  },
-  webpack(config) {
-    // SVGR support (previously handled by @nx/next svgr: true)
-    config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    });
-
-    return config;
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh6.googleusercontent.com',
+      },
+    ],
   },
 };
 
-module.exports = withStylex(nextConfig);
+const config = withStylex(nextConfig);
+
+// SVGR support — withStylex(turbopack)가 turbopack.rules를 재정의하므로 사후 병합
+config.turbopack.rules['*.svg'] = {
+  loaders: ['@svgr/webpack'],
+  as: '*.js',
+};
+
+module.exports = config;

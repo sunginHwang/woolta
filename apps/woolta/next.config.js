@@ -19,7 +19,12 @@ const nextConfig = {
   ],
   images: {
     disableStaticImages: true,
-    domains: ['lh6.googleusercontent.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh6.googleusercontent.com',
+      },
+    ],
   },
   compiler: {
     styledComponents: true,
