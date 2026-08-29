@@ -42,8 +42,10 @@ pnpm turbo run build
 pnpm turbo run test --filter={app-name}
 pnpm turbo run test
 
-# 린트
-pnpm turbo run lint --filter={app-name}
+# 린트/포맷 (Biome, 루트에서 레포 전체 검사)
+pnpm lint          # biome check .
+pnpm lint:fix      # biome check --write .
+pnpm format        # biome format --write .
 
 # Storybook
 pnpm turbo run storybook --filter=blog        # port 4400
@@ -75,8 +77,7 @@ libs/
 ## 코드 컨벤션
 
 ### 스타일
-- Prettier: printWidth 120, singleQuote, jsxSingleQuote, trailingComma all
-- ESLint: 최대 라인 120자, import 알파벳 정렬
+- Biome (린트+포맷 통합, 루트 `biome.json`): lineWidth 120, singleQuote, jsxSingleQuote, trailingComma all, import 자동 정렬(organizeImports)
 
 ### 컴포넌트 구조
 ```
@@ -100,8 +101,7 @@ domains/{feature}/
 |-----|-----|
 | `turbo.json` | Turborepo 설정, 태스크 파이프라인 정의 |
 | `tsconfig.base.json` | 기본 TypeScript 설정, path aliases |
-| `.eslintrc.json` | ESLint 규칙 |
-| `.prettierrc` | Prettier 설정 |
+| `biome.json` | Biome 린트/포맷 설정 |
 | `apps/*/package.json` | 각 앱의 스크립트 및 의존성 |
 
 ## 개발 시 주의사항
