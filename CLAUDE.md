@@ -12,7 +12,7 @@ Woolta 서비스들을 관리하는 Turborepo 기반 모노레포입니다.
 
 ## 기술 스택
 
-- Next.js 14.2.1 (App Router)
+- Next.js 16.3.3 (App Router, Turbopack — StyleX는 turbopack 로더 + postcss 추출)
 - TypeScript 5.1.3
 - React 18.2.0
 - Styled Components 6.1.8
