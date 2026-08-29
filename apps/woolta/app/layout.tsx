@@ -7,8 +7,8 @@ export const metadata = {
   description: 'Woolta 서비스들을 한눈에 관리하는 대시보드',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const initialThemeType = parseThemeType(cookies().get(THEME_COOKIE_NAME)?.value);
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const initialThemeType = parseThemeType((await cookies()).get(THEME_COOKIE_NAME)?.value);
 
   return (
     <html lang='ko'>

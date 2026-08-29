@@ -30,7 +30,7 @@ const initState: ConfirmServiceProps = {
  */
 export const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   const [confirmServiceState, setConfirmServiceState] = useState<ConfirmServiceProps>(initState);
-  const awaitingPromiseRef = useRef<{ resolve: (value: boolean) => void }>();
+  const awaitingPromiseRef = useRef<{ resolve: (value: boolean) => void } | undefined>(undefined);
 
   const openConfirm = (confirmProps: ConfirmServiceProps) => {
     setConfirmServiceState((prev) => ({

@@ -1,6 +1,6 @@
 import { typography, bgPrimary, border3, grayActive, graySecondary, pinkPrimary, white } from '@wds';
 import { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
-import { styled, css, CSSProp } from 'styled-components';
+import { styled, css, RuleSet } from 'styled-components';
 
 type ChipVarient = 'filled' | 'outlined' | 'event';
 type ChipColor = 'primary';
@@ -87,8 +87,6 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     return (
       <SC.Chip
         ref={ref}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-expect-error
         css={chip_style}
         className={className}
         $disabled={disabled}
@@ -102,7 +100,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
   },
 );
 
-function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): CSSProp {
+function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): RuleSet<object> {
   if (start_icon && end_icon) {
     return css`
       svg {
@@ -135,7 +133,7 @@ function getIconSpace(start_icon?: ReactNode, end_icon?: ReactNode): CSSProp {
   return css``;
 }
 
-function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVarient, CSSProp> {
+function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVarient, RuleSet<object>> {
   switch (color) {
     case 'primary':
       return {
@@ -163,7 +161,7 @@ function getChipColorVarient(color: ChipColor, active: boolean): Record<ChipVari
   }
 }
 
-const chip_size_css: Record<ChipSize, CSSProp> = {
+const chip_size_css: Record<ChipSize, RuleSet<object>> = {
   small: css`
     padding: 7px 12px 6px;
     height: 32px;

@@ -7,7 +7,7 @@ import { WoolbankScreensProvider } from '@woolta/woolbank-screens';
 import { BankApp } from '../../components/bank/BankApp';
 
 export default async function BankPage() {
-  const cookie = cookies().toString();
+  const cookie = (await cookies()).toString();
   const queryClient = new QueryClient();
 
   await prefetchAccountBookMain(queryClient, { cookie });

@@ -102,7 +102,9 @@ export const Chips = ({
       <ChipLayout stickey_height={stickey_height} ref={chip_list_ref} aria-label={aria_label} padding={padding}>
         {chips.map((chip, index) => (
           <Item
-            ref={(element) => (chip_item_ref.current[index] = element)}
+            ref={(element) => {
+              chip_item_ref.current[index] = element;
+            }}
             key={chip.value}
             chip={chip}
             onClick={handleChipClick}

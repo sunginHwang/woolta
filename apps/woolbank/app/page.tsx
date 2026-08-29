@@ -9,7 +9,7 @@ import { getData } from '../utils/api';
 
 export default async function AccountBooks() {
   const headers = {
-    Cookie: cookies().toString(),
+    Cookie: (await cookies()).toString(),
   };
 
   const queryClient = new QueryClient();

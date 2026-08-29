@@ -1,13 +1,13 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import { theme } from '@wds';
 import { cleanup, render } from '@testing-library/react';
 import NotificationBar from './NotificationBar';
-import whiteTheme from '../../../style/colors';
 
 afterEach(cleanup);
 
 const shallowWithTheme = component => {
-  return render(<ThemeProvider theme={whiteTheme} >{component}</ThemeProvider>)
+  return render(<ThemeProvider theme={theme.light} >{component}</ThemeProvider>)
 }
 
 
@@ -17,4 +17,3 @@ describe('<NotificationBar />', () => {
     expect(utils.container).toMatchSnapshot();
   });
 });
-

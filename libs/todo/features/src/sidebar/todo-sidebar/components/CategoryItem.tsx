@@ -75,7 +75,7 @@ export const CategoryItem = ({ category, count, pathname }: Props) => {
         <SC.EditInput
           autoFocus
           value={editName}
-          onChange={(e) => setEditName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditName(e.target.value)}
           onBlur={submitEdit}
           onKeyDown={handleEditKeyDown}
         />

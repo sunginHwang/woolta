@@ -4,12 +4,12 @@ import { mergeRefs } from '@common';
 import { colors, typography } from '@wds';
 import { IconCloseCircle } from 'apps/woolbank/components/atom/Icon';
 import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
-import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 
 interface Props
   extends Omit<
-    HtmlHTMLAttributes<HTMLInputElement>,
+    InputHTMLAttributes<HTMLInputElement>,
     'value' | 'type' | 'name' | 'maxLength' | 'onFocus' | 'onBlur' | 'onClick' | 'onChange' | 'readOnly'
   > {
   value?: string | number;

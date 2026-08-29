@@ -28,7 +28,7 @@ export const BucketListItem = Object.assign(
     const isExpireDday = remainDate === 0;
 
     const handleImageFallback = (e: InvalidEvent<HTMLImageElement>) => {
-      e.target.style.backgroundColor = 'https://miro.medium.com/max/500/1*V9haN1irZjXH3uRae3a7Ew.jpeg';
+      e.currentTarget.style.backgroundColor = 'https://miro.medium.com/max/500/1*V9haN1irZjXH3uRae3a7Ew.jpeg';
     };
 
     return (

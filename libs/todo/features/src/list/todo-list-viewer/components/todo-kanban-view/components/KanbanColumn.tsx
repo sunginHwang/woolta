@@ -106,7 +106,7 @@ export const KanbanColumn = ({
           autoFocus
           placeholder='할 일 추가'
           value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTitle(e.target.value)}
           onBlur={submitAdd}
           onKeyDown={handleAddInputKeyDown}
         />

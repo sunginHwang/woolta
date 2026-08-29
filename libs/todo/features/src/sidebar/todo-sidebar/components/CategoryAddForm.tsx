@@ -44,7 +44,7 @@ export const CategoryAddForm = () => {
         autoFocus
         placeholder='리스트 이름'
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
         onBlur={submit}
         onKeyDown={handleInputKeyDown}
       />

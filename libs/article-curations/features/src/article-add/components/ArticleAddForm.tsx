@@ -54,7 +54,7 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
       </Text>
       <SC.Field>
         <SC.Label htmlFor='article-add-category'>카테고리</SC.Label>
-        <SC.Select id='article-add-category' value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+        <SC.Select id='article-add-category' value={categoryId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryId(e.target.value)}>
           <option value='' disabled>
             {categoryList.length === 0 ? '카테고리를 먼저 추가해 주세요' : '카테고리 선택'}
           </option>
@@ -72,7 +72,7 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
           id='article-add-url'
           placeholder='https://... 링크를 넣으면 제목/설명을 자동으로 불러와요'
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
           onKeyDown={handleInputKeyDown}
         />
       </SC.Field>
@@ -90,7 +90,7 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
               id='article-add-title'
               placeholder='아티클 제목'
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
               onKeyDown={handleInputKeyDown}
             />
           </SC.Field>
@@ -100,7 +100,7 @@ export const ArticleAddForm = ({ defaultCategoryId, onClose }: Props) => {
               id='article-add-description'
               placeholder='아티클 설명 (선택)'
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
               onKeyDown={handleInputKeyDown}
             />
           </SC.Field>

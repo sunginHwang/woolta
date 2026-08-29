@@ -4,10 +4,11 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { BlogListScreen, BlogScreensProvider, prefetchBlogList } from '@blog/screens';
 
 interface Props {
-  searchParams: { category: string | undefined };
+  searchParams: Promise<{ category: string | undefined }>;
 }
 
-export default async function BlogListPage({ searchParams }: Props) {
+export default async function BlogListPage(props: Props) {
+  const searchParams = await props.searchParams;
   const queryClient = new QueryClient();
   const category = searchParams?.category ?? '-1';
 

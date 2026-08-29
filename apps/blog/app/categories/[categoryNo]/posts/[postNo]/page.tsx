@@ -5,10 +5,17 @@ import { PostLoading } from '../../../../../components/post/post-loading/PostLoa
 import { Suspense } from 'react';
 
 interface Props {
-  params: { categoryNo: string; postNo: string };
+  params: Promise<{ categoryNo: string; postNo: string }>;
 }
 
-const PostDetailPage = async ({ params: { categoryNo, postNo } }: Props) => {
+const PostDetailPage = async (props: Props) => {
+  const params = await props.params;
+
+  const {
+    categoryNo,
+    postNo
+  } = params;
+
   const queryClient = new QueryClient();
   await prefetchPost(queryClient, { categoryNo, postNo });
 

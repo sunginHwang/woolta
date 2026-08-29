@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC } from 'react';
+import { ButtonHTMLAttributes, FC, MouseEvent } from 'react';
 import { ClipLoader } from 'react-spinners';
 import styled, { useTheme } from 'styled-components';
 import { IconPlus } from '../../../../components/atom/Icon';
@@ -17,7 +17,7 @@ export const TodoAddButton: FC<Props> = ({ isLoading = false, onClick }) => {
 
   return (
     <SC.TodoAddButton
-      onClick={(e) => {
+      onClick={(e: MouseEvent<HTMLButtonElement>) => {
         if (!isLoading && onClick) {
           onClick(e);
         }

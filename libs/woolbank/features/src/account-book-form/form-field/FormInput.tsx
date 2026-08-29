@@ -2,13 +2,13 @@
 
 import { mergeRefs } from '@common';
 import { typography } from '@wds';
-import { ChangeEvent, HtmlHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { styled, useTheme } from 'styled-components';
 import { IconChevronRight, IconCloseCircle } from '../../_shared/icons';
 
 interface Props
   extends Omit<
-    HtmlHTMLAttributes<HTMLInputElement>,
+    InputHTMLAttributes<HTMLInputElement>,
     'value' | 'type' | 'name' | 'maxLength' | 'onFocus' | 'onBlur' | 'onClick' | 'onChange' | 'readOnly'
   > {
   value?: string | number;

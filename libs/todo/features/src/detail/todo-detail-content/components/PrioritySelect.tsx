@@ -23,7 +23,7 @@ export const PrioritySelect = ({ priority, onPriorityChange }: Props) => {
   return (
     <SC.Field>
       <PriorityFlag priority={priority} />
-      <SC.Select value={priority} onChange={(e) => onPriorityChange(e.target.value as TodoPriority)}>
+      <SC.Select value={priority} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onPriorityChange(e.target.value as TodoPriority)}>
         {PRIORITY_OPTIONS.map(({ value, label }) => (
           <option key={value} value={value}>
             우선순위: {label}

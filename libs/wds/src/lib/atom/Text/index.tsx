@@ -7,7 +7,7 @@ import { ColorType, FontVarient, typography } from '../../style';
 type Alignment = 'left' | 'center' | 'right';
 
 type TextElement = keyof Pick<
-  JSX.IntrinsicElements,
+  React.JSX.IntrinsicElements,
   'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span' | 'li' | 'label'
 >;
 
@@ -58,7 +58,7 @@ export interface BaseTextProps {
  * Text 컴포넌트
  * @component
  */
-export const Text: FC<BaseTextProps & JSX.IntrinsicElements[NonNullable<BaseTextProps['as']>]> = ({
+export const Text: FC<BaseTextProps & React.JSX.IntrinsicElements[NonNullable<BaseTextProps['as']>]> = ({
   as = 'span',
   alignment = 'left',
   mt = 0,
@@ -98,7 +98,7 @@ const Base = styled.span<{
   $variant: FontVarient;
   $alignment: Alignment;
 }>`
-  ${({ $variant }) => typography[$variant]};
+  ${({ $variant }) => typography[$variant as FontVarient]};
   ${({ $color, theme }) => $color && `color: ${theme.colors[$color]}`};
   ${({ $alignment }) => `text-align: ${$alignment}`};
   ${({ $mt, $ml, $mb, $mr }) => `margin: ${$mt}px ${$mr}px ${$mb}px ${$ml}px;`}

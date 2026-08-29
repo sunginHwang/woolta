@@ -12,7 +12,7 @@ import { getData } from '../../utils/api';
 export default async function RegularExtenditurePage() {
   const config: AxiosRequestConfig = {
     headers: {
-      Cookie: cookies().toString(),
+      Cookie: (await cookies()).toString(),
     },
   };
 

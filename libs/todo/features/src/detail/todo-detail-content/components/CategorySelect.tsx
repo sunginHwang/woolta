@@ -20,7 +20,7 @@ export const CategorySelect = ({ categoryId, onCategoryChange }: Props) => {
       <FiInbox size={13} />
       <SC.Select
         value={categoryId ?? ''}
-        onChange={(e) => onCategoryChange(e.target.value.length > 0 ? e.target.value : null)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onCategoryChange(e.target.value.length > 0 ? e.target.value : null)}
       >
         <option value=''>기본함</option>
         {categoryList.map((category) => (

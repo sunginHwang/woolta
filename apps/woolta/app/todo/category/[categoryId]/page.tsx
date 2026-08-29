@@ -2,9 +2,10 @@ import { getCategoryListKey } from '@todo/features';
 import { TodoListScreen } from '@todo/screens';
 
 interface Props {
-  params: { categoryId: string };
+  params: Promise<{ categoryId: string }>;
 }
 
-export default function TodoCategoryPage({ params }: Props) {
+export default async function TodoCategoryPage(props: Props) {
+  const params = await props.params;
   return <TodoListScreen listKey={getCategoryListKey(params.categoryId)} />;
 }

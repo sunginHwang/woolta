@@ -11,7 +11,7 @@ export default async function RegularExtenditurePage() {
   const queryClient = new QueryClient();
   const config: AxiosRequestConfig = {
     headers: {
-      Cookie: cookies().toString(),
+      Cookie: (await cookies()).toString(),
     },
   };
 
