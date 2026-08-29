@@ -1,12 +1,21 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { useSetAtom } from 'jotai';
 import { memo } from 'react';
-import styled from 'styled-components';
 import { useBucket } from '../hooks/useBucket';
 import { isShowCompleteButtonAtom } from '../store';
 import { AddTodo } from './AddTodo';
 import { Skeleton } from './Skeleton';
 import { TodoList } from './TodoList';
+
+const styles = stylex.create({
+  bucketTodoInfo: {
+    paddingBlock: '2rem',
+    paddingInline: '2rem',
+    backgroundColor: colorVars['--color-white'],
+  },
+});
 
 /**
  * 버킷리스트 상세 - 할것 리스트 정보
@@ -30,7 +39,7 @@ export const TodoInfo = memo(() => {
   };
 
   return (
-    <SC.BucketTodoInfo>
+    <div {...stylex.props(styles.bucketTodoInfo)}>
       <Text className='title' variant='title2Bold' color='gray800' as='h3' mb={20}>
         할일목록
       </Text>
@@ -52,13 +61,6 @@ export const TodoInfo = memo(() => {
           onTodoItemFocusOut={onTodoInputFocusOut}
         />
       )}
-    </SC.BucketTodoInfo>
+    </div>
   );
 });
-
-const SC = {
-  BucketTodoInfo: styled.div`
-    padding: 2rem;
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-};

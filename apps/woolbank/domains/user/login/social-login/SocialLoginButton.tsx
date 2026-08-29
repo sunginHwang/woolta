@@ -1,5 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
 import { FC } from 'react';
-import styled from 'styled-components';
 import { IconFacebook, IconGoogle, IconKakaoTalk } from '../../../../components/atom/Icon';
 
 const providerMap = {
@@ -22,6 +22,25 @@ interface Props {
   handleLoginClick: () => void;
 }
 
+const styles = stylex.create({
+  button: {
+    width: '4.8rem',
+    height: '4.8rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '2.4rem',
+    outlineStyle: 'none',
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: 'rgb(222, 226, 230)',
+  },
+});
+
+const dynamicStyles = stylex.create({
+  bgColor: (color: string) => ({ backgroundColor: color }),
+});
+
 /**
  * 소셜 로그인 버튼
  * @component
@@ -30,22 +49,11 @@ export const SocialLoginButton: FC<Props> = ({ provider, handleLoginClick }) => 
   const socialButton = providerMap[provider];
 
   return (
-    <SC.SocialLoginButton color={socialButton.color} onClick={handleLoginClick}>
+    <button
+      {...stylex.props(styles.button, dynamicStyles.bgColor(socialButton.color))}
+      onClick={handleLoginClick}
+    >
       <socialButton.icon />
-    </SC.SocialLoginButton>
+    </button>
   );
-};
-
-const SC = {
-  SocialLoginButton: styled.button<{ color: string }>`
-    width: 4.8rem;
-    height: 4.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: ${({ color }) => color};
-    border-radius: 2.4rem;
-    outline: none;
-    border: 0.1rem solid rgb(222, 226, 230);
-  `,
 };

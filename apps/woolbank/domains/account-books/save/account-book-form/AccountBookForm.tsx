@@ -1,7 +1,8 @@
 import { delay } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { colors, Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
-import { styled } from 'styled-components';
 import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import { IconCalendar } from '../../../../components/atom/Icon/Calendar';
@@ -37,6 +38,84 @@ interface Props {
   submitForm: (accountForm: AccountBookSaveForm) => void;
   removeAccountBookForm: (id: string) => void;
 }
+
+const styles = stylex.create({
+  form: {
+    marginTop: '3rem',
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+  contentWrapper: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    gap: '1rem',
+  },
+  centerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '4px',
+  },
+  svgIcon: {
+    display: 'inline-flex',
+    marginBottom: '2px',
+  },
+  formSection: {
+    marginTop: '4rem',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  toggleWrapper: {
+    width: '120px',
+    marginBottom: '2rem',
+  },
+  titleAmount: {
+    marginBlock: '3rem',
+    marginInline: 0,
+    fontSize: '4rem',
+  },
+  memoWrapper: {
+    height: '15rem',
+    width: '100%',
+  },
+  memo: {
+    borderRadius: '1.3rem',
+    backgroundColor: colorVars['--color-gray100'],
+    height: '15rem',
+    paddingBlock: '1.6rem',
+    paddingInline: '1.6rem',
+    width: 'calc(100% - 3.2rem)',
+    borderStyle: 'none',
+  },
+  formContent: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBlock: '1.6rem',
+    paddingInline: 0,
+  },
+  buttonArea: {
+    position: 'fixed',
+    bottom: 'calc(env(safe-area-inset-bottom) + 2rem)',
+    width: '100%',
+    height: '5.5rem',
+    zIndex: 100,
+    left: 0,
+  },
+  bottomWrapper: {
+    display: 'flex',
+    gap: '0.8rem',
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+});
 
 export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBookForm }: Props) => {
   const {
@@ -82,9 +161,6 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
       return;
     }
 
-    // console.log('handleSubmitClick', formData);
-    // return;
-
     submitForm(formData);
   };
 
@@ -95,7 +171,6 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
     }
   };
 
-  // AOS에서는 이 이벤트 가 동작하지 않는다 (IOS키보드 오픈)
   const handleTitleKeyDownEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
     const isKeyboardEnter = e.key === 'Enter';
     const isAvailOpenModal = isInsertMode && formData.category.name === '';
@@ -132,22 +207,24 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
 
   return (
     <>
-      <SC.Form>
-        <SC.Content>
-          <div className='toggle'>
+      <main {...stylex.props(styles.form)}>
+        <div {...stylex.props(styles.content)}>
+          <div {...stylex.props(styles.toggleWrapper)}>
             <ToggleTab size='small' tabs={TAB_LIST} value={formData.type} onChangeTab={setType} />
           </div>
-          <div className='center-box' onClick={openFormBottomSheet('registerDateTime')}>
+          <div {...stylex.props(styles.centerBox)} onClick={openFormBottomSheet('registerDateTime')}>
             <Text variant='body3' color='gray600' as='p'>
               {formData.registerDateTime.format('YYYY-MM-DD')}
             </Text>
-            <IconCalendar width={12} height={12} fill={colors.gray500} />
+            <span {...stylex.props(styles.svgIcon)}>
+              <IconCalendar width={12} height={12} fill={colors.gray500} />
+            </span>
           </div>
-          <Text className='title' variant='title1Bold' color='gray900' onClick={openFormBottomSheet('amount')} as='p'>
+          <Text variant='title1Bold' color='gray900' onClick={openFormBottomSheet('amount')} as='p' xstyle={styles.titleAmount}>
             {`${formData.amount.toLocaleString('ko-KR')}원`}
           </Text>
-        </SC.Content>
-        <div>
+        </div>
+        <div {...stylex.props(styles.formSection)}>
           <FormField title={`${typeMsg}처`}>
             <FormInput
               ref={title_ref}
@@ -163,15 +240,15 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             />
           </FormField>
           <FormField title='카테고리' onClick={openFormBottomSheet('category')}>
-            <SC.FormContent>
+            <div {...stylex.props(styles.formContent)}>
               <Text variant='body1' color='gray900'>
                 {formData.category.name}
               </Text>
               <IconChevronRight width={16} height={16} fill={colors.gray600} />
-            </SC.FormContent>
+            </div>
           </FormField>
           <FormField title='예산에서 제외'>
-            <div className='content-wrapper'>
+            <div {...stylex.props(styles.contentWrapper)}>
               <Switch checked={formData.isDisabledBudget} onClick={toggleDisabledBudget} />
             </div>
           </FormField>
@@ -183,7 +260,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             }
             onClick={isInsertMode ? openFormBottomSheet('scheduled') : undefined}
           >
-            <div className='content-wrapper'>
+            <div {...stylex.props(styles.contentWrapper)}>
               {formData.scheduledPaymentDay && (
                 <Text variant='body3' color='red500'>
                   {formData.scheduledPaymentType === 'repeat' && `${formData.scheduledPaymentDay}일`}
@@ -195,11 +272,18 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             </div>
           </FormField>
           <FormField title='메모' />
-          <SC.Memo name='memo' value={formData.memo} tabIndex={-1} maxLength={100} onChange={onChange} />
+          <textarea
+            {...stylex.props(styles.memo)}
+            name='memo'
+            value={formData.memo}
+            tabIndex={-1}
+            maxLength={100}
+            onChange={onChange}
+          />
         </div>
         {!isShareUser && (
-          <SC.ButtonArea>
-            <div className='bottom-wrapper'>
+          <footer {...stylex.props(styles.buttonArea)}>
+            <div {...stylex.props(styles.bottomWrapper)}>
               {!isUpdateForm && (
                 <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
                   <IconTrashCan />
@@ -209,9 +293,9 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
                 {isUpdateForm ? '작성하기' : '수정하기'}
               </Button>
             </div>
-          </SC.ButtonArea>
+          </footer>
         )}
-      </SC.Form>
+      </main>
       <FormModal
         openModalName={openModalName}
         formData={formData}
@@ -223,84 +307,4 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
       />
     </>
   );
-};
-
-const SC = {
-  Form: styled.main`
-    margin-top: 3rem;
-    padding: 0 1.6rem;
-
-    .content-wrapper {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 100%;
-      gap: 1rem;
-    }
-
-    .center-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-
-      svg {
-        margin-bottom: 2px;
-      }
-    }
-    > div + div {
-      margin-top: 4rem;
-    }
-  `,
-  MemoWrapper: styled.div`
-    height: 15rem;
-    width: 100%;
-  `,
-  Memo: styled.textarea`
-    border-radius: 1.3rem;
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 15rem;
-    padding: 1.6rem;
-    width: calc(100% - 3.2rem);
-    border: none;
-  `,
-  FormContent: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.6rem 0;
-  `,
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    .toggle {
-      width: 120px;
-      margin-bottom: 2rem;
-    }
-
-    .title {
-      margin: 3rem 0;
-      font-size: 4rem;
-    }
-  `,
-  ButtonArea: styled.footer`
-    position: fixed;
-    bottom: 2rem;
-    bottom: calc(constant(safe-area-inset-bottom) + 2rem);
-    bottom: calc(env(safe-area-inset-bottom) + 2rem);
-    width: 100%;
-    height: 5.5rem;
-    z-index: 100;
-    left: 0;
-
-    .bottom-wrapper {
-      display: flex;
-      gap: 0.8rem;
-      padding: 0 1.6rem;
-    }
-  `,
 };

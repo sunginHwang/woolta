@@ -1,5 +1,19 @@
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
-import { styled } from 'styled-components';
+
+const styles = stylex.create({
+  container: {
+    paddingTop: '1rem',
+    paddingInline: '1.6rem',
+    paddingBottom: 0,
+  },
+  titleWrapper: {
+    marginBottom: '1.6rem',
+  },
+  amountWrapper: {
+    marginTop: '0.5rem',
+  },
+});
 
 /**
  * 가계부 리스트 스켈레톤
@@ -7,23 +21,16 @@ import { styled } from 'styled-components';
  */
 export const Skeleton = () => {
   return (
-    <SC.Container>
-      <SkeletonBar className='title' width='15rem' height='2.6rem' />
-      <SkeletonBar className='amount' width='12rem' height='1.95rem' />
-      <SkeletonBar className='amount' width='8rem' height='1.95rem' />
-    </SC.Container>
+    <section {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.titleWrapper)}>
+        <SkeletonBar width='15rem' height='2.6rem' />
+      </div>
+      <div {...stylex.props(styles.amountWrapper)}>
+        <SkeletonBar width='12rem' height='1.95rem' />
+      </div>
+      <div {...stylex.props(styles.amountWrapper)}>
+        <SkeletonBar width='8rem' height='1.95rem' />
+      </div>
+    </section>
   );
-};
-
-const SC = {
-  Container: styled.section`
-    padding: 1rem 1.6rem 0;
-    .title {
-      margin-bottom: 1.6rem;
-    }
-
-    .amount {
-      margin-top: 0.5rem;
-    }
-  `,
 };

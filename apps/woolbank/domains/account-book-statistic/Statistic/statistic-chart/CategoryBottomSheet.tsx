@@ -1,5 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { FC } from 'react';
-import { styled } from 'styled-components';
 import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
 
@@ -11,6 +12,51 @@ interface Props {
   onClose: () => void;
 }
 
+const dynamicStyles = stylex.create({
+  titleColor: (color: string) => ({ color }),
+});
+
+const styles = stylex.create({
+  categoryBottomSheet: {
+    paddingBlock: 0,
+    paddingInline: '2rem',
+  },
+  title: {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    marginBottom: '1.5rem',
+  },
+  list: {
+    marginBottom: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+  item: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    color: colorVars['--color-gray700'],
+  },
+  itemLeft: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  itemTitle: {
+    fontSize: '1.4rem',
+  },
+  itemDate: {
+    fontSize: '1.1rem',
+    color: colorVars['--color-gray150'],
+  },
+  itemAmount: {
+    fontWeight: 'bold',
+    fontSize: '1.6rem',
+  },
+});
+
 /**
  * 가계부 통계 - 통계 bottomSheet
  * @component
@@ -18,70 +64,22 @@ interface Props {
 const CategoryBottomSheet: FC<Props> = ({ isOpen, title, titleColor, list, onClose }) => {
   return (
     <BottomSheet.Snap useDeem isOpen={isOpen} onClose={onClose} snapPhase={1}>
-      <S.CategoryBottomSheet>
-        <S.Title color={titleColor}>{title}</S.Title>
-        <S.List>
+      <div {...stylex.props(styles.categoryBottomSheet)}>
+        <h3 {...stylex.props(styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
+        <ul {...stylex.props(styles.list)}>
           {list.map(({ title, amount, registerDateTime }, key) => (
-            <S.Item key={key}>
-              <div className='left'>
-                <p>{title}</p>
-                <span>{registerDateTime.format('MM-DD~')}</span>
+            <li {...stylex.props(styles.item)} key={key}>
+              <div {...stylex.props(styles.itemLeft)}>
+                <p {...stylex.props(styles.itemTitle)}>{title}</p>
+                <span {...stylex.props(styles.itemDate)}>{registerDateTime.format('MM-DD~')}</span>
               </div>
-              <span className='amount'>{amount.toLocaleString('ko-KR')}원</span>
-            </S.Item>
+              <span {...stylex.props(styles.itemAmount)}>{amount.toLocaleString('ko-KR')}원</span>
+            </li>
           ))}
-        </S.List>
-      </S.CategoryBottomSheet>
+        </ul>
+      </div>
     </BottomSheet.Snap>
   );
 };
 
 export default CategoryBottomSheet;
-
-const S = {
-  CategoryBottomSheet: styled.div`
-    padding: 0 2rem;
-  `,
-  Title: styled.h3<{
-    color: string;
-  }>`
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    color: ${({ color }) => color};
-  `,
-  List: styled.ul`
-    margin-bottom: 2rem;
-
-    & > * + * {
-      margin-top: 1rem;
-    }
-  `,
-  Item: styled.li`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    color: ${({ theme }) => theme.colors.gray700};
-
-    .left {
-      display: flex;
-      flex-direction: column;
-
-      > p {
-        font-size: 1.4rem;
-      }
-
-      > span {
-        font-size: 1.1rem;
-        color: ${({ theme }) => theme.colors.gray150};
-      }
-    }
-
-    .amount {
-      font-weight: bold;
-      font-size: 1.6rem;
-    }
-  `,
-};

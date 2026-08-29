@@ -1,28 +1,20 @@
 'use client';
 
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+
+const styles = stylex.create({
+  footer: {
+    width: '100%',
+    height: '18rem',
+    backgroundColor: colorVars['--color-white'],
+  },
+});
 
 /**
  * 가계부
  * @component
  */
 export const Footer = () => {
-  return <SC.Footer />;
-};
-
-const SC = {
-  Line: styled.div`
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 0.7rem;
-
-    margin: 2rem 0 1rem;
-  `,
-  Footer: styled.footer`
-    width: 100%;
-    height: 18rem;
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-  Img: styled.img`
-    width: 128px;
-  `,
+  return <footer {...stylex.props(styles.footer)} />;
 };

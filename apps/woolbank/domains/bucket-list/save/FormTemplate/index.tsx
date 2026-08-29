@@ -1,11 +1,12 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
-import styled from 'styled-components';
-import { useToast } from '../../../../hooks/useToast';
 import { Button } from '../../../../components/atom/Button';
 import { Header } from '../../../../components/Header/Header';
+import { useToast } from '../../../../hooks/useToast';
 import { useBucket } from '../../detail/hooks/useBucket';
 import { useBucketList } from '../../main/hooks/useBucketList';
 import { useBucketFormStep } from '../hooks/useBucketFormStep';
@@ -22,6 +23,46 @@ interface Props {
   children: React.ReactNode;
   onButtonClick?: () => void;
 }
+
+const styles = stylex.create({
+  phaseTemplate: {
+    width: '100%',
+    position: 'fixed',
+    top: 0,
+    zIndex: zIndexConsts.phase,
+    transitionProperty: 'all',
+    transitionDuration: '0.3s',
+    transitionTimingFunction: 'ease',
+    transitionDelay: '0s',
+  },
+  buttons: {
+    position: 'absolute',
+    bottom: 'calc(env(safe-area-inset-bottom) + 2rem)',
+    left: '2rem',
+    width: 'calc(100% - 4rem)',
+    height: '5.5rem',
+    zIndex: 100,
+  },
+});
+
+const dynamicStyles = stylex.create({
+  phaseRight: (isActive: boolean) => ({ right: isActive ? 0 : '-100%' }),
+  contentPadding: (usePadding: boolean) => ({
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: usePadding ? '2rem' : 0,
+    paddingRight: usePadding ? '2rem' : 0,
+  }),
+  contentOverflow: (useScroll: boolean) => ({ overflowY: useScroll ? 'scroll' : 'hidden' }),
+});
+
+const contentBase = stylex.create({
+  base: {
+    minHeight: 'calc(100vh - 5.5rem)',
+    height: '100%',
+    backgroundColor: colorVars['--color-white'],
+  },
+});
 
 export const FormTemplate: FC<Props> = ({
   activeForm,
@@ -82,7 +123,7 @@ export const FormTemplate: FC<Props> = ({
   const isLastStep = currentStep === maxPhase;
 
   return (
-    <SC.PhaseTemplate $isActive={activeForm}>
+    <div {...stylex.props(styles.phaseTemplate, dynamicStyles.phaseRight(activeForm))}>
       {activeForm && (
         <Header.Sub
           title={title}
@@ -94,11 +135,17 @@ export const FormTemplate: FC<Props> = ({
           onBackClick={handleBackClick}
         />
       )}
-      <SC.Content $useScroll={useScroll} $usePadding={usePadding}>
+      <div
+        {...stylex.props(
+          contentBase.base,
+          dynamicStyles.contentPadding(usePadding),
+          dynamicStyles.contentOverflow(useScroll),
+        )}
+      >
         {children}
-      </SC.Content>
+      </div>
       {isShowButton && (
-        <SC.Buttons>
+        <div {...stylex.props(styles.buttons)}>
           <Button
             fill
             loading={upsertBucketMutate.isPending}
@@ -108,41 +155,8 @@ export const FormTemplate: FC<Props> = ({
           >
             {isLastStep ? upsertText : '다음단계'}
           </Button>
-        </SC.Buttons>
+        </div>
       )}
-    </SC.PhaseTemplate>
+    </div>
   );
-};
-
-type ContentProps = {
-  $usePadding: boolean;
-  $useScroll: boolean;
-};
-const SC = {
-  PhaseTemplate: styled.div<{ $isActive: boolean }>`
-    width: 100%;
-    position: relative;
-    position: fixed;
-    top: 0;
-    right: ${({ $isActive }) => ($isActive ? 0 : '-100%')};
-    z-index: ${({ theme }) => theme.zIndex.phase};
-    transition: all 0.3s ease 0s;
-  `,
-  Content: styled.div<ContentProps>`
-    padding: ${({ $usePadding }) => ($usePadding ? '0 2rem 0 2rem' : '0 0 0 0')};
-    overflow-y: ${({ $useScroll }) => ($useScroll ? 'scroll' : 'hidden')};
-    min-height: calc(100vh - 5.5rem);
-    height: 100%;
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-  Buttons: styled.div`
-    position: absolute;
-    bottom: 2rem;
-    bottom: calc(constant(safe-area-inset-bottom) + 2rem);
-    bottom: calc(env(safe-area-inset-bottom) + 2rem);
-    left: 2rem;
-    width: calc(100% - 4rem);
-    height: 5.5rem;
-    z-index: 100;
-  `,
 };

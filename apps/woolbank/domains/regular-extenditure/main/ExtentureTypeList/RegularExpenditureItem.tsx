@@ -1,10 +1,11 @@
 import { useLongPress } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { FC } from 'react';
-import { styled } from 'styled-components';
+import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { useToast } from '../../../../hooks/useToast';
 import { getRemainDay } from '../../../../utils/date';
-import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
 import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
@@ -14,6 +15,58 @@ interface Props {
   regularExpenditure: RegularExpenditure;
   hasDeleteAuth: boolean;
 }
+
+const styles = stylex.create({
+  expenditureTypeItem: {
+    marginTop: '1rem',
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: '#e6e6e6',
+    borderRadius: '1.8rem',
+    boxShadow: '0 0.1rem 0.3rem 0 rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+  },
+  wrap: {
+    width: 'auto',
+    display: 'block',
+    alignItems: 'center',
+    height: '100%',
+    paddingBlock: '1.2rem',
+    paddingInline: '1.5rem',
+    position: 'relative',
+  },
+  wrapInner: {
+    display: 'inline-block',
+  },
+  content: {
+    width: '100%',
+    height: '100%',
+    verticalAlign: 'bottom',
+  },
+  contentInner: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '0.3rem',
+  },
+  label: {
+    fontSize: '1rem',
+    backgroundColor: colorVars['--color-red050'],
+    color: colorVars['--color-red500'],
+    borderRadius: '1.3rem',
+    paddingBlock: '0.1rem',
+    paddingInline: '0.8rem',
+  },
+  left: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+});
 
 /**
  * 정기 지출 리스트 -> 정기 지출 리스트 아이탬
@@ -54,84 +107,35 @@ const RegularExpenditureItem: FC<Props> = ({ type, hasDeleteAuth, regularExpendi
   const { removeRegularExtentureItem, removeeRegularExtentureMutate } = useRegularExtentureList();
 
   return (
-    <SC.ExpenditureTypeItem {...longPressAction}>
-      <SC.Wrap>
-        <SC.Content>
-          <div>
-            <SC.Left>
-              <SC.Title>
-                <Text variant='body3' color='black' as='p' mr={4}>
-                  {title}
+    <li {...stylex.props(styles.expenditureTypeItem)} {...longPressAction}>
+      <div {...stylex.props(styles.wrap)}>
+        <div {...stylex.props(styles.wrapInner)}>
+          <div {...stylex.props(styles.content)}>
+            <div {...stylex.props(styles.contentInner)}>
+              <div {...stylex.props(styles.left)}>
+                <div {...stylex.props(styles.title)}>
+                  <Text variant='body3' color='black' as='p' mr={4}>
+                    {title}
+                  </Text>
+                  {isAutoExpenditure && <label {...stylex.props(styles.label)}>정기이체</label>}
+                </div>
+                <Text variant='small1Regular' color='gray600'>
+                  {amount.toLocaleString('ko-KR')}원
                 </Text>
-                {isAutoExpenditure && <label>정기이체</label>}
-              </SC.Title>
-              <Text variant='small1Regular' color='gray600'>
-                {amount.toLocaleString('ko-KR')}원
+              </div>
+              <Text
+                variant={isAccentRemainDay ? 'body4Bold' : 'body4Regular'}
+                color={isAccentRemainDay ? 'orange600' : 'gray600'}
+                as='p'
+              >
+                {remainDayKo}
               </Text>
-            </SC.Left>
-            <Text
-              variant={isAccentRemainDay ? 'body4Bold' : 'body4Regular'}
-              color={isAccentRemainDay ? 'orange600' : 'gray600'}
-              as='p'
-            >
-              {remainDayKo}
-            </Text>
+            </div>
           </div>
-        </SC.Content>
-      </SC.Wrap>
-    </SC.ExpenditureTypeItem>
+        </div>
+      </div>
+    </li>
   );
 };
 
 export default RegularExpenditureItem;
-
-const SC = {
-  ExpenditureTypeItem: styled.li`
-    margin-top: 1rem;
-    border: 0.1rem solid #e6e6e6;
-    border-radius: 1.8rem;
-    box-shadow: 0 0.1rem 0.3rem 0 rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    white-space: nowrap;
-  `,
-  Wrap: styled.div`
-    width: auto;
-    display: block;
-    align-items: center;
-    height: 100%;
-    padding: 1.2rem 1.5rem;
-    position: relative;
-
-    > div {
-      display: inline-block;
-    }
-  `,
-  Content: styled.div`
-    width: 100%;
-    height: 100%;
-    vertical-align: bottom;
-
-    > div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  `,
-  Title: styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.3rem;
-
-    label {
-      font-size: 1rem;
-      background-color: ${({ theme }) => theme.colors.red050};
-      color: ${({ theme }) => theme.colors.red500};
-      border-radius: 1.3rem;
-      padding: 0.1rem 0.8rem;
-    }
-  `,
-  Left: styled.div`
-    display: flex;
-    flex-direction: column;
-  `,
-};

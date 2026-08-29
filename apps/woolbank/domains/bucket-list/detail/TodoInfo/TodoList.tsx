@@ -1,5 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
 import { FC, useState } from 'react';
-import styled from 'styled-components';
 
 import { TodoListItem } from '../../common/TodoListItem';
 import { Todo } from '../hooks/useBucket';
@@ -11,6 +11,16 @@ interface Props {
   onRemove: (id: number) => void;
   onToggleState: (todo: Todo) => void;
 }
+
+const styles = stylex.create({
+  todoList: {
+    width: '100%',
+    marginBottom: {
+      default: null,
+      ':last-child': '10rem',
+    },
+  },
+});
 
 /**
  * 버킷리스트 상세 - 할것 리스트
@@ -26,7 +36,7 @@ export const TodoList: FC<Props> = ({ todoList, isItemUpdateLoading, isFreeze, o
   };
 
   return (
-    <S.TodoList>
+    <ul {...stylex.props(styles.todoList)}>
       {todoList.map((todo, index) => {
         const isTodoLoading = isItemUpdateLoading && selectTodoId === todo.id;
         return (
@@ -40,16 +50,6 @@ export const TodoList: FC<Props> = ({ todoList, isItemUpdateLoading, isFreeze, o
           />
         );
       })}
-    </S.TodoList>
+    </ul>
   );
-};
-
-const S = {
-  TodoList: styled.ul`
-    width: 100%;
-
-    &:last-child {
-      margin-bottom: 10rem;
-    }
-  `,
 };

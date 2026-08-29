@@ -1,8 +1,19 @@
 'use client';
 
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import AccountBookList from './account-book-list/AccountBookList';
 import MonthStatistics from './MonthStatistics';
+
+const styles = stylex.create({
+  line: {
+    backgroundColor: colorVars['--color-gray100'],
+    height: '0.7rem',
+    marginTop: '2rem',
+    marginInline: 0,
+    marginBottom: '3rem',
+  },
+});
 
 /**
  * 가계부 리스트
@@ -12,18 +23,10 @@ const AccountList = () => {
   return (
     <>
       <MonthStatistics />
-      <SC.Line />
+      <div {...stylex.props(styles.line)} />
       <AccountBookList />
     </>
   );
 };
 
 export default AccountList;
-
-const SC = {
-  Line: styled.div`
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 0.7rem;
-    margin: 2rem 0 3rem;
-  `,
-};

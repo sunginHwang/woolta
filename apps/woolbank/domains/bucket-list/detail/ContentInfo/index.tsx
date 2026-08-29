@@ -1,9 +1,43 @@
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar, Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import dayjs from 'dayjs';
-import styled, { useTheme } from 'styled-components';
 import { IconCalendarMonthOutline } from '../../../../components/atom/Icon';
 import { useBucket } from '../hooks/useBucket';
 import { Skeleton } from './Skeleton';
+
+const styles = stylex.create({
+  container: {
+    backgroundColor: colorVars['--color-white'],
+    paddingTop: '2rem',
+    paddingRight: '2rem',
+    paddingBottom: 0,
+    paddingLeft: '2rem',
+  },
+  contentItem: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom: '1rem',
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-gray150'],
+    paddingBlock: '2rem',
+    paddingInline: 0,
+    whiteSpace: 'pre-wrap',
+  },
+  contentItemFirst: {
+    paddingTop: 0,
+  },
+  contentItemLast: {
+    marginBottom: 0,
+  },
+  iconSlot: {
+    marginRight: '1rem',
+    lineHeight: 0,
+  },
+});
 
 /**
  * 버킷리스트 상세 -  컨텐츠 정보
@@ -14,15 +48,14 @@ export const ContentInfo = () => {
     isFetching,
     bucket: { description, completeDate },
   } = useBucket();
-  const { colors } = useTheme();
   const completedDateFormat = dayjs(completeDate).format('YYYY-MM-DD');
 
   if (isFetching) {
-    <SC.BucketListContentInfo>
+    <div {...stylex.props(styles.container)}>
       <Skeleton />
-      <SC.ContentItem>
-        <i>
-          <IconCalendarMonthOutline width={24} height={24} fill={colors.black} />
+      <div {...stylex.props(styles.contentItem)}>
+        <i {...stylex.props(styles.iconSlot)}>
+          <IconCalendarMonthOutline width={24} height={24} fill='#000000' />
         </i>
         <div>
           <Text variant='title6Bold' color='gray900' as='p'>
@@ -30,20 +63,20 @@ export const ContentInfo = () => {
           </Text>
           <SkeletonBar width='10rem' height='1.4rem' />
         </div>
-      </SC.ContentItem>
-    </SC.BucketListContentInfo>;
+      </div>
+    </div>;
   }
 
   return (
-    <SC.BucketListContentInfo>
-      <SC.ContentItem>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.contentItem, styles.contentItemFirst)}>
         <Text variant='body3' color='gray800' data-cy='description'>
           {description}
         </Text>
-      </SC.ContentItem>
-      <SC.ContentItem>
-        <i>
-          <IconCalendarMonthOutline fill={colors.black} />
+      </div>
+      <div {...stylex.props(styles.contentItem, styles.contentItemLast)}>
+        <i {...stylex.props(styles.iconSlot)}>
+          <IconCalendarMonthOutline fill='#000000' />
         </i>
         <div>
           <Text variant='title6Bold' color='gray900' as='p'>
@@ -53,36 +86,7 @@ export const ContentInfo = () => {
             {completedDateFormat}
           </Text>
         </div>
-      </SC.ContentItem>
-    </SC.BucketListContentInfo>
+      </div>
+    </div>
   );
-};
-
-const SC = {
-  BucketListContentInfo: styled.div`
-    background-color: ${({ theme }) => theme.colors.white};
-    padding: 2rem 2rem 0 2rem;
-  `,
-  ContentItem: styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray150};
-    padding: 2rem 0;
-    white-space: pre-wrap;
-
-    > i {
-      margin-right: 1rem;
-      line-height: 0;
-    }
-
-    &:first-child {
-      padding-top: 0;
-    }
-    &:last-child {
-      margin-bottom: 0;
-    }
-  `,
 };

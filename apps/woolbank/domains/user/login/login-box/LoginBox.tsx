@@ -1,11 +1,35 @@
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import React, { FC, ReactNode } from 'react';
-import styled from 'styled-components';
 
 interface Props {
   title: string;
   type: 'normal' | 'social';
   children: ReactNode;
 }
+
+const styles = stylex.create({
+  loginBox: {
+    marginBottom: '4rem',
+  },
+  h3: {
+    fontSize: '1.6rem',
+    marginTop: '2rem',
+    marginRight: 0,
+    marginBottom: '1.5rem',
+    marginLeft: 0,
+    color: colorVars['--color-gray600'],
+  },
+  buttonArea: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+  normalArea: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
+  },
+});
 
 /**
  * 로그인 박스 영역 디자인
@@ -14,36 +38,10 @@ interface Props {
 
 export const LoginBox: FC<Props> = ({ title, type, children }) => {
   return (
-    <SC.LoginBox>
-      <h3>{title}</h3>
-      {type === 'social' && <SC.ButtonArea>{children}</SC.ButtonArea>}
-      {type === 'normal' && <SC.NormalArea>{children}</SC.NormalArea>}
-    </SC.LoginBox>
+    <div {...stylex.props(styles.loginBox)}>
+      <h3 {...stylex.props(styles.h3)}>{title}</h3>
+      {type === 'social' && <div {...stylex.props(styles.buttonArea)}>{children}</div>}
+      {type === 'normal' && <div {...stylex.props(styles.normalArea)}>{children}</div>}
+    </div>
   );
-};
-
-const SC = {
-  LoginBox: styled.div`
-    margin-bottom: 4rem;
-
-    > h3 {
-      font-size: 1.6rem;
-      margin: 2rem 0 1.5rem 0;
-      color: ${({ theme }) => theme.colors.gray600};
-    }
-  `,
-  ButtonArea: styled.div`
-    display: flex;
-    justify-content: space-around;
-  `,
-  NormalArea: styled.div`
-    div + div {
-      margin-top: 2rem;
-    }
-
-    > button {
-      margin-top: 3em;
-      height: 5.5rem;
-    }
-  `,
 };

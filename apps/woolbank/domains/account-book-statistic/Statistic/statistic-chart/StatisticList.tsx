@@ -1,13 +1,13 @@
 import { useToggle } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { styled } from 'styled-components';
+import { Button } from '../../../../components/atom/Button';
 import {
   AccountBookSheetItem,
   AccountBookBottomSheet,
 } from '../../../account-books/_common/components/account-book-bottom-sheet/AccountBookBottomSheet';
-import { Button } from '../../../../components/atom/Button';
 import { AccountBookChartData } from './StatisticChart';
 
 interface ActiveSheet {
@@ -28,6 +28,37 @@ interface Props {
   accountBookChartList: AccountBookChartData[];
 }
 
+const dynamicStyles = stylex.create({
+  categoryColor: (color: string) => ({ backgroundColor: color }),
+});
+
+const styles = stylex.create({
+  container: {
+    paddingBottom: '1rem',
+    marginBlock: 0,
+    marginInline: '1.6rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
+  },
+  item: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  itemLeft: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  categoryLabel: {
+    width: '2.4rem',
+    height: '2.4rem',
+    borderRadius: '0.8rem',
+  },
+  more: {
+    marginTop: '1.6rem',
+  },
+});
+
 /**
  * 가계부 통계 - 통계 리스트
  * @component
@@ -43,7 +74,7 @@ const StatisticList = ({ accountBookChartList }: Props) => {
   };
   return (
     <>
-      <SC.Container>
+      <div {...stylex.props(styles.container)}>
         {chartList.map(({ label, percentage, value, color, list }) => {
           const handleItemClick = () => {
             setActiveSheetList({
@@ -57,9 +88,9 @@ const StatisticList = ({ accountBookChartList }: Props) => {
             });
           };
           return (
-            <SC.Item key={label} onClick={handleItemClick}>
-              <div className='left'>
-                <SC.CategoryLabel color={color} />
+            <div {...stylex.props(styles.item)} key={label} onClick={handleItemClick}>
+              <div {...stylex.props(styles.itemLeft)}>
+                <div {...stylex.props(styles.categoryLabel, dynamicStyles.categoryColor(color))} />
                 <Text variant='title6Medium' color='gray800' as='p' ml={10}>
                   {label}({percentage})
                 </Text>
@@ -67,13 +98,15 @@ const StatisticList = ({ accountBookChartList }: Props) => {
               <Text variant='body3' color='gray700'>
                 {value.toLocaleString('ko-KR')}원
               </Text>
-            </SC.Item>
+            </div>
           );
         })}
-        <Button className='more' variant='tertiaryGray' fill onClick={() => toggleIsAllView()}>
-          {isAllView ? '접기' : '전체보기'}
-        </Button>
-      </SC.Container>
+        <div {...stylex.props(styles.more)}>
+          <Button variant='tertiaryGray' fill onClick={() => toggleIsAllView()}>
+            {isAllView ? '접기' : '전체보기'}
+          </Button>
+        </div>
+      </div>
       <AccountBookBottomSheet
         isOpen={isOpenSheet}
         title={activeSheetList?.label ?? ''}
@@ -86,33 +119,3 @@ const StatisticList = ({ accountBookChartList }: Props) => {
 };
 
 export default StatisticList;
-
-const SC = {
-  Container: styled.div`
-    padding-bottom: 1rem;
-    margin: 0 1.6rem;
-
-    .more {
-      margin-top: 1.6rem;
-    }
-  `,
-  Item: styled.div`
-    display: flex;
-    justify-content: space-between;
-
-    & + & {
-      margin-top: 2rem;
-    }
-
-    .left {
-      display: flex;
-      align-items: center;
-    }
-  `,
-  CategoryLabel: styled.div<{ color: string }>`
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 0.8rem;
-    background-color: ${({ color }) => color};
-  `,
-};

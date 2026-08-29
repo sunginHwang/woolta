@@ -1,13 +1,28 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import dayjs from 'dayjs';
-import { styled } from 'styled-components';
 import { useRegularExtentureList } from '../hooks/useRegularExtentureList';
+import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 import OneWeekAgoList from './OneWeekAgoList';
 import RegularAmountInfo from './RegularAmountInfo';
-import { RegularExpenditure } from '../hooks/useRegularExtentureListQuery';
 
 const ONE_WEEK_DAY = 7;
+
+const styles = stylex.create({
+  container: {
+    paddingTop: '2rem',
+    paddingRight: '1.6rem',
+    paddingBottom: 0,
+    paddingLeft: '1.6rem',
+  },
+  line: {
+    backgroundColor: colorVars['--color-gray100'],
+    height: '0.7rem',
+    marginTop: '2rem',
+  },
+});
 
 /**
  * 정기 지출 리스트 -> 상단 지출 정보 모음
@@ -22,28 +37,16 @@ const SummeryInfo = () => {
 
   return (
     <header>
-      <SC.Container>
+      <section {...stylex.props(styles.container)}>
         <RegularAmountInfo amount={totalAmount} />
         <OneWeekAgoList regularExpenditureList={oneWeekRemainList} />
-      </SC.Container>
-      <SC.Line />
+      </section>
+      <div {...stylex.props(styles.line)} />
     </header>
   );
 };
 
 export default SummeryInfo;
-
-const SC = {
-  Container: styled.section`
-    padding: 2rem 1.6rem 0;
-  `,
-  Line: styled.div`
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 0.7rem;
-
-    margin-top: 2rem;
-  `,
-};
 
 function isOneWeekRemain(item: RegularExpenditure) {
   const remainDay = dayjs().diff(dayjs(item.regularExpenditureDay), 'day');

@@ -1,6 +1,7 @@
-import { Text, typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { Dayjs } from 'dayjs';
-import { styled } from 'styled-components';
 import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 
 export interface AccountBookSheetItem {
@@ -18,21 +19,77 @@ interface Props {
   onClose: () => void;
 }
 
+const dynamicStyles = stylex.create({
+  titleColor: (color: string) => ({ color }),
+});
+
+const styles = stylex.create({
+  categoryBottomSheet: {
+    paddingTop: '2rem',
+    paddingInline: '2rem',
+    paddingBottom: 0,
+  },
+  title: {
+    textAlign: 'left',
+    fontSize: '20px',
+    lineHeight: '28px',
+    fontWeight: 500,
+    marginBottom: '1.5rem',
+  },
+  list: {
+    marginBottom: '2rem',
+    maxHeight: '40rem',
+    overflowY: 'scroll',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+  item: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    color: colorVars['--color-gray700'],
+  },
+  itemLeft: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  itemInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  iconWrapper: {
+    width: '30px',
+    height: '30px',
+    backgroundColor: colorVars['--color-red150'],
+    borderRadius: '30px',
+    marginRight: '10px',
+  },
+  iconImg: {
+    width: '20px',
+    height: '20px',
+    margin: '5px',
+  },
+});
+
 export const AccountBookBottomSheet = ({ isOpen, title, titleColor, list, onClose }: Props) => {
   return (
     <BottomSheet visible={isOpen} oncloseModal={onClose} contentHeight={600}>
-      <S.CategoryBottomSheet>
-        <S.Title color={titleColor}>{title}</S.Title>
-        <S.List>
+      <div {...stylex.props(styles.categoryBottomSheet)}>
+        <h3 {...stylex.props(styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
+        <ul {...stylex.props(styles.list)}>
           {list.map(({ title, amount, iconImageUrl, registerDateTime }, key) => (
-            <S.Item key={key}>
-              <div className='left'>
+            <li {...stylex.props(styles.item)} key={key}>
+              <div {...stylex.props(styles.itemLeft)}>
                 {iconImageUrl && (
-                  <S.IconWrapper>
-                    <img src={iconImageUrl} alt={`${title}_아이콘`} />
-                  </S.IconWrapper>
+                  <div {...stylex.props(styles.iconWrapper)}>
+                    <img src={iconImageUrl} alt={`${title}_아이콘`} {...stylex.props(styles.iconImg)} />
+                  </div>
                 )}
-                <div className='info'>
+                <div {...stylex.props(styles.itemInfo)}>
                   <Text variant='body3' color='gray700'>
                     {title}
                   </Text>
@@ -44,64 +101,10 @@ export const AccountBookBottomSheet = ({ isOpen, title, titleColor, list, onClos
               <Text variant='body2' color='gray800'>
                 {amount.toLocaleString('ko-KR')}원
               </Text>
-            </S.Item>
+            </li>
           ))}
-        </S.List>
-      </S.CategoryBottomSheet>
+        </ul>
+      </div>
     </BottomSheet>
   );
-};
-
-const S = {
-  IconWrapper: styled.div`
-    width: 30px;
-    height: 30px;
-    background-color: ${({ theme }) => theme.colors.red150};
-    border-radius: 30px;
-    margin-right: 10px;
-
-    img {
-      width: 20px;
-      height: 20px;
-      margin: 5px;
-    }
-  `,
-  CategoryBottomSheet: styled.div`
-    padding: 2rem 2rem 0;
-  `,
-  Title: styled.h3<{
-    color: string;
-  }>`
-    text-align: left;
-    ${typography.title3Medium}
-    margin-bottom: 1.5rem;
-    color: ${({ color }) => color};
-  `,
-  List: styled.ul`
-    margin-bottom: 2rem;
-    max-height: 40rem;
-    overflow-y: scroll;
-    & > * + * {
-      margin-top: 1rem;
-    }
-  `,
-  Item: styled.li`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    color: ${({ theme }) => theme.colors.gray700};
-
-    .left {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .info {
-        display: flex;
-        flex-direction: column;
-      }
-    }
-  `,
 };

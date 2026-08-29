@@ -1,11 +1,12 @@
 'use client';
 
 import { mergeRefs } from '@common';
-import { colors, typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colors } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
+import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
 import { IconCloseCircle } from 'apps/woolbank/components/atom/Icon';
 import { IconChevronRight } from 'apps/woolbank/components/atom/Icon/ChevronRight';
-import { ChangeEvent, InputHTMLAttributes, MouseEvent, forwardRef, useCallback, useRef, useState } from 'react';
-import { styled } from 'styled-components';
 
 interface Props
   extends Omit<
@@ -29,6 +30,43 @@ interface Props
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    marginBlock: '1rem',
+    marginInline: 0,
+  },
+  input: {
+    fontSize: '15px',
+    lineHeight: '21px',
+    fontWeight: 400,
+    borderStyle: 'none',
+    height: '4rem',
+    color: colorVars['--color-gray900'],
+    '::placeholder': {
+      fontSize: '15px',
+      lineHeight: '21px',
+      fontWeight: 400,
+      color: colorVars['--color-gray500'],
+    },
+  },
+  icon: {
+    cursor: 'pointer',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+    bottom: '1.3rem',
+    width: '1.6rem',
+    height: '1.6rem',
+  },
+  trash: {
+    opacity: 0.5,
+  },
+});
 
 export const FormInput = forwardRef<HTMLInputElement, Props>(
   (
@@ -83,7 +121,7 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
     const isExistInputValue = value !== '' && isShowCloseBtn && !disable && focus;
 
     return (
-      <SC.Container ref={parentRef} $isFocus={focus} onClick={onClick} data-type={dataType === '' ? name : dataType}>
+      <div {...stylex.props(styles.container)} ref={parentRef} onClick={onClick} data-type={dataType === '' ? name : dataType}>
         <input
           ref={mergeRefs([inputRef, parentRef])}
           data-cy={name}
@@ -100,57 +138,18 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
           onChange={onChange}
           onInput={(e) => e.preventDefault()}
           {...restInputProps}
+          {...stylex.props(styles.input)}
         />
         {isExistInputValue ? (
-          <i className='trash' onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
+          <i {...stylex.props(styles.icon, styles.trash)} onClick={handleInputClear} data-type={dataType === '' ? name : dataType}>
             <IconCloseCircle width={16} height={16} fill='#958d9e' />
           </i>
         ) : (
-          <i>
+          <i {...stylex.props(styles.icon)}>
             <IconChevronRight width={16} height={16} fill={colors.gray600} />
           </i>
         )}
-      </SC.Container>
+      </div>
     );
   },
 );
-
-const SC = {
-  Container: styled.div<{ $isFocus: boolean }>`
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin: 1rem 0;
-
-    .trash {
-      opacity: 0.5;
-    }
-
-    input {
-      ${typography.body2}
-      border: none;
-      height: 4rem;
-      color: ${({ theme }) => theme.colors.gray900};
-
-      &::placeholder {
-        ${typography.body2}
-        color: ${({ theme }) => theme.colors.gray500};
-      }
-    }
-
-    i {
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: 0;
-      bottom: 1.3rem;
-      width: 1.6rem;
-      height: 1.6rem;
-    }
-  `,
-  ValueLength: styled.p`
-    font-size: 1.2rem;
-    color: ${({ theme }) => theme.colors.gray500};
-  `,
-};

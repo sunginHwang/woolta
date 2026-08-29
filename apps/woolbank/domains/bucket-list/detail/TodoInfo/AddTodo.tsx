@@ -1,10 +1,10 @@
-import React, { FC, useRef } from 'react';
-import styled from 'styled-components';
-
-import { Todo } from '../hooks/useBucket';
 import { useToggle } from '@common';
-import TodoInput from '../../common/TodoInput';
+import * as stylex from '@stylexjs/stylex';
+import React, { FC, useRef } from 'react';
+
 import { TodoAddButton } from '../../common/TodoAddButton';
+import TodoInput from '../../common/TodoInput';
+import { Todo } from '../hooks/useBucket';
 
 interface Props {
   onAdd: (todo: Todo) => void;
@@ -12,6 +12,15 @@ interface Props {
   onTodoItemFocusIn?: () => void;
   onTodoItemFocusOut?: () => void;
 }
+
+const styles = stylex.create({
+  todoAdd: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '20rem',
+  },
+});
+
 /**
  * 버킷리스트 상세 - 할일 추가
  * @component
@@ -42,7 +51,7 @@ export const AddTodo: FC<Props> = ({
   };
 
   return (
-    <S.TodoAdd ref={addRef}>
+    <div {...stylex.props(styles.todoAdd)} ref={addRef}>
       {showAddInput ? (
         <TodoInput
           onAdd={onAddTodo}
@@ -53,14 +62,6 @@ export const AddTodo: FC<Props> = ({
       ) : (
         <TodoAddButton isLoading={isLoading} onClick={onAddInput} />
       )}
-    </S.TodoAdd>
+    </div>
   );
-};
-
-const S = {
-  TodoAdd: styled.div`
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20rem;
-  `,
 };

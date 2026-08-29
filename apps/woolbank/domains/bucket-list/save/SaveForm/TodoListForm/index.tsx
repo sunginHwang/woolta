@@ -1,7 +1,8 @@
 import { useToggle } from '@common';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { ComponentProps, FC, useRef } from 'react';
-import styled from 'styled-components';
 import { useToast } from '../../../../../hooks/useToast';
 import { TodoAddButton } from '../../../common/TodoAddButton';
 import TodoInput from '../../../common/TodoInput';
@@ -11,6 +12,35 @@ import { LabelText } from '../../LabelText';
 import { Todo, bucketFormAtom, setBucketTodoListAtom } from '../../store';
 
 interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
+
+const styles = stylex.create({
+  phase: {
+    height: 'calc(100vh - 5.5rem)',
+    paddingBlock: 0,
+    paddingInline: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: colorVars['--color-white'],
+  },
+  todoForm: {
+    marginTop: '2rem',
+    marginRight: 0,
+    marginBottom: '1rem',
+    marginLeft: 0,
+  },
+  todoList: {
+    width: '100%',
+    marginBottom: {
+      default: null,
+      ':last-child': '10rem',
+    },
+  },
+  todoAdd: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '20rem',
+  },
+});
 
 export const TodoListForm: FC<Props> = ({ activeForm }) => {
   const { onToast } = useToast();
@@ -83,8 +113,8 @@ export const TodoListForm: FC<Props> = ({ activeForm }) => {
       activeForm={activeForm}
       usePadding={false}
     >
-      <SC.AccountInfoAddPhase>
-        <SC.TodoForm>
+      <div {...stylex.props(styles.phase)}>
+        <div {...stylex.props(styles.todoForm)}>
           <LabelText>
             목표를 달성하기 위해 <br /> 해야할 일들을 정해보세요.
           </LabelText>
@@ -93,59 +123,20 @@ export const TodoListForm: FC<Props> = ({ activeForm }) => {
             <br />
             필요한 일들을 순차적으로 나열하는것도 좋은 방법입니다.
           </LabelText.Sub>
-          <SC.TodoList>
+          <ul {...stylex.props(styles.todoList)}>
             {todoList.map((todo, index) => {
               return <TodoListItem key={index} todo={todo} onRemove={onRemove} onToggleState={onToggleState} />;
             })}
-          </SC.TodoList>
-          <SC.TodoAdd ref={addRef}>
+          </ul>
+          <div {...stylex.props(styles.todoAdd)} ref={addRef}>
             {showAddInput ? (
               <TodoInput onAdd={onAddTodo} onClose={offAddInput} onFocusIn={onFocusTodo} onFocusOut={offFocusTodo} />
             ) : (
               <TodoAddButton onClick={onAddInput} />
             )}
-          </SC.TodoAdd>
-        </SC.TodoForm>
-      </SC.AccountInfoAddPhase>
+          </div>
+        </div>
+      </div>
     </FormTemplate>
   );
-};
-
-const SC = {
-  TodoForm: styled.div`
-    margin: 2rem 0 1rem 0;
-  `,
-  TodoList: styled.ul`
-    width: 100%;
-
-    &:last-child {
-      margin-bottom: 10rem;
-    }
-  `,
-  TodoAdd: styled.div`
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20rem;
-  `,
-  AccountInfoAddPhase: styled.div`
-    height: calc(100vh - 5.5rem);
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-  Content: styled.div`
-    padding-top: 2rem;
-    height: 80%;
-    > div + div {
-      margin-top: 4rem;
-    }
-  `,
-  AddInfo: styled.div<{ show: boolean }>`
-    top: ${({ show }) => (show ? 0 : '100%')};
-    margin-top: 3rem;
-    position: relative;
-    transition: all 0.3s ease-out;
-    height: 100%;
-  `,
 };

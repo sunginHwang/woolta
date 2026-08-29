@@ -1,8 +1,9 @@
 import { useToggle } from '@common';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import dayjs from 'dayjs';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { ComponentProps, FC, memo, useEffect } from 'react';
-import styled from 'styled-components';
 import { BaseInput } from '../../../../../components/base-input/BaseInput';
 import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 import { FormTemplate } from '../../FormTemplate';
@@ -11,6 +12,21 @@ import { LabelText } from '../../LabelText';
 import { bucketFormAtom, setBucketCompleteDateAtom } from '../../store';
 
 interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
+
+const styles = stylex.create({
+  phase: {
+    height: 'calc(100vh - 5.5rem)',
+    paddingBlock: 0,
+    paddingInline: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: colorVars['--color-white'],
+  },
+  content: {
+    paddingTop: '2rem',
+    height: '100%',
+  },
+});
 
 export const CompleteDateForm: FC<Props> = memo(({ activeForm }) => {
   const { goNextStep } = useBucketFormStep();
@@ -45,8 +61,8 @@ export const CompleteDateForm: FC<Props> = memo(({ activeForm }) => {
 
   return (
     <FormTemplate title='목표일 설정' isValidForm={isValidForm} activeForm={activeForm} usePadding={false}>
-      <SC.BucketListCompleteDatePhase>
-        <SC.Content>
+      <div {...stylex.props(styles.phase)}>
+        <div {...stylex.props(styles.content)}>
           <LabelText>
             언제 목표를 달성할 계획인지 <br /> 알려주세요.
           </LabelText>
@@ -64,22 +80,8 @@ export const CompleteDateForm: FC<Props> = memo(({ activeForm }) => {
             onclose={offDateModal}
             onDateChange={onChangeCompleteDate}
           />
-        </SC.Content>
-      </SC.BucketListCompleteDatePhase>
+        </div>
+      </div>
     </FormTemplate>
   );
 });
-
-const SC = {
-  BucketListCompleteDatePhase: styled.div`
-    height: calc(100vh - 5.5rem);
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-  Content: styled.div`
-    padding-top: 2rem;
-    height: 100%;
-  `,
-};

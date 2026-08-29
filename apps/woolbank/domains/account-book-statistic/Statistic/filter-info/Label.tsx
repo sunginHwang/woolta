@@ -1,10 +1,22 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { HTMLAttributes } from 'react';
-import { styled } from 'styled-components';
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
   text: string;
 }
+
+const styles = stylex.create({
+  label: {
+    display: 'inline',
+    borderRadius: '1.3rem',
+    paddingBlock: '0.8rem',
+    paddingInline: '1.5rem',
+    backgroundColor: colorVars['--color-gray150'],
+    marginRight: '1rem',
+  },
+});
 
 /**
  * 가계부 레이블 필터 - 레이블 텍스트
@@ -12,20 +24,10 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
  */
 export const Label = ({ text, onClick, ...rest }: Props) => {
   return (
-    <SC.Label onClick={onClick}>
+    <div {...stylex.props(styles.label)} onClick={onClick}>
       <Text variant='small1Regular' color='gray900' as='span' {...rest}>
         {text}
       </Text>
-    </SC.Label>
+    </div>
   );
-};
-
-const SC = {
-  Label: styled.div`
-    display: inline;
-    border-radius: 1.3rem;
-    padding: 0.8rem 1.5rem;
-    background-color: ${({ theme }) => theme.colors.gray150};
-    margin-right: 1rem;
-  `,
 };

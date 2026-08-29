@@ -1,10 +1,10 @@
+import * as stylex from '@stylexjs/stylex';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 import { Button } from 'apps/woolbank/components/atom/Button';
 import { BaseInput } from 'apps/woolbank/components/base-input/BaseInput';
 import { BottomSheet } from 'apps/woolbank/components/bottom-sheet/BottomSheet';
 import { ToggleTab } from 'apps/woolbank/components/toggle-tab/ToggleTab';
-import { ChangeEvent, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 
 const TAB_LIST = [
   {
@@ -33,6 +33,7 @@ const VALUE_INFO_MAPPER: Record<
     placeholder: '매 월 지출되는 할부 일자를 입력해주세요.',
   },
 };
+
 interface Props {
   is_open?: boolean;
   scheduledPaymentDay?: number;
@@ -45,6 +46,26 @@ interface Props {
   }) => void;
   onCloseModal?: () => void;
 }
+
+const styles = stylex.create({
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+    gap: '2rem',
+  },
+  inputGroup: {
+    width: '100%',
+    marginBottom: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.8rem',
+  },
+});
+
 export const ScheduledPaymentBottomSheet = ({
   is_open,
   scheduledPaymentDay,
@@ -113,7 +134,7 @@ export const ScheduledPaymentBottomSheet = ({
 
   return (
     <BottomSheet visible={is_open} oncloseModal={onCloseModal} title='반복/할부'>
-      <SC.Content>
+      <div {...stylex.props(styles.content)}>
         <ToggleTab
           tabs={TAB_LIST}
           value={scheduled_payments_type_state}
@@ -123,7 +144,7 @@ export const ScheduledPaymentBottomSheet = ({
             setScheduledPaymentsTypeState(tab.type as ScheduledPaymentType);
           }}
         />
-        <div className='input-group'>
+        <div {...stylex.props(styles.inputGroup)}>
           <BaseInput
             type='number'
             onChange={handleSchedulePaymentValueChange}
@@ -146,26 +167,7 @@ export const ScheduledPaymentBottomSheet = ({
         <Button disabled={!is_enable_form_status} fill onClick={handleSaveClick}>
           저장
         </Button>
-      </SC.Content>
+      </div>
     </BottomSheet>
   );
-};
-
-const SC = {
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1.6rem;
-    gap: 2rem;
-
-    .input-group {
-      width: 100%;
-      margin-bottom: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-  `,
 };

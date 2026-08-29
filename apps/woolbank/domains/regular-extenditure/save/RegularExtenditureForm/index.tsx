@@ -1,6 +1,6 @@
 import { useMount } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { FC, KeyboardEvent, MouseEvent, useRef, useState } from 'react';
-import { styled } from 'styled-components';
 import { Button } from '../../../../components/atom/Button';
 import { BaseInput } from '../../../../components/base-input/BaseInput';
 import { ToggleTab } from '../../../../components/toggle-tab/ToggleTab';
@@ -22,6 +22,24 @@ const TAB_LIST = [
 interface Props {
   submitForm: (form: FormType) => void;
 }
+
+const styles = stylex.create({
+  form: {
+    marginTop: '2rem',
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4rem',
+  },
+  buttonArea: {
+    marginTop: '5rem',
+    paddingBottom: '5rem',
+    display: 'flex',
+    width: '100%',
+    gap: '1.6rem',
+  },
+});
 
 export const RegularExtenditureForm: FC<Props> = ({ submitForm }) => {
   const {
@@ -94,7 +112,7 @@ export const RegularExtenditureForm: FC<Props> = ({ submitForm }) => {
 
   return (
     <>
-      <SC.Form>
+      <main {...stylex.props(styles.form)}>
         <BaseInput
           readOnly
           dataType='amount'
@@ -141,12 +159,12 @@ export const RegularExtenditureForm: FC<Props> = ({ submitForm }) => {
             setAutoExpenditure(tab.type === 'autoExpenditure');
           }}
         />
-        <SC.ButtonArea>
+        <div {...stylex.props(styles.buttonArea)}>
           <Button fill onClick={handleSubmitClick} disabled={!isActiveSubmit}>
             작성
           </Button>
-        </SC.ButtonArea>
-      </SC.Form>
+        </div>
+      </main>
       <FormModal
         openModalName={openModalName}
         formData={formData}
@@ -157,22 +175,4 @@ export const RegularExtenditureForm: FC<Props> = ({ submitForm }) => {
       />
     </>
   );
-};
-
-const SC = {
-  Form: styled.main`
-    margin-top: 2rem;
-    padding: 0 1.6rem;
-
-    > div + div {
-      margin-top: 4rem;
-    }
-  `,
-  ButtonArea: styled.div`
-    margin-top: 5rem;
-    padding-bottom: 5rem;
-    display: flex;
-    width: 100%;
-    gap: 1.6rem;
-  `,
 };

@@ -1,7 +1,8 @@
 import { useInput, useMount } from '@common';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { IconBlackCircle } from 'apps/woolbank/components/atom/Icon';
 import React, { FC, useRef } from 'react';
-import styled, { useTheme } from 'styled-components';
 
 interface Props {
   onAdd: (title: string) => void;
@@ -10,6 +11,59 @@ interface Props {
   onFocusOut: () => void;
 }
 
+const styles = stylex.create({
+  todoInput: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    paddingBlock: '0.9rem',
+    paddingInline: '1.5rem',
+    borderRadius: '0.8rem',
+    boxShadow: 'rgb(220, 220, 233) 0.1rem 0.4rem 1.7rem 0.3rem',
+  },
+  inputRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+  },
+  iconSlot: {
+    height: '2.2rem',
+    marginRight: '1rem',
+  },
+  inputField: {
+    flex: 1,
+    backgroundColor: '#f2f3f5',
+    borderRadius: '0.8rem',
+    paddingBlock: '1rem',
+    paddingInline: '2rem',
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: 'rgb(238, 238, 238)',
+    fontSize: '1.2rem',
+    marginRight: '0.5rem',
+    '::placeholder': { color: '#65676b' },
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: '1rem',
+  },
+  button: {
+    paddingBlock: '0.7rem',
+    paddingInline: '1rem',
+    borderRadius: '0.5rem',
+    fontSize: '1.2rem',
+    backgroundColor: colorVars['--color-red500'],
+    color: colorVars['--color-white'],
+  },
+  buttonCancel: {
+    backgroundColor: colorVars['--color-white'],
+    color: colorVars['--color-black'],
+  },
+});
+
 /**
  * todo input 영역
  * @component
@@ -17,7 +71,6 @@ interface Props {
 export const TodoInput: FC<Props> = ({ onAdd, onClose, onFocusIn, onFocusOut }) => {
   const [title, onChangeTitle] = useInput('');
   const todoInputRef = useRef<HTMLInputElement>(null);
-  const { colors } = useTheme();
 
   // 컴포넌트 생성시 바로 포커스 UX 처리
   useMount(() => {
@@ -43,12 +96,13 @@ export const TodoInput: FC<Props> = ({ onAdd, onClose, onFocusIn, onFocusOut }) 
   };
 
   return (
-    <S.TodoInput>
-      <S.Input>
-        <i onClick={onClose}>
-          <IconBlackCircle fill={colors.red500} />
+    <div {...stylex.props(styles.todoInput)}>
+      <div {...stylex.props(styles.inputRow)}>
+        <i {...stylex.props(styles.iconSlot)} onClick={onClose}>
+          <IconBlackCircle fill='#f03e3e' />
         </i>
         <input
+          {...stylex.props(styles.inputField)}
           data-cy='todoInput'
           ref={todoInputRef}
           value={title}
@@ -57,67 +111,17 @@ export const TodoInput: FC<Props> = ({ onAdd, onClose, onFocusIn, onFocusOut }) 
           onChange={onChangeTitle}
           onKeyPress={onTitleKeyPress}
         />
-      </S.Input>
-      <S.Footer>
-        <S.Button onClick={onAddTodo}>작업 추가</S.Button>
-        <S.Button onClick={onClose} $isCancel>
+      </div>
+      <div {...stylex.props(styles.footer)}>
+        <button {...stylex.props(styles.button)} onClick={onAddTodo}>
+          작업 추가
+        </button>
+        <button {...stylex.props(styles.button, styles.buttonCancel)} onClick={onClose}>
           취소
-        </S.Button>
-      </S.Footer>
-    </S.TodoInput>
+        </button>
+      </div>
+    </div>
   );
-};
-
-type ButtonProps = {
-  $isCancel?: boolean;
-};
-const S = {
-  Button: styled.button<ButtonProps>`
-    padding: 0.7rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 1.2rem;
-    background-color: ${({ theme, $isCancel }) => ($isCancel ? theme.colors.white : theme.colors.red500)};
-    color: ${({ theme, $isCancel }) => ($isCancel ? theme.colors.black : theme.colors.white)};
-  `,
-  Footer: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1rem;
-  `,
-  Input: styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    flex: 1;
-  `,
-  TodoInput: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0.9rem 1.5rem;
-    border-radius: 0.8rem;
-    box-shadow: rgb(220, 220, 233) 0.1rem 0.4rem 1.7rem 0.3rem;
-
-    i {
-      height: 2.2rem;
-      margin-right: 1rem;
-    }
-
-    input {
-      flex: 1;
-      background-color: #f2f3f5;
-      border-radius: 0.8rem;
-      padding: 1rem 2rem;
-      border: 0.1rem solid rgb(238, 238, 238);
-      font-size: 1.2rem;
-      margin-right: 0.5rem;
-
-      &::placeholder {
-        color: #65676b;
-      }
-    }
-  `,
 };
 
 export default TodoInput;

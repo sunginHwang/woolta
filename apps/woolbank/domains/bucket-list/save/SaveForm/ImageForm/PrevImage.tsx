@@ -1,5 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
 import { FC } from 'react';
-import styled, { useTheme } from 'styled-components';
 import { IconCloseCircle } from '../../../../../components/atom/Icon';
 
 interface Props {
@@ -7,37 +7,39 @@ interface Props {
   onInitClick: () => void;
 }
 
+const styles = stylex.create({
+  prevPicture: {
+    marginTop: '2rem',
+    marginRight: 0,
+    marginBottom: '10rem',
+    marginLeft: 0,
+    position: 'relative',
+  },
+  prevImage: {
+    width: '100%',
+    height: 'auto',
+  },
+  prevPictureDeemed: {
+    position: 'absolute',
+    top: '0.5rem',
+    right: '0.5rem',
+  },
+});
+
 export const PrevImage: FC<Props> = ({ previewUrl, onInitClick }) => {
-  const { colors } = useTheme();
   // 이미지가 없다면 미리보기 없음
   if (previewUrl === '') {
     return null;
   }
 
   return (
-    <SC.PrevPicture>
-      <img src={previewUrl} alt={previewUrl} />
-      <SC.PrevPictureDeemed>
+    <div {...stylex.props(styles.prevPicture)}>
+      <img {...stylex.props(styles.prevImage)} src={previewUrl} alt={previewUrl} />
+      <div {...stylex.props(styles.prevPictureDeemed)}>
         <i onClick={onInitClick}>
-          <IconCloseCircle width={30} height={30} fill={colors.red500} />
+          <IconCloseCircle width={30} height={30} fill='#f03e3e' />
         </i>
-      </SC.PrevPictureDeemed>
-    </SC.PrevPicture>
+      </div>
+    </div>
   );
-};
-
-const SC = {
-  PrevPicture: styled.div`
-    margin: 2rem 0 10rem 0;
-    position: relative;
-    > img {
-      width: 100%;
-      height: auto;
-    }
-  `,
-  PrevPictureDeemed: styled.div`
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-  `,
 };

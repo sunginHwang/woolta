@@ -1,7 +1,36 @@
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
 import React from 'react';
-import styled from 'styled-components';
 import { CardItem } from '../../../../components/card-item/CardItem';
+
+const styles = stylex.create({
+  bucketListItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  innerDiv: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '1.4rem',
+  },
+  circle: {
+    width: '5.2rem',
+    height: '5.2rem',
+    minWidth: '5.2rem',
+    minHeight: '5.2rem',
+    backgroundColor: '#e6a3a2',
+    borderRadius: '50%',
+  },
+  description: {
+    marginTop: '4px',
+  },
+});
 
 /**
  * 버킷리스 - 리스트 아이템 스켈레톤 영역
@@ -11,48 +40,19 @@ import { CardItem } from '../../../../components/card-item/CardItem';
 function ItemSkeleton() {
   return (
     <CardItem useSideMargin>
-      <SC.BucketListItem data-cy='bucketListSkeleton'>
-        <div>
-          <SC.Circle />
-          <SC.Content>
+      <div {...stylex.props(styles.bucketListItem)} data-cy='bucketListSkeleton'>
+        <div {...stylex.props(styles.innerDiv)}>
+          <div {...stylex.props(styles.circle)} />
+          <div {...stylex.props(styles.content)}>
             <SkeletonBar width='8rem' height='1.82rem' />
-            <SkeletonBar width='13rem' height='1.68rem' className='description' />
-          </SC.Content>
+            <div {...stylex.props(styles.description)}>
+              <SkeletonBar width='13rem' height='1.68rem' />
+            </div>
+          </div>
         </div>
-      </SC.BucketListItem>
+      </div>
     </CardItem>
   );
 }
 
 export default React.memo(ItemSkeleton);
-
-const SC = {
-  BucketListItem: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    > div {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-    }
-
-    .description {
-      margin-top: 4px;
-    }
-  `,
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 1.4rem;
-  `,
-  Circle: styled.div`
-    width: 5.2rem;
-    height: 5.2rem;
-    min-width: 5.2rem;
-    min-height: 5.2rem;
-    background-color: #e6a3a2;
-    border-radius: 50%;
-  `,
-};

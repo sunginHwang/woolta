@@ -1,10 +1,10 @@
-import { CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
+import * as stylex from '@stylexjs/stylex';
 import { Text, gray200 } from '@wds';
+import { CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import { groupBy, sortBy } from 'lodash-es';
 import { Line } from 'react-chartjs-2';
-import { styled } from 'styled-components';
 import { DateRange } from '../../../../utils/date';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
@@ -40,6 +40,22 @@ export const data = {
     },
   ],
 };
+
+const styles = stylex.create({
+  container: {
+    height: '30rem',
+    paddingTop: 0,
+    paddingInline: '1.6rem',
+    paddingBottom: 0,
+  },
+  linechart: {
+    paddingBlock: '1.6rem',
+    paddingInline: '1.6rem',
+  },
+  avgText: {
+    paddingBottom: '15rem',
+  },
+});
 
 export const LineChart = () => {
   const { accountBookStatisticList } = useAccountStatisticList();
@@ -82,11 +98,11 @@ export const LineChart = () => {
 
   return (
     <>
-      <SC.Container>
+      <div {...stylex.props(styles.container)}>
         <Text variant='title3Bold' color='gray900' mt={20} as='h3'>
           일자별 통계
         </Text>
-        <div className='linechart'>
+        <div {...stylex.props(styles.linechart)}>
           <Line
             data={chartData}
             options={{
@@ -124,10 +140,10 @@ export const LineChart = () => {
             }}
           />
         </div>
-        <Text variant='body3' color='gray900' as='p' alignment='right'>
+        <Text variant='body3' color='gray900' as='p' alignment='right' xstyle={styles.avgText}>
           일 평균: {avgAmount.toLocaleString('ko-KR')}원 사용
         </Text>
-      </SC.Container>
+      </div>
     </>
   );
 };
@@ -141,17 +157,3 @@ function getLabel(list: Pa[], dateRange: DateRange) {
 
   return list.map(mapLoopup[dateRange]);
 }
-const SC = {
-  Container: styled.div`
-    height: 30rem;
-    padding: 0 1.6rem 0;
-
-    .linechart {
-      padding: 1.6rem;
-    }
-
-    p {
-      padding-bottom: 15rem;
-    }
-  `,
-};

@@ -2,10 +2,10 @@
 
 import { withSuspense } from '@common';
 import { AddButton } from '../../../components/add-button/AddButton';
+import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 import ExtentureTypeList from './ExtentureTypeList';
 import RegularExpenditureSkeleton from './RegularExpenditureSkeleton';
 import SummeryInfo from './SummeryInfo';
-import { useUserInfo } from '../../../hooks/queries/useUserInfo';
 
 /**
  * 정기 지출 리스트

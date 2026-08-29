@@ -1,14 +1,25 @@
 'use client';
 
+import { withSuspense } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import dayjs from 'dayjs';
 import groupBy from 'lodash-es/groupBy';
-import { styled } from 'styled-components';
 import { EmptyInfo } from '../../../../../components/empty-info/EmptyInfo';
 import { AccountBook, useAccountBookList } from '../../_common/hooks/useAccountBookList';
 import { AccountBookListSkeleton } from './AccountBookListSkeleton';
 import DayGroup from './DayGroup';
 import Item from './Item';
-import { withSuspense } from '@common';
+
+const styles = stylex.create({
+  accountBookList: {
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+    marginBottom: '10rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '3.4rem',
+  },
+});
 
 /**
  * 가계부 리스트
@@ -20,14 +31,14 @@ const AccountBookList = () => {
 
   if (accountBookListGroupByDay.length === 0) {
     return (
-      <SC.AccountBookList>
+      <div {...stylex.props(styles.accountBookList)}>
         <EmptyInfo msg='작성한 소비 내역이 없습니다.' />
-      </SC.AccountBookList>
+      </div>
     );
   }
 
   return (
-    <SC.AccountBookList>
+    <div {...stylex.props(styles.accountBookList)}>
       {accountBookListGroupByDay.map(({ totalAmount, accountBookList, days }) => {
         return (
           <DayGroup key={days} days={days} totalAmount={totalAmount}>
@@ -37,18 +48,11 @@ const AccountBookList = () => {
           </DayGroup>
         );
       })}
-    </SC.AccountBookList>
+    </div>
   );
 };
 
 export default withSuspense(AccountBookList, <AccountBookListSkeleton />);
-
-const SC = {
-  AccountBookList: styled.div`
-    padding: 0 1.6rem;
-    margin-bottom: 10rem;
-  `,
-};
 
 /**
  * 가계부 리스트의 총합금액 구하기 (소비, 지출 포함)

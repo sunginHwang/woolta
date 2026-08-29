@@ -1,9 +1,24 @@
 'use client';
 
-import { typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import Link from 'next/link';
-import { styled } from 'styled-components';
 import { useUserInfo } from '../../../hooks/queries/useUserInfo';
+
+const styles = stylex.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '4rem',
+    height: '4rem',
+    color: colorVars['--color-white'],
+    backgroundColor: colorVars['--color-red500'],
+    borderRadius: '100%',
+    boxShadow: '0.2rem 0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.16)',
+  },
+});
 
 export const AddButton = () => {
   const { isShareUser } = useUserInfo();
@@ -13,24 +28,8 @@ export const AddButton = () => {
   }
 
   return (
-    <SC.Container href='/account-books/save' data-cy='addButton'>
+    <Link {...stylex.props(typographyStyles.title1Bold, styles.container)} href='/account-books/save' data-cy='addButton'>
       +
-    </SC.Container>
+    </Link>
   );
-};
-
-const SC = {
-  Container: styled(Link)`
-    ${typography.title1Bold}
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 4rem;
-    height: 4rem;
-    color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.red500};
-    border-radius: 100% !important;
-    box-shadow: 0.2rem 0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.16);
-  `,
 };

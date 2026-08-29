@@ -1,6 +1,7 @@
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useAtomValue, useSetAtom } from 'jotai';
 import React, { ChangeEvent, ComponentProps, FC, KeyboardEvent, memo, useRef } from 'react';
-import styled from 'styled-components';
 import { BaseInput } from '../../../../../components/base-input/BaseInput';
 import { FormTemplate } from '../../FormTemplate';
 import { useBucketFormStep } from '../../hooks/useBucketFormStep';
@@ -8,6 +9,38 @@ import { LabelText } from '../../LabelText';
 import { bucketFormAtom, setBucketDefaultInfoAtom } from '../../store';
 
 interface Props extends Pick<ComponentProps<typeof FormTemplate>, 'activeForm'> {}
+
+const styles = stylex.create({
+  phase: {
+    height: 'calc(100vh - 5.5rem)',
+    paddingBlock: 0,
+    paddingInline: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: colorVars['--color-white'],
+  },
+  content: {
+    paddingTop: '2rem',
+    height: '80%',
+  },
+  addInfo: {
+    marginTop: '4rem',
+    height: '22rem',
+  },
+  baseTextArea: {
+    display: 'flex',
+    margin: '1rem 0',
+    height: '100%',
+    flexDirection: 'column',
+    backgroundColor: colorVars['--color-white'],
+  },
+  textarea: {
+    borderWidth: 0,
+    borderStyle: 'none',
+    resize: 'none',
+    height: '100%',
+  },
+});
 
 export const InfoForm: FC<Props> = memo(({ activeForm }) => {
   const { title, description } = useAtomValue(bucketFormAtom);
@@ -43,8 +76,8 @@ export const InfoForm: FC<Props> = memo(({ activeForm }) => {
 
   return (
     <FormTemplate title='기본 정보 작성' isValidForm={isValidForm} activeForm={activeForm} usePadding={false}>
-      <SC.AccountInfoAddPhase>
-        <SC.Content>
+      <div {...stylex.props(styles.phase)}>
+        <div {...stylex.props(styles.content)}>
           <LabelText>어떤 것을 이루고 싶으신가요?</LabelText>
           <BaseInput
             useLengthInfo
@@ -57,7 +90,7 @@ export const InfoForm: FC<Props> = memo(({ activeForm }) => {
             onKeyDown={handleTitleEnter}
             onChange={handleChangeTitle}
           />
-          <SC.AddInfo>
+          <div {...stylex.props(styles.addInfo)}>
             <LabelText>
               어떻게 목표를 달성할지
               <br />
@@ -68,8 +101,9 @@ export const InfoForm: FC<Props> = memo(({ activeForm }) => {
               <br />
               목표를 달성할 가능성이 좀더 높아집니다.
             </LabelText.Sub>
-            <SC.BaseTextArea>
+            <div {...stylex.props(styles.baseTextArea)}>
               <textarea
+                {...stylex.props(styles.textarea)}
                 ref={descriptionRef}
                 data-cy='name'
                 name='name'
@@ -78,44 +112,10 @@ export const InfoForm: FC<Props> = memo(({ activeForm }) => {
                 onKeyDown={handleDescriptionEnter}
                 onChange={handleChangeDetail}
               />
-            </SC.BaseTextArea>
-          </SC.AddInfo>
-        </SC.Content>
-      </SC.AccountInfoAddPhase>
+            </div>
+          </div>
+        </div>
+      </div>
     </FormTemplate>
   );
 });
-
-const SC = {
-  AccountInfoAddPhase: styled.div`
-    height: calc(100vh - 5.5rem);
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-  Content: styled.div`
-    padding-top: 2rem;
-    height: 80%;
-    > div + div {
-      margin-top: 4rem;
-    }
-  `,
-  AddInfo: styled.div`
-    margin-top: 3rem;
-    height: 22rem;
-  `,
-  BaseTextArea: styled.div`
-    display: flex;
-    margin: 1rem 0;
-    height: 100%;
-    flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.white};
-
-    textarea {
-      border: none;
-      resize: none;
-      height: 100%;
-    }
-  `,
-};

@@ -1,12 +1,31 @@
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
-import { styled } from 'styled-components';
 import { DateRange } from '../../../../utils/date';
 import { AccountBookCategoryType, AccountBookStatisticFilterAtom } from '../_common/stores/statisticFilter';
 import { CategoryOptionFilter } from './CategoryOptionFilter';
 import { DateFilter } from './DateFilter';
 import DateRangeFilter from './DateRangeFilter';
 import TypeFilter from './TypeFilter';
+
+const styles = stylex.create({
+  container: {
+    paddingTop: '2rem',
+    paddingInline: '1.6rem',
+    paddingBottom: 0,
+  },
+  dateLabel: {
+    marginBlock: '2rem',
+    marginInline: 0,
+  },
+  line: {
+    backgroundColor: colorVars['--color-gray100'],
+    height: '0.7rem',
+    marginBlock: 0,
+    marginInline: '-1.6rem',
+  },
+});
 
 /**
  * 가계부 통계 - 팝 영역
@@ -37,28 +56,14 @@ export const FilterInfo = () => {
   };
 
   return (
-    <SC.Container>
+    <header {...stylex.props(styles.container)}>
       <DateRangeFilter dateRange={dateRange} onDateRangeChange={setDateRange} />
-      <SC.DateLabel>
+      <div {...stylex.props(styles.dateLabel)}>
         <DateFilter startDate={startDate} endDate={endDate} dateRange={dateRange} onDateChange={setDate} />
         <TypeFilter activeType={type} onTypeChange={setType} />
         <CategoryOptionFilter />
-      </SC.DateLabel>
-      <SC.Line />
-    </SC.Container>
+      </div>
+      <div {...stylex.props(styles.line)} />
+    </header>
   );
-};
-
-const SC = {
-  Container: styled.header`
-    padding: 2rem 1.6rem 0;
-  `,
-  DateLabel: styled.div`
-    margin: 2rem 0;
-  `,
-  Line: styled.div`
-    background-color: ${({ theme }) => theme.colors.gray100};
-    height: 0.7rem;
-    margin: 0 -1.6rem;
-  `,
 };

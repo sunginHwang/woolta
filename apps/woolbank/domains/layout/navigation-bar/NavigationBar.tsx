@@ -1,9 +1,10 @@
 import { useScrollDirection } from '@common';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { Variants, motion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
-import { styled } from 'styled-components';
 
 import { IconAccountOutline, IconPigOutline, IconWalletOutline } from '../../../components/atom/Icon';
 import { AddButton } from './AddIcon';
@@ -53,6 +54,72 @@ const NAVIGATION_LIST: { name?: string; value: string; link?: string; icon: Reac
   },
 ];
 
+const styles = stylex.create({
+  container: {
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: '5.5rem',
+    position: 'fixed',
+    paddingBottom: 'env(safe-area-inset-bottom)',
+    borderTopWidth: '0.1rem',
+    borderTopStyle: 'solid',
+    borderTopColor: colorVars['--color-gray300'],
+    backgroundColor: colorVars['--color-white'],
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    zIndex: zIndexConsts.navigationBar,
+  },
+  navigationBarInner: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+  },
+  navTag: {
+    letterSpacing: 0,
+    textAlign: 'center',
+    width: '100%',
+    height: '56px',
+    lineHeight: '1.2em',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    color: colorVars['--color-grayPrimary'],
+  },
+  link: {
+    width: '100%',
+    lineHeight: '1.2rem',
+    paddingBlock: 0,
+    paddingInline: '4px',
+    flexBasis: 0,
+    flexGrow: 1,
+    maxWidth: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '0.1rem',
+    color: colorVars['--color-graySecondary'],
+  },
+  linkActive: {
+    color: colorVars['--color-red500'],
+  },
+  linkSpan: {
+    marginTop: '0.4rem',
+    fontSize: '1.1rem',
+    color: colorVars['--color-graySecondary'],
+  },
+  linkSpanActive: {
+    color: colorVars['--color-red500'],
+  },
+});
+
 /**
  * 하단 네이게이션바
  * @component
@@ -75,7 +142,8 @@ export const NavigationBar = () => {
   }, [pathname]);
 
   return (
-    <SC.Container
+    <motion.nav
+      {...stylex.props(styles.container)}
       initial={{ y: 0 }}
       animate={{
         y: isShowNavigationBar ? 0 : 100,
@@ -85,21 +153,21 @@ export const NavigationBar = () => {
         ease: 'easeInOut',
       }}
     >
-      <SC.NavigationBar>
+      <motion.div {...stylex.props(styles.navigationBarInner)}>
         {NAVIGATION_LIST.map((navigation, index) => {
           const isActive = navigation.link === activePath;
           const is_menu_icon = !!navigation.name;
 
           return (
-            <SC.NavigationBarTag
+            <div
               key={`${index}-${navigation.name}`}
+              {...stylex.props(styles.navTag)}
               data-cy={navigation.name}
-              className={isActive ? 'active' : ''}
             >
               {is_menu_icon && (
                 <Link href={navigation.link ?? ''} passHref onClick={() => setPendingPath(navigation.link ?? null)}>
-                  <SC.Link
-                    $isActive={isActive}
+                  <motion.div
+                    {...stylex.props(styles.link, isActive && styles.linkActive)}
                     variants={LINK_VARIANT}
                     initial='initial'
                     whileTap='tap'
@@ -110,84 +178,17 @@ export const NavigationBar = () => {
                     }}
                   >
                     {navigation.icon}
-                    <span>{navigation.name}</span>
-                  </SC.Link>
+                    <span {...stylex.props(styles.linkSpan, isActive && styles.linkSpanActive)}>
+                      {navigation.name}
+                    </span>
+                  </motion.div>
                 </Link>
               )}
               {!is_menu_icon && navigation.icon}
-            </SC.NavigationBarTag>
+            </div>
           );
         })}
-      </SC.NavigationBar>
-    </SC.Container>
+      </motion.div>
+    </motion.nav>
   );
-};
-
-const SC = {
-  Container: styled(motion.nav)`
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 5.5rem;
-    position: fixed;
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
-    border-top: 0.1rem solid ${({ theme }) => theme.colors.gray300};
-    background-color: ${({ theme }) => theme.colors.white};
-    border-radius: 16px 16px 0 0;
-    z-index: 100;
-  `,
-  NavigationBar: styled(motion.div)`
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-
-    .active {
-      color: ${({ theme }) => theme.colors.grayPrimary};
-
-      a {
-        color: ${({ theme }) => theme.colors.red500};
-      }
-      span {
-        color: ${({ theme }) => theme.colors.red500};
-      }
-    }
-  `,
-  NavigationBarTag: styled.div`
-    letter-spacing: 0;
-    text-align: center;
-    width: 100%;
-    height: 56px;
-    line-height: 1.2em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    color: ${({ theme }) => theme.colors.grayPrimary};
-  `,
-  Link: styled(motion.div)<{ $isActive: boolean }>`
-    width: 100%;
-    line-height: 1.2rem;
-    padding: 0 4px;
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.1rem;
-
-    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.red500 : theme.colors.graySecondary)};
-
-    span {
-      margin-top: 0.4rem;
-      font-size: 1.1rem;
-      color: ${({ theme }) => theme.colors.graySecondary};
-    }
-  `,
 };

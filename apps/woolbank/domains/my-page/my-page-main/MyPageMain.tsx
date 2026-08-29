@@ -1,22 +1,23 @@
 'use client';
 
-import { styled } from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
 import { Header } from '../../../components/Header/Header';
 import { UserInfoCard } from './user-info-card/UserInfoCard';
+
+const styles = stylex.create({
+  container: {
+    paddingBlock: 0,
+    paddingInline: '1.6rem',
+  },
+});
 
 export const MyPageMain = () => {
   return (
     <>
       <Header title='나의 뱅킷리스트' />
-      <SC.Container>
+      <main {...stylex.props(styles.container)}>
         <UserInfoCard />
-      </SC.Container>
+      </main>
     </>
   );
-};
-
-const SC = {
-  Container: styled.main`
-    padding: 0 1.6rem;
-  `,
 };

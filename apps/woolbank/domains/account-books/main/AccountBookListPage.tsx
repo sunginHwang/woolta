@@ -1,11 +1,20 @@
 'use client';
 
-import styled from 'styled-components';
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { AccountBookActiveTab } from './account-book-active-tab/AccountBookActiveTab';
 import { AccountBookTabs } from './account-book-tabs/AccountBookTabs';
-import AccountCardInfo from './account-list/account-card-info/AccountCardInfo';
 import MonthStatistics from './account-list/MonthStatistics';
 import { Footer } from './footer/Footer';
+
+const styles = stylex.create({
+  main: {
+    backgroundColor: colorVars['--color-white'],
+  },
+  line: {
+    minHeight: '3rem',
+  },
+});
 
 /**
  * 가계부
@@ -16,10 +25,10 @@ const AccountBookListPage = () => {
     <>
       {/* <AccountCardInfo /> */}
       <MonthStatistics />
-      <SC.Line />
-      <SC.Main>
+      <div {...stylex.props(styles.line)} />
+      <main {...stylex.props(styles.main)}>
         <AccountBookActiveTab />
-      </SC.Main>
+      </main>
       <AccountBookTabs />
       <Footer />
     </>
@@ -27,13 +36,3 @@ const AccountBookListPage = () => {
 };
 
 export default AccountBookListPage;
-
-const SC = {
-  Main: styled.main`
-    background-color: ${({ theme }) => theme.colors.white};
-  `,
-  Line: styled.div`
-    /* background-color: ${({ theme }) => theme.colors.gray100}; */
-    min-height: 3rem;
-  `,
-};

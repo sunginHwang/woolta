@@ -1,17 +1,70 @@
 'use client';
 
 import { useScrollDirection } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import { motion } from 'motion/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
 import { useAccountBookListRouterQuery } from '../_common/hooks/useAccountBookListRouterQuery';
 
 const TAB_LIST = [
   { label: '내역', value: 'list', link: '/?type=list' },
   { label: '달력', value: 'calendar', link: '/?type=calendar' },
 ];
+
+const styles = stylex.create({
+  fixedWrapper: {
+    position: 'fixed',
+    bottom: '80px',
+    left: 0,
+    right: 0,
+    paddingBottom: 'env(safe-area-inset-bottom)',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  container: {
+    marginTop: '1rem',
+    paddingBlock: '8px',
+    paddingInline: '12px',
+  },
+  tabList: {
+    display: 'flex',
+    width: '120px',
+    padding: '2px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '32px',
+    backgroundColor: colorVars['--color-gray100'],
+    position: 'relative',
+    zIndex: 1,
+  },
+  item: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    paddingBlock: '8px',
+    paddingInline: '16px',
+    justifyContent: 'center',
+  },
+  itemLink: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  animate: {
+    position: 'absolute',
+    height: 'calc(100% - 12px)',
+    width: 'calc(50% - 16px)',
+    backgroundColor: colorVars['--color-white'],
+    borderRadius: '32px',
+    zIndex: -1,
+    margin: '8px',
+  },
+});
 
 export const AccountBookTabs = () => {
   const { activeTab } = useAccountBookListRouterQuery();
@@ -25,7 +78,8 @@ export const AccountBookTabs = () => {
   const selectedIndex = TAB_LIST.findIndex((tab) => tab.value === activeTab);
 
   return (
-    <SC.FixedWrapper
+    <motion.div
+      {...stylex.props(styles.fixedWrapper)}
       initial={{ y: 0 }}
       animate={{
         y: isShowNavigationBar ? 0 : 56,
@@ -35,21 +89,22 @@ export const AccountBookTabs = () => {
         ease: 'easeInOut',
       }}
     >
-      <SC.Container>
-        <ul>
+      <div {...stylex.props(styles.container)}>
+        <ul {...stylex.props(styles.tabList)}>
           {TAB_LIST.map(({ link, value, label }) => {
             const isActive = activeTab === value;
             return (
-              <SC.Item key={label}>
-                <Link replace href={link}>
+              <li {...stylex.props(styles.item)} key={label}>
+                <Link replace href={link} {...stylex.props(styles.itemLink)}>
                   <Text variant='title6Bold' color={isActive ? 'gray900' : 'gray500'} as='p'>
                     {label}
                   </Text>
                 </Link>
-              </SC.Item>
+              </li>
             );
           })}
-          <SC.Animate
+          <motion.div
+            {...stylex.props(styles.animate)}
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             initial={{ left: 0 }}
             animate={{
@@ -57,60 +112,7 @@ export const AccountBookTabs = () => {
             }}
           />
         </ul>
-      </SC.Container>
-    </SC.FixedWrapper>
+      </div>
+    </motion.div>
   );
-};
-
-const SC = {
-  FixedWrapper: styled(motion.div)`
-    position: fixed;
-    bottom: 80px;
-    left: 0;
-    right: 0;
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-bottom: constant(safe-area-inset-bottom);
-    display: flex;
-    justify-content: center;
-  `,
-  Container: styled.div`
-    margin-top: 1rem;
-    padding: 8px 12px;
-
-    ul {
-      display: flex;
-      width: 120px;
-      padding: 2px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 32px;
-      background-color: ${({ theme }) => theme.colors.gray100};
-      position: relative;
-      z-index: 1;
-    }
-  `,
-  Item: styled.li`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    justify-content: center;
-
-    a {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  `,
-  Animate: styled(motion.div)`
-    position: absolute;
-    height: calc(100% - 12px);
-    width: calc(50% - 16px);
-    background-color: white;
-    border-radius: 32px;
-    z-index: -1;
-    margin: 8px;
-  `,
 };

@@ -1,6 +1,7 @@
 import React, { FC, useRef } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
-import styled, { useTheme } from 'styled-components';
+import { red500 } from '@wds';
+import styled from 'styled-components';
 
 import { IconCircleCheck } from '../../../../../components/atom/Icon';
 import { Header } from '../../../../../components/Header/Header';
@@ -12,7 +13,6 @@ interface Props {
 }
 
 export const ImageCrop: FC<Props> = ({ url, onBackClick, onCrop }) => {
-  const { colors } = useTheme();
   const cropperRef = useRef<ReactCropperElement>(null);
 
   /**
@@ -32,7 +32,7 @@ export const ImageCrop: FC<Props> = ({ url, onBackClick, onCrop }) => {
         title='이미지 편집'
         right={
           <i onClick={onCompleteCrop}>
-            <IconCircleCheck fill={colors.red500} />
+            <IconCircleCheck fill={red500} />
           </i>
         }
         onBackClick={onBackClick}

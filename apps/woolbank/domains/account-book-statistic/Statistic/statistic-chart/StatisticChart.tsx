@@ -1,6 +1,6 @@
 import { ResponsivePie } from '@nivo/pie';
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
-import { styled } from 'styled-components';
 import { EmptyInfo } from '../../../../components/empty-info/EmptyInfo';
 import { useAccountStatisticList } from '../_common/hooks/useAccountStatisticList';
 import { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
@@ -39,6 +39,17 @@ export interface AccountBookChartData {
   list: AccountBookStatisticCategoryItem[];
 }
 
+const styles = stylex.create({
+  container: {
+    height: '30rem',
+  },
+  piechart: {
+    width: '100%',
+    height: '100%',
+    marginTop: '-3rem',
+  },
+});
+
 /**
  * 가계부 통계 - 차트 (파이)
  * @component
@@ -64,11 +75,11 @@ const StatisticChart = () => {
 
   return (
     <>
-      <SC.Container>
+      <div {...stylex.props(styles.container)}>
         <Text variant='title2Bold' color='gray900' ml={16} mt={20} as='h3'>
           카테고리 통계
         </Text>
-        <div className='piechart'>
+        <div {...stylex.props(styles.piechart)}>
           <ResponsivePie
             data={accountBookChartList}
             colors={{ datum: 'data.color' }}
@@ -91,7 +102,7 @@ const StatisticChart = () => {
             arcLabelsTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
           />
         </div>
-      </SC.Container>
+      </div>
       <StatisticList accountBookChartList={accountBookChartList} />
     </>
   );
@@ -109,15 +120,3 @@ function getLabel(e: any) {
 function getInnerLabel(e: any) {
   return e.data.percentage;
 }
-
-const SC = {
-  Container: styled.div`
-    height: 30rem;
-
-    .piechart {
-      width: 100%;
-      height: 100%;
-      margin-top: -3rem;
-    }
-  `,
-};

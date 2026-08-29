@@ -1,7 +1,8 @@
+import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import React, { InvalidEvent } from 'react';
-import styled, { useTheme } from 'styled-components';
 import { IconCircleCheck } from '../../../../components/atom/Icon';
 import { CardItem } from '../../../../components/card-item/CardItem';
 import { getRemainDays } from '../../../../utils/date';
@@ -13,13 +14,52 @@ interface Props {
   useSideMargin?: boolean;
 }
 
+const styles = stylex.create({
+  bucketListItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  firstDiv: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  lastDiv: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    minWidth: '6rem',
+  },
+  thumbImage: {
+    width: '5rem',
+    height: '5rem',
+    borderRadius: '50%',
+    borderWidth: '0.1rem',
+    borderStyle: 'solid',
+    borderColor: colorVars['--color-gray600'],
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '1.4rem',
+  },
+  circle: {
+    width: '5.2rem',
+    height: '5.2rem',
+    minWidth: '5.2rem',
+    minHeight: '5.2rem',
+    backgroundColor: '#e6a3a2',
+    borderRadius: '50%',
+  },
+});
+
 /**
  * 버킷리스트 아이템
  * @component
  */
 export const BucketListItem = Object.assign(
   ({ bucketList, useSideMargin = false }: Props) => {
-    const { colors } = useTheme();
     const remainDate = getRemainDays(new Date(), bucketList.completeDate);
     const remainTodoCount = bucketList.todoCount - bucketList.completeTodoCount;
     const remainTodoCountMsg =
@@ -34,76 +74,39 @@ export const BucketListItem = Object.assign(
     return (
       <Link href={`/bucket-list/${bucketList.id}`}>
         <CardItem useSideMargin={useSideMargin}>
-          <SC.BucketListItem data-cy='bucketItem'>
-            <div>
+          <div {...stylex.props(styles.bucketListItem)} data-cy='bucketItem'>
+            <div {...stylex.props(styles.firstDiv)}>
               {bucketList.thumbImageUrl ? (
-                <img src={bucketList.thumbImageUrl} alt='버킷리스트 썸네일 이미지' onError={handleImageFallback} />
+                <img
+                  {...stylex.props(styles.thumbImage)}
+                  src={bucketList.thumbImageUrl}
+                  alt='버킷리스트 썸네일 이미지'
+                  onError={handleImageFallback}
+                />
               ) : (
-                <SC.Circle />
+                <div {...stylex.props(styles.circle)} />
               )}
-              <SC.Content>
+              <div {...stylex.props(styles.content)}>
                 <Text variant='body4Bold' color='gray900' as='p'>
                   {bucketList.title}
                 </Text>
                 <Text variant='small1Medium' color='gray400' mt={3}>
                   {remainTodoCountMsg}
                 </Text>
-              </SC.Content>
+              </div>
             </div>
-            <div>
-              {isExpireDday && <IconCircleCheck fill={colors.red500} width={24} height={24} />}
+            <div {...stylex.props(styles.lastDiv)}>
+              {isExpireDday && <IconCircleCheck fill='#f03e3e' width={24} height={24} />}
               {!isExpireDday && (
                 <Text variant='title4Bold' color='red500'>
                   D-{remainDate}
                 </Text>
               )}
             </div>
-          </SC.BucketListItem>
+          </div>
         </CardItem>
       </Link>
     );
   },
   { Skeleton: ItemSkeleton },
 );
-
-const SC = {
-  BucketListItem: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    > div {
-      display: flex;
-      align-items: center;
-
-      &:first-child {
-        justify-content: flex-start;
-      }
-
-      &:last-child {
-        justify-content: flex-end;
-        min-width: 6rem;
-      }
-    }
-
-    img {
-      width: 5rem;
-      height: 5rem;
-      border-radius: 50%;
-      border: 0.1rem solid ${({ theme }) => theme.colors.gray600};
-    }
-  `,
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 1.4rem;
-  `,
-  Circle: styled.div`
-    width: 5.2rem;
-    height: 5.2rem;
-    min-width: 5.2rem;
-    min-height: 5.2rem;
-    background-color: #e6a3a2;
-    border-radius: 50%;
-  `,
-};

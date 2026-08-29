@@ -1,6 +1,33 @@
+import * as stylex from '@stylexjs/stylex';
+import { colorVars } from '@wds/tokens.stylex';
 import { useAtomValue } from 'jotai';
-import styled from 'styled-components';
 import { toastAtom } from '../../../store/layout';
+
+const styles = stylex.create({
+  toast: {
+    position: 'fixed',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    zIndex: 999,
+  },
+  inner: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  message: {
+    backgroundColor: '#666666',
+    paddingBlock: '1rem',
+    paddingInline: '1.8rem',
+    color: colorVars['--color-white'],
+    fontSize: '1.4rem',
+    borderRadius: '6.5rem',
+  },
+});
 
 /**
  * 공통 - 토스트 메세지
@@ -15,37 +42,10 @@ export const Toast = () => {
   }
 
   return (
-    <S.Toast>
-      <div>
-        <p>{toast}</p>
+    <div {...stylex.props(styles.toast)}>
+      <div {...stylex.props(styles.inner)}>
+        <p {...stylex.props(styles.message)}>{toast}</p>
       </div>
-    </S.Toast>
+    </div>
   );
-};
-
-const S = {
-  Toast: styled.div`
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 999;
-
-    > div {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        background-color: #666666;
-        padding: 1rem 1.8rem;
-        color: ${({ theme }) => theme.colors.white};
-        font-size: 1.4rem;
-        border-radius: 6.5rem;
-      }
-    }
-  `,
 };

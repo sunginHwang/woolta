@@ -1,11 +1,12 @@
 import { useEventListener, useToggle } from '@common';
+import * as stylex from '@stylexjs/stylex';
 import { SkeletonBar } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
 import debounce from 'lodash-es/debounce';
 import { useParams, useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
-import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import { IconDownHorizontal } from '../../../../components/atom/Icon';
+import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 
 import { Header } from '../../../../components/Header/Header';
 import { Progress } from '../../../../components/progress/Progress';
@@ -23,6 +24,41 @@ const BOTTOM_SHEET_MENUS = [
   },
 ];
 
+const styles = stylex.create({
+  imageInfo: {
+    backgroundColor: colorVars['--color-gray800'],
+    backgroundSize: 'cover',
+    width: '100%',
+    height: '40vh',
+  },
+  innerDiv: {
+    height: '100%',
+    paddingBlock: 0,
+    paddingInline: '3rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  h2Title: {
+    fontSize: '2.2rem',
+    color: colorVars['--color-white'],
+    marginBottom: '8vh',
+    textAlign: 'center',
+    width: '80%',
+  },
+  progressWrapper: {
+    marginBottom: '5vh',
+  },
+});
+
+const dynamicStyles = stylex.create({
+  bgImage: (imgUrl: string) => ({
+    background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url(${imgUrl}), no-repeat`,
+    backgroundSize: 'cover',
+  }),
+});
+
 /**
  * 버킷리스트 상세 - 헤더 정보
  * @component
@@ -34,7 +70,6 @@ export const HeaderInfo = () => {
     isFetching,
     removeBucket,
   } = useBucket();
-  const { colors } = useTheme();
   const { push } = useRouter();
   const imgRef = useRef<HTMLDivElement>(null);
   const { bucketId } = useParams() as { bucketId: string };
@@ -63,7 +98,7 @@ export const HeaderInfo = () => {
   };
 
   const fixedHeaderMsg = isShowFixedHeader ? title : '';
-  const headerIconColor = isShowFixedHeader ? colors.red500 : colors.white;
+  const headerIconColor = isShowFixedHeader ? '#f03e3e' : '#FFFFFF';
   // 목표 날짜 까지 남은 기간
   const remainDay = getRemainDays(new Date(now), new Date(completeDate));
   // 목표 날짜 까지 이룬 %
@@ -84,12 +119,17 @@ export const HeaderInfo = () => {
         position='fixed'
         useSkeleton={!isShowFixedHeader}
       />
-      <SC.ImageInfo ref={imgRef} $imgUrl={imageUrl ?? ''}>
-        <div>
-          {isFetching ? <SkeletonBar width='15rem' height='4.4rem' /> : <h2>{title}</h2>}
-          <Progress label={remainDay} labelPrefix='D-' percent={remainPercent} color={colors.red500} />
+      <div
+        {...stylex.props(styles.imageInfo, dynamicStyles.bgImage(imageUrl ?? ''))}
+        ref={imgRef}
+      >
+        <div {...stylex.props(styles.innerDiv)}>
+          {isFetching ? <SkeletonBar width='15rem' height='4.4rem' /> : <h2 {...stylex.props(styles.h2Title)}>{title}</h2>}
+          <div {...stylex.props(styles.progressWrapper)}>
+            <Progress label={remainDay} labelPrefix='D-' percent={remainPercent} color='#f03e3e' />
+          </div>
         </div>
-      </SC.ImageInfo>
+      </div>
       <BottomSheet.Menu
         visible={showMenuModal}
         menus={sheet_menus}
@@ -108,33 +148,3 @@ function getScrollTop() {
     : document.body.scrollTop;
   return scrollTop;
 }
-
-const SC = {
-  ImageInfo: styled.div<{ $imgUrl: string }>`
-    background-color: ${({ theme }) => theme.colors.gray800};
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url(${({ $imgUrl }) => $imgUrl}), no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 40vh;
-    > div {
-      height: 100%;
-      padding: 0 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-
-      > h2 {
-        font-size: 2.2rem;
-        color: ${({ theme }) => theme.colors.white};
-        margin-bottom: 8vh;
-        text-align: center;
-        width: 80%;
-      }
-
-      > div {
-        margin-bottom: 5vh;
-      }
-    }
-  `,
-};
