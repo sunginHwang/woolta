@@ -1,14 +1,54 @@
 'use client';
 
-import { Text, typography } from '@wds';
+import * as stylex from '@stylexjs/stylex';
+import { Text } from '@wds';
+import { colorVars } from '@wds/tokens.stylex';
+import { typographyStyles } from '@wds/typography.stylex';
 import { useSetAtom } from 'jotai';
 import { useParams, useRouter } from 'next/navigation';
-import { styled } from 'styled-components';
 import { useUserInfo } from '../../_shared/hooks/useUserInfo';
 import { useBlogRoutes } from '../../_shared/routes';
 import { setPostAtom } from '../../_shared/write-store';
 import { useDeletePost } from '../hooks/useDeletePost';
 import { usePost } from '../hooks/usePost';
+
+const styles = stylex.create({
+  container: {
+    borderBottomWidth: '0.1rem',
+    borderBottomStyle: 'solid',
+    borderBottomColor: colorVars['--color-bgSecondary'],
+  },
+  heading: {
+    textAlign: 'center',
+    wordBreak: 'break-word',
+    fontWeight: 500,
+    fontSize: '2.6rem',
+    lineHeight: 1.2,
+    marginTop: '3rem',
+    marginBottom: '5rem',
+    marginInline: 0,
+    color: colorVars['--color-grayPrimary'],
+  },
+  subInfo: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '2rem',
+  },
+  titleButton: {
+    cursor: 'pointer',
+    textAlign: 'center',
+    width: '6rem',
+    float: 'right',
+    padding: '0.5rem',
+  },
+  authorImg: {
+    marginRight: '1rem',
+    width: '3rem',
+    height: '3rem',
+    borderRadius: '50%',
+    verticalAlign: 'middle',
+  },
+});
 
 export const Title = () => {
   const { push } = useRouter();
@@ -48,63 +88,26 @@ export const Title = () => {
   const { writer, title, categoryLabel, createdAt } = post;
 
   return (
-    <SC.Container>
-      <h1>{title}</h1>
-      <SC.SubInfo>
+    <div {...stylex.props(styles.container)}>
+      <h1 {...stylex.props(styles.heading)}>{title}</h1>
+      <div {...stylex.props(styles.subInfo)}>
         <div>
-          <SC.AuthorImg src={writer.imageUrl} alt='wooltaUserImg' />
+          <img {...stylex.props(styles.authorImg)} src={writer.imageUrl} alt='wooltaUserImg' />
           <Text variant='small1Regular' color='graySecondary'>
             {categoryLabel} | {createdAt}
           </Text>
         </div>
         {isLogin && (
           <div>
-            <SC.TitleButton onClick={handleModifyClick}>수정</SC.TitleButton>
-            <SC.TitleButton onClick={handleDeleteClick}>삭제</SC.TitleButton>
+            <div {...stylex.props(typographyStyles.body2, styles.titleButton)} onClick={handleModifyClick}>
+              수정
+            </div>
+            <div {...stylex.props(typographyStyles.body2, styles.titleButton)} onClick={handleDeleteClick}>
+              삭제
+            </div>
           </div>
         )}
-      </SC.SubInfo>
-    </SC.Container>
+      </div>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.bgSecondary};
-
-    h1 {
-      text-align: center;
-      word-break: break-word;
-      font-weight: 500;
-      font-size: 2.6rem;
-      line-height: 1.2;
-      margin: 3rem 0 5rem;
-      color: ${({ theme }) => theme.colors.grayPrimary};
-    }
-  `,
-  SubInfo: styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-
-    img {
-      width: 3rem;
-      height: 3rem;
-    }
-  `,
-  TitleButton: styled.div`
-    ${typography.body2}
-    cursor: pointer;
-    text-align: center;
-    width: 6rem;
-    float: right;
-    padding: 0.5rem;
-  `,
-  AuthorImg: styled.img`
-    margin-right: 1rem;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    vertical-align: middle;
-  `,
 };

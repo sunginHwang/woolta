@@ -1,30 +1,27 @@
 'use client';
 
-import { styled } from 'styled-components';
-import layouts from '../_shared/layouts';
+import * as stylex from '@stylexjs/stylex';
 import { Content } from './content/Content';
 import { Title } from './title/Title';
 
+const styles = stylex.create({
+  container: {
+    textAlign: 'left',
+    marginTop: '3.2rem',
+    paddingBlock: 0,
+    paddingInline: {
+      default: 0,
+      '@media (max-width: 1024px)': '2rem',
+      '@media (max-width: 450px)': '1.6rem',
+    },
+  },
+});
+
 export const Post = () => {
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <Title />
       <Content />
-    </SC.Container>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    text-align: left;
-    margin-top: 3.2rem;
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      padding: 0 2rem 0 2rem;
-    }
-
-    @media screen and (max-width: ${layouts.phoneWidth}) {
-      padding: 0 1.6rem 0 1.6rem;
-    }
-  `,
 };

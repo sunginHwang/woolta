@@ -1,8 +1,7 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { FC } from 'react';
-import { styled } from 'styled-components';
-import layouts from '../_shared/layouts';
 import { IPost } from '../_shared/types/IPost';
 import PostListItem from './PostListItem';
 import { PostListSkeleton } from './PostListSkeleton';
@@ -12,37 +11,38 @@ interface Props {
   isLoading?: boolean;
 }
 
+const styles = stylex.create({
+  container: {
+    maxWidth: '1200px',
+    marginBlock: 0,
+    marginInline: 'auto',
+    paddingLeft: {
+      default: 0,
+      '@media (max-width: 1024px)': '2rem',
+      '@media (max-width: 450px)': '1rem',
+    },
+    paddingRight: {
+      default: 0,
+      '@media (max-width: 1024px)': '2rem',
+      '@media (max-width: 450px)': '1rem',
+    },
+  },
+});
+
 const PostList: FC<Props> = ({ post_list = [], isLoading }) => {
   if (isLoading) {
     return <PostListSkeleton />;
   }
 
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       {post_list.map((post) => (
         <PostListItem key={post.postNo} post={post} />
       ))}
-    </SC.Container>
+    </div>
   );
 };
 
 export default Object.assign(PostList, {
   Skeleton: PostListSkeleton,
 });
-
-const SC = {
-  Container: styled.div`
-    max-width: ${layouts.contentMaxWidth};
-    margin: 0 auto;
-
-    @media screen and (max-width: ${layouts.mobileWidth}) {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-
-    @media screen and (max-width: ${layouts.phoneWidth}) {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-  `,
-};

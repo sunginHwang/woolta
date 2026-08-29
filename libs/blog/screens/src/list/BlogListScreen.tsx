@@ -1,13 +1,19 @@
 'use client';
 
 import { PostListSkeleton, RecentPostList } from '@blog/features';
+import * as stylex from '@stylexjs/stylex';
 import { Suspense } from 'react';
-import { styled } from 'styled-components';
 
 interface Props {
   /** 서버 prefetch 용 카테고리 값. 클라이언트에서는 searchParams 로 읽는다 */
   category?: string;
 }
+
+const styles = stylex.create({
+  container: {
+    marginTop: '2rem',
+  },
+});
 
 /**
  * 블로그 리스트 스크린.
@@ -15,16 +21,10 @@ interface Props {
  */
 export function BlogListScreen({ category: _category }: Props) {
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <Suspense fallback={<PostListSkeleton />}>
         <RecentPostList />
       </Suspense>
-    </SC.Container>
+    </div>
   );
 }
-
-const SC = {
-  Container: styled.div`
-    margin-top: 2rem;
-  `,
-};

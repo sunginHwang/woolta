@@ -1,27 +1,27 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import { Suspense } from 'react';
-import { styled } from 'styled-components';
 import { ChipsLoading } from '../../_shared/chips/ChipsLoading';
 import { Categories } from './Categories';
 import { Content } from './Content';
 import { Title } from './Title';
 
+const styles = stylex.create({
+  container: {
+    width: '100%',
+    height: '100%',
+  },
+});
+
 export const PostEditor = () => {
   return (
-    <SC.Container>
+    <div {...stylex.props(styles.container)}>
       <Title />
       <Suspense fallback={<ChipsLoading />}>
         <Categories />
       </Suspense>
       <Content />
-    </SC.Container>
+    </div>
   );
-};
-
-const SC = {
-  Container: styled.div`
-    width: 100%;
-    height: 100%;
-  `,
 };
