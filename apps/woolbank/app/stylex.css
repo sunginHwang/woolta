@@ -1,2 +1,11 @@
+/*
+ * 레이어 우선순위 선언이 먼저 와야 한다.
+ * StyleX(useCSSLayers)는 CSS 를 @layer priority* 안에 넣는데, 레이어 밖 스타일은
+ * 레이어 안 스타일을 항상 이긴다. 전역 리셋(`* { margin: 0 }` 등)을 레이어 밖에 두면
+ * 컴포넌트의 StyleX 여백을 전부 덮어버리므로, 여기서 app-base 를 먼저 선언해
+ * StyleX 레이어보다 낮은 우선순위로 고정한다. global.css 가 이 레이어를 쓴다.
+ */
+@layer app-base;
+
 /* @stylexswc/postcss-plugin이 이 지시자를 추출된 StyleX CSS로 치환한다 */
 @stylex;
