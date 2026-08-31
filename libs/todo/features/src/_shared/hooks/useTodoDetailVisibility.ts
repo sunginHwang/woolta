@@ -17,7 +17,7 @@ export const useTodoDetailVisibility = () => {
     showDetail: () => setDetailVisible(true),
     hideDetail: () => setDetailVisible(false),
     toggleDetail: toggleDetailVisible,
-    /** 선택 해제 + 패널 닫기 (앱 진입/리스트 전환 시 초기화용) */
+    /** 선택 해제 + 패널은 빈 상태로 유지 (앱 진입/리스트 전환 시 초기화용) */
     clearDetail,
   };
 };

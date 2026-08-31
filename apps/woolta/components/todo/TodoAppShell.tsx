@@ -4,7 +4,7 @@ import { useIsomorphicLayoutEffect } from '@common';
 import { useTodoDetailVisibility } from '@todo/features';
 import { TodoDetailScreen, TodoSidebarScreen } from '@todo/screens';
 import { usePathname } from 'next/navigation';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import SplitPane from '../split-pane/SplitPane';
 
 interface Props {
@@ -16,7 +16,7 @@ export const TodoAppShell = ({ children }: Props) => {
   const { isDetailVisible, clearDetail } = useTodoDetailVisibility();
   const pathname = usePathname();
 
-  // 앱 진입/사이드바 리스트 전환(경로 변경) 시 우측 상세 패널을 초기화한다.
+  // 앱 진입/사이드바 리스트 전환(경로 변경) 시 선택을 해제해 우측 패널을 빈 상태로 되돌린다.
   // 셸은 상세 토글 시 리마운트되지 않으므로 할 일 선택에는 영향을 주지 않는다.
   useIsomorphicLayoutEffect(() => {
     clearDetail();

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { combine, persist } from 'zustand/middleware';
-import { Todo, TodoCategory, TodoPriority, TodoViewMode } from '../types';
+import type { Todo, TodoCategory, TodoPriority, TodoViewMode } from '../types';
 
 const createTodoId = (prefix: string) => {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -151,7 +151,8 @@ export const useTodoStore = create(
           set({ isDetailVisible });
         },
         clearDetail: () => {
-          set({ selectedTodoId: null, isDetailVisible: false });
+          // 패널을 숨기지 않고 빈 상태(EmptyView)를 노출하기 위해 선택만 해제한다.
+          set({ selectedTodoId: null, isDetailVisible: true });
         },
         toggleDetailVisible: () => {
           set((state) => ({ isDetailVisible: !state.isDetailVisible }));

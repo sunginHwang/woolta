@@ -4,6 +4,7 @@ import { useIsomorphicLayoutEffect } from '@common';
 import { selectedAccountBookIdAtom } from '@woolta/woolbank-features';
 import { AccountBookDetailPanel, AccountBookMainScreen } from '@woolta/woolbank-screens';
 import { useSetAtom } from 'jotai';
+import { PanelOverlayHost } from '../overlay-host/PanelOverlayHost';
 import SplitPane from '../split-pane/SplitPane';
 
 /**
@@ -24,7 +25,12 @@ export const BankApp = () => {
       minLeftWidth={400}
       maxLeftWidth={760}
       left={<AccountBookMainScreen />}
-      right={<AccountBookDetailPanel />}
+      right={
+        // 상세 폼에서 열리는 딤/바텀싯을 우측 패널 안에서만 노출한다.
+        <PanelOverlayHost targetId='bank-detail-overlay'>
+          <AccountBookDetailPanel />
+        </PanelOverlayHost>
+      }
     />
   );
 };

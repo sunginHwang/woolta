@@ -1,4 +1,4 @@
-import { Todo, TodoCategory } from '../types';
+import type { Todo, TodoCategory } from '../types';
 import { useTodoStore } from './useTodoStore';
 
 const baseTodo: Todo = {
@@ -194,9 +194,9 @@ describe('useTodoStore 테스트', () => {
   });
 
   describe('clearDetail 테스트', () => {
-    it('clearDetail 을 호출하면 선택이 해제되고 상세 패널이 닫힌다.', () => {
+    it('clearDetail 을 호출하면 선택이 해제되고 상세 패널은 빈 상태로 열려 있다.', () => {
       // Given
-      useTodoStore.setState({ selectedTodoId: 'todo-1', isDetailVisible: true });
+      useTodoStore.setState({ selectedTodoId: 'todo-1', isDetailVisible: false });
 
       // When
       useTodoStore.getState().clearDetail();
@@ -204,7 +204,7 @@ describe('useTodoStore 테스트', () => {
       // Then
       const { selectedTodoId, isDetailVisible } = useTodoStore.getState();
       expect(selectedTodoId).toBeNull();
-      expect(isDetailVisible).toBe(false);
+      expect(isDetailVisible).toBe(true);
     });
   });
 });
