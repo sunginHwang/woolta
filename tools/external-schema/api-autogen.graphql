@@ -16,9 +16,15 @@ type Query {
   articleList(categoryId: String): ArticleList!
   bucketList(id: ID!): BucketList
   bucketListSummaryList(limitCount: Int): BucketListSummaryList!
+  """
+  기간과 겹치는 일정 — 내 일정 + 공유 수락된 상대의 일정.
+  겹침 판정은 startAt < range.endAt AND endAt > range.startAt.
+  """
+  calendarEventList(input: CalendarEventRangeInput!): CalendarEventList!
+  """공유 현황 — 수락된 관계 + 내가 보낸 대기 중 초대"""
+  calendarShareList: CalendarShareList!
   categoryList: CategoryList!
   checkAccess: Int!
-  checkToken: CheckTokenResult!
   getAccountBookStatisticList(endDate: DateTime!, startDate: DateTime!, type: AccountBookCategoryType!): StatisticList!
   getAccountLastUpdatedDate: DateTime!
   getBucketListItemLastUpdatedDate(id: ID!): DateTime!
@@ -29,6 +35,8 @@ type Query {
   me: UserInfo!
   memo(id: String!): Memo
   memoList: MemoList!
+  """내가 받은 대기 중 초대. 로그인 직후 알림 배지에 쓴다"""
+  pendingCalendarShareList: CalendarShareList!
   post(categoryNo: Int!, postNo: Int!): Post
   postList(categoryId: Int): PostList!
   regularExpenditureGroupList(limitCount: Int): RegularExpenditureGroupList!
@@ -40,17 +48,19 @@ type Query {
 
 type Mutation {
   addArticleToCuration(input: AddArticleToCurationInput!): WeeklyCuration!
-  checkRefreshToken(input: CheckRefreshTokenInput!): AuthTokens!
+  cancelCalendarShare(input: CancelCalendarShareInput!): Boolean!
   completeAccountExpiration(input: CompleteAccountExpirationInput!): Boolean!
   completeBucketList(input: CompleteBucketListInput!): Boolean!
   completeTodo(input: CompleteTodoInput!): Todo!
   createAccount(input: CreateAccountInput!): Account!
   createAccountBook(input: CreateAccountBookInput!): AccountBook!
   createAccountBookCategory(input: CreateAccountBookCategoryInput!): AccountBookCategory!
+  createAccountBookList(input: CreateAccountBookListInput!): CreateAccountBookListResult!
   createArticle(input: CreateArticleInput!): Article!
   createArticleCategory(input: CreateArticleCategoryInput!): ArticleCategory!
   createBucketList(input: CreateBucketListInput!): BucketList!
   createBucketListTodo(input: CreateBucketListTodoInput!): BucketListTodo!
+  createCalendarEvent(input: CreateCalendarEventInput!): CalendarEvent!
   createDeposit(input: CreateDepositInput!): Deposit!
   createMemo: Memo!
   createPost(input: CreatePostInput!): PostUpsertResult!
@@ -64,6 +74,7 @@ type Mutation {
   deleteArticleCategory(input: DeleteArticleCategoryInput!): Boolean!
   deleteBucketList(input: DeleteBucketListInput!): Boolean!
   deleteBucketListTodo(input: DeleteBucketListTodoInput!): Boolean!
+  deleteCalendarEvent(input: DeleteCalendarEventInput!): Boolean!
   deleteMemo(input: DeleteMemoInput!): Boolean!
   deletePost(input: DeletePostInput!): Boolean!
   deleteRegularExpenditure(input: DeleteRegularExpenditureInput!): Boolean!
@@ -73,10 +84,14 @@ type Mutation {
   importArticleList(input: ImportArticleListInput!): ArticleImportResult!
   importMemoList(input: ImportMemoListInput!): MemoImportResult!
   importTodoList(input: ImportTodoListInput!): TodoImportResult!
-  loginByShareCode(input: LoginByShareCodeInput!): LoginResult!
-  loginBySocial(input: LoginBySocialInput!): LoginResult!
+  loginByShareCode(input: LoginByShareCodeInput!): UserInfo!
+  loginBySocial(input: LoginBySocialInput!): UserInfo!
   logout: Boolean!
+  """refresh 쿠키로 세션 갱신(회전). 토큰 값은 인자로도 응답으로도 오가지 않고 쿠키로만 처리된다."""
+  refreshSession: Boolean!
   removeArticleFromCuration(input: RemoveArticleFromCurationInput!): WeeklyCuration!
+  requestCalendarShare(input: RequestCalendarShareInput!): RequestCalendarShareResult!
+  respondCalendarShare(input: RespondCalendarShareInput!): CalendarShare!
   restoreTodo(input: RestoreTodoInput!): Todo!
   sendPushToAll(input: SendPushToAllInput!): Boolean!
   subscribeWebPush(input: SubscribeWebPushInput!): Boolean!
@@ -87,6 +102,7 @@ type Mutation {
   updateArticleCategory(input: UpdateArticleCategoryInput!): ArticleCategory!
   updateBucketList(input: UpdateBucketListInput!): BucketList!
   updateBucketListTodoComplete(input: UpdateBucketListTodoCompleteInput!): BucketListTodo!
+  updateCalendarEvent(input: UpdateCalendarEventInput!): CalendarEvent!
   updateMemo(input: UpdateMemoInput!): Memo!
   updatePost(input: UpdatePostInput!): PostUpsertResult!
   updateTodo(input: UpdateTodoInput!): Todo!
@@ -233,11 +249,6 @@ input ArticleSeoInput {
   title: String
 }
 
-type AuthTokens {
-  accessToken: String!
-  refreshToken: String!
-}
-
 type BucketList {
   completeDate: DateTime!
   createdAt: DateTime!
@@ -286,6 +297,80 @@ input BucketListTodoInput {
   title: String!
 }
 
+"""
+일정. startAt/endAt 은 UTC 로 오가고 표시 시간대 변환은 클라이언트가 한다.
+endAt 은 exclusive — 종일 일정 8/1 하루는 endAt = 8/2 00:00 (FullCalendar 종일 end 규약과 동일).
+"""
+type CalendarEvent {
+  """UI 색상 토큰 키. null 이면 기본색"""
+  color: String
+  createdAt: DateTime!
+  description: String
+  endAt: DateTime!
+  id: String!
+  isAllDay: Boolean!
+  """내가 소유한 일정인지. false 면 읽기 전용(공유는 읽기 전용이다)"""
+  isMine: Boolean!
+  """소유자 — 공유받은 일정은 내 일정과 구분해 표시해야 한다"""
+  owner: CalendarUser!
+  startAt: DateTime!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type CalendarEventList {
+  itemList: [CalendarEvent!]!
+  totalCount: Int!
+}
+
+input CalendarEventRangeInput {
+  """조회 끝 (exclusive)"""
+  endAt: DateTime!
+  """조회 시작 (inclusive)"""
+  startAt: DateTime!
+}
+
+"""
+공유 관계 1행. 양방향이라 수락되면 두 사람이 서로의 일정을 본다(읽기 전용).
+counterpart 는 항상 '나' 의 반대편이고, isOutgoing 으로 내가 보낸 초대인지 구분한다.
+"""
+type CalendarShare {
+  counterpart: CalendarUser!
+  createdAt: DateTime!
+  id: Int!
+  """내가 보낸 초대인지 여부. false 면 내가 받은 초대(= 내가 수락/거절 권한자)"""
+  isOutgoing: Boolean!
+  respondedAt: DateTime
+  status: CalendarShareStatus!
+}
+
+type CalendarShareList {
+  itemList: [CalendarShare!]!
+  totalCount: Int!
+}
+
+enum CalendarShareStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
+}
+
+"""공유 상대/소유자 표시에 필요한 최소 사용자 정보"""
+type CalendarUser {
+  email: String!
+  id: Int!
+  name: String!
+  profileImg: String!
+}
+
+"""
+공유 해제/취소. 대기 중 초대는 보낸 사람이 취소하고,
+수락된 공유는 양쪽 누구나 해제할 수 있다.
+"""
+input CancelCalendarShareInput {
+  id: Int!
+}
+
 type Category {
   label: String!
   value: Int!
@@ -294,15 +379,6 @@ type Category {
 type CategoryList {
   itemList: [Category!]!
   totalCount: Int!
-}
-
-input CheckRefreshTokenInput {
-  refreshToken: String!
-}
-
-type CheckTokenResult {
-  authTokens: AuthTokens!
-  userInfo: UserInfo!
 }
 
 input CompleteAccountExpirationInput {
@@ -336,6 +412,31 @@ input CreateAccountBookInput {
   scheduledPaymentType: ScheduledPaymentType
   title: String!
   type: AccountBookCategoryType!
+}
+
+input CreateAccountBookItemInput {
+  amount: Int!
+  categoryId: Int!
+  isDisabledBudget: Boolean
+  memo: String
+  registerDateTime: DateTime!
+  title: String!
+  type: AccountBookCategoryType!
+}
+
+"""
+카드 내역서 벌크 등록. 항목은 단건 생성과 같은 입력을 쓴다.
+정기지출/할부(scheduledPayment*)는 받지 않는다 — 내역서 한 줄은 이미 승인된 개별 거래이고,
+벌크로 정기지출을 만들면 같은 지출이 매달 자동 생성돼 중복이 된다.
+"""
+input CreateAccountBookListInput {
+  itemList: [CreateAccountBookItemInput!]!
+}
+
+type CreateAccountBookListResult {
+  """실제로 저장된 건수"""
+  createdCount: Int!
+  itemList: [AccountBook!]!
 }
 
 input CreateAccountInput {
@@ -372,6 +473,15 @@ input CreateBucketListInput {
 input CreateBucketListTodoInput {
   bucketListId: Int!
   isComplete: Boolean!
+  title: String!
+}
+
+input CreateCalendarEventInput {
+  color: String
+  description: String
+  endAt: DateTime!
+  isAllDay: Boolean
+  startAt: DateTime!
   title: String!
 }
 
@@ -446,6 +556,10 @@ input DeleteBucketListInput {
 
 input DeleteBucketListTodoInput {
   todoId: ID!
+}
+
+input DeleteCalendarEventInput {
+  id: String!
 }
 
 input DeleteMemoInput {
@@ -559,16 +673,14 @@ input LoginByShareCodeInput {
 
 input LoginBySocialInput {
   email: String
-  imageUrl: String!
+  imageUrl: String
   loginType: SocialLoginType!
   name: String
-  socialId: String!
-}
-
-type LoginResult {
-  accessToken: String!
-  refreshToken: String!
-  user: UserInfo!
+  """
+  provider가 발급한 토큰. GOOGLE = id_token, KAKAO_TALK / FACEBOOK = access token.
+  서버가 provider에 되물어 검증하며, 여기서 확인된 식별자만 socialId로 쓴다.
+  """
+  token: String!
 }
 
 type MainInfo {
@@ -665,6 +777,41 @@ type RegularExpenditureGroupList {
 input RemoveArticleFromCurationInput {
   articleId: String!
   weekKey: String!
+}
+
+input RequestCalendarShareInput {
+  """초대할 상대의 가입 이메일"""
+  email: String!
+}
+
+"""
+초대 결과. 실패도 에러가 아닌 코드로 돌려준다 — 화면이 상황별 안내를 띄워야 하고,
+'이미 공유 중' 같은 건 예외 상황이 아니기 때문이다.
+"""
+type RequestCalendarShareResult {
+  code: RequestCalendarShareResultCode!
+  """성사된 경우에만 채워진다"""
+  share: CalendarShare
+}
+
+enum RequestCalendarShareResultCode {
+  """상대가 이미 나를 초대해 둬서 즉시 수락 처리했다"""
+  ACCEPTED_MUTUAL
+  """내가 보낸 초대가 이미 대기 중이다"""
+  ALREADY_PENDING
+  """이미 공유 중이다"""
+  ALREADY_SHARED
+  """초대를 새로 보냈다"""
+  REQUESTED
+  """자기 자신은 초대할 수 없다"""
+  SELF
+  """가입되지 않은 이메일이다"""
+  USER_NOT_FOUND
+}
+
+input RespondCalendarShareInput {
+  id: Int!
+  isAccepted: Boolean!
 }
 
 input RestoreTodoInput {
@@ -810,6 +957,16 @@ input UpdateBucketListInput {
 input UpdateBucketListTodoCompleteInput {
   isComplete: Boolean!
   todoId: ID!
+}
+
+input UpdateCalendarEventInput {
+  color: String
+  description: String
+  endAt: DateTime
+  id: String!
+  isAllDay: Boolean
+  startAt: DateTime
+  title: String
 }
 
 input UpdateMemoInput {

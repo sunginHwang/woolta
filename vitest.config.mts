@@ -38,6 +38,8 @@ export default defineConfig({
       './apps/ssr-test',
       './libs/wds',
       './libs/article-curations/features',
+      './libs/calendar/features',
+      './libs/woolbank/features',
       './libs/memo/features',
       './libs/todo/features',
       await storybookProject('blog'),

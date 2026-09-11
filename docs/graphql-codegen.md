@@ -152,3 +152,9 @@ memo 도메인을 추가한다고 하면:
 - scalar 매핑: `DateTime` → `string`(ISO 8601), `JSON` → `unknown`. enum 은 런타임 객체 없이
   문자열 유니온 타입으로 생성된다 (`enumsAsTypes`).
 - 스키마 파일(`api-autogen.graphql`)은 woolta-api 산출물이므로 이 레포에서 직접 수정하지 않는다.
+- **프리페치와 훅은 반드시 같은 `queryFn` 을 써야 한다.** 같은 쿼리키에 서로 다른 모양을 넣으면
+  하이드레이션 직후 터진다. 생성 훅을 그대로 쓰면(`useXxxQuery()` + `.fetcher()`) 양쪽 다 raw 쿼리
+  결과라 문제가 없지만, 훅에서 `data.xxxList.itemList` 로 벗겨내면서 프리페치에는 `.fetcher()` 를
+  그대로 넘기면 캐시에는 래퍼 객체가, 훅에는 배열이 기대돼 `xxx.filter is not a function` 이 된다.
+  벗겨내는 조회 함수를 한 곳에 두고 훅·프리페치가 **그 함수를** 쓰게 한다.
+

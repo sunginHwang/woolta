@@ -11,7 +11,10 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
  */
 
 const domainOutput = (documents: string[]) => ({
-  documents,
+  // pnpm 이 lib 의 의존성을 node_modules 안에 심볼릭 링크로 깔아두는데(예: libs/woolbank/features/
+  // node_modules/@woolta/user-features → libs/user/features), glob 이 그 링크를 따라가면 다른 도메인의
+  // 오퍼레이션이 이 도메인 생성 파일에 섞여 들어간다. 반드시 제외한다.
+  documents: [...documents, '!**/node_modules/**'],
   // typescript-operations v6+ 는 오퍼레이션이 참조하는 input/enum 타입까지 자체 생성하므로 typescript 플러그인 불필요
   plugins: ['typescript-operations', 'typescript-react-query'],
   config: {
@@ -31,7 +34,18 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
   generates: {
     // 도메인 추가 시: '{lib}/src/_shared/api/gql.generated.ts': domainOutput(['libs/{domain}/**/*.graphql'])
+    'libs/blog/features/src/_shared/api/gql.generated.ts': domainOutput(['libs/blog/**/*.graphql']),
+    // woolbank 데이터 레이어는 lib 한 곳에만 둔다 — apps/woolbank 와 apps/woolta 가 함께 소비한다.
+    'libs/woolbank/features/src/_shared/api/gql.generated.ts': domainOutput(['libs/woolbank/**/*.graphql']),
+    // user 도메인은 로그인·세션 횡단 관심사 — blog/bank/대시보드가 공유한다.
+    // 생성 파일당 fetcher 가 1개라서(도메인 1:1) 별도 lib 으로 분리했다.
+    'libs/user/features/src/_shared/api/gql.generated.ts': domainOutput(['libs/user/**/*.graphql']),
     'libs/todo/features/src/_shared/api/gql.generated.ts': domainOutput(['libs/todo/**/*.graphql']),
+    'libs/memo/features/src/_shared/api/gql.generated.ts': domainOutput(['libs/memo/**/*.graphql']),
+    'libs/article-curations/features/src/_shared/api/gql.generated.ts': domainOutput([
+      'libs/article-curations/**/*.graphql',
+    ]),
+    'libs/calendar/features/src/_shared/api/gql.generated.ts': domainOutput(['libs/calendar/**/*.graphql']),
   },
 };
 

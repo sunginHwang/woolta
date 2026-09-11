@@ -3,8 +3,10 @@ packages:
   - 'libs/*'
   - 'libs/article-curations/*'
   - 'libs/blog/*'
+  - 'libs/calendar/*'
   - 'libs/memo/*'
   - 'libs/todo/*'
+  - 'libs/user/*'
   - 'libs/woolbank/*'
 
 # 여기가 pnpm 이 실제로 읽는 위치다. package.json 의 top-level "overrides" 는
