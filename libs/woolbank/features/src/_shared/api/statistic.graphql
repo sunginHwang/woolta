@@ -1,0 +1,25 @@
+fragment StatisticItemParts on StatisticItem {
+  title
+  amount
+  registerDateTime
+}
+
+fragment StatisticParts on Statistic {
+  categoryId
+  categoryName
+  amount
+  percentage
+  useStatistic
+  list {
+    ...StatisticItemParts
+  }
+}
+
+query GetAccountBookStatisticList($startDate: DateTime!, $endDate: DateTime!, $type: AccountBookCategoryType!) {
+  getAccountBookStatisticList(startDate: $startDate, endDate: $endDate, type: $type) {
+    totalCount
+    itemList {
+      ...StatisticParts
+    }
+  }
+}

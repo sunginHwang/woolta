@@ -31,11 +31,9 @@ const styles = stylex.create({
   },
 });
 
-const DetailContent = ({ accountBookId }: { accountBookId: number | null }) => {
+const DetailContent = ({ accountBookId }: { accountBookId: string | null }) => {
   // accountBookId 가 null 이면 작성 모드 — detail fetch 를 건너뛰고 빈 작성 폼을 보여준다.
-  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(
-    accountBookId === null ? null : String(accountBookId),
-  );
+  const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(accountBookId);
   const accountBookForm = getAccountBookForm(accountBookDetail);
 
   return (
@@ -86,7 +84,16 @@ function getAccountBookForm(accountBookDetail: AccountBookDetail | null | undefi
     return undefined;
   }
 
-  const { id, title, amount, memo = '', registerDateTime, category, type, isDisabledBudget } = accountBookDetail;
+  const {
+    id,
+    title,
+    amount,
+    memo = '',
+    registerDateTime,
+    accountBookCategory,
+    type,
+    isDisabledBudget,
+  } = accountBookDetail;
   return {
     id,
     title,
@@ -95,9 +102,7 @@ function getAccountBookForm(accountBookDetail: AccountBookDetail | null | undefi
     registerDateTime: dayjs(registerDateTime),
     isDisabledBudget,
     category: {
-      ...category,
-      createdAt: category.createdAt,
-      updatedAt: category.updatedAt,
+      ...accountBookCategory,
     },
     type,
   };

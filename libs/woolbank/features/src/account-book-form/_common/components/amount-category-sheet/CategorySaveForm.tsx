@@ -33,10 +33,11 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
   const [categoryName, onChangeCategoryName, onReset] = useInput('');
   const [useStatistic, setUseStatistic] = useState(TAB_LIST[0].type);
   const { accountBookCategoryImages } = useAccountBookCategoryImages();
-  const [iconId, setIconId] = useState(0);
+  // 조회 응답의 id 는 GraphQL ID(문자열)이다. 미선택 상태는 빈 문자열.
+  const [iconId, setIconId] = useState('');
   const { onToast } = useToast();
 
-  const typeMsg = type === 'income' ? '수입' : '지출';
+  const typeMsg = type === 'INCOME' ? '수입' : '지출';
 
   const handleStatisticToggleClick = (tab: ToggleTabItem) => {
     setUseStatistic(tab.type);
@@ -50,7 +51,7 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
     saveAccountBookCategory({
       name: categoryName,
       type,
-      imageId: iconId,
+      imageId: Number(iconId),
       useStatistic: useStatistic === 'ok',
       onSuccessCb: () => onClose(),
     });
@@ -90,7 +91,7 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
       <BottomFloatingButton
         isShow
         loading={isLoading}
-        disabled={categoryName.length === 0 || iconId === 0}
+        disabled={categoryName.length === 0 || iconId === ''}
         onClick={onAddCategoryClick}
       >
         추가하기

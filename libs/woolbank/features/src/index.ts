@@ -8,10 +8,13 @@ export { ConfirmProvider } from './_shared/confirm/ConfirmContext';
 export { prefetchAccountBookMain } from './_shared/hooks/prefetch';
 export type { WoolbankRoutes } from './_shared/routes/context';
 // _shared: route context
-export { WoolbankRoutesProvider } from './_shared/routes/context';
+export { useWoolbankRoutes, WoolbankRoutesProvider } from './_shared/routes/context';
 export { NEW_ACCOUNT_BOOK_ID, selectedAccountBookIdAtom } from './_shared/stores/selectedAccountBook';
 // _shared: toast
 export { Toast } from './_shared/toast/Toast';
+// account-book-bulk feature
+export { AccountBookBulkUpload } from './account-book-bulk/AccountBookBulkUpload';
+export { BulkUploadEntryLink } from './account-book-bulk/BulkUploadEntryLink';
 export type { AccountBookDetail } from './account-book-form/_common/hooks/useAccountBookDetail';
 export { useAccountBookDetail } from './account-book-form/_common/hooks/useAccountBookDetail';
 export { useAccountBookSaveRouterProps } from './account-book-form/_common/hooks/useAccountBookSaveRouterProps';

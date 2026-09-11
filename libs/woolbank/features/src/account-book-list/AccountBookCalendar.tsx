@@ -61,7 +61,7 @@ export const AccountBookCalendar = () => {
                 setAccountBookSheetItemList(
                   accountBookByDay?.accountBookList.map((item) => ({
                     title: item.title,
-                    iconImageUrl: item.category.accountBookCategoryImage.imageUrl,
+                    iconImageUrl: item.accountBookCategory.accountBookCategoryImage.imageUrl,
                     amount: item.amount,
                     registerDateTime: dayjs(item.registerDateTime),
                   })) ?? [],

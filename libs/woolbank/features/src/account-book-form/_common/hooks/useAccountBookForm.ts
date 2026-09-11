@@ -6,10 +6,10 @@ import type { ToggleTabItem } from '../../../_shared/components/toggle-tab/Toggl
 import type { AccountBookCategoryType } from '../../../_shared/utils/account-books';
 import type { AccountBookCategory } from './useAccountBookCategories';
 
-export type ScheduledPaymentType = 'repeat' | 'installment';
+export type ScheduledPaymentType = 'REPEAT' | 'INSTALLMENT';
 
 export interface AccountBookSaveForm {
-  id?: number;
+  id?: string;
   title: string;
   amount: number;
   memo: string;
@@ -25,22 +25,25 @@ export interface AccountBookSaveForm {
 const INIT_FORM_DATA: AccountBookSaveForm = {
   title: '',
   amount: 0,
+  // 미선택 상태. category.id 는 GraphQL ID(문자열)이라 '' 로 둔다.
   category: {
-    id: -1,
+    id: '',
     name: '',
-    type: 'income',
+    type: 'INCOME',
+    useStatistic: false,
+    accountBookCategoryImageId: 0,
     accountBookCategoryImage: {
+      id: '',
+      name: '',
       imageUrl: '',
     },
-    createdAt: new Date(),
-    updatedAt: new Date(),
   },
   registerDateTime: dayjs(),
   scheduledPaymentType: undefined,
   scheduledPaymentDay: undefined,
   installmentMonth: undefined,
   isDisabledBudget: false,
-  type: 'expenditure',
+  type: 'EXPENDITURE',
   memo: '',
 };
 
@@ -55,7 +58,7 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
 
   const validateForm = () => {
     if (formData.title.length > 20) {
-      const typeMsg = formData.type === 'income' ? '수입' : '지출';
+      const typeMsg = formData.type === 'INCOME' ? '수입' : '지출';
       return {
         message: `${typeMsg}명은 20글자 까지 작성 가능합니다.`,
         isValid: false,
@@ -133,7 +136,7 @@ export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
 
 function isValidSubmit(form: AccountBookSaveForm) {
   const { title, type, amount, category } = form;
-  return title.length > 0 && type.length > 0 && amount > 0 && category.id > 0;
+  return title.length > 0 && type.length > 0 && amount > 0 && Number(category.id) > 0;
 }
 
 // 날짜는 선택 UI 정밀도(분)까지만 비교한다.

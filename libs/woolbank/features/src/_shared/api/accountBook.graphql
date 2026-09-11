@@ -1,0 +1,60 @@
+fragment AccountBookParts on AccountBook {
+  id
+  title
+  amount
+  memo
+  type
+  registerDateTime
+  isDisabledBudget
+  isRegularExpenditure
+  installmentMonth
+  paidInstallmentMonth
+  regularDate
+  accountBookCategoryId
+  accountBookCategory {
+    ...AccountBookCategoryParts
+  }
+}
+
+query AccountBookList($dateTime: DateTime!) {
+  accountBookList(dateTime: $dateTime) {
+    totalCount
+    itemList {
+      ...AccountBookParts
+    }
+  }
+}
+
+query AccountBook($id: ID!) {
+  accountBook(id: $id) {
+    ...AccountBookParts
+  }
+}
+
+mutation CreateAccountBook($input: CreateAccountBookInput!) {
+  createAccountBook(input: $input) {
+    ...AccountBookParts
+  }
+}
+
+# 카드 내역서 벌크 등록 — 전부 성공하거나 전부 실패한다(서버가 단일 트랜잭션)
+mutation CreateAccountBookList($input: CreateAccountBookListInput!) {
+  createAccountBookList(input: $input) {
+    createdCount
+    itemList {
+      ...AccountBookParts
+    }
+  }
+}
+
+# 주의: 서버 UpdateAccountBookInput 에는 scheduledPayment*/installmentMonth 가 없다.
+# 할부·예약결제 정보는 수정할 수 없는 것이 의도된 제약이다(생성 시에만 지정).
+mutation UpdateAccountBook($input: UpdateAccountBookInput!) {
+  updateAccountBook(input: $input) {
+    ...AccountBookParts
+  }
+}
+
+mutation DeleteAccountBook($input: DeleteAccountBookInput!) {
+  deleteAccountBook(input: $input)
+}

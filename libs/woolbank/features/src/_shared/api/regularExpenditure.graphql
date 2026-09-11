@@ -1,0 +1,44 @@
+fragment RegularExpenditureItemParts on CustomRegularExpenditure {
+  id
+  title
+  amount
+  regularDate
+  regularExpenditureDay
+  isAutoExpenditure
+  accountBookCategoryId
+  accountBookCategory {
+    ...AccountBookCategoryParts
+  }
+}
+
+fragment RegularExpenditureGroupParts on RegularExpenditureGroup {
+  name
+  type
+  imageUrl
+  list {
+    ...RegularExpenditureItemParts
+  }
+}
+
+query RegularExpenditureGroupList($limitCount: Int) {
+  regularExpenditureGroupList(limitCount: $limitCount) {
+    totalCount
+    itemList {
+      ...RegularExpenditureGroupParts
+    }
+  }
+}
+
+mutation CreateRegularExpenditure($input: CreateRegularExpenditureInput!) {
+  createRegularExpenditure(input: $input) {
+    id
+    title
+    amount
+    regularDate
+    isAutoExpenditure
+  }
+}
+
+mutation DeleteRegularExpenditure($input: DeleteRegularExpenditureInput!) {
+  deleteRegularExpenditure(input: $input)
+}

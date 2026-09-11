@@ -1,25 +1,18 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getData } from '../../../_shared/api';
+import {
+  type AccountBookCategoryImage,
+  accountBookCategoryImageListKey,
+  fetchAccountBookCategoryImages,
+} from '../../../_shared/hooks/accountBookCategoryApi';
 
-export interface AccountBookCategoryImage {
-  id: number;
-  name: string;
-  imageUrl: string;
-}
-
-export const ACCOUNT_BOOK_CATEGORY_IMAGES_QUERY_KEY = 'getAccountBookCategoryImages';
-
-export const fetchAccountBookCategoryImages = async () => {
-  const { data } = await getData<AccountBookCategoryImage[]>('/account-book-category-images');
-  return data;
-};
+export type { AccountBookCategoryImage };
 
 export const useAccountBookCategoryImages = () => {
   const { data, ...rest } = useQuery({
-    queryKey: [ACCOUNT_BOOK_CATEGORY_IMAGES_QUERY_KEY],
-    queryFn: fetchAccountBookCategoryImages,
+    queryKey: accountBookCategoryImageListKey(),
+    queryFn: () => fetchAccountBookCategoryImages(),
   });
 
   return {

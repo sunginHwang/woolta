@@ -22,8 +22,8 @@ export const useAccountBookList = () => {
   const { accountBookList, ...rest } = useAccountBookListQuery(selectedAccountBookDate);
 
   const accountBookListGroupByDay = getAccountListGroupByDay(accountBookList);
-  const totalIncomeAmount = getTotalAmountbyType(accountBookList, 'income');
-  const totalExpenditureAmount = getTotalAmountbyType(accountBookList, 'expenditure');
+  const totalIncomeAmount = getTotalAmountbyType(accountBookList, 'INCOME');
+  const totalExpenditureAmount = getTotalAmountbyType(accountBookList, 'EXPENDITURE');
 
   useEffect(() => {
     const oneMonthAgo = dayjs(selectedAccountBookDate).subtract(1, 'month').format('YYYY-MM');
@@ -44,7 +44,7 @@ export const useAccountBookList = () => {
     });
   };
 
-  const remove = (removeId: number) => {
+  const remove = (removeId: string) => {
     queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
       return prev.filter((item) => removeId !== item.id);
     });
@@ -69,7 +69,7 @@ export const useAccountBookList = () => {
 function getDayAmountInfo(accountBookList: AccountBook[]) {
   return accountBookList.reduce(
     (prev, item) => {
-      if (item.type === 'income') {
+      if (item.type === 'INCOME') {
         prev.incomeAmount += item.amount;
       } else {
         prev.expenditureAmount += item.amount;
@@ -97,7 +97,7 @@ function getAccountListGroupByDay(accountBookList: AccountBook[]) {
     .reverse();
 }
 
-function getTotalAmountbyType(accountBookList: AccountBook[], type: 'expenditure' | 'income') {
+function getTotalAmountbyType(accountBookList: AccountBook[], type: 'EXPENDITURE' | 'INCOME') {
   return accountBookList.reduce((prev, item) => {
     if (item.type === type) {
       return prev + item.amount;

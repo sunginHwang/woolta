@@ -10,15 +10,19 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@woolta/article-curations-features": "workspace:*",
     "@woolta/article-curations-screens": "workspace:*",
     "@woolta/blog-features": "workspace:*",
     "@woolta/blog-screens": "workspace:*",
+    "@woolta/calendar-features": "workspace:*",
+    "@woolta/calendar-screens": "workspace:*",
     "@woolta/common": "workspace:*",
     "@woolta/memo-features": "workspace:*",
     "@woolta/memo-screens": "workspace:*",
     "@woolta/todo-features": "workspace:*",
     "@woolta/todo-screens": "workspace:*",
+    "@woolta/user-features": "workspace:*",
     "@woolta/wds": "workspace:*",
     "@woolta/woolbank-features": "workspace:*",
     "@woolta/woolbank-screens": "workspace:*"

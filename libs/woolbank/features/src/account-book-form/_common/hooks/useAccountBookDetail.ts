@@ -1,98 +1,34 @@
 'use client';
 
 import { useIsDashboardHost } from '@common';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
-import { deleteData, getData, postData, putData } from '../../../_shared/api';
+import {
+  useAccountBookQuery,
+  useCreateAccountBookMutation,
+  useDeleteAccountBookMutation,
+  useUpdateAccountBookMutation,
+} from '../../../_shared/api/gql.generated';
+import type { AccountBook } from '../../../_shared/hooks/accountBookListApi';
 import { useAccountBookList } from '../../../_shared/hooks/useAccountBookList';
 import { selectedAccountBookDateAtom } from '../../../_shared/stores/accountbookDate';
 import { selectedAccountBookIdAtom } from '../../../_shared/stores/selectedAccountBook';
 import { useToast } from '../../../_shared/toast/useToast';
-import type { AccountBookCategoryType } from './useAccountBookCategories';
-import type { AccountBookSaveForm, ScheduledPaymentType } from './useAccountBookForm';
+import type { AccountBookSaveForm } from './useAccountBookForm';
 
-export interface AccountBookDetail {
-  id: number;
-  title: string;
-  category: {
-    id: number;
-    name: string;
-    type: AccountBookCategoryType;
-    accountBookCategoryImage: {
-      imageUrl: string;
-    };
-    createdAt: Date;
-    updatedAt: Date;
-  };
-  type: AccountBookCategoryType;
-  isRegularExpenditure: boolean;
-  isDisabledBudget: boolean;
-  amount: number;
-  memo?: string;
-  registerDateTime: Date;
-  scheduledPaymentType?: ScheduledPaymentType;
-  scheduledPaymentDay?: number;
-  installmentMonth?: number;
-}
-
-export const ACCOUNT_BOOK_QUERY_KEY = 'getAccountBook';
-
-export const deleteAccountBook = async (accountBookId: string) => {
-  const { data } = await deleteData<number>(`account-books/${accountBookId}`);
-  return data;
-};
-
-export const addAccountBook = async (accountBookForm: AccountBookSaveForm) => {
-  const {
-    title,
-    type,
-    amount,
-    memo,
-    category,
-    isDisabledBudget,
-    scheduledPaymentType,
-    scheduledPaymentDay,
-    installmentMonth,
-  } = accountBookForm;
-  const requestParam = {
-    title,
-    registerDateTime: accountBookForm.registerDateTime.toDate(),
-    type,
-    amount,
-    memo,
-    isDisabledBudget,
-    scheduledPaymentType,
-    scheduledPaymentDay,
-    installmentMonth,
-    categoryId: category.id,
-  };
-  const { data } = await postData<AccountBookDetail>('account-books', requestParam);
-  return data;
-};
-
-export const updateAccountBook = async (accountBookForm: AccountBookSaveForm) => {
-  const { title, type, amount, memo, category, id, isDisabledBudget } = accountBookForm;
-  const requestParam = {
-    title,
-    registerDateTime: accountBookForm.registerDateTime.toDate(),
-    type,
-    amount,
-    memo,
-    isDisabledBudget,
-    categoryId: category.id,
-  };
-  const { data } = await putData<AccountBookDetail>(`account-books/${id}`, requestParam);
-  return convertDate(data);
-};
+/** 상세와 목록 항목은 서버에서 같은 AccountBook 타입이다. */
+export type AccountBookDetail = AccountBook;
 
 export const fetchAccountBookDetail = async (id: string | null) => {
   if (!id) {
     return null;
   }
-  const { data } = await getData<AccountBookDetail>(`/account-books/${id}`);
-  return convertDate(data);
+
+  const data = await useAccountBookQuery.fetcher({ id })();
+
+  return data.accountBook ?? null;
 };
 
 export const useAccountBookDetail = (id: string | null) => {
@@ -110,9 +46,10 @@ export const useAccountBookDetail = (id: string | null) => {
     }
     back();
   };
-  const deleteMutation = useMutation({ mutationFn: deleteAccountBook });
-  const updateMutation = useMutation({ mutationFn: updateAccountBook });
-  const addMutation = useMutation({ mutationFn: addAccountBook });
+
+  const deleteMutation = useDeleteAccountBookMutation();
+  const updateMutation = useUpdateAccountBookMutation();
+  const addMutation = useCreateAccountBookMutation();
   const selectedAccountBookDate = useAtomValue(selectedAccountBookDateAtom);
 
   const { data, ...rest } = useSuspenseQuery(getAccountBookFetchInfo(id));
@@ -122,44 +59,94 @@ export const useAccountBookDetail = (id: string | null) => {
     update: updateAccountBookList,
   } = useAccountBookList();
 
-  // BUG FIX: removed console.log + early return that made this unreachable
   const upsertAccountBook = (accountBookForm: AccountBookSaveForm) => {
-    const isSaveAction = typeof accountBookForm.id !== 'number';
+    const {
+      id: formId,
+      title,
+      type,
+      amount,
+      memo,
+      category,
+      isDisabledBudget,
+      scheduledPaymentType,
+      scheduledPaymentDay,
+      installmentMonth,
+      registerDateTime,
+    } = accountBookForm;
 
-    if (isSaveAction) {
-      addMutation.mutate(accountBookForm, {
-        onSuccess: (accountBook: AccountBookDetail) => {
-          const registerDateMonth = dayjs(convertDate(accountBook).registerDateTime).format('YYYY-MM');
-          if (registerDateMonth === selectedAccountBookDate) {
-            addAccountBookItem(convertDate(accountBook));
-          }
-          onToast('작성되었습니다.');
-          closeDetail();
+    // 서버는 카테고리를 Int 로 받는다(조회 응답의 id 는 GraphQL ID 문자열).
+    const categoryId = Number(category.id);
+
+    if (!formId) {
+      addMutation.mutate(
+        {
+          input: {
+            title,
+            registerDateTime: registerDateTime.toISOString(),
+            type,
+            amount,
+            memo,
+            isDisabledBudget,
+            scheduledPaymentType,
+            scheduledPaymentDay,
+            installmentMonth,
+            categoryId,
+          },
         },
-        onError: () => onToast('다시 시도해 주세요.'),
-      });
-    } else {
-      updateMutation.mutate(accountBookForm, {
-        onSuccess: (updatedAccountBook) => {
-          queryClient.setQueryData<AccountBookDetail>(getQueryKey(id), () => convertDate(updatedAccountBook));
-          updateAccountBookList(convertDate(updatedAccountBook));
+        {
+          onSuccess: ({ createAccountBook }) => {
+            const registerDateMonth = dayjs(createAccountBook.registerDateTime).format('YYYY-MM');
+            if (registerDateMonth === selectedAccountBookDate) {
+              addAccountBookItem(createAccountBook);
+            }
+            onToast('작성되었습니다.');
+            closeDetail();
+          },
+          onError: () => onToast('다시 시도해 주세요.'),
+        },
+      );
+      return;
+    }
+
+    // 서버 UpdateAccountBookInput 에는 scheduledPayment*/installmentMonth 가 없다 —
+    // 할부·예약결제는 생성 시에만 지정하는 것이 의도된 제약이다.
+    updateMutation.mutate(
+      {
+        input: {
+          id: formId,
+          title,
+          registerDateTime: registerDateTime.toISOString(),
+          type,
+          amount,
+          memo,
+          isDisabledBudget,
+          categoryId,
+        },
+      },
+      {
+        onSuccess: ({ updateAccountBook }) => {
+          queryClient.setQueryData(getQueryKey(id), updateAccountBook);
+          updateAccountBookList(updateAccountBook);
           onToast('수정되었습니다.');
         },
         onError: () => onToast('다시 시도해 주세요.'),
-      });
-    }
+      },
+    );
   };
 
-  const removeAccountBook = async (id: string) => {
-    deleteMutation.mutate(id, {
-      onSuccess: () => {
-        removeAccountBookList(Number(id));
-        queryClient.setQueryData(getQueryKey(id), () => null);
-        onToast('정상적으로 삭제되었습니다.');
-        closeDetail();
+  const removeAccountBook = async (removeId: string) => {
+    deleteMutation.mutate(
+      { input: { id: removeId } },
+      {
+        onSuccess: () => {
+          removeAccountBookList(removeId);
+          queryClient.setQueryData(getQueryKey(removeId), () => null);
+          onToast('정상적으로 삭제되었습니다.');
+          closeDetail();
+        },
+        onError: () => onToast('다시 시도해 주세요.'),
       },
-      onError: () => onToast('다시 시도해 주세요.'),
-    });
+    );
   };
 
   return {
@@ -171,7 +158,7 @@ export const useAccountBookDetail = (id: string | null) => {
 };
 
 function getQueryKey(id: string | null) {
-  return [ACCOUNT_BOOK_QUERY_KEY, id];
+  return useAccountBookQuery.getKey({ id: id ?? '' });
 }
 
 export function getAccountBookFetchInfo(id: string | null) {
@@ -179,17 +166,5 @@ export function getAccountBookFetchInfo(id: string | null) {
     queryKey: getQueryKey(id),
     queryFn: () => fetchAccountBookDetail(id),
     enabled: !!id,
-  };
-}
-
-function convertDate(accountBook: AccountBookDetail) {
-  return {
-    ...accountBook,
-    category: {
-      ...accountBook.category,
-      createdAt: new Date(accountBook.category.createdAt),
-      updatedAt: new Date(accountBook.category.updatedAt),
-    },
-    registerDateTime: new Date(accountBook.registerDateTime),
   };
 }

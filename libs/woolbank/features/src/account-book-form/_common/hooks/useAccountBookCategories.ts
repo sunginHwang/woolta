@@ -1,22 +1,16 @@
 'use client';
 
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { getData, postData } from '../../../_shared/api';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useCreateAccountBookCategoryMutation } from '../../../_shared/api/gql.generated';
+import {
+  type AccountBookCategory,
+  accountBookCategoryListKey,
+  fetchAccountBookCategories,
+} from '../../../_shared/hooks/accountBookCategoryApi';
 import { useToast } from '../../../_shared/toast/useToast';
 import type { AccountBookCategoryType } from '../../../_shared/utils/account-books';
 
-export type { AccountBookCategoryType };
-
-export interface AccountBookCategory {
-  id: number;
-  name: string;
-  type: AccountBookCategoryType;
-  accountBookCategoryImage: {
-    imageUrl: string;
-  };
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type { AccountBookCategory, AccountBookCategoryType };
 
 export interface AccountBookCategoryForm {
   name: string;
@@ -29,43 +23,26 @@ export interface SaveAccountBookCategoryForm extends AccountBookCategoryForm {
   onSuccessCb?: () => void;
 }
 
-export const ACCOUNT_BOOK_CATEGORIES_QUERY_KEY = 'getAccountBookCategories';
-
-export const fetchAccountBookCategories = async () => {
-  const { data } = await getData<AccountBookCategory[]>('/account-book-categories');
-  return data;
-};
-
-export const addAccountBookCategory = async ({
-  name,
-  type,
-  imageId,
-  useStatistic,
-}: AccountBookCategoryForm): Promise<AccountBookCategory> => {
-  const { data } = await postData<AccountBookCategory>('account-book-categories', {
-    type,
-    useStatistic,
-    name,
-    imageId,
-  });
-  return data;
-};
-
 export const useAccountBookCategories = () => {
   const { onToast } = useToast();
+  const queryClient = useQueryClient();
   const { data, refetch, ...rest } = useSuspenseQuery({
-    queryKey: [ACCOUNT_BOOK_CATEGORIES_QUERY_KEY],
-    queryFn: fetchAccountBookCategories,
+    queryKey: accountBookCategoryListKey(),
+    queryFn: () => fetchAccountBookCategories(),
   });
-  const saveCategoryMutation = useMutation({ mutationFn: addAccountBookCategory });
+
+  const saveCategoryMutation = useCreateAccountBookCategoryMutation({
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: accountBookCategoryListKey() }),
+  });
 
   const saveAccountBookCategory = ({ onSuccessCb, name, type, imageId, useStatistic }: SaveAccountBookCategoryForm) => {
     saveCategoryMutation.mutate(
-      { name, type, imageId, useStatistic },
+      // 서버는 이미지 식별자를 accountBookCategoryImageId(Int)로 받는다.
+      // 조회 응답의 id 는 GraphQL ID(문자열)이므로 폼에서 number 로 좁혀 넘긴다.
+      { input: { name, type, useStatistic, accountBookCategoryImageId: imageId } },
       {
         onSuccess: () => {
           onToast('카테고리가 생성되었습니다.');
-          refetch();
           onSuccessCb?.();
         },
         onError: () => onToast('다시 시도해 주세요.'),

@@ -1,0 +1,40 @@
+fragment AccountBookCategoryImageParts on AccountBookCategoryImage {
+  id
+  name
+  imageUrl
+}
+
+fragment AccountBookCategoryParts on AccountBookCategory {
+  id
+  name
+  type
+  useStatistic
+  accountBookCategoryImageId
+  accountBookCategoryImage {
+    ...AccountBookCategoryImageParts
+  }
+}
+
+query AccountBookCategoryList {
+  accountBookCategoryList {
+    totalCount
+    itemList {
+      ...AccountBookCategoryParts
+    }
+  }
+}
+
+query AccountBookCategoryImageList {
+  accountBookCategoryImageList {
+    totalCount
+    itemList {
+      ...AccountBookCategoryImageParts
+    }
+  }
+}
+
+mutation CreateAccountBookCategory($input: CreateAccountBookCategoryInput!) {
+  createAccountBookCategory(input: $input) {
+    ...AccountBookCategoryParts
+  }
+}

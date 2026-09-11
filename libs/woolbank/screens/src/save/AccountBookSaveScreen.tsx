@@ -43,7 +43,16 @@ function getAccountBookForm(accountBookDetail: AccountBookDetail | null | undefi
     return undefined;
   }
 
-  const { id, title, amount, memo = '', registerDateTime, category, type, isDisabledBudget } = accountBookDetail;
+  const {
+    id,
+    title,
+    amount,
+    memo = '',
+    registerDateTime,
+    accountBookCategory,
+    type,
+    isDisabledBudget,
+  } = accountBookDetail;
   return {
     id,
     title,
@@ -52,9 +61,7 @@ function getAccountBookForm(accountBookDetail: AccountBookDetail | null | undefi
     registerDateTime: dayjs(registerDateTime),
     isDisabledBudget,
     category: {
-      ...category,
-      createdAt: category.createdAt,
-      updatedAt: category.updatedAt,
+      ...accountBookCategory,
     },
     type,
   };

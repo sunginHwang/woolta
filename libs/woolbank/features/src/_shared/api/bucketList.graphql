@@ -1,0 +1,84 @@
+fragment BucketListTodoParts on BucketListTodo {
+  id
+  title
+  isComplete
+  bucketListId
+}
+
+fragment BucketListSummaryParts on BucketListSummary {
+  id
+  title
+  completeDate
+  isComplete
+  todoCount
+  completeTodoCount
+  thumbImageUrl
+  updatedAt
+}
+
+fragment BucketListParts on BucketList {
+  id
+  title
+  description
+  completeDate
+  isComplete
+  imageUrl
+  thumbImageUrl
+  createdAt
+  updatedAt
+  todoList {
+    ...BucketListTodoParts
+  }
+}
+
+query BucketListSummaryList($limitCount: Int) {
+  bucketListSummaryList(limitCount: $limitCount) {
+    totalCount
+    itemList {
+      ...BucketListSummaryParts
+    }
+  }
+}
+
+query BucketList($id: ID!) {
+  bucketList(id: $id) {
+    ...BucketListParts
+  }
+}
+
+# 이미지는 REST(/woolBank/file/upload/image)로 먼저 올리고 받은 URL 을 넘긴다.
+mutation CreateBucketList($input: CreateBucketListInput!) {
+  createBucketList(input: $input) {
+    ...BucketListParts
+  }
+}
+
+mutation UpdateBucketList($input: UpdateBucketListInput!) {
+  updateBucketList(input: $input) {
+    ...BucketListParts
+  }
+}
+
+mutation DeleteBucketList($input: DeleteBucketListInput!) {
+  deleteBucketList(input: $input)
+}
+
+mutation CompleteBucketList($input: CompleteBucketListInput!) {
+  completeBucketList(input: $input)
+}
+
+mutation CreateBucketListTodo($input: CreateBucketListTodoInput!) {
+  createBucketListTodo(input: $input) {
+    ...BucketListTodoParts
+  }
+}
+
+mutation DeleteBucketListTodo($input: DeleteBucketListTodoInput!) {
+  deleteBucketListTodo(input: $input)
+}
+
+mutation UpdateBucketListTodoComplete($input: UpdateBucketListTodoCompleteInput!) {
+  updateBucketListTodoComplete(input: $input) {
+    ...BucketListTodoParts
+  }
+}

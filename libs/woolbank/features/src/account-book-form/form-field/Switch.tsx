@@ -2,9 +2,19 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
-import type { InputHTMLAttributes } from 'react';
+import type { ChangeEventHandler, InputHTMLAttributes } from 'react';
 
-export const Switch = ({ className, style, checked, disabled, ...rest }: InputHTMLAttributes<HTMLInputElement>) => {
+/**
+ * 제어 컴포넌트이므로 onChange 를 필수로 받는다.
+ * checked 만 주고 onChange 를 빼면 React 가 읽기 전용 필드로 보고 경고한다
+ * (onClick 으로 토글해도 동작은 하지만 키보드 조작이 되지 않는다).
+ */
+type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'onChange' | 'type'> & {
+  checked: boolean;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+};
+
+export const Switch = ({ className, style, checked, disabled, ...rest }: Props) => {
   const containerSx = stylex.props(
     styles.container,
     checked ? styles.containerChecked : styles.containerUnchecked,

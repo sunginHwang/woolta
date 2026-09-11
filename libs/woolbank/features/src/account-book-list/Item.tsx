@@ -25,11 +25,11 @@ const Item = ({ accountBook }: Props) => {
   const routes = useWoolbankRoutes();
   const isDashboardHost = useIsDashboardHost();
   const [selectedId, setSelectedId] = useAtom(selectedAccountBookIdAtom);
-  const { category, title, amount, isRegularExpenditure, type, id } = accountBook;
+  const { accountBookCategory, title, amount, isRegularExpenditure, type, id } = accountBook;
 
-  const isIncomeType = type === 'income';
+  const isIncomeType = type === 'INCOME';
   const displayAmount = isIncomeType ? amount : -amount;
-  const iconImage = category.accountBookCategoryImage.imageUrl;
+  const iconImage = accountBookCategory.accountBookCategoryImage.imageUrl;
 
   const content: ReactNode = (
     <>
@@ -43,7 +43,7 @@ const Item = ({ accountBook }: Props) => {
           </Text>
           <div {...stylex.props(styles.info)}>
             <Text xstyle={styles.category} variant='small3Regular' color='textTertiary' as='p'>
-              {category.name} {isRegularExpenditure && ' | 매월'}
+              {accountBookCategory.name} {isRegularExpenditure && ' | 매월'}
             </Text>
           </div>
         </div>
