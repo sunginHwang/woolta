@@ -6,6 +6,7 @@ import {
   AccountBookActiveTab,
   AccountBookAddButton,
   AccountBookTabs,
+  BulkUploadEntryLink,
   MonthStatistics,
 } from '@woolta/woolbank-features';
 import { ScreenBoundary } from '../common/ScreenBoundary';
@@ -36,7 +37,8 @@ export const AccountBookMainScreen = () => {
   return (
     <ScreenBoundary>
       <div {...stylex.props(styles.container)}>
-        <MonthStatistics />
+        {/* 벌크 업로드는 가계부에 딸린 작업이라 별도 메뉴가 아니라 월 제목 줄 도구로 둔다 */}
+        <MonthStatistics action={<BulkUploadEntryLink />} />
         <div {...stylex.props(styles.line)} />
         <main {...stylex.props(styles.main)}>
           <AccountBookActiveTab />

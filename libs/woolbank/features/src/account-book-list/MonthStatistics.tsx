@@ -5,7 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import dayjs, { type Dayjs } from 'dayjs';
 import { useAtom } from 'jotai';
-import { useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { BottomSheet } from '../_shared/bottom-sheet/BottomSheet';
 import type { BottomMenu } from '../_shared/bottom-sheet/menu-sheet/MenuSheet';
 import { DropdownTitle } from '../_shared/components/dropdown-title/DropdownTitle';
@@ -15,11 +15,16 @@ import MonthStatisticsSkeleton from './MonthStatisticsSkeleton';
 
 const MONTH_FOR_5_YEAR = 60;
 
+interface Props {
+  /** 월 제목 줄 오른쪽에 붙일 도구 (예: 벌크 업로드 진입점). 호스트마다 달라 주입받는다 */
+  action?: ReactNode;
+}
+
 /**
  * 이달의 가계부 통계 영역
  * @component
  */
-const MonthStatistics = () => {
+const MonthStatistics = ({ action }: Props) => {
   const [selectedDate, setSelectedDate] = useAtom(selectedAccountBookDateAtom);
   const { totalExpenditureAmount, totalIncomeAmount } = useAccountBookList();
   const [isOpenMonthPicker, setToggleMonthPicker] = useToggle(false);
@@ -49,12 +54,15 @@ const MonthStatistics = () => {
   return (
     <>
       <header {...stylex.props(styles.container)}>
-        <DropdownTitle
-          title={titleMsg}
-          onNextMonthClick={handleNextMonthClick}
-          onPrevMonthClick={handlePrevMonthClick}
-          onClick={openMonthPicker}
-        />
+        <div {...stylex.props(styles.titleRow)}>
+          <DropdownTitle
+            title={titleMsg}
+            onNextMonthClick={handleNextMonthClick}
+            onPrevMonthClick={handlePrevMonthClick}
+            onClick={openMonthPicker}
+          />
+          {action}
+        </div>
         <section {...stylex.props(styles.totalSection)}>
           <div {...stylex.props(styles.item)}>
             <Text variant='body3' color='textTertiary' mt={5} as='p'>
@@ -106,6 +114,12 @@ const styles = stylex.create({
     paddingTop: '1rem',
     paddingBottom: 0,
     paddingInline: '1.6rem',
+  },
+  titleRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '1.2rem',
   },
   totalSection: {
     marginTop: '1.6rem',
