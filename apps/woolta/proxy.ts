@@ -1,13 +1,12 @@
-import type { NextURL } from 'next/dist/server/web/next-url';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { setConfig } from './utils/config';
 
-setConfig();
+const LOGIN_PATH = '/login';
 
-const ALLOW_ALL_USER_PAGE_LIST = ['/user/login'];
-
-/** woolta-api(GraphQL) 호스트. graphqlFetch 의 서버 분기와 같은 규칙을 쓴다. */
+/**
+ * woolta-api(GraphQL) 호스트. `libs/common` 의 getGraphqlHost 서버 분기와 같은 규칙을 쓴다.
+ * 이 호스트가 응답하지 않으면 게이트는 로그인으로 보낸다(fail closed) — 데이터 조회도 어차피 불가능하다.
+ */
 const graphqlHost =
   process.env.NEXT_PUBLIC_GRAPHQL_API ?? process.env.NEXT_PUBLIC_BLOG_API ?? 'https://api-blog.woolta.com';
 
@@ -15,38 +14,33 @@ const graphqlHost =
 const CHECK_ACCESS_QUERY = '{ checkAccess }';
 
 export async function proxy(request: NextRequest) {
-  const loginUrl = request.nextUrl.clone();
-  loginUrl.pathname = '/user/login';
-  const pathname = request.nextUrl.pathname;
+  const { pathname, search } = request.nextUrl;
 
-  const isNoneAuthPage = ALLOW_ALL_USER_PAGE_LIST.some((path) => path === pathname);
-
-  if (isNoneAuthPage) {
+  if (pathname === LOGIN_PATH) {
     return NextResponse.next();
   }
 
-  return await withoutAuth(request, loginUrl);
+  return checkSession(request, `${pathname}${search}`);
 }
 
-export async function withoutAuth(req: NextRequest, loginUrl: NextURL) {
-  try {
-    // 개발 환경에서만 SSL 인증서 검증 비활성화 (자체 서명 인증서로 API를 띄운 경우)
-    if (process.env.NODE_ENV === 'development') {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    }
+async function checkSession(request: NextRequest, from: string) {
+  const loginUrl = request.nextUrl.clone();
+  loginUrl.pathname = LOGIN_PATH;
+  // 로그인 후 원래 보려던 화면으로 돌려보낸다.
+  loginUrl.search = from === '/' ? '' : `?next=${encodeURIComponent(from)}`;
 
+  try {
     // 미들웨어는 브라우저 쿠키를 자동으로 실어주지 않으므로 요청 쿠키를 그대로 넘긴다.
     const response = await fetch(`${graphqlHost}/user/graphql`, {
       method: 'POST',
       headers: {
-        'Cookie': req.cookies.toString(),
+        'Cookie': request.cookies.toString(),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ query: CHECK_ACCESS_QUERY }),
     });
 
     const json = (await response.json()) as { data?: { checkAccess?: number }; errors?: unknown[] };
-    // 미인증이면 UNAUTHENTICATED 가 errors 로 온다 — access 만료 시에는 서버가 refresh 쿠키로 자동 회전한다.
     const isLoggedIn = response.ok && !json.errors?.length && !!json.data?.checkAccess;
 
     const next = isLoggedIn ? NextResponse.next() : NextResponse.redirect(loginUrl);
@@ -80,15 +74,11 @@ const forwardSetCookie = (from: Response, to: NextResponse) => {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - menifest.json
-     * - service-worker.js
-     * - android-chrome-*
+     * 아래를 제외한 모든 경로를 보호한다:
+     * - api (라우트 핸들러)
+     * - _next/static, _next/image (빌드 산출물)
+     * - favicon.ico, manifest, service-worker, static (정적 자산)
      */
-    '/((?!api|_next/static|static|_next/image|favicon.ico|service-worker|manifest|android-chrome-*).*)',
+    '/((?!api|_next/static|_next/image|static|favicon.ico|service-worker|manifest).*)',
   ],
 };

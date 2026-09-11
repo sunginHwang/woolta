@@ -3,9 +3,9 @@ import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLogout } from '@woolta/user-features';
 import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
-import { postData } from '../../../../utils/api';
 
 const styles = stylex.create({
   container: {
@@ -60,12 +60,20 @@ const styles = stylex.create({
 export const UserInfoCard = () => {
   const { userInfo, isShareUser } = useUserInfo();
   const { openConfirm } = useConfirm();
+  const { logout } = useLogout();
 
   const handleLogoutClick = async () => {
     const isOK = await openConfirm({ message: '정말 로그아웃 하시겠습니까?' });
 
-    if (isOK) {
-      await postData('/user/logout');
+    if (!isOK) {
+      return;
+    }
+
+    // 서버가 refresh 토큰 패밀리를 폐기하고 쿠키를 삭제한다. 실패해도 화면은 새로 고쳐
+    // 남은 세션 상태를 버린다.
+    try {
+      await logout();
+    } finally {
       location.reload();
     }
   };

@@ -45,7 +45,7 @@ const styles = stylex.create({
 
 export const ShareCode = () => {
   const { onToast } = useToast();
-  const { shareCode, isExistShareCode, upsertShareCodeMutation } = useShareCode();
+  const { shareCode, isExistShareCode, createShareCode, isUpserting } = useShareCode();
 
   const handleShareCodeCopyClick = () => {
     navigator.clipboard.writeText(shareCode);
@@ -80,10 +80,8 @@ export const ShareCode = () => {
         <div {...stylex.props(styles.shareButtonWrapper)}>
           <Button
             fill
-            loading={upsertShareCodeMutation.isPending}
-            onClick={() => {
-              upsertShareCodeMutation.mutate();
-            }}
+            loading={isUpserting}
+            onClick={createShareCode}
           >
             공유 코드 {isExistShareCode ? '재' : ''}발급하기
           </Button>

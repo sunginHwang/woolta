@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import type { AxiosRequestConfig } from 'axios';
-import { getData } from '../../utils/api';
+'use client';
 
-export const USER_INFO_QUERY_KEY = 'getUserInfo';
+import { useMeOptional } from '@woolta/user-features';
 
+/**
+ * 화면이 쓰는 사용자 정보 형태.
+ * 서버(GraphQL)는 `profileImg` / `id: Int` 로 주므로 여기서 기존 형태로 맞춘다.
+ */
 export interface UserInfo {
   id: string;
   name: string;
@@ -13,43 +15,24 @@ export interface UserInfo {
   authType: string;
 }
 
-interface ApiUserInfo {
-  id: string;
-  name: string;
-  email: string;
-  loginType: string;
-  profileImg: string;
-  socialId: string;
-  updatedAt: string;
-  authType: string;
-}
-
-export const fetchUserInfo = async (req?: AxiosRequestConfig) => {
-  try {
-    const { data } = await getData<ApiUserInfo>('/user', req);
-    const userInfo: UserInfo = {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      imageUrl: data.profileImg,
-      loginType: data.loginType,
-      authType: data.authType,
-    };
-    return userInfo;
-  } catch (e) {
-    return null;
-  }
-};
-
 export const useUserInfo = () => {
-  const { data, ...rest } = useQuery({ queryKey: [USER_INFO_QUERY_KEY], queryFn: () => fetchUserInfo() });
+  const { user, isLoading } = useMeOptional();
 
-  const userInfo = data ?? null;
-  const isShareUser = userInfo?.authType === 'share';
+  const userInfo: UserInfo | null = user
+    ? {
+        id: String(user.id),
+        name: user.name,
+        email: user.email,
+        imageUrl: user.profileImg,
+        loginType: user.loginType,
+        authType: user.authType ?? '',
+      }
+    : null;
 
   return {
     userInfo,
-    isShareUser,
-    ...rest,
+    /** 공유코드로 접속한 읽기 전용 세션 — 쓰기 UI를 감춘다. */
+    isShareUser: user?.authType === 'share',
+    isLoading,
   };
 };

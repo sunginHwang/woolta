@@ -21,7 +21,7 @@ const socialAuthKey = {
 
 function SocialLogin() {
   const { onAlert } = useAlert();
-  const { socialLoginMutate } = useSocialLogin();
+  const { login } = useSocialLogin();
 
   const onLoginFailure = () => {
     onAlert('로그인 실패');
@@ -39,12 +39,12 @@ function SocialLogin() {
       return null;
     }
 
-    socialLoginMutate.mutate({
-      name: response.name || '',
-      email: response.email || '',
-      imageUrl: response.picture?.data.url || '',
-      socialId: response.id,
-      loginType: 'facebook',
+    login({
+      token: response.accessToken,
+      loginType: 'FACEBOOK',
+      name: response.name,
+      email: response.email,
+      imageUrl: response.picture?.data.url,
     });
   };
 
@@ -60,12 +60,13 @@ function SocialLogin() {
       return null;
     }
 
-    socialLoginMutate.mutate({
+    login({
+      // 서버는 GOOGLE 을 id_token 으로 검증한다 (tokenId === tokenObj.id_token).
+      token: response.tokenId,
+      loginType: 'GOOGLE',
       name: response.profileObj.name,
       email: response.profileObj.email,
       imageUrl: response.profileObj.imageUrl,
-      socialId: response.profileObj.googleId,
-      loginType: 'google',
     });
   };
 
@@ -89,13 +90,14 @@ function SocialLogin() {
         token={socialAuthKey.kakaoTalk}
         needProfile={true}
         render={(renderProps) => <SocialLoginButton provider='kakaoTalk' handleLoginClick={renderProps.onClick} />}
-        onSuccess={({ profile }) => {
-          socialLoginMutate.mutate({
-            name: profile?.properties.nickname || '',
-            email: profile?.kakao_account.email || '',
-            imageUrl: profile?.properties?.thumbnail_image_url || '',
-            socialId: String(profile?.id),
-            loginType: 'kakaoTalk',
+        onSuccess={({ response, profile }) => {
+          login({
+            // 서버는 KAKAO_TALK 을 access token 으로 검증한다.
+            token: response.access_token,
+            loginType: 'KAKAO_TALK',
+            name: profile?.properties.nickname,
+            email: profile?.kakao_account.email,
+            imageUrl: profile?.properties?.thumbnail_image_url,
           });
         }}
         onFail={onLoginFailure}

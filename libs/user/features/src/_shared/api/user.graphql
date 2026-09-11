@@ -1,0 +1,47 @@
+fragment UserInfoParts on UserInfo {
+  id
+  name
+  email
+  profileImg
+  loginType
+  authType
+}
+
+query Me {
+  me {
+    ...UserInfoParts
+  }
+}
+
+query CheckAccess {
+  checkAccess
+}
+
+query GetShareCode {
+  getShareCode
+}
+
+# provider 토큰을 서버가 되물어 검증한다 — socialId 는 클라이언트가 보내지 않는다.
+mutation LoginBySocial($input: LoginBySocialInput!) {
+  loginBySocial(input: $input) {
+    ...UserInfoParts
+  }
+}
+
+mutation LoginByShareCode($input: LoginByShareCodeInput!) {
+  loginByShareCode(input: $input) {
+    ...UserInfoParts
+  }
+}
+
+mutation Logout {
+  logout
+}
+
+mutation RefreshSession {
+  refreshSession
+}
+
+mutation UpsertShareCode {
+  upsertShareCode
+}
