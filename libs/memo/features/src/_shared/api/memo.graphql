@@ -1,0 +1,46 @@
+# 목록은 본문(content)을 내려주지 않는다. 본문은 선택된 메모를 memo(id) 로 따로 조회한다.
+fragment MemoSummaryParts on MemoSummary {
+  id
+  title
+  createdAt
+  updatedAt
+}
+
+fragment MemoParts on Memo {
+  id
+  title
+  content
+  createdAt
+  updatedAt
+}
+
+query MemoList {
+  memoList {
+    totalCount
+    itemList {
+      ...MemoSummaryParts
+    }
+  }
+}
+
+query Memo($id: String!) {
+  memo(id: $id) {
+    ...MemoParts
+  }
+}
+
+mutation CreateMemo {
+  createMemo {
+    ...MemoParts
+  }
+}
+
+mutation UpdateMemo($input: UpdateMemoInput!) {
+  updateMemo(input: $input) {
+    ...MemoParts
+  }
+}
+
+mutation DeleteMemo($input: DeleteMemoInput!) {
+  deleteMemo(input: $input)
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useArticleStore } from '../../_shared/stores/useArticleStore';
+import { useAddArticle } from '../../_shared/hooks/useArticleMutations';
 import { fetchArticleSeo } from '../../_shared/utils/fetchArticleSeo';
 import { normalizeArticleUrl } from '../../_shared/utils/normalizeArticleUrl';
 
@@ -20,7 +20,7 @@ interface Params {
  * 제목/설명 입력은 링크 수집이 끝난 뒤에만 노출한다.
  */
 export const useArticleAddForm = ({ defaultCategoryId, onSubmitted }: Params) => {
-  const addArticle = useArticleStore((state) => state.addArticle);
+  const { addArticle, isAdding } = useAddArticle();
 
   const [categoryId, setCategoryId] = useState(defaultCategoryId ?? '');
   const [url, setUrl] = useState('');
@@ -69,9 +69,14 @@ export const useArticleAddForm = ({ defaultCategoryId, onSubmitted }: Params) =>
   }, [normalizedUrl]);
 
   const canSubmit =
-    categoryId.length > 0 && isDetailVisible && !isFetchingSeo && title.trim().length > 0 && normalizedUrl !== null;
+    categoryId.length > 0 &&
+    isDetailVisible &&
+    !isFetchingSeo &&
+    !isAdding &&
+    title.trim().length > 0 &&
+    normalizedUrl !== null;
 
-  const submit = () => {
+  const submit = async () => {
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
 
@@ -79,7 +84,7 @@ export const useArticleAddForm = ({ defaultCategoryId, onSubmitted }: Params) =>
       return;
     }
 
-    addArticle({
+    await addArticle({
       categoryId,
       title: trimmedTitle,
       url: normalizedUrl,
@@ -111,6 +116,7 @@ export const useArticleAddForm = ({ defaultCategoryId, onSubmitted }: Params) =>
     setDescription,
     thumbnailUrl,
     isFetchingSeo,
+    isAdding,
     isDetailVisible,
     canSubmit,
     submit,

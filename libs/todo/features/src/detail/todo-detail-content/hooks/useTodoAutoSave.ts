@@ -2,7 +2,7 @@
 
 import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useMemo } from 'react';
-import { useTodoStore } from '../../../_shared/stores/useTodoStore';
+import { useUpdateTodo } from '../../../_shared/hooks/useTodoMutations';
 
 const AUTO_SAVE_DELAY_MS = 500;
 
@@ -11,7 +11,7 @@ const AUTO_SAVE_DELAY_MS = 500;
  * 언마운트 시, 그리고 flush 호출 시 대기 중인 변경을 즉시 저장한다.
  */
 export const useTodoAutoSave = (todoId: string) => {
-  const updateTodo = useTodoStore((state) => state.updateTodo);
+  const { updateTodo } = useUpdateTodo();
 
   const saveTitle = useMemo(
     () => debounce((title: string) => updateTodo(todoId, { title }), AUTO_SAVE_DELAY_MS),

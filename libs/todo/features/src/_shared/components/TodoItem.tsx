@@ -5,6 +5,7 @@ import { useConfirm } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import type { MouseEvent } from 'react';
 import { FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
+import { useTodoTrash, useToggleComplete } from '../hooks/useTodoMutations';
 import { useTodoStore } from '../stores/useTodoStore';
 import type { Todo } from '../types';
 import { DueDateLabel } from './DueDateLabel';
@@ -20,11 +21,9 @@ interface Props {
 export const TodoItem = ({ todo }: Props) => {
   const selectedTodoId = useTodoStore((state) => state.selectedTodoId);
   const selectTodo = useTodoStore((state) => state.selectTodo);
-  const toggleComplete = useTodoStore((state) => state.toggleComplete);
-  const moveToTrash = useTodoStore((state) => state.moveToTrash);
+  const { toggleComplete } = useToggleComplete();
+  const { moveToTrash, restoreTodo, deleteForever } = useTodoTrash();
   const { openConfirm } = useConfirm();
-  const restoreTodo = useTodoStore((state) => state.restoreTodo);
-  const deleteForever = useTodoStore((state) => state.deleteForever);
 
   const isTrashed = todo.deletedAt !== null;
 
@@ -53,7 +52,9 @@ export const TodoItem = ({ todo }: Props) => {
       onClick={() => selectTodo(todo.id)}
       {...stylex.props(styles.item, todo.id === selectedTodoId && styles.itemActive)}
     >
-      {!isTrashed && <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id)} />}
+      {!isTrashed && (
+        <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id, todo.isCompleted)} />
+      )}
       <span {...stylex.props(styles.title, todo.isCompleted && styles.titleCompleted)}>{todo.title}</span>
       {todo.dueDate !== null && <DueDateLabel dueDate={todo.dueDate} />}
       <PriorityFlag priority={todo.priority} />

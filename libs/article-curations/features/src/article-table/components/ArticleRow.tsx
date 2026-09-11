@@ -4,8 +4,8 @@ import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import type { SyntheticEvent } from 'react';
 import { FiLink, FiStar, FiTrash2 } from 'react-icons/fi';
+import { useRemoveArticle, useToggleCuration } from '../../_shared/hooks/useArticleMutations';
 import { useWeeklyCuration } from '../../_shared/hooks/useWeeklyCuration';
-import { useArticleStore } from '../../_shared/stores/useArticleStore';
 import type { Article } from '../../_shared/types';
 import { formatArticleDate } from '../../_shared/utils/formatArticleDate';
 
@@ -173,15 +173,15 @@ const styles = stylex.create({
 
 /** 아티클 테이블 행 — 제목 링크 / 카테고리 / 등록일 / 큐레이션 토글 / 삭제 */
 export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
-  const removeArticle = useArticleStore((state) => state.removeArticle);
-  const toggleCuration = useArticleStore((state) => state.toggleCuration);
+  const { removeArticle } = useRemoveArticle();
+  const { toggleCuration, isToggling } = useToggleCuration();
   const { weekKey, curatedArticleIds, isFull } = useWeeklyCuration();
 
   const isCurated = curatedArticleIds.includes(article.id);
-  const isCurationDisabled = !isCurated && isFull;
+  const isCurationDisabled = isToggling || (!isCurated && isFull);
 
   const handleCurationClick = () => {
-    toggleCuration(weekKey, article.id);
+    toggleCuration({ weekKey, articleId: article.id, isCurated });
   };
 
   const handleThumbnailError = (e: SyntheticEvent<HTMLImageElement>) => {
@@ -240,7 +240,7 @@ export const ArticleRow = ({ article, categoryName, showCategory }: Props) => {
             isCurated ? styles.curationButtonCurated : styles.curationButtonDefault,
           )}
           disabled={isCurationDisabled}
-          title={isCurationDisabled ? '이번 주 큐레이션이 가득 찼어요' : '이번 주 큐레이션 토글'}
+          title={!isCurated && isFull ? '이번 주 큐레이션이 가득 찼어요' : '이번 주 큐레이션 토글'}
           onClick={handleCurationClick}
         >
           <FiStar size={14} fill={isCurated ? 'currentColor' : 'none'} />

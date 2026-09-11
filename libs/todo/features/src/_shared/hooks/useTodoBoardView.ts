@@ -3,6 +3,7 @@
 import { getCategoryIdFromListKey } from '../routes';
 import { useTodoStore } from '../stores/useTodoStore';
 import type { TodoListKey } from '../types';
+import { useCategoryList } from './useCategoryList';
 
 const SMART_LIST_TITLES: Record<string, string> = {
   today: '오늘',
@@ -20,7 +21,7 @@ const SMART_LIST_TITLES: Record<string, string> = {
 export const useTodoBoardView = (listKey: TodoListKey) => {
   const viewMode = useTodoStore((state) => state.viewMode);
   const setViewMode = useTodoStore((state) => state.setViewMode);
-  const categories = useTodoStore((state) => state.categories);
+  const categories = useCategoryList();
 
   const categoryId = getCategoryIdFromListKey(listKey);
   const category = categoryId === null ? null : (categories.find((item) => item.id === categoryId) ?? null);

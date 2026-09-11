@@ -259,7 +259,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
           </FormField>
           <FormField title='예산에서 제외'>
             <div {...stylex.props(styles.contentWrapper)}>
-              <Switch checked={formData.isDisabledBudget} onClick={toggleDisabledBudget} />
+              <Switch checked={!!formData.isDisabledBudget} onChange={toggleDisabledBudget} />
             </div>
           </FormField>
           <FormField

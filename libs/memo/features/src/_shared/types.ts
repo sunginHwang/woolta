@@ -1,14 +1,11 @@
 import type { JSONContent } from '@tiptap/core';
+import type { MemoPartsFragment, MemoSummaryPartsFragment } from './api/gql.generated';
 
-export interface Memo {
-  /** 메모 고유 id */
-  id: string;
-  /** 메모 제목 */
-  title: string;
+/** 목록용 메모 요약 — 서버가 본문(content)을 내려주지 않는다. */
+export type MemoSummary = MemoSummaryPartsFragment;
+
+/** 상세 메모 — JSON 스칼라로 내려온 본문을 Tiptap 문서 타입으로 좁힌 형태. */
+export interface Memo extends Omit<MemoPartsFragment, 'content'> {
   /** 메모 본문 (Tiptap JSON) */
   content: JSONContent;
-  /** 작성일 (ISO 문자열) */
-  createdAt: string;
-  /** 수정일 (ISO 문자열) */
-  updatedAt: string;
 }

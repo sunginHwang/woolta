@@ -163,7 +163,9 @@ export const useBucket = (id?: string | undefined) => {
     toggleTodo.isComplete = !toggleTodo.isComplete;
 
     updateStateMutation.mutate(
-      { todoId: toggleTodo.id, isComplete: !toggleTodo.isComplete },
+      // toggleTodo.isComplete 는 이미 뒤집힌 값이다. 여기서 또 부정하면 원래 값이 서버로 가서
+      // 서버 상태는 그대로인데 캐시만 뒤집히는 불일치가 생긴다.
+      { todoId: toggleTodo.id, isComplete: toggleTodo.isComplete },
       {
         onSuccess: () => {
           queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {

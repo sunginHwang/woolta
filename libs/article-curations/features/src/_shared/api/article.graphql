@@ -1,0 +1,93 @@
+fragment ArticleParts on Article {
+  id
+  categoryId
+  title
+  url
+  seo {
+    title
+    description
+    imageUrl
+  }
+  createdAt
+  updatedAt
+}
+
+fragment ArticleCategoryParts on ArticleCategory {
+  id
+  name
+  order
+  createdAt
+}
+
+# 큐레이션은 아티클 id 만 받는다 — 아티클 본체는 ArticleList 캐시에 이미 있다.
+fragment WeeklyCurationParts on WeeklyCuration {
+  weekKey
+  articleIds
+}
+
+# 카테고리 필터는 서버 인자(categoryId)를 쓰지 않는다.
+# 사이드바 뱃지가 전체 아티클을 카테고리별로 세야 해서, 목록을 한 번만 받아 클라이언트에서 나눈다.
+query ArticleList {
+  articleList {
+    totalCount
+    itemList {
+      ...ArticleParts
+    }
+  }
+}
+
+query ArticleCategoryList {
+  articleCategoryList {
+    totalCount
+    itemList {
+      ...ArticleCategoryParts
+    }
+  }
+}
+
+query WeeklyCurationList {
+  weeklyCurationList {
+    totalCount
+    itemList {
+      ...WeeklyCurationParts
+    }
+  }
+}
+
+mutation CreateArticle($input: CreateArticleInput!) {
+  createArticle(input: $input) {
+    ...ArticleParts
+  }
+}
+
+mutation DeleteArticle($input: DeleteArticleInput!) {
+  deleteArticle(input: $input)
+}
+
+mutation CreateArticleCategory($input: CreateArticleCategoryInput!) {
+  createArticleCategory(input: $input) {
+    ...ArticleCategoryParts
+  }
+}
+
+mutation UpdateArticleCategory($input: UpdateArticleCategoryInput!) {
+  updateArticleCategory(input: $input) {
+    ...ArticleCategoryParts
+  }
+}
+
+mutation DeleteArticleCategory($input: DeleteArticleCategoryInput!) {
+  deleteArticleCategory(input: $input)
+}
+
+mutation AddArticleToCuration($input: AddArticleToCurationInput!) {
+  addArticleToCuration(input: $input) {
+    ...WeeklyCurationParts
+  }
+}
+
+mutation RemoveArticleFromCuration($input: RemoveArticleFromCurationInput!) {
+  removeArticleFromCuration(input: $input) {
+    ...WeeklyCurationParts
+  }
+}

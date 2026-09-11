@@ -6,10 +6,10 @@ import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { useBlogRoutes } from '../_shared/routes';
-import type { IPost } from '../_shared/types/IPost';
+import type { PostSummary } from '../_shared/types';
 
 interface Props {
-  post: IPost;
+  post: PostSummary;
 }
 
 const styles = stylex.create({

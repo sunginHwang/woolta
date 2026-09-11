@@ -6,10 +6,10 @@ import { PriorityFlag } from '../../../_shared/components/PriorityFlag';
 import type { TodoPriority } from '../../../_shared/types';
 
 const PRIORITY_OPTIONS: { value: TodoPriority; label: string }[] = [
-  { value: 'high', label: '높음' },
-  { value: 'medium', label: '중간' },
-  { value: 'low', label: '낮음' },
-  { value: 'none', label: '없음' },
+  { value: 'HIGH', label: '높음' },
+  { value: 'MEDIUM', label: '중간' },
+  { value: 'LOW', label: '낮음' },
+  { value: 'NONE', label: '없음' },
 ];
 
 interface Props {

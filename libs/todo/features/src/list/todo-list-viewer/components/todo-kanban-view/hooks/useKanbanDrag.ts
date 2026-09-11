@@ -1,14 +1,14 @@
 'use client';
 
 import { type DragEvent, useState } from 'react';
-import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
+import { useUpdateTodo } from '../../../../../_shared/hooks/useTodoMutations';
 
 /**
  * 칸반 카드 드래그 앤 드롭 상태를 관리한다. (HTML5 native DnD)
  * 카드를 다른 컬럼에 드롭하면 해당 카테고리로 이동한다.
  */
 export const useKanbanDrag = () => {
-  const moveTodoToCategory = useTodoStore((state) => state.moveTodoToCategory);
+  const { updateTodo } = useUpdateTodo();
 
   const [draggingTodoId, setDraggingTodoId] = useState<string | null>(null);
   const [dragOverColumnId, setDragOverColumnId] = useState<string | null>(null);
@@ -38,7 +38,7 @@ export const useKanbanDrag = () => {
     e.preventDefault();
     const todoId = e.dataTransfer.getData('text/plain');
     if (todoId.length > 0) {
-      moveTodoToCategory(todoId, categoryId);
+      updateTodo(todoId, { categoryId });
     }
     setDraggingTodoId(null);
     setDragOverColumnId(null);

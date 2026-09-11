@@ -3,7 +3,7 @@ const withStylex = require('../../tools/stylex/nextStylex');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@woolta/common', '@woolta/wds'],
+  transpilePackages: ['@woolta/common', '@woolta/user-features', '@woolta/wds'],
   async rewrites() {
     return [
       {

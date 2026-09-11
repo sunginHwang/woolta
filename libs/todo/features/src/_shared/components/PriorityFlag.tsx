@@ -19,14 +19,14 @@ const styles = stylex.create({
 });
 
 const flagStyleByPriority = {
-  high: styles.high,
-  medium: styles.medium,
-  low: styles.low,
+  HIGH: styles.high,
+  MEDIUM: styles.medium,
+  LOW: styles.low,
 } as const;
 
 /** 우선순위 깃발 아이콘. 우선순위가 없으면 렌더링하지 않는다. */
 export const PriorityFlag = ({ priority, size = 14 }: Props) => {
-  if (priority === 'none') {
+  if (priority === 'NONE') {
     return null;
   }
 

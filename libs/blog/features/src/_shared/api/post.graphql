@@ -1,0 +1,79 @@
+# 목록용 요약 — 서버 PostSummary 에는 content/writer 가 없다.
+fragment PostSummaryParts on PostSummary {
+  postNo
+  categoryNo
+  categoryLabel
+  title
+  subDescription
+  author
+  createdAt
+}
+
+# 상세용 — 서버 Post 에는 subDescription/author 가 없고 writer 가 있다.
+fragment PostDetailParts on Post {
+  postNo
+  categoryNo
+  categoryLabel
+  title
+  content
+  createdAt
+  writer {
+    no
+    nickName
+    imageUrl
+  }
+}
+
+query PostList($categoryId: Int) {
+  postList(categoryId: $categoryId) {
+    totalCount
+    itemList {
+      ...PostSummaryParts
+    }
+  }
+}
+
+# 카테고리 '전체' 탭용. 레거시 GET /post/categories/new/posts 와 동일하다
+# (최신순 20건 — 실측 확인).
+query GetRecentPostList($limitCount: Int) {
+  getRecentPostList(limitCount: $limitCount) {
+    totalCount
+    itemList {
+      ...PostSummaryParts
+    }
+  }
+}
+
+query Post($categoryNo: Int!, $postNo: Int!) {
+  post(categoryNo: $categoryNo, postNo: $postNo) {
+    ...PostDetailParts
+  }
+}
+
+query CategoryList {
+  categoryList {
+    totalCount
+    itemList {
+      value
+      label
+    }
+  }
+}
+
+mutation CreatePost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    categoryNo
+    postNo
+  }
+}
+
+mutation UpdatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    categoryNo
+    postNo
+  }
+}
+
+mutation DeletePost($input: DeletePostInput!) {
+  deletePost(input: $input)
+}

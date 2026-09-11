@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useCategoryList } from '../../../_shared/hooks/useCategoryList';
-import { useTodoStore } from '../../../_shared/stores/useTodoStore';
+import { useAddTodo } from '../../../_shared/hooks/useTodoMutations';
 import type { TodoListKey } from '../../../_shared/types';
 import { getDefaultTodoDraft } from '../../../_shared/utils/getDefaultTodoDraft';
 import { parseCategoryTokens } from '../../../_shared/utils/parseCategoryFromText';
@@ -29,7 +29,7 @@ const isOverlapped = (a: TokenRange, b: TokenRange) => a.startIndex < b.endIndex
  * @param listKey 현재 보고 있는 리스트 키 (기본 마감일/카테고리 결정에 사용)
  */
 export const useTodoAddParser = (listKey: TodoListKey) => {
-  const addTodo = useTodoStore((state) => state.addTodo);
+  const { addTodo } = useAddTodo();
   const categoryList = useCategoryList();
 
   const [text, setText] = useState('');

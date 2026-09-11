@@ -3,8 +3,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { type ChangeEvent, useState } from 'react';
-import { useSelectedMemo } from '../_shared/hooks/useSelectedMemo';
+import { type ChangeEvent, Suspense, useState } from 'react';
+import { useMemoDetail } from '../_shared/hooks/useMemoDetail';
+import { useMemoStore } from '../_shared/stores/useMemoStore';
 import type { Memo } from '../_shared/types';
 import { formatMemoDate } from '../_shared/utils/formatMemoDate';
 import { useMemoAutoSave } from './hooks/useMemoAutoSave';
@@ -53,9 +54,9 @@ const styles = stylex.create({
 });
 
 export const MemoEditor = () => {
-  const selectedMemo = useSelectedMemo();
+  const selectedMemoId = useMemoStore((state) => state.selectedMemoId);
 
-  if (!selectedMemo) {
+  if (selectedMemoId === null) {
     return (
       <div {...stylex.props(styles.empty)}>
         <Text as='p' variant='title5Bold' color='textSecondary' alignment='center'>
@@ -68,7 +69,46 @@ export const MemoEditor = () => {
     );
   }
 
-  return <MemoEditorContent key={selectedMemo.id} memo={selectedMemo} />;
+  // suspense 조회는 끌 수 없으므로 id 가 있을 때만 마운트한다.
+  // key 로 경계를 갈아끼워 메모를 바꿀 때마다 fallback 을 다시 보여준다.
+  return (
+    <Suspense
+      key={selectedMemoId}
+      fallback={
+        <div {...stylex.props(styles.empty)}>
+          <Text as='p' variant='body3' color='textTertiary' alignment='center'>
+            메모를 불러오는 중이에요
+          </Text>
+        </div>
+      }
+    >
+      <SelectedMemoEditor memoId={selectedMemoId} />
+    </Suspense>
+  );
+};
+
+interface SelectedProps {
+  /** 선택된 메모 id */
+  memoId: string;
+}
+
+const SelectedMemoEditor = ({ memoId }: SelectedProps) => {
+  const memo = useMemoDetail(memoId);
+
+  if (!memo) {
+    return (
+      <div {...stylex.props(styles.empty)}>
+        <Text as='p' variant='title5Bold' color='textSecondary' alignment='center'>
+          메모를 찾을 수 없어요
+        </Text>
+        <Text as='p' variant='body3' color='textTertiary' alignment='center' mt={8}>
+          이미 삭제된 메모일 수 있어요
+        </Text>
+      </div>
+    );
+  }
+
+  return <MemoEditorContent memo={memo} />;
 };
 
 interface ContentProps {

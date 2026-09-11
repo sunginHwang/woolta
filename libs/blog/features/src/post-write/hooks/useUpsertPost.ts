@@ -1,8 +1,8 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { type APIResponse, getApiClient } from '../../_shared/api';
+import { useCreatePostMutation, useUpdatePostMutation } from '../../_shared/api/gql.generated';
 import { getBlogConfig } from '../../_shared/config';
 import { getPostQueryKey } from '../../_shared/query-keys';
 import { useBlogRoutes } from '../../_shared/routes';
@@ -10,52 +10,58 @@ import useToast from '../../_shared/toast/useToast';
 
 type UpsertPost = { id: number; title: string; contents: string; categoryNo: number; isUpdate: boolean };
 
-export const upsertPostApi = async (upsertPostInfo: UpsertPost) => {
-  const { isUpdate, ...postInfo } = upsertPostInfo;
-  const res = await getApiClient().post<APIResponse<{ categoryNo: number; postNo: number }>>('/post', postInfo);
-  const upsertPost = res.data.data;
-
-  return {
-    upsertPost,
-    isUpdate,
-  };
-};
-
 export const useUpsertPost = () => {
   const { showToast } = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { basePath } = useBlogRoutes();
 
-  const upsertPostMutate = useMutation({
-    mutationFn: upsertPostApi,
-    onSuccess: ({ upsertPost, isUpdate }) => {
-      const { categoryNo, postNo } = upsertPost;
-      const { tempPostAutoSaveKey } = getBlogConfig();
-      localStorage.removeItem(tempPostAutoSaveKey);
+  /**
+   * 레거시는 POST /post 하나가 생성·수정을 겸했지만 서버 뮤테이션은 둘로 나뉘어 있다.
+   * 어느 쪽이든 { categoryNo, postNo } 를 돌려주므로 후처리는 공통이다.
+   */
+  const onUpsertSuccess = (categoryNo: number, postNo: number, isUpdate: boolean) => {
+    const { tempPostAutoSaveKey } = getBlogConfig();
+    localStorage.removeItem(tempPostAutoSaveKey);
 
-      if (isUpdate) {
-        queryClient.invalidateQueries({ queryKey: getPostQueryKey(String(categoryNo), String(postNo)) });
-      }
+    if (isUpdate) {
+      queryClient.invalidateQueries({ queryKey: getPostQueryKey(String(categoryNo), String(postNo)) });
+    }
 
-      showToast(`글 ${isUpdate ? '수정' : '작성'}이 완료되었습니다.`);
-      router.push(`${basePath}/categories/${categoryNo}/posts/${postNo}`);
-    },
-    onError: (error) => {
-      showToast(error.message);
-    },
+    showToast(`글 ${isUpdate ? '수정' : '작성'}이 완료되었습니다.`);
+    router.push(`${basePath}/categories/${categoryNo}/posts/${postNo}`);
+  };
+
+  const onUpsertError = (error: Error) => showToast(error.message);
+
+  const createPostMutate = useCreatePostMutation({
+    onSuccess: ({ createPost }) => onUpsertSuccess(createPost.categoryNo, createPost.postNo, false),
+    onError: onUpsertError,
+  });
+
+  const updatePostMutate = useUpdatePostMutation({
+    onSuccess: ({ updatePost }) => onUpsertSuccess(updatePost.categoryNo, updatePost.postNo, true),
+    onError: onUpsertError,
   });
 
   const upsertPost = (post: UpsertPost) => {
     if (!validateUpsertPost(post)) {
       return;
     }
-    upsertPostMutate.mutate(post);
+
+    const { id, title, contents, categoryNo, isUpdate } = post;
+
+    if (isUpdate) {
+      updatePostMutate.mutate({ input: { id, title, contents, categoryNo } });
+      return;
+    }
+
+    createPostMutate.mutate({ input: { title, contents, categoryNo } });
   };
 
   return {
     upsertPost,
-    upsertPostMutate,
+    isUpserting: createPostMutate.isPending || updatePostMutate.isPending,
   };
 };
 

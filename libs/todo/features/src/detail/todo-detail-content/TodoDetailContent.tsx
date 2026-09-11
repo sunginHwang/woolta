@@ -7,7 +7,7 @@ import { colorVars } from '@wds/tokens.stylex';
 import { FiCheck, FiRotateCcw, FiTrash2, FiX } from 'react-icons/fi';
 import { TodoCheckbox } from '../../_shared/components/TodoCheckbox';
 import { useSelectedTodo } from '../../_shared/hooks/useSelectedTodo';
-import { useTodoStore } from '../../_shared/stores/useTodoStore';
+import { useTodoTrash, useToggleComplete, useUpdateTodo } from '../../_shared/hooks/useTodoMutations';
 import type { Todo } from '../../_shared/types';
 import { CategorySelect } from './components/CategorySelect';
 import { DueDateField } from './components/DueDateField';
@@ -34,12 +34,10 @@ interface ContentProps {
 }
 
 const Content = ({ todo }: ContentProps) => {
-  const updateTodo = useTodoStore((state) => state.updateTodo);
-  const toggleComplete = useTodoStore((state) => state.toggleComplete);
-  const moveToTrash = useTodoStore((state) => state.moveToTrash);
+  const { updateTodo } = useUpdateTodo();
+  const { toggleComplete } = useToggleComplete();
+  const { moveToTrash, restoreTodo, deleteForever } = useTodoTrash();
   const { openConfirm } = useConfirm();
-  const restoreTodo = useTodoStore((state) => state.restoreTodo);
-  const deleteForever = useTodoStore((state) => state.deleteForever);
   const { saveTitle, saveMemo, flush } = useTodoAutoSave(todo.id);
   const { isJustSaved } = useManualSave(flush);
 
@@ -68,7 +66,7 @@ const Content = ({ todo }: ContentProps) => {
         </div>
       )}
       <div {...stylex.props(styles.toolbar)}>
-        <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id)} />
+        <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id, todo.isCompleted)} />
         <DueDateField dueDate={todo.dueDate} onDueDateChange={(dueDate) => updateTodo(todo.id, { dueDate })} />
         <div {...stylex.props(styles.toolbarSpacer)} />
         {!isTrashed && isJustSaved && (

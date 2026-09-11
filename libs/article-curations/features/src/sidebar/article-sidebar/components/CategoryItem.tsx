@@ -5,13 +5,13 @@ import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import { type KeyboardEvent, type MouseEvent, useState } from 'react';
 import { FiEdit2, FiHash, FiTrash2 } from 'react-icons/fi';
+import { useRemoveCategory, useUpdateCategory } from '../../../_shared/hooks/useCategoryMutations';
 import {
   ARTICLES_BASE_PATH,
   getArticleListHref,
   getCategoryListKey,
   isArticleListActive,
 } from '../../../_shared/routes';
-import { useArticleStore } from '../../../_shared/stores/useArticleStore';
 import type { ArticleCategory } from '../../../_shared/types';
 import { SidebarItem } from './SidebarItem';
 
@@ -67,8 +67,8 @@ const styles = stylex.create({
 /** 사이드바 카테고리 항목. hover 시 이름 변경/삭제, 편집 모드 시 인라인 입력을 제공한다. */
 export const CategoryItem = ({ category, count, pathname }: Props) => {
   const router = useRouter();
-  const updateCategory = useArticleStore((state) => state.updateCategory);
-  const removeCategory = useArticleStore((state) => state.removeCategory);
+  const { updateCategory } = useUpdateCategory();
+  const { removeCategory } = useRemoveCategory();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(category.name);
@@ -82,13 +82,14 @@ export const CategoryItem = ({ category, count, pathname }: Props) => {
     setIsEditing(true);
   };
 
-  const handleRemoveClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleRemoveClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!window.confirm(`'${category.name}' 카테고리를 삭제할까요?\n소속 아티클도 함께 삭제됩니다.`)) {
       return;
     }
 
-    removeCategory(category.id);
+    await removeCategory(category.id);
+    // 삭제된 카테고리 경로에 남아 있으면 존재하지 않는 카테고리 화면이 되므로 목록으로 보낸다.
     if (isActive) {
       router.push(ARTICLES_BASE_PATH);
     }

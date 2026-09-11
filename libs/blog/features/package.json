@@ -11,6 +11,7 @@
     "@tanstack/react-query": "^5.4.3",
     "@uiw/react-codemirror": "^4.21.20",
     "@woolta/common": "workspace:*",
+    "@woolta/user-features": "workspace:*",
     "@woolta/wds": "workspace:*",
     "axios": "^0.21.4",
     "codemirror": "^6.0.1",

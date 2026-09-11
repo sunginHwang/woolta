@@ -25,7 +25,7 @@ export default async function RegularExtenditurePage() {
     },
   });
 
-  await prefetchAccountBookList(queryClient, { selectedDate: '2024-09', config });
+  await prefetchAccountBookList(queryClient, { selectedDate: dayjs().format('YYYY-MM'), config });
   await prefetchAccountStatisticListQuery(queryClient, {
     accountBookStatisticFilter: {
       startDate: dayjs().startOf('month'),

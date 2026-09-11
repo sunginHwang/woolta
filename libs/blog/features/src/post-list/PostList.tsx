@@ -2,12 +2,12 @@
 
 import * as stylex from '@stylexjs/stylex';
 import type { FC } from 'react';
-import type { IPost } from '../_shared/types/IPost';
+import type { PostSummary } from '../_shared/types';
 import PostListItem from './PostListItem';
 import { PostListSkeleton } from './PostListSkeleton';
 
 interface Props {
-  post_list?: IPost[];
+  post_list?: PostSummary[];
   isLoading?: boolean;
 }
 

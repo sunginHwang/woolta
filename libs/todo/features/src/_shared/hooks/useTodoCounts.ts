@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useTodoStore } from '../stores/useTodoStore';
 import { getTodayKey, isFuture, isOverdue, isToday } from '../utils/todoDate';
+import { useTodos } from './useTodos';
 
 /** 사이드바 뱃지에 표시할 리스트별 할 일 개수를 반환한다. */
 export const useTodoCounts = () => {
-  const todos = useTodoStore((state) => state.todos);
+  const todos = useTodos();
 
   return useMemo(() => {
     const todayKey = getTodayKey();

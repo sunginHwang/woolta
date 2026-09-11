@@ -2,9 +2,9 @@
 
 import { useMemo } from 'react';
 import { getCategoryIdFromListKey } from '../routes';
-import { useTodoStore } from '../stores/useTodoStore';
 import type { Todo, TodoListKey } from '../types';
 import { getTodayKey, isOverdue, isToday } from '../utils/todoDate';
+import { useTodos } from './useTodos';
 
 /** 리스트 키에 해당하는 활성(미완료) 필터 조건을 반환한다. */
 const getActiveFilter = (listKey: TodoListKey, todayKey: string) => {
@@ -29,7 +29,7 @@ const getActiveFilter = (listKey: TodoListKey, todayKey: string) => {
  * - completedTodos: 리스트 범위의 완료 항목 (completedAt 내림차순, 완료/휴지통 리스트에서는 빈 배열)
  */
 export const useFilteredTodoList = (listKey: TodoListKey) => {
-  const allTodos = useTodoStore((state) => state.todos);
+  const allTodos = useTodos();
 
   return useMemo(() => {
     if (listKey === 'trash') {

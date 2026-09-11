@@ -5,7 +5,7 @@ import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { type DragEvent, type KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
-import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
+import { useAddTodo } from '../../../../../_shared/hooks/useTodoMutations';
 import type { Todo, TodoListKey } from '../../../../../_shared/types';
 import { getDefaultTodoDraft } from '../../../../../_shared/utils/getDefaultTodoDraft';
 import { getTodayKey } from '../../../../../_shared/utils/todoDate';
@@ -50,7 +50,7 @@ export const KanbanColumn = ({
   onColumnDragLeave,
   onColumnDrop,
 }: Props) => {
-  const addTodo = useTodoStore((state) => state.addTodo);
+  const { addTodo } = useAddTodo();
   const [isAdding, setIsAdding] = useState(false);
   const [newTitle, setNewTitle] = useState('');
 

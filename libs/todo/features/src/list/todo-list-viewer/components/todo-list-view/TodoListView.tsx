@@ -7,9 +7,10 @@ import { useMemo } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import { TodoItem } from '../../../../_shared/components/TodoItem';
 import { TodoSection } from '../../../../_shared/components/TodoSection';
+import { useCategoryList } from '../../../../_shared/hooks/useCategoryList';
 import { useFilteredTodoList } from '../../../../_shared/hooks/useFilteredTodoList';
+import { useTodoTrash } from '../../../../_shared/hooks/useTodoMutations';
 import { getCategoryIdFromListKey } from '../../../../_shared/routes';
-import { useTodoStore } from '../../../../_shared/stores/useTodoStore';
 import type { TodoListKey } from '../../../../_shared/types';
 import { groupTodosByCategory, INBOX_COLUMN_ID } from '../../../../_shared/utils/groupTodosByCategory';
 
@@ -28,8 +29,8 @@ interface Props {
 /** 할 일 리스트 뷰. 오늘 리스트는 지난 섹션을 상단에 분리하고, 카테고리별 섹션으로 묶어 표시한다. */
 export const TodoListView = ({ listKey }: Props) => {
   const { overdueTodos, todos, completedTodos } = useFilteredTodoList(listKey);
-  const emptyTrash = useTodoStore((state) => state.emptyTrash);
-  const categories = useTodoStore((state) => state.categories);
+  const { emptyTrash } = useTodoTrash();
+  const categories = useCategoryList();
 
   // 오늘 뷰는 소속 리스트(카테고리)별 섹션으로 구분한다. 기본함만 있으면 헤더 없이 flat 유지.
   const categoryColumns = useMemo(() => {

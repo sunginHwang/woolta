@@ -6,6 +6,7 @@ import type { DragEvent } from 'react';
 import { DueDateLabel } from '../../../../../_shared/components/DueDateLabel';
 import { PriorityFlag } from '../../../../../_shared/components/PriorityFlag';
 import { TodoCheckbox } from '../../../../../_shared/components/TodoCheckbox';
+import { useToggleComplete } from '../../../../../_shared/hooks/useTodoMutations';
 import { useTodoStore } from '../../../../../_shared/stores/useTodoStore';
 import type { Todo } from '../../../../../_shared/types';
 
@@ -24,7 +25,7 @@ interface Props {
 export const KanbanCard = ({ todo, isDragging, onCardDragStart, onCardDragEnd }: Props) => {
   const selectedTodoId = useTodoStore((state) => state.selectedTodoId);
   const selectTodo = useTodoStore((state) => state.selectTodo);
-  const toggleComplete = useTodoStore((state) => state.toggleComplete);
+  const { toggleComplete } = useToggleComplete();
 
   return (
     <li
@@ -35,10 +36,10 @@ export const KanbanCard = ({ todo, isDragging, onCardDragStart, onCardDragEnd }:
       {...stylex.props(styles.card, todo.id === selectedTodoId && styles.cardActive, isDragging && styles.cardDragging)}
     >
       <div {...stylex.props(styles.titleRow)}>
-        <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id)} />
+        <TodoCheckbox isCompleted={todo.isCompleted} onCheckClick={() => toggleComplete(todo.id, todo.isCompleted)} />
         <span {...stylex.props(styles.title)}>{todo.title}</span>
       </div>
-      {(todo.dueDate !== null || todo.priority !== 'none') && (
+      {(todo.dueDate !== null || todo.priority !== 'NONE') && (
         <div {...stylex.props(styles.metaRow)}>
           {todo.dueDate !== null && <DueDateLabel dueDate={todo.dueDate} />}
           <PriorityFlag priority={todo.priority} />

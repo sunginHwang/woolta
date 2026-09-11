@@ -24,7 +24,7 @@ export const Content = () => {
 
   return (
     <div {...stylex.props(styles.container)}>
-      <MarkdownViewer markdown={post.content} />
+      <MarkdownViewer markdown={post.content ?? ''} />
     </div>
   );
 };

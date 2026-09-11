@@ -9,7 +9,7 @@ const baseTodo: Todo = {
   memo: '',
   dueDate: null,
   categoryId: null,
-  priority: 'none',
+  priority: 'NONE',
   isCompleted: false,
   completedAt: null,
   deletedAt: null,

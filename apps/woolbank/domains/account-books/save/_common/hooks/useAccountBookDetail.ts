@@ -126,8 +126,6 @@ export const useAccountBookDetail = (id: string | null) => {
 
   const upsertAccountBook = (accountBookForm: AccountBookSaveForm) => {
     const isSaveAction = typeof accountBookForm.id !== 'number';
-    console.log('upsertAccountBook', accountBookForm);
-    return;
     if (isSaveAction) {
       addMutation.mutate(accountBookForm, {
         onSuccess: (accountBook: AccountBookDetail) => {

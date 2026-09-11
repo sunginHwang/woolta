@@ -5,8 +5,8 @@ import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import { type KeyboardEvent, type MouseEvent, useState } from 'react';
 import { FiEdit2, FiHash, FiTrash2 } from 'react-icons/fi';
+import { useRemoveCategory, useUpdateCategory } from '../../../_shared/hooks/useCategoryMutations';
 import { getCategoryListKey, getTodoListHref, isTodoListActive, TODO_BASE_PATH } from '../../../_shared/routes';
-import { useTodoStore } from '../../../_shared/stores/useTodoStore';
 import type { TodoCategory } from '../../../_shared/types';
 import { SidebarItem } from './SidebarItem';
 
@@ -22,8 +22,8 @@ interface Props {
 /** 사이드바 카테고리 항목. hover 시 이름 변경/삭제, 편집 모드 시 인라인 입력을 제공한다. */
 export const CategoryItem = ({ category, count, pathname }: Props) => {
   const router = useRouter();
-  const updateCategory = useTodoStore((state) => state.updateCategory);
-  const removeCategory = useTodoStore((state) => state.removeCategory);
+  const { updateCategory } = useUpdateCategory();
+  const { removeCategory } = useRemoveCategory();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(category.name);
@@ -37,13 +37,14 @@ export const CategoryItem = ({ category, count, pathname }: Props) => {
     setIsEditing(true);
   };
 
-  const handleRemoveClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleRemoveClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!window.confirm(`'${category.name}' 리스트를 삭제할까요?\n소속 할 일은 기본함으로 이동합니다.`)) {
       return;
     }
 
-    removeCategory(category.id);
+    await removeCategory(category.id);
+    // 삭제된 리스트 경로에 남아 있으면 존재하지 않는 리스트 화면이 되므로 기본 경로로 보낸다.
     if (isActive) {
       router.push(TODO_BASE_PATH);
     }

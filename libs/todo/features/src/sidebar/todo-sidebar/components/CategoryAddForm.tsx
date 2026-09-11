@@ -5,25 +5,28 @@ import { colorVars } from '@wds/tokens.stylex';
 import { useRouter } from 'next/navigation';
 import { type KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
+import { useAddCategory } from '../../../_shared/hooks/useCategoryMutations';
 import { getCategoryListKey, getTodoListHref } from '../../../_shared/routes';
-import { useTodoStore } from '../../../_shared/stores/useTodoStore';
 
 /** 사이드바 하단 카테고리 추가 폼. 버튼 클릭 시 인라인 입력으로 전환된다. */
 export const CategoryAddForm = () => {
   const router = useRouter();
-  const addCategory = useTodoStore((state) => state.addCategory);
+  const { addCategory } = useAddCategory();
 
   const [isAdding, setIsAdding] = useState(false);
   const [name, setName] = useState('');
 
-  const submit = () => {
+  const submit = async () => {
     const trimmedName = name.trim();
-    if (trimmedName.length > 0) {
-      const categoryId = addCategory(trimmedName);
-      router.push(getTodoListHref(getCategoryListKey(categoryId)));
-    }
+
+    // 입력을 먼저 닫아, 서버 응답을 기다리는 동안 onBlur 로 다시 제출되지 않게 한다.
     setName('');
     setIsAdding(false);
+
+    if (trimmedName.length > 0) {
+      const categoryId = await addCategory(trimmedName);
+      router.push(getTodoListHref(getCategoryListKey(categoryId)));
+    }
   };
 
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

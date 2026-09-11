@@ -65,7 +65,7 @@ export const Title = () => {
       return;
     }
     const { title, categoryNo, content, postNo } = post;
-    setPost({ title, content, category: String(categoryNo), postNo });
+    setPost({ title, content: content ?? '', category: String(categoryNo), postNo });
     push(`${basePath}/write`);
   };
 
