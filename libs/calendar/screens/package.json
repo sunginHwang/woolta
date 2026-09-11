@@ -1,0 +1,19 @@
+{
+  "name": "@woolta/calendar-screens",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "dependencies": {
+    "@woolta/calendar-features": "workspace:*",
+    "@woolta/common": "workspace:*",
+    "@woolta/wds": "workspace:*"
+  },
+  "peerDependencies": {
+    "next": "15.5.24",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

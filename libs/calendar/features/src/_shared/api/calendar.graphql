@@ -1,0 +1,97 @@
+fragment CalendarUserParts on CalendarUser {
+  id
+  name
+  email
+  profileImg
+}
+
+fragment CalendarEventParts on CalendarEvent {
+  id
+  title
+  description
+  startAt
+  endAt
+  isAllDay
+  color
+  isMine
+  owner {
+    ...CalendarUserParts
+  }
+  createdAt
+  updatedAt
+}
+
+fragment CalendarShareParts on CalendarShare {
+  id
+  status
+  isOutgoing
+  counterpart {
+    ...CalendarUserParts
+  }
+  createdAt
+  respondedAt
+}
+
+# 뷰(월·주·일)가 바뀔 때마다 그 기간만 받는다 — 전체를 긁으면 일정이 쌓일수록 무너진다.
+query CalendarEventList($input: CalendarEventRangeInput!) {
+  calendarEventList(input: $input) {
+    totalCount
+    itemList {
+      ...CalendarEventParts
+    }
+  }
+}
+
+query CalendarShareList {
+  calendarShareList {
+    totalCount
+    itemList {
+      ...CalendarShareParts
+    }
+  }
+}
+
+# 로그인 직후 알림 배지 — 내가 받은 대기 중 초대
+query PendingCalendarShareList {
+  pendingCalendarShareList {
+    totalCount
+    itemList {
+      ...CalendarShareParts
+    }
+  }
+}
+
+mutation CreateCalendarEvent($input: CreateCalendarEventInput!) {
+  createCalendarEvent(input: $input) {
+    ...CalendarEventParts
+  }
+}
+
+mutation UpdateCalendarEvent($input: UpdateCalendarEventInput!) {
+  updateCalendarEvent(input: $input) {
+    ...CalendarEventParts
+  }
+}
+
+mutation DeleteCalendarEvent($input: DeleteCalendarEventInput!) {
+  deleteCalendarEvent(input: $input)
+}
+
+mutation RequestCalendarShare($input: RequestCalendarShareInput!) {
+  requestCalendarShare(input: $input) {
+    code
+    share {
+      ...CalendarShareParts
+    }
+  }
+}
+
+mutation RespondCalendarShare($input: RespondCalendarShareInput!) {
+  respondCalendarShare(input: $input) {
+    ...CalendarShareParts
+  }
+}
+
+mutation CancelCalendarShare($input: CancelCalendarShareInput!) {
+  cancelCalendarShare(input: $input)
+}

@@ -1,0 +1,182 @@
+/*
+ * FullCalendar 테마 오버라이드.
+ *
+ * StyleX 로 표현할 수 없어서 CSS Module 로 둔다 — FullCalendar 가 만드는 자손 DOM(.fc-*)을
+ * 타겟팅해야 하고, 우리가 클래스를 붙일 수 있는 지점이 아니다.
+ * `:global()` + 래퍼 클래스(.board)로 스코프를 유지한다 (레포 규칙: docs/stylex-migration-guide.md).
+ *
+ * 색은 전부 CSS 변수로 읽는다 — @wds/tokens.stylex 의 defineVars 키가 '--' 로 시작해
+ * 변수명이 리터럴로 나오므로 StyleX 와 같은 토큰을 공유한다. 다크 테마도 이 변수로 따라온다.
+ */
+
+/* 바깥 컨테이너 — 격자가 라운딩 안으로 잘리도록 overflow:hidden.
+ * box-shadow 는 shadowVars 토큰을 그대로 쓴다. */
+.board {
+  height: 100%;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-popover);
+}
+
+.board :global(.fc) {
+  height: 100%;
+  /* 격자 선을 반투명하게 — 안쪽 구분선만 가볍게 남기고 박스 느낌을 없앤다 */
+  --fc-border-color: color-mix(in srgb, var(--color-borderSubtle) 50%, transparent);
+  --fc-page-bg-color: var(--color-bgSurface);
+  --fc-neutral-bg-color: var(--color-bgSurfaceSecondary);
+  /* 오늘 셀은 브랜드색의 7% 틴트 — 칸 전체를 물들이되 이벤트를 누르지 않는다 */
+  --fc-today-bg-color: color-mix(in srgb, var(--color-interactivePrimary) 7%, transparent);
+  --fc-now-indicator-color: var(--color-statusError);
+  font-size: 1.3rem;
+}
+
+/* 스크롤그리드 바깥 테두리 제거 — 컨테이너의 border-radius 로 대신한다 */
+.board :global(.fc .fc-scrollgrid) {
+  border: none;
+}
+
+/* ── 날짜·시간 라벨 공통 ─────────────────────── */
+
+.board :global(.fc .fc-col-header-cell-cushion),
+.board :global(.fc .fc-daygrid-day-number),
+.board :global(.fc .fc-timegrid-axis-cushion),
+.board :global(.fc .fc-timegrid-slot-label-cushion) {
+  color: var(--color-textTertiary);
+  text-decoration: none;
+}
+
+/* ── 요일 헤더 ─────────────────────────────── */
+
+/* 헤더가 그리드와 같은 박스에 갇히지 않도록 배경을 없애고 글자만 남긴다.
+ * uppercase/letter-spacing 은 영문에서나 의미있고 한글에선 자간만 벌어져 제거한다 */
+.board :global(.fc .fc-col-header-cell-cushion) {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+/* 토·일은 평일보다 살짝 붉은 색조로 구분 */
+.board :global(.fc .fc-day-sat .fc-col-header-cell-cushion),
+.board :global(.fc .fc-day-sun .fc-col-header-cell-cushion) {
+  color: color-mix(in srgb, var(--color-textTertiary) 55%, var(--color-statusError) 45%);
+}
+
+/* ── 날짜 숫자 ─────────────────────────────── */
+
+/* FullCalendar 기본 flex-direction 이 row-reverse 라 숫자가 우측에 붙는다 — row 로 뒤집어 좌상단으로 */
+.board :global(.fc .fc-daygrid-day-top) {
+  flex-direction: row;
+  padding: 0.45rem 0.5rem 0.15rem;
+}
+
+/* 폭을 고정하지 않는다 — 한국어 로케일 라벨이 "30일" 처럼 3글자라
+ * 2rem 정사각에 가두면 두 줄로 깨진다. 내용에 맞춰 늘어나는 pill 로 둔다.
+ * (CalendarBoardView 의 dayCellContent 가 "일" 접미사를 떼지만, 로케일이 바뀌어도
+ *  안 깨지도록 여기서도 넉넉히 잡아둔다) */
+.board :global(.fc .fc-daygrid-day-number) {
+  padding-block: 0;
+  padding-inline: 0.5rem;
+  min-width: 2rem;
+  height: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 1.1rem;
+}
+
+/* 주/일 뷰의 종일 행에도 day-number 엘리먼트가 생기지만 내용이 비어 있다(날짜는 열 헤더가 보여준다).
+ * 그대로 두면 아래 '오늘' 배지 배경만 남아 숫자 없는 빈 원으로 보인다. */
+.board :global(.fc .fc-daygrid-day-number:empty) {
+  display: none;
+}
+
+/* 오늘 날짜 — 브랜드색 원형 배지로 강조 */
+.board :global(.fc .fc-day-today .fc-daygrid-day-number) {
+  background-color: var(--color-interactivePrimary);
+  color: var(--color-textInverse);
+  font-weight: 700;
+}
+
+/* ── 이벤트 pill ────────────────────────────── */
+
+/* backgroundColor·textColor 는 JS(toFullCalendarEvents) 가 틴트 색으로 주입.
+ * 테두리는 없애고 라운딩과 hover 만 남긴다 */
+.board :global(.fc .fc-event) {
+  border: none;
+  border-radius: 0.6rem;
+  padding-block: 0.2rem;
+  padding-inline: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition:
+    filter 0.1s ease,
+    transform 0.1s ease;
+}
+
+.board :global(.fc .fc-event:hover) {
+  filter: brightness(0.9);
+  transform: translateY(-1px);
+}
+
+/* 공유받은 일정 — 점선 대신 좌측 컬러 바.
+ * JS 가 borderColor 에 솔리드 이벤트 색을 넣어 두므로, CSS 에서 left 만 살리면
+ * 인라인 border-color 값을 그대로 가져다 쓸 수 있다 */
+.board :global(.fc .woolta-shared-event) {
+  border-left: 3px solid;
+  border-radius: 0 0.6rem 0.6rem 0;
+  /* 공유 일정은 채도를 낮춰 내 일정보다 뒤로 물러나게 한다 */
+  filter: saturate(0.7);
+  cursor: default;
+}
+
+.board :global(.fc .woolta-shared-event:hover) {
+  /* 공유 일정은 hover 애니메이션 없음 */
+  filter: saturate(0.7);
+  transform: none;
+}
+
+.board :global(.fc .fc-event-title),
+.board :global(.fc .fc-event-time) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "+N개 더" 링크 */
+.board :global(.fc .fc-daygrid-more-link) {
+  color: var(--color-textTertiary);
+  font-size: 1.05rem;
+}
+
+/* 드래그로 구간을 만들 때의 하이라이트 */
+.board :global(.fc .fc-highlight) {
+  background-color: color-mix(in srgb, var(--color-interactivePrimary) 8%, transparent);
+}
+
+/* 월 뷰 셀 — min-height 을 줄여 빈 공간을 걷어낸다 */
+.board :global(.fc .fc-daygrid-day-frame) {
+  min-height: 4.8rem;
+}
+
+/* ── 주/일 뷰 타임그리드 ───────────────────── */
+
+/* 슬롯 높이를 조금 줄여 밀도를 올린다 */
+.board :global(.fc .fc-timegrid-slot) {
+  height: 3rem;
+}
+
+/* 반시간 구분선은 완전히 지워 정시 선만 남긴다 */
+.board :global(.fc .fc-timegrid-slot-minor) {
+  border-top-color: transparent;
+}
+
+/* 현재 시각 인디케이터 — 굵고 선명하게 */
+.board :global(.fc .fc-timegrid-now-indicator-line) {
+  border-width: 2px;
+}
+
+.board :global(.fc .fc-timegrid-now-indicator-arrow) {
+  border-width: 5px;
+}
