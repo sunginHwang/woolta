@@ -9,7 +9,6 @@
     "@woolta/common": "workspace:*",
     "@woolta/user-features": "workspace:*",
     "@woolta/wds": "workspace:*",
-    "axios": "^0.21.4",
     "dayjs": "^1.11.10",
     "jotai": "^2.5.0",
     "lodash-es": "^4.17.21",

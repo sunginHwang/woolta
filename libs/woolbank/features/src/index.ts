@@ -1,7 +1,5 @@
 // account-book-list feature
 
-export type { WoolbankConfig } from './_shared/api/config';
-export { setWoolbankConfig } from './_shared/api/config';
 // 생성된 mutation 훅 — 앱 화면이 직접 호출한다
 // 생성된 mutation 훅 — 앱 화면이 직접 호출한다
 export {
