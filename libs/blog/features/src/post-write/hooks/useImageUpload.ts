@@ -1,49 +1,25 @@
 'use client';
 
-import { getGraphqlHost } from '@common/graphql';
+import { uploadImage } from '@common';
 import { useCallback } from 'react';
-import { getBlogConfig } from '../../_shared/config';
 
 /**
  * 본문 이미지 업로드.
  *
- * 업로드만은 GraphQL 이 아니라 REST 다 — multipart 파일 전송이라 그쪽이 자연스럽다.
- * 다만 호스트는 woolta-api 로 통일한다(`getGraphqlHost`). 레거시 Spring 의 `/file/upload/image` 와
- * 경로만 다르고(`/blog/file/upload/image`) 응답 봉투는 같다.
- *
- * 쿠키 세션을 쓰므로 credentials 를 실어 보낸다 — Authorization 헤더는 더 이상 쓰지 않는다.
+ * 업로드는 woolta-api 의 공용 image 도메인이 맡고, 조회 URL(image.woolta.com)은 서버가 돌려준다.
+ * 실패는 조용히 삼키지 않고 사용자에게 알린 뒤 빈 문자열을 돌려준다 —
+ * 에디터가 빈 URL 을 본문에 넣지 않도록 호출부가 판단한다.
  */
-const UPLOAD_PATH = '/blog/file/upload/image';
-
-interface UploadResponse {
-  code: string;
-  data?: { originFileName: string };
-}
-
 export const saveImageAndGetImageUrl = async (imageFile: File) => {
-  const body = new FormData();
-  body.append('imageFile', imageFile);
-
   try {
-    const res = await fetch(`${getGraphqlHost()}${UPLOAD_PATH}`, {
-      method: 'POST',
-      credentials: 'include',
-      body,
-    });
+    const { imageUrl } = await uploadImage(imageFile, { type: 'blog' });
 
-    const json = (await res.json().catch(() => null)) as UploadResponse | null;
+    return imageUrl;
+  } catch (error) {
+    alert(error instanceof Error ? error.message : '이미지 업로드에 실패하였습니다.');
 
-    if (res.ok && json?.code === 'SUCCESS' && json.data) {
-      const { imageApiUrl } = getBlogConfig();
-      return `${imageApiUrl}/${json.data.originFileName}`;
-    }
-
-    alert('이미지 업로드에 실패하였습니다.');
-  } catch {
-    alert('이미지 업로드에 실패하였습니다.');
+    return '';
   }
-
-  return '';
 };
 
 export default function useImageUpload() {

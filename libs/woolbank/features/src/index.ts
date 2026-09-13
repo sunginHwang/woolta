@@ -33,14 +33,13 @@ export {
   fetchAccountBookStatistics,
   prefetchAccountBookStatistics,
 } from './_shared/hooks/accountBookStatisticApi';
-export type { BucketListDetail, BucketListSummary, UploadedBucketImage } from './_shared/hooks/bucketListApi';
+export type { BucketListDetail, BucketListSummary } from './_shared/hooks/bucketListApi';
 export {
   bucketListDetailKey,
   bucketListSummaryKey,
   fetchBucketListDetail,
   fetchBucketListSummary,
   prefetchBucketListSummary,
-  uploadBucketImage,
 } from './_shared/hooks/bucketListApi';
 export { prefetchAccountBookMain } from './_shared/hooks/prefetch';
 export type { RegularExpenditure, RegularExpenditureListItem } from './_shared/hooks/regularExpenditureApi';
@@ -49,6 +48,8 @@ export {
   prefetchRegularExpenditureList,
   regularExpenditureListKey,
 } from './_shared/hooks/regularExpenditureApi';
+export type { UploadedBucketImage } from './_shared/hooks/uploadBucketImage';
+export { uploadBucketImage } from './_shared/hooks/uploadBucketImage';
 export { useAccountBookList } from './_shared/hooks/useAccountBookList';
 export type { WoolbankRoutes } from './_shared/routes/context';
 // _shared: route context

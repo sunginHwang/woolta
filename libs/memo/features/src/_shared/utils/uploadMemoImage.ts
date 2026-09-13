@@ -1,42 +1,16 @@
-import axios from 'axios';
-
-const ACCESS_TOKEN_COOKIE = '_WOOLTA_USER_';
-
-const getAccessToken = () => {
-  if (typeof document === 'undefined') {
-    return '';
-  }
-
-  const matched = document.cookie.split('; ').find((cookie) => cookie.startsWith(`${ACCESS_TOKEN_COOKIE}=`));
-  return matched?.split('=')[1] ?? '';
-};
+import { uploadImage } from '@common';
 
 /**
- * 이미지 파일을 업로드하고 접근 가능한 URL을 반환한다. 실패 시 null.
- * blog와 동일한 업로드 API(POST {BLOG_API}/file/upload/image → {IMAGE_API}/{originFileName})를 사용한다.
+ * 메모 본문 이미지를 업로드하고 접근 가능한 URL 을 반환한다. 실패 시 null.
+ *
+ * 예전에는 blog 의 레거시 Spring API 를 빌려 썼고 `_WOOLTA_USER_` 쿠키를 Authorization 헤더로
+ * 직접 실어 보냈다. 지금은 woolta-api 의 공용 image 도메인을 쓰며 인증은 세션 쿠키로만 오간다.
  */
 export const uploadMemoImage = async (imageFile: File) => {
-  const formData = new FormData();
-  formData.append('imageFile', imageFile);
-
-  const accessToken = getAccessToken();
-
   try {
-    const { status, data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BLOG_API_BROWSER ?? process.env.NEXT_PUBLIC_BLOG_API}/file/upload/image`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          ...(accessToken ? { Authorization: accessToken } : {}),
-        },
-      },
-    );
+    const { imageUrl } = await uploadImage(imageFile, { type: 'memo' });
 
-    if (status === 200 && data.code === 'SUCCESS') {
-      return `${process.env.NEXT_PUBLIC_IMAGE_API}/${data.data.originFileName}`;
-    }
-    return null;
+    return imageUrl;
   } catch {
     return null;
   }

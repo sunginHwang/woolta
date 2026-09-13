@@ -1,6 +1,7 @@
-// 버킷리스트 조회의 쿼리키 · fetcher · 서버 프리페치, 그리고 이미지 업로드를 소유한다.
+// 버킷리스트 조회의 쿼리키 · fetcher · 서버 프리페치를 소유한다.
 // RSC 에서 import 해야 하므로 'use client' 를 붙이지 않는다.
-import { getGraphqlHost, type PrefetchOptions, toPrefetchHeaders } from '@common/graphql';
+
+import { type PrefetchOptions, toPrefetchHeaders } from '@common/graphql';
 import type { QueryClient } from '@tanstack/react-query';
 import type { BucketListPartsFragment, BucketListSummaryPartsFragment } from '../api/gql.generated';
 import { useBucketListQuery, useBucketListSummaryListQuery } from '../api/gql.generated';
@@ -37,32 +38,3 @@ export function prefetchBucketListSummary(client: QueryClient, options: Prefetch
     queryFn: () => fetchBucketListSummary(options),
   });
 }
-
-/**
- * 버킷 대표 이미지 업로드.
- *
- * 레거시는 `POST/PUT /bucket-list` 가 multipart 로 이미지까지 함께 받았지만,
- * GraphQL 입력은 imageUrl/thumbImageUrl 을 **문자열로** 받는다. 그래서 2단계가 된다:
- * 먼저 여기로 올려 URL 두 개를 받고(서버가 80x80 썸네일을 만든다), 그 값을 mutation 에 넘긴다.
- */
-export interface UploadedBucketImage {
-  imageUrl: string;
-  thumbImageUrl: string;
-}
-
-export const uploadBucketImage = async (file: File): Promise<UploadedBucketImage> => {
-  const body = new FormData();
-  body.append('image', file);
-
-  const res = await fetch(`${getGraphqlHost()}/woolBank/file/upload/image`, {
-    method: 'POST',
-    credentials: 'include',
-    body,
-  });
-
-  if (!res.ok) {
-    throw new Error('이미지 업로드에 실패했습니다.');
-  }
-
-  return (await res.json()) as UploadedBucketImage;
-};

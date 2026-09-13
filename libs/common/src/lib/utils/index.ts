@@ -3,3 +3,4 @@ export * from './device';
 export * from './graphqlFetch';
 export * from './mergeRefs';
 export * from './optimizeRaf';
+export * from './uploadImage';
