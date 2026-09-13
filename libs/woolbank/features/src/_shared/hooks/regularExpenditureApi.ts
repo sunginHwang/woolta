@@ -2,10 +2,7 @@
 // RSC 에서 import 해야 하므로 'use client' 를 붙이지 않는다.
 import { type PrefetchOptions, toPrefetchHeaders } from '@common/graphql';
 import type { QueryClient } from '@tanstack/react-query';
-import type {
-  RegularExpenditureGroupPartsFragment,
-  RegularExpenditureItemPartsFragment,
-} from '../api/gql.generated';
+import type { RegularExpenditureGroupPartsFragment, RegularExpenditureItemPartsFragment } from '../api/gql.generated';
 import { useRegularExpenditureGroupListQuery } from '../api/gql.generated';
 
 export type RegularExpenditure = RegularExpenditureItemPartsFragment;

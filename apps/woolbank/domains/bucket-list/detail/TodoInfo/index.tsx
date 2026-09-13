@@ -26,7 +26,7 @@ export const TodoInfo = memo(() => {
   const { bucket, isLoading } = useBucket();
   const { addTodo, removeTodo, toggleTodoState, addLoading, updateLoading } = useBucket();
   const setIsShowCompleteButtonAtom = useSetAtom(isShowCompleteButtonAtom);
-  if (bucket.id === -1) {
+  if (bucket.id === '') {
     return null;
   }
 

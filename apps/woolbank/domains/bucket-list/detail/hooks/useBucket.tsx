@@ -1,96 +1,66 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+'use client';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  type BucketListDetail,
+  bucketListDetailKey,
+  fetchBucketListDetail,
+  useCompleteBucketListMutation,
+  useCreateBucketListTodoMutation,
+  useDeleteBucketListMutation,
+  useDeleteBucketListTodoMutation,
+  useUpdateBucketListTodoCompleteMutation,
+} from '@woolta/woolbank-features';
 import { useParams, useRouter } from 'next/navigation';
 import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { useToast } from '../../../../hooks/useToast';
-import { deleteData, getData, postData, putData } from '../../../../utils/api';
 import { useBucketList } from '../../main/hooks/useBucketList';
 
 const ERROR_MSG = '다시 시도해 주세요.';
 
-export interface Bucket {
-  id: number;
-  title: string;
-  description: string;
-  completeDate: Date;
-  imageUrl?: string;
-  thumbImageUrl?: string;
-  userId: number;
-  isComplete: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  todoList: Todo[];
-}
+// 조회 타입은 생성 fragment 가 정본이다.
+export type Bucket = BucketListDetail;
+export type Todo = BucketListDetail['todoList'][number];
 
-export interface Todo {
-  id: number;
+/**
+ * 화면이 넘기는 todo 의 최소 형태.
+ * 추가 시점에는 서버 id·bucketListId 가 아직 없으므로 전체 Todo 를 요구하지 않는다.
+ */
+export interface TodoInput {
+  id: string;
   title: string;
   isComplete: boolean;
 }
 
-export const initData: Bucket = {
-  id: -1,
+/**
+ * 빈 상태 센티넬. 레거시가 `id: -1` 로 "없음"을 표현했고 화면이 그 값으로 빈 상태를 판단한다
+ * (isEmpty). GraphQL id 는 문자열이라 '' 를 쓴다.
+ */
+const EMPTY_DATE = '1970-01-01T00:00:00.000Z';
+
+export const initData = {
+  id: '',
   title: '',
   description: '',
-  completeDate: new Date(),
-  userId: -1,
+  // 고정값을 쓴다 — new Date() 를 쓰면 서버와 클라이언트가 다른 값을 만들어 하이드레이션이 어긋난다
+  completeDate: EMPTY_DATE,
   isComplete: false,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  imageUrl: null,
+  thumbImageUrl: null,
+  createdAt: EMPTY_DATE,
+  updatedAt: EMPTY_DATE,
   todoList: [],
-};
+} as unknown as Bucket;
 
-const BUCKET_QUERY_KEY = 'GetBucket';
+export const getBucketQueryKey = (id: string) => bucketListDetailKey(id);
 
-/*
- * 버킷리스트 조회
- * */
 export const fetchBucket = async (bucketId: string) => {
   try {
-    const { data } = await getData<Bucket>(`bucket-list/${bucketId}`);
-
-    return {
-      ...data,
-      completeDate: data.completeDate,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
-    };
+    return (await fetchBucketListDetail(bucketId)) ?? initData;
   } catch {
     return initData;
   }
 };
-
-export const deleteBucket = async (bucketId: number) => {
-  const { data } = await deleteData<number>(`/bucket-list/${bucketId}`);
-  return data;
-};
-
-export const completeBucketState = (bucketId: number) => {
-  return putData(`/bucket-list/${bucketId}/complete`);
-};
-
-export const saveTodo = async (bucketId: string, todo: Todo): Promise<number> => {
-  const { data } = await postData<{ todoId: number }>('/todo', {
-    title: todo.title,
-    isComplete: todo.isComplete,
-    bucketListId: bucketId,
-  });
-
-  return data.todoId;
-};
-
-export const deleteTodo = async (todoId: number) => {
-  const { data } = await deleteData<number>(`/todo/${todoId}`);
-  return data;
-};
-
-export const updateTodoState = async (todoId: number, isComplete: boolean) => {
-  const { data } = await putData<number>(`/todo/${todoId}`, {
-    isComplete,
-  });
-  return data;
-};
-
-export const getBucketQueryKey = (id: string) => [BUCKET_QUERY_KEY, id];
 
 // TODO: todo 쪽 분리하자
 export const useBucket = (id?: string | undefined) => {
@@ -101,11 +71,12 @@ export const useBucket = (id?: string | undefined) => {
   const { bucketId } = useParams() as { bucketId: string };
   const { removeBucketById, updateBucketState } = useBucketList();
   const bucketIdByKey = id ?? bucketId;
+
   const {
     data = initData,
     isError,
     ...rest
-  } = useQuery<Bucket>({
+  } = useQuery({
     queryKey: getBucketQueryKey(bucketIdByKey),
     queryFn: () => fetchBucket(bucketIdByKey),
     enabled: !!bucketIdByKey,
@@ -114,120 +85,85 @@ export const useBucket = (id?: string | undefined) => {
   const onError = () => onToast(ERROR_MSG);
   const onSettled = () => setConfirmLoading(false);
 
-  const removeBucketMutate = useMutation({ mutationFn: deleteBucket });
-  const completeBucketMutation = useMutation({ mutationFn: completeBucketState });
+  /**
+   * 레거시는 setQueryData 로 todoList 를 제자리 변경하고 같은 참조를 반환했다 —
+   * React Query 가 변화를 못 알아채 리렌더를 건너뛸 수 있었다.
+   * 상세를 무효화해 서버를 정본으로 삼는다.
+   */
+  const invalidateDetail = () =>
+    queryClient.invalidateQueries({ queryKey: getBucketQueryKey(bucketIdByKey), exact: true });
 
-  const removeMutation = useMutation({
-    mutationFn: (todoId: number) => {
-      return deleteTodo(todoId);
-    },
-  });
-  const saveMutation = useMutation({ mutationFn: (todo: Todo) => saveTodo(bucketIdByKey, todo) });
-  const updateStateMutation = useMutation({
-    mutationFn: ({ todoId, isComplete }: { todoId: number; isComplete: boolean }) => {
-      return updateTodoState(todoId, isComplete);
-    },
-  });
+  const removeBucketMutate = useDeleteBucketListMutation();
+  const completeBucketMutation = useCompleteBucketListMutation();
+  const saveMutation = useCreateBucketListTodoMutation({ onSuccess: invalidateDetail });
+  const removeMutation = useDeleteBucketListTodoMutation({ onSuccess: invalidateDetail });
+  const updateStateMutation = useUpdateBucketListTodoCompleteMutation({ onSuccess: invalidateDetail });
 
-  const addTodo = async (todo: Todo) => {
-    saveMutation.mutate(todo, {
-      onSuccess: (todoId: number) => {
-        const savedTodo: Todo = Object.assign(todo, { id: todoId });
-        queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
-          if (prev) {
-            prev.todoList = [...prev.todoList, savedTodo];
-          }
-          return prev;
-        });
-      },
-      onError,
-    });
-  };
-
-  const removeTodo = async (todoId: number) => {
-    removeMutation.mutate(todoId, {
-      onSuccess: () => {
-        queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
-          if (prev !== undefined) {
-            prev.todoList = prev?.todoList.filter((todo) => todoId !== todo.id);
-          }
-          return prev;
-        });
-      },
-      onError,
-    });
-  };
-
-  const toggleTodoState = async (todo: Todo) => {
-    const toggleTodo = Object.assign({}, todo);
-    toggleTodo.isComplete = !toggleTodo.isComplete;
-
-    updateStateMutation.mutate(
-      // toggleTodo.isComplete 는 이미 뒤집힌 값이다. 여기서 또 부정하면 원래 값이 서버로 가서
-      // 서버 상태는 그대로인데 캐시만 뒤집히는 불일치가 생긴다.
-      { todoId: toggleTodo.id, isComplete: toggleTodo.isComplete },
-      {
-        onSuccess: () => {
-          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
-            if (prev) {
-              prev.todoList = prev.todoList.map((todo) => (toggleTodo.id !== todo.id ? todo : toggleTodo));
-            }
-            return prev;
-          });
-        },
-        onError,
-      },
+  const addTodo = async (todo: TodoInput) => {
+    saveMutation.mutate(
+      // 서버는 bucketListId 를 Int 로 받는다 (라우트 파라미터는 문자열)
+      { input: { bucketListId: Number(bucketIdByKey), title: todo.title, isComplete: todo.isComplete } },
+      { onError },
     );
+  };
+
+  const removeTodo = async (todoId: string) => {
+    removeMutation.mutate({ input: { todoId } }, { onError });
+  };
+
+  const toggleTodoState = async (todo: TodoInput) => {
+    // 뒤집은 값을 그대로 보낸다 — 여기서 또 부정하면 서버에는 원래 값이 가서 캐시와 어긋난다
+    updateStateMutation.mutate({ input: { todoId: todo.id, isComplete: !todo.isComplete } }, { onError });
   };
 
   const removeBucket = async () => {
     const isConfirm = await openConfirm({ message: '정말 삭제하시겠습니까?', useAutoClose: false });
 
-    if (isConfirm) {
-      setConfirmLoading(true);
-      removeBucketMutate.mutate(Number(bucketIdByKey), {
+    if (!isConfirm) {
+      return;
+    }
+
+    setConfirmLoading(true);
+    removeBucketMutate.mutate(
+      { input: { id: bucketIdByKey } },
+      {
         onSuccess: () => {
-          // 상세 페이지 및 리스트 페이지 캐시 싱크조정
+          // 상세·목록 캐시 싱크 조정
           queryClient.setQueryData(getBucketQueryKey(bucketIdByKey), initData);
-          removeBucketById(Number(bucketIdByKey));
+          removeBucketById();
           onToast('삭제 되었습니다.');
           replace('/bucket-list');
         },
         onError,
         onSettled,
-      });
-    }
+      },
+    );
   };
 
   const completeBucket = async () => {
     const isConfirm = await openConfirm({ message: '목표를 달성하시겠습니까?', useAutoClose: false });
 
-    if (isConfirm) {
-      setConfirmLoading(true);
-      completeBucketMutation.mutate(Number(bucketIdByKey), {
+    if (!isConfirm) {
+      return;
+    }
+
+    setConfirmLoading(true);
+    completeBucketMutation.mutate(
+      { input: { id: bucketIdByKey } },
+      {
         onSuccess: () => {
-          // 상세 페이지 및 리스트 페이지 캐시 싱크조정
-          queryClient.setQueryData<Bucket | undefined>(getBucketQueryKey(bucketIdByKey), (prev) => {
-            if (prev) {
-              prev.isComplete = true;
-            }
-            return prev;
-          });
-          updateBucketState(Number(bucketIdByKey));
+          invalidateDetail();
+          updateBucketState();
           onToast('목표를 달성하신걸 축하드립니다. :)');
         },
         onError,
         onSettled,
-      });
-    }
+      },
+    );
   };
 
-  const inValidQuery = (bucketId: string) => {
-    queryClient.invalidateQueries({
-      queryKey: getBucketQueryKey(bucketId),
-      exact: true,
-    });
-  };
+  const inValidQuery = (targetId: string) =>
+    queryClient.invalidateQueries({ queryKey: getBucketQueryKey(targetId), exact: true });
 
   return {
     bucket: data,

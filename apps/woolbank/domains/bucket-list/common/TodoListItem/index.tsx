@@ -6,14 +6,19 @@ import { ClipLoader } from 'react-spinners';
 import { IconBlackCircle, IconCircleCheck, IconTrashCan } from '../../../../components/atom/Icon';
 import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 
-import type { Todo } from '../../detail/hooks/useBucket';
+/** 저장 폼의 초안 todo 와 상세의 서버 todo 를 모두 받는다 — 공통 부분만 요구한다. */
+export interface TodoListItemTodo {
+  id: string;
+  title: string;
+  isComplete: boolean;
+}
 
 interface Props {
-  todo: Todo;
+  todo: TodoListItemTodo;
   isLoading?: boolean;
   isFreeze?: boolean;
-  onToggleState: (id: Todo) => void;
-  onRemove: (id: number) => void;
+  onToggleState: (todo: TodoListItemTodo) => void;
+  onRemove: (id: string) => void;
 }
 
 const styles = stylex.create({

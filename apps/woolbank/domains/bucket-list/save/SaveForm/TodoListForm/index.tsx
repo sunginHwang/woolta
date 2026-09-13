@@ -69,7 +69,8 @@ export const TodoListForm: FC<Props> = ({ activeForm }) => {
     setBucketTodoList([
       ...todoList,
       {
-        id: todoList.length + 1,
+        // 저장 전 초안 식별자 — 서버 id 와 섞이지 않게 접두사를 붙인다
+        id: `draft-${todoList.length + 1}`,
         title: title,
         isComplete: false,
       },
@@ -97,7 +98,7 @@ export const TodoListForm: FC<Props> = ({ activeForm }) => {
   /**
    * 할일 삭제
    */
-  const onRemove = (id: number) => {
+  const onRemove = (id: string) => {
     setBucketTodoList(todoList.filter((todo) => todo.id !== id));
   };
 

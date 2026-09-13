@@ -21,7 +21,7 @@ export const SaveForm = () => {
   const { bucket } = useBucket(bucketId);
 
   useEffect(() => {
-    if (bucket.id !== -1) {
+    if (bucket.id !== '') {
       setBucketForm({
         id: bucket.id,
         title: bucket.title,

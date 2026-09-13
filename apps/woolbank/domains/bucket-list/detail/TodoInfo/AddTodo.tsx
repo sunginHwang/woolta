@@ -4,10 +4,10 @@ import React, { type FC, useRef } from 'react';
 
 import { TodoAddButton } from '../../common/TodoAddButton';
 import TodoInput from '../../common/TodoInput';
-import type { Todo } from '../hooks/useBucket';
+import type { TodoInput as TodoDraft } from '../hooks/useBucket';
 
 interface Props {
-  onAdd: (todo: Todo) => void;
+  onAdd: (todo: TodoDraft) => void;
   isLoading: boolean;
   onTodoItemFocusIn?: () => void;
   onTodoItemFocusOut?: () => void;
@@ -41,7 +41,8 @@ export const AddTodo: FC<Props> = ({
   // 할일 아이템 추가
   const onAddTodo = (title: string) => {
     onAdd({
-      id: -999, // 포맷맞추기용 id
+      // 서버가 발급하기 전의 자리표시자 — 저장 성공 후 상세를 다시 받아 실제 id 로 대체된다
+      id: '',
       title: title,
       isComplete: false,
     });

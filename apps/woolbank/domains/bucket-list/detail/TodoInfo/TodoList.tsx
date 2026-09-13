@@ -1,15 +1,14 @@
 import * as stylex from '@stylexjs/stylex';
 import { type FC, useState } from 'react';
 
-import { TodoListItem } from '../../common/TodoListItem';
-import type { Todo } from '../hooks/useBucket';
+import { TodoListItem, type TodoListItemTodo } from '../../common/TodoListItem';
 
 interface Props {
-  todoList: Todo[];
+  todoList: TodoListItemTodo[];
   isItemUpdateLoading: boolean;
   isFreeze: boolean;
-  onRemove: (id: number) => void;
-  onToggleState: (todo: Todo) => void;
+  onRemove: (id: string) => void;
+  onToggleState: (todo: TodoListItemTodo) => void;
 }
 
 const styles = stylex.create({
@@ -28,9 +27,9 @@ const styles = stylex.create({
  */
 
 export const TodoList: FC<Props> = ({ todoList, isItemUpdateLoading, isFreeze, onRemove, onToggleState }) => {
-  const [selectTodoId, setSelectedTodo] = useState(0);
+  const [selectTodoId, setSelectedTodo] = useState('');
 
-  const onToggleStateClick = (todo: Todo) => {
+  const onToggleStateClick = (todo: TodoListItemTodo) => {
     setSelectedTodo(todo.id);
     onToggleState(todo);
   };

@@ -1,13 +1,14 @@
 import { atom } from 'jotai';
 
 export interface Todo {
-  id: number;
+  // 서버 id 는 GraphQL ID(문자열). 저장 전 초안도 같은 타입을 쓴다.
+  id: string;
   title: string;
   isComplete: boolean;
 }
 
 export interface BucketForm {
-  id?: number;
+  id?: string;
   title: string;
   description: string;
   completeDate: string;
