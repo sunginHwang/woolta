@@ -1,60 +1,25 @@
-import { type QueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import type { AxiosRequestConfig } from 'axios';
-import { getData } from '../../../../utils/api';
+'use client';
 
-export const REGULAR_EXTENTIRE_LIST_QUERY_KEY = 'getRegularExtentireList';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import {
+  fetchRegularExpenditureList,
+  type RegularExpenditure,
+  type RegularExpenditureListItem,
+  regularExpenditureListKey,
+} from '@woolta/woolbank-features';
 
-export interface RegularExpenditure {
-  id: number;
-  title: string;
-  amount: number;
-  regularDate: number;
-  isAutoExpenditure: boolean;
-  userId: number;
-  expenditureTypeId: number;
-  regularExpenditureDay: string;
-  accountBookCategory: {
-    accountBookCategoryImage: {
-      imageUrl: string;
-    };
-  };
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface RegularExpenditureListItem {
-  type: string;
-  name: string;
-  imageUrl: string;
-  list: RegularExpenditure[];
-}
-
-const fetchRegularExtentureList = async (config?: AxiosRequestConfig) => {
-  try {
-    const res = await getData<RegularExpenditureListItem[]>('/regular-expenditures', config);
-    return res.data;
-  } catch (e) {
-    return [];
-  }
-};
+export { prefetchRegularExpenditureList as prefetchRegularExtentureList } from '@woolta/woolbank-features';
+// 조회 함수·쿼리키는 libs 의 api 모듈이 소유한다 — 여기서는 화면이 쓰는 형태로만 감싼다.
+export type { RegularExpenditure, RegularExpenditureListItem };
 
 export const useRegularExtentureListQuery = () => {
   const { data, ...rest } = useSuspenseQuery({
-    queryKey: [REGULAR_EXTENTIRE_LIST_QUERY_KEY],
-    queryFn: () => fetchRegularExtentureList(),
+    queryKey: regularExpenditureListKey(),
+    queryFn: () => fetchRegularExpenditureList(),
   });
 
-  const regularExpenditureTypeList = data ?? [];
-
   return {
-    regularExpenditureTypeList,
+    regularExpenditureTypeList: data ?? [],
     ...rest,
   };
 };
-
-export function prefetchRegularExtentureList(client: QueryClient, { config }: { config?: AxiosRequestConfig }) {
-  return client.prefetchQuery({
-    queryKey: [REGULAR_EXTENTIRE_LIST_QUERY_KEY],
-    queryFn: () => fetchRegularExtentureList(config),
-  });
-}

@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
+import dayjs from 'dayjs';
 import type { FC } from 'react';
 import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 import type { AccountBookStatisticCategoryItem } from '../_common/hooks/useAccountStatisticListQuery';
@@ -71,7 +72,7 @@ const CategoryBottomSheet: FC<Props> = ({ isOpen, title, titleColor, list, onClo
             <li {...stylex.props(styles.item)} key={key}>
               <div {...stylex.props(styles.itemLeft)}>
                 <p {...stylex.props(styles.itemTitle)}>{title}</p>
-                <span {...stylex.props(styles.itemDate)}>{registerDateTime.format('MM-DD~')}</span>
+                <span {...stylex.props(styles.itemDate)}>{dayjs(registerDateTime).format('MM-DD~')}</span>
               </div>
               <span {...stylex.props(styles.itemAmount)}>{amount.toLocaleString('ko-KR')}원</span>
             </li>

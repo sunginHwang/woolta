@@ -1,34 +1,38 @@
-import { useMutation } from '@tanstack/react-query';
+'use client';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { regularExpenditureListKey, useCreateRegularExpenditureMutation } from '@woolta/woolbank-features';
 import { useRouter } from 'next/navigation';
 import { useToast } from '../../../../hooks/useToast';
-import { postData } from '../../../../utils/api';
-import { useRegularExtentureList } from '../../main/hooks/useRegularExtentureList';
 import type { RegularExtenditureForm } from './useRegularExtenditureForm';
-
-export const addRegularExtenditure = async (regularExpenditureForm: RegularExtenditureForm) => {
-  const { category, ...rest } = regularExpenditureForm;
-  const requestParam = {
-    ...rest,
-    accountBookCategoryId: category.id,
-  };
-  const { data } = await postData('regular-expenditures', requestParam);
-  return data;
-};
 
 export const useSaveRegularExtenditure = () => {
   const { back } = useRouter();
   const { onToast } = useToast();
-  const { refetch } = useRegularExtentureList();
-  const addMutation = useMutation({ mutationFn: addRegularExtenditure });
+  const queryClient = useQueryClient();
 
-  const addRegularExpenditure = (regularExpenditureForm: RegularExtenditureForm) => {
-    addMutation.mutate(regularExpenditureForm, {
-      onSuccess: () => {
-        refetch();
-        back();
+  const addMutation = useCreateRegularExpenditureMutation({
+    // 목록을 직접 조작하지 않고 서버를 정본으로 삼는다
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: regularExpenditureListKey() }),
+  });
+
+  const addRegularExpenditure = ({
+    category,
+    title,
+    amount,
+    regularDate,
+    isAutoExpenditure,
+  }: RegularExtenditureForm) => {
+    addMutation.mutate(
+      {
+        // 카테고리 id 는 GraphQL ID(문자열)이고 서버 입력은 Int 다
+        input: { title, amount, regularDate, isAutoExpenditure, categoryId: Number(category.id) },
       },
-      onError: () => onToast('다시 시도해 주세요.'),
-    });
+      {
+        onSuccess: () => back(),
+        onError: () => onToast('다시 시도해 주세요.'),
+      },
+    );
   };
 
   return {

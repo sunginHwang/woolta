@@ -93,18 +93,19 @@ const RegularExpenditureItem: FC<Props> = ({ type, hasDeleteAuth, regularExpendi
 
       if (isConfirm) {
         setConfirmLoading(true);
-        removeeRegularExtentureMutate.mutate(id, {
-          onSuccess: () => {
-            onToast('삭제 되었습니다.');
-            removeRegularExtentureItem(type, id);
+        // 목록 갱신은 훅이 무효화로 처리한다 — 화면은 결과 안내만 한다
+        removeeRegularExtentureMutate.mutate(
+          { input: { id } },
+          {
+            onSuccess: () => onToast('삭제 되었습니다.'),
+            onError: () => onToast('다시 시도해 주세요.'),
+            onSettled: () => setConfirmLoading(false),
           },
-          onError: () => onToast('다시 시도해 주세요.'),
-          onSettled: () => setConfirmLoading(false),
-        });
+        );
       }
     },
   });
-  const { removeRegularExtentureItem, removeeRegularExtentureMutate } = useRegularExtentureList();
+  const { removeeRegularExtentureMutate } = useRegularExtentureList();
 
   return (
     <li {...stylex.props(styles.expenditureTypeItem)} {...longPressAction}>

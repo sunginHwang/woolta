@@ -2,8 +2,14 @@
 
 export type { WoolbankConfig } from './_shared/api/config';
 export { setWoolbankConfig } from './_shared/api/config';
+// 생성된 mutation 훅 — 앱 화면이 직접 호출한다
+export {
+  useCreateRegularExpenditureMutation,
+  useDeleteRegularExpenditureMutation,
+} from './_shared/api/gql.generated';
 // _shared: confirm provider
 export { ConfirmProvider } from './_shared/confirm/ConfirmContext';
+export { prefetchAccountBookCategories } from './_shared/hooks/accountBookCategoryApi';
 // account-book: 데이터 계층 (apps/woolbank 와 대시보드가 함께 소비한다)
 export type {
   AcccountBookType,
@@ -15,7 +21,19 @@ export {
   prefetchAccountBookList,
 } from './_shared/hooks/accountBookListApi';
 // _shared: prefetch helpers and config
+export type { AccountBookStatistic, AccountStatisticRange } from './_shared/hooks/accountBookStatisticApi';
+export {
+  accountBookStatisticKey,
+  fetchAccountBookStatistics,
+  prefetchAccountBookStatistics,
+} from './_shared/hooks/accountBookStatisticApi';
 export { prefetchAccountBookMain } from './_shared/hooks/prefetch';
+export type { RegularExpenditure, RegularExpenditureListItem } from './_shared/hooks/regularExpenditureApi';
+export {
+  fetchRegularExpenditureList,
+  prefetchRegularExpenditureList,
+  regularExpenditureListKey,
+} from './_shared/hooks/regularExpenditureApi';
 export { useAccountBookList } from './_shared/hooks/useAccountBookList';
 export type { WoolbankRoutes } from './_shared/routes/context';
 // _shared: route context
