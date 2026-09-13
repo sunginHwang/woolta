@@ -14,7 +14,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   type: AccountBookCategoryType;
-  selectCategoryId: number;
+  selectCategoryId: string;
   onCategorySelect: (category: AccountBookCategory) => void;
 }
 
@@ -42,7 +42,7 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
   const onCloseSaveForm = () => toggleOpenSaveForm(false);
 
   const categories = accountBookCategories.filter((a) => a.type === type);
-  const titleMsg = `${type === 'income' ? '수입' : '지출'} 카테고리 추가`;
+  const titleMsg = `${type === 'INCOME' ? '수입' : '지출'} 카테고리 추가`;
 
   return (
     <>

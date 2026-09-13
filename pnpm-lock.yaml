@@ -303,6 +303,9 @@ importers:
       '@woolta/wds':
         specifier: workspace:*
         version: link:../../libs/wds
+      '@woolta/woolbank-features':
+        specifier: workspace:*
+        version: link:../../libs/woolbank/features
 
   apps/woolbank-e2e: {}
 

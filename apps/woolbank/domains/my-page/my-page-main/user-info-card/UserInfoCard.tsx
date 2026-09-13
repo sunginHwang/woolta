@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
+import { useLogout } from '@woolta/user-features';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useLogout } from '@woolta/user-features';
 import { useConfirm } from '../../../../components/Confirm/ConfirmContext';
 import { useUserInfo } from '../../../../hooks/queries/useUserInfo';
 

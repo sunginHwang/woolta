@@ -50,7 +50,7 @@ const FormModal: FC<Props> = ({
       />
       <AmountCategorySheet
         open={openModalName === 'category'}
-        type='expenditure'
+        type='EXPENDITURE'
         onClose={onCloseModal}
         selectCategoryId={formData.category.id}
         onCategorySelect={handleCategoryClick}

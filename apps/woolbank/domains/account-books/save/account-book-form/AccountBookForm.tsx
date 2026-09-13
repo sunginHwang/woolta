@@ -26,16 +26,16 @@ import { FormModal } from './form-modal/FormModal';
 
 const TAB_LIST = [
   {
-    type: 'income',
+    type: 'INCOME',
     name: '수입',
   },
   {
-    type: 'expenditure',
+    type: 'EXPENDITURE',
     name: '지출',
   },
 ];
 
-const SCHEDULED_PAYMENT_LABEL_MAPPER: Record<ScheduledPaymentType, string> = { repeat: '매월', installment: '할부' };
+const SCHEDULED_PAYMENT_LABEL_MAPPER: Record<ScheduledPaymentType, string> = { REPEAT: '매월', INSTALLMENT: '할부' };
 
 interface Props {
   accountBookForm?: AccountBookSaveForm;
@@ -273,8 +273,8 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
             <div {...stylex.props(styles.contentWrapper)}>
               {formData.scheduledPaymentDay && (
                 <Text variant='body3' color='red500'>
-                  {formData.scheduledPaymentType === 'repeat' && `${formData.scheduledPaymentDay}일`}
-                  {formData.scheduledPaymentType === 'installment' &&
+                  {formData.scheduledPaymentType === 'REPEAT' && `${formData.scheduledPaymentDay}일`}
+                  {formData.scheduledPaymentType === 'INSTALLMENT' &&
                     `매월${formData.installmentMonth}일 (1/${formData.scheduledPaymentDay})`}
                 </Text>
               )}

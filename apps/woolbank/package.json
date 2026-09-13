@@ -15,6 +15,7 @@
   "dependencies": {
     "@woolta/common": "workspace:*",
     "@woolta/user-features": "workspace:*",
-    "@woolta/wds": "workspace:*"
+    "@woolta/wds": "workspace:*",
+    "@woolta/woolbank-features": "workspace:*"
   }
 }

@@ -12,13 +12,16 @@ export interface RegularExtenditureForm {
 const INIT_FORM_DATA: RegularExtenditureForm = {
   title: '',
   amount: 0,
+  // 미선택 상태. category.id 는 GraphQL ID(문자열)이라 '' 로 둔다.
   category: {
-    id: -1,
+    id: '',
     name: '',
-    type: 'income',
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    type: 'INCOME',
+    useStatistic: false,
+    accountBookCategoryImageId: 0,
     accountBookCategoryImage: {
+      id: '',
+      name: '',
       imageUrl: '',
     },
   },
@@ -98,5 +101,5 @@ export const useRegularExtenditureForm = () => {
 function isValidSubmit(form: RegularExtenditureForm) {
   const { title, amount, category, regularDate } = form;
 
-  return title.length > 0 && amount > 0 && regularDate > 0 && category.id > 0;
+  return title.length > 0 && amount > 0 && regularDate > 0 && category.id !== '';
 }

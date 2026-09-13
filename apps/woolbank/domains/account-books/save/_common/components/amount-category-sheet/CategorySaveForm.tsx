@@ -74,7 +74,7 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
   const [categoryName, onChangeCategoryName, onReset] = useInput('');
   const [useStatistic, setUseStatistic] = useState(TAB_LIST[0].type);
   const { accountBookCategoryImages } = useAccountBookCategoryImages();
-  const [iconId, setIconId] = useState(0);
+  const [iconId, setIconId] = useState('');
   const { onToast } = useToast();
 
   const typeMsg = getCategoryMsg(type);
@@ -91,7 +91,7 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
     saveAccountBookCategory({
       name: categoryName,
       type,
-      imageId: iconId,
+      imageId: Number(iconId),
       useStatistic: useStatistic === 'ok',
       onSuccessCb: () => onClose(),
     });
@@ -130,7 +130,7 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
       <BottomFloatingButton
         isShow
         loading={isLoading}
-        disabled={categoryName.length === 0 || iconId === 0}
+        disabled={categoryName.length === 0 || iconId === ''}
         onClick={onAddCategoryClick}
       >
         추가하기

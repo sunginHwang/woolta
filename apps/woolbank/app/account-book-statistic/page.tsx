@@ -1,36 +1,24 @@
 export const dynamic = 'force-dynamic';
 
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import type { AxiosRequestConfig } from 'axios';
+import { prefetchAccountBookMain } from '@woolta/woolbank-features';
 import dayjs from 'dayjs';
 import { cookies } from 'next/headers';
 import { prefetchAccountStatisticListQuery } from '../../domains/account-book-statistic/Statistic/_common/hooks/useAccountStatisticListQuery';
 import { Statistic } from '../../domains/account-book-statistic/Statistic/Statistic';
-import { prefetchAccountBookList } from '../../domains/account-books/main/_common/hooks/useAccountBookListQuery';
-import { getData } from '../../utils/api';
 
 export default async function RegularExtenditurePage() {
-  const config: AxiosRequestConfig = {
-    headers: {
-      Cookie: (await cookies()).toString(),
-    },
-  };
+  const cookie = (await cookies()).toString();
+  // 통계는 아직 레거시 REST 다 (슬라이스 B) — axios 설정이 따로 필요하다
+  const config = { headers: { Cookie: cookie } };
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ['getAccountBookCategories'],
-    queryFn: async () => {
-      const { data } = await getData(`/account-book-categories`, config);
-      return data;
-    },
-  });
-
-  await prefetchAccountBookList(queryClient, { selectedDate: dayjs().format('YYYY-MM'), config });
+  await prefetchAccountBookMain(queryClient, { cookie });
   await prefetchAccountStatisticListQuery(queryClient, {
     accountBookStatisticFilter: {
       startDate: dayjs().startOf('month'),
       endDate: dayjs().endOf('month'),
-      type: 'expenditure',
+      type: 'EXPENDITURE',
       dateRange: 'month',
     },
     config,

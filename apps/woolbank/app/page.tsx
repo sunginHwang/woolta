@@ -1,26 +1,16 @@
 export const dynamic = 'force-dynamic';
 
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import dayjs from 'dayjs';
+import { prefetchAccountBookMain } from '@woolta/woolbank-features';
 import { cookies } from 'next/headers';
-import { prefetchAccountBookList } from '../domains/account-books/main/_common/hooks/useAccountBookListQuery';
 import AccountBookList from '../domains/account-books/main/AccountBookListPage';
-import { getData } from '../utils/api';
 
 export default async function AccountBooks() {
-  const headers = {
-    Cookie: (await cookies()).toString(),
-  };
-
+  const cookie = (await cookies()).toString();
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ['getAccountBookCategories'],
-    queryFn: async () => {
-      const { data } = await getData(`/account-book-categories`, { headers });
-      return data;
-    },
-  });
-  await prefetchAccountBookList(queryClient, { selectedDate: dayjs().format('YYYY-MM'), config: { headers } });
+
+  // 카테고리와 이달 목록을 한 번에 — 쿼리키와 조회 함수는 libs 의 api 모듈이 소유한다
+  await prefetchAccountBookMain(queryClient, { cookie });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

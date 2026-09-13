@@ -8,11 +8,11 @@ import type { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 
 const TAB_LIST = [
   {
-    type: 'repeat',
+    type: 'REPEAT',
     name: '반복',
   },
   {
-    type: 'installment',
+    type: 'INSTALLMENT',
     name: '할부',
   },
 ];
@@ -24,11 +24,11 @@ const VALUE_INFO_MAPPER: Record<
     placeholder: string;
   }
 > = {
-  repeat: {
+  REPEAT: {
     label: '매월 지출일',
     placeholder: '매 월 지출되는 일자를 입력해주세요.',
   },
-  installment: {
+  INSTALLMENT: {
     label: '매월 할부 지출일',
     placeholder: '매 월 지출되는 할부 일자를 입력해주세요.',
   },
@@ -74,7 +74,7 @@ export const ScheduledPaymentBottomSheet = ({
   setSaveScheduledPayments,
   onCloseModal,
 }: Props) => {
-  const [scheduled_payments_type_state, setScheduledPaymentsTypeState] = useState<ScheduledPaymentType>('repeat');
+  const [scheduled_payments_type_state, setScheduledPaymentsTypeState] = useState<ScheduledPaymentType>('REPEAT');
   const [schedule_payment_value_state, setSchedulePaymentValue] = useState<'' | number>('');
   const [installmentMonthState, setInstallmentMonthState] = useState<'' | number>('');
 
@@ -118,14 +118,14 @@ export const ScheduledPaymentBottomSheet = ({
 
   const { placeholder, label } = VALUE_INFO_MAPPER[scheduled_payments_type_state];
   const is_valid_installment =
-    scheduled_payments_type_state === 'installment' &&
+    scheduled_payments_type_state === 'INSTALLMENT' &&
     !!schedule_payment_value_state &&
     schedule_payment_value_state > 0 &&
     !!installmentMonthState &&
     installmentMonthState > 0 &&
     installmentMonthState <= 31;
   const is_valid_repeat =
-    scheduled_payments_type_state === 'repeat' &&
+    scheduled_payments_type_state === 'REPEAT' &&
     !!schedule_payment_value_state &&
     schedule_payment_value_state > 0 &&
     schedule_payment_value_state <= 31;
@@ -153,7 +153,7 @@ export const ScheduledPaymentBottomSheet = ({
             isShowCloseBtn={false}
             label={label}
           />
-          {scheduled_payments_type_state === 'installment' && (
+          {scheduled_payments_type_state === 'INSTALLMENT' && (
             <BaseInput
               type='number'
               onChange={handleInstallmentMonthChange}

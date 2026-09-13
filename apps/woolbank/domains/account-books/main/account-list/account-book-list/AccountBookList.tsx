@@ -59,7 +59,7 @@ export default withSuspense(AccountBookList, <AccountBookListSkeleton />);
  */
 function getTotalAmount(accountBookList: AccountBook[]) {
   return accountBookList.reduce((prev, item) => {
-    const addPrice = item.type === 'income' ? item.amount : -item.amount;
+    const addPrice = item.type === 'INCOME' ? item.amount : -item.amount;
     return prev + addPrice;
   }, 0);
 }

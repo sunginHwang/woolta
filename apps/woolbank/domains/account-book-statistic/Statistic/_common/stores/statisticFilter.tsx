@@ -2,7 +2,7 @@ import dayjs, { type Dayjs } from 'dayjs';
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import type { DateRange } from '../../../../../utils/date';
-export type AccountBookCategoryType = 'expenditure' | 'income';
+export type AccountBookCategoryType = 'EXPENDITURE' | 'INCOME';
 
 export interface AccountStatisticFilter {
   startDate: Dayjs;
@@ -13,7 +13,7 @@ export interface AccountStatisticFilter {
 export const AccountBookStatisticFilterAtom = atom<AccountStatisticFilter>({
   startDate: dayjs().startOf('month'),
   endDate: dayjs().endOf('month'),
-  type: 'expenditure',
+  type: 'EXPENDITURE',
   dateRange: 'month',
 });
 

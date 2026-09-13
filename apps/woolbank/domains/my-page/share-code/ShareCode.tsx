@@ -78,11 +78,7 @@ export const ShareCode = () => {
           </div>
         )}
         <div {...stylex.props(styles.shareButtonWrapper)}>
-          <Button
-            fill
-            loading={isUpserting}
-            onClick={createShareCode}
-          >
+          <Button fill loading={isUpserting} onClick={createShareCode}>
             공유 코드 {isExistShareCode ? '재' : ''}발급하기
           </Button>
         </div>

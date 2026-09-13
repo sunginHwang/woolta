@@ -90,7 +90,7 @@ export const RegularExtenditureForm: FC<Props> = ({ submitForm }) => {
 
   const handleRegularDateClick = (date: number) => {
     setRegularDate(date);
-    if (formData.category.id === -1) {
+    if (formData.category.id === '') {
       setModalName('category');
     }
   };

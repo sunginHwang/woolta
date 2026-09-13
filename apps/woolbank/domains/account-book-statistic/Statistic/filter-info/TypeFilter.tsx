@@ -6,11 +6,11 @@ import { Label } from './Label';
 
 const CATEGORY_BOTTOM_MENU_LIST: BottomMenu<AccountBookCategoryType>[] = [
   {
-    type: 'income',
+    type: 'INCOME',
     value: '수입',
   },
   {
-    type: 'expenditure',
+    type: 'EXPENDITURE',
     value: '지출',
   },
 ];

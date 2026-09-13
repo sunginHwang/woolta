@@ -1,8 +1,8 @@
-export type AccountBookCategoryType = 'expenditure' | 'income';
-
-/*
- * 가계부 타입에 따른 한글 msg 반환
- * */
-export default function getCategoryMsg(type: AccountBookCategoryType) {
-  return type === 'income' ? '수입' : '지출';
-}
+/**
+ * 가계부 타입 유틸 — libs 를 단일 출처로 삼는다.
+ *
+ * GraphQL enum 은 UPPER_CASE(`EXPENDITURE` / `INCOME`)다. 앱에서 소문자로 따로 선언하면
+ * 카테고리 필터(`categories.filter(a => a.type === type)`)가 에러 없이 빈 배열이 된다.
+ */
+export type { AccountBookCategoryType } from '@woolta/woolbank-features';
+export { getCategoryMsg as default } from '@woolta/woolbank-features';

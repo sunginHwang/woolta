@@ -34,19 +34,17 @@ function getAccountBookFrom(accountBookDetail: AccountBookDetail | null): Accoun
     return undefined;
   }
 
-  const { id, title, amount, memo = '', registerDateTime, category, type, isDisabledBudget } = accountBookDetail;
+  const { id, title, amount, memo, registerDateTime, accountBookCategory, type, isDisabledBudget } = accountBookDetail;
+
   return {
     id,
     title,
     amount,
-    memo,
+    memo: memo ?? '',
     registerDateTime: dayjs(registerDateTime),
     isDisabledBudget,
-    category: {
-      ...category,
-      createdAt: category.createdAt,
-      updatedAt: category.updatedAt,
-    },
+    // 생성 fragment 가 폼이 요구하는 카테고리 형태와 같다 — 그대로 넘긴다
+    category: accountBookCategory,
     type,
   };
 }
