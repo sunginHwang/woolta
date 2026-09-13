@@ -98,6 +98,23 @@ export const toPrefetchHeaders = ({ cookie }: PrefetchOptions) => {
   return forwarded === '' ? undefined : { cookie: forwarded };
 };
 
+/**
+ * 세션이 끊겼는가.
+ *
+ * 서버는 미인증을 `extensions.code === 'UNAUTHENTICATED'` 로 알려준다.
+ * 이걸 구분하지 않으면 조회 훅들이 실패를 빈 배열로 삼켜 **세션 만료가 "데이터 없음"으로 렌더된다**.
+ * 조회 함수는 이 경우에만 에러를 그대로 올리고, 나머지 실패는 기존처럼 기본값으로 떨어뜨린다.
+ */
+export const UNAUTHENTICATED_CODE = 'UNAUTHENTICATED';
+
+export const isUnauthenticatedError = (error: unknown): boolean => {
+  if (!(error instanceof GraphqlFetchError)) {
+    return false;
+  }
+
+  return error.status === 401 || error.errors.some((item) => item.extensions?.code === UNAUTHENTICATED_CODE);
+};
+
 export const createGraphqlFetch = (domain: WooltaGraphqlDomain) =>
   // query 는 plain string 또는 codegen 이 생성한 TypedDocumentString(String 서브클래스)
   function gqlFetch<TData, TVariables>(

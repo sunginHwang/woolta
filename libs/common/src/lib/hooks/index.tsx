@@ -12,6 +12,7 @@ export * from './useManualSave';
 export * from './useMount';
 export * from './usePreventScroll';
 export * from './useScrollDirection';
+export * from './useSessionExpiredRedirect';
 export * from './useToggle';
 export * from './useUpdateEffect';
 export * from './useWindowDemensions';

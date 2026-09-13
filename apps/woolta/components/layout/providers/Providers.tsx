@@ -1,6 +1,6 @@
 'use client';
 
-import { AppHostProvider } from '@common';
+import { AppHostProvider, useSessionExpiredRedirect } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfirmProvider, type ThemeType } from '@wds';
 import { Provider as JotaiProvider, useAtomValue } from 'jotai';
@@ -8,6 +8,15 @@ import { useHydrateAtoms } from 'jotai/utils';
 import { useEffect } from 'react';
 import AppShell from '../app-shell/AppShell';
 import { themeTypeAtom } from '../store';
+
+/**
+ * 세션 만료 감시. QueryClientProvider 안쪽이어야 한다(useQueryClient 를 쓴다).
+ * proxy 가 라우트 진입은 막지만 머무는 동안의 만료는 걸러지지 않는다.
+ */
+const SessionGuard = () => {
+  useSessionExpiredRedirect('/login');
+  return null;
+};
 
 let browserQueryClient: QueryClient | undefined;
 
@@ -71,6 +80,7 @@ export const Providers = ({ initialThemeType, children }: Props) => {
   return (
     <AppHostProvider appHost='woolta'>
       <QueryClientProvider client={queryClient}>
+        <SessionGuard />
         <JotaiProvider>
           <ThemeHydration initialThemeType={initialThemeType}>
             <ThemedApp>{children}</ThemedApp>

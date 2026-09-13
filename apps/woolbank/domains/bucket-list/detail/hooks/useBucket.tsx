@@ -1,5 +1,6 @@
 'use client';
 
+import { isUnauthenticatedError } from '@common/graphql';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   type BucketListDetail,
@@ -54,10 +55,18 @@ export const initData = {
 
 export const getBucketQueryKey = (id: string) => bucketListDetailKey(id);
 
+/**
+ * 없는 버킷은 빈 상태로 보여주되, **세션이 끊긴 것과 구분한다.**
+ * 인증 오류까지 삼키면 로그아웃 상태가 "버킷 없음"으로 렌더된다.
+ */
 export const fetchBucket = async (bucketId: string) => {
   try {
     return (await fetchBucketListDetail(bucketId)) ?? initData;
-  } catch {
+  } catch (error) {
+    if (isUnauthenticatedError(error)) {
+      throw error;
+    }
+
     return initData;
   }
 };

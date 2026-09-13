@@ -1,7 +1,7 @@
 'use client';
 
 import { BlogRoutesContext, setBlogConfig } from '@blog/features';
-import { AppHostProvider } from '@common';
+import { AppHostProvider, useSessionExpiredRedirect } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider as JotaiProvider } from 'jotai';
 import config, { setConfig } from '../../../utils/config';
@@ -17,6 +17,19 @@ setBlogConfig({
   tempPostAutoSaveKey: config.tempPostAutoSave,
   thumbnailImageUrl: config.blogThumbnailImageUrl,
 });
+
+/**
+ * 세션 만료 감시.
+ *
+ * blog 읽기는 비인증이라 걸리지 않는다 — 글 저장·삭제처럼 인증이 필요한 요청이
+ * 만료된 세션으로 나갈 때만 로그인 화면으로 보낸다.
+ */
+const LOGIN_URL = process.env.NEXT_PUBLIC_LOGIN_URL ?? 'https://bank.woolta.com/user/login';
+
+const SessionGuard = () => {
+  useSessionExpiredRedirect(LOGIN_URL);
+  return null;
+};
 
 let browserQueryClient: QueryClient | undefined;
 
@@ -49,6 +62,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppHostProvider appHost='blog'>
       <QueryClientProvider client={queryClient}>
+        <SessionGuard />
         <JotaiProvider>
           <BlogRoutesContext.Provider value={{ basePath: BLOG_BASE_PATH }}>
             <Layout>{children}</Layout>

@@ -36,6 +36,7 @@ export default defineConfig({
       './apps/woolbank',
       './apps/woolta',
       './apps/ssr-test',
+      './libs/common',
       './libs/wds',
       './libs/article-curations/features',
       './libs/blog/features',
