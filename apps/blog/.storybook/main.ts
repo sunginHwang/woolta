@@ -3,7 +3,8 @@ import { viteStylexPlugin } from '../../../tools/stylex/viteStylexPlugin.mjs';
 import { workspaceAlias } from '../../../tools/workspaceAlias.mjs';
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  // blog 화면 컴포넌트는 libs/blog 로 옮겨졌다 — 앱 고유 컴포넌트와 함께 둘 다 수집한다.
+  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx|mdx)', '../../../libs/blog/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
     name: '@storybook/nextjs-vite',

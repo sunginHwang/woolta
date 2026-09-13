@@ -1,9 +1,11 @@
+// 토스트는 libs 의 것을 쓴다 — 글 저장·삭제 훅이 libs 의 atom 에 메시지를 넣으므로
+// 앱이 자기 NotificationBar 를 렌더하면 서로 다른 atom 을 보게 돼 토스트가 뜨지 않는다.
+import { NotificationBar } from '@blog/features';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
 import type { FC, PropsWithChildren } from 'react';
 import { usePwa } from '../../hooks/usePwa';
 import Loading from '../common/loading/Loading';
-import NotificationBar from '../common/notification-bar/NotificationBar';
 import { Footer } from './footer/Footer';
 import { Header } from './header/Header';
 import { useLayout } from './hooks/useLayout';

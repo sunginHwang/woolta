@@ -16,6 +16,16 @@ export type DeletePostInput = {
   postNo: number;
 };
 
+export type SubscribeWebPushInput = {
+  auth: string;
+  endPoint: string;
+  key: string;
+};
+
+export type UnsubscribeWebPushInput = {
+  key: string;
+};
+
 export type UpdatePostInput = {
   categoryNo: number;
   contents: string;
@@ -74,6 +84,20 @@ export type DeletePostMutationVariables = Exact<{
 
 
 export type DeletePostMutation = { deletePost: boolean };
+
+export type SubscribeWebPushMutationVariables = Exact<{
+  input: SubscribeWebPushInput;
+}>;
+
+
+export type SubscribeWebPushMutation = { subscribeWebPush: boolean };
+
+export type UnsubscribeWebPushMutationVariables = Exact<{
+  input: UnsubscribeWebPushInput;
+}>;
+
+
+export type UnsubscribeWebPushMutation = { unsubscribeWebPush: boolean };
 
 
 export class TypedDocumentString<TResult, TVariables>
@@ -417,3 +441,47 @@ export const useDeletePostMutation = <
 
 
 useDeletePostMutation.fetcher = (variables: DeletePostMutationVariables, options?: RequestInit['headers']) => gqlFetch<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument, variables, options);
+
+export const SubscribeWebPushDocument = new TypedDocumentString(`
+    mutation SubscribeWebPush($input: SubscribeWebPushInput!) {
+  subscribeWebPush(input: $input)
+}
+    `);
+
+export const useSubscribeWebPushMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<SubscribeWebPushMutation, TError, SubscribeWebPushMutationVariables, TContext>) => {
+    
+    return useMutation<SubscribeWebPushMutation, TError, SubscribeWebPushMutationVariables, TContext>(
+      {
+    mutationKey: ['SubscribeWebPush'],
+    mutationFn: (variables?: SubscribeWebPushMutationVariables) => gqlFetch<SubscribeWebPushMutation, SubscribeWebPushMutationVariables>(SubscribeWebPushDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useSubscribeWebPushMutation.fetcher = (variables: SubscribeWebPushMutationVariables, options?: RequestInit['headers']) => gqlFetch<SubscribeWebPushMutation, SubscribeWebPushMutationVariables>(SubscribeWebPushDocument, variables, options);
+
+export const UnsubscribeWebPushDocument = new TypedDocumentString(`
+    mutation UnsubscribeWebPush($input: UnsubscribeWebPushInput!) {
+  unsubscribeWebPush(input: $input)
+}
+    `);
+
+export const useUnsubscribeWebPushMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UnsubscribeWebPushMutation, TError, UnsubscribeWebPushMutationVariables, TContext>) => {
+    
+    return useMutation<UnsubscribeWebPushMutation, TError, UnsubscribeWebPushMutationVariables, TContext>(
+      {
+    mutationKey: ['UnsubscribeWebPush'],
+    mutationFn: (variables?: UnsubscribeWebPushMutationVariables) => gqlFetch<UnsubscribeWebPushMutation, UnsubscribeWebPushMutationVariables>(UnsubscribeWebPushDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUnsubscribeWebPushMutation.fetcher = (variables: UnsubscribeWebPushMutationVariables, options?: RequestInit['headers']) => gqlFetch<UnsubscribeWebPushMutation, UnsubscribeWebPushMutationVariables>(UnsubscribeWebPushDocument, variables, options);

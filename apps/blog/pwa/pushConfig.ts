@@ -1,5 +1,5 @@
+import { subscribeWebPush, unsubscribeWebPush } from '@blog/features';
 import type { IPwaSubscription } from '../types/pwa/IPwaSubscription';
-import apiCall from '../utils/api';
 
 const PWA_LOG: string = '[WOOLTA_BLOG_SERVICE_WORKER]';
 const PUSH_APPLICATION_SERVER_KEY =
@@ -12,19 +12,20 @@ const PWA_NOTIFICATION_PERMISSIONS = {
 };
 
 const pushSubscription = (subscription: IPwaSubscription) => {
-  apiCall.post('/push/subscription', {
+  subscribeWebPush({
     auth: subscription.keys.auth,
     key: subscription.keys.p256dh,
     endPoint: subscription.endpoint,
   });
 };
 
+/**
+ * 해지는 구독 때 저장해 둔 `keys.auth` 를 넘긴다 — 구독이 `key` 로 보내는 `keys.p256dh` 가 아니다.
+ * 서버도 이 값을 auth 컬럼으로 조회해 지운다(WebPushService.removePushSubscription).
+ * 이름이 어긋나 보이지만 레거시부터 이어진 동작이라 그대로 둔다.
+ */
 const pushUnsubscription = (pwaSubscriptionKey: string) => {
-  apiCall.delete('/push/subscription', {
-    data: {
-      key: pwaSubscriptionKey,
-    },
-  });
+  unsubscribeWebPush(pwaSubscriptionKey);
 };
 
 export const initSubscribe = async (swRegistration: unknown) => {

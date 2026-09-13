@@ -7,6 +7,7 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { useBlogRoutes } from '../_shared/routes';
 import type { PostSummary } from '../_shared/types';
+import { formatPostDate } from '../_shared/utils/date';
 
 interface Props {
   post: PostSummary;
@@ -63,7 +64,7 @@ const PostListItem: FC<Props> = ({ post }) => {
             </Text>
           </div>
           <Text variant='small1Regular' color='grayTertiary'>
-            {post.createdAt}
+            {formatPostDate(post.createdAt)}
           </Text>
         </div>
       </Link>

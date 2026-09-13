@@ -25,6 +25,18 @@ export async function fetchPostList(categoryId: string): Promise<PostSummary[]> 
   return [...data.postList.itemList].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
+/**
+ * 카테고리 구분 없는 전체 글. 사이트맵 생성용이라 react-query 를 거치지 않는다.
+ *
+ * 레거시 `GET /post/categories/posts/all` 대응 — `postList` 리졸버가 categoryId 를 받지 않으면
+ * where 를 비워 전체를 돌려준다(PostService.getPostList). 전용 쿼리가 따로 필요하지 않다.
+ */
+export async function fetchAllPosts(): Promise<PostSummary[]> {
+  const data = await usePostListQuery.fetcher({})();
+
+  return data.postList.itemList;
+}
+
 export const usePostList = (categoryId: string) => {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: [POSTS_QUERY_KEY, categoryId],

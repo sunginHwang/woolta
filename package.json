@@ -40,7 +40,6 @@
     "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
     "motion": "^13.1.1",
-    "nanobar": "^0.4.2",
     "next": "16.3.3",
     "react": "19.2.8",
     "react-calendar": "^4.7.0",

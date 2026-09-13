@@ -10,7 +10,8 @@ export const allCategory: ICategory = {
 };
 
 // 서버 Category 는 { value, label } 로 ICategory 와 형태가 같다.
-const fetchCategories = async (): Promise<ICategory[]> => {
+// 사이트맵 생성(RSC route handler)처럼 react-query 밖에서도 쓰므로 export 한다.
+export const fetchCategories = async (): Promise<ICategory[]> => {
   const data = await useCategoryListQuery.fetcher()();
 
   return data.categoryList.itemList;

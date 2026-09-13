@@ -1,19 +1,18 @@
 export const dynamic = 'force-dynamic';
 
+import { Home, prefetchBlogList } from '@blog/features';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { Home } from '../components/home/Home';
-import { prefetchCategories } from '../components/home/hooks/useCategories';
-import { prefetchPostList } from '../components/home/hooks/usePostList';
 
 interface Props {
   searchParams: Promise<{ category: string | undefined }>;
 }
+
 export default async function Index(props: Props) {
   const searchParams = await props.searchParams;
   const queryClient = new QueryClient();
-  const categoryId = searchParams?.category ?? '-1';
+  const category = searchParams?.category ?? '-1';
 
-  await Promise.all([prefetchPostList(queryClient, categoryId), prefetchCategories(queryClient)]);
+  await prefetchBlogList(queryClient, { category });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

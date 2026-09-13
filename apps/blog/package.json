@@ -13,6 +13,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.storybook.json"
   },
   "dependencies": {
+    "@woolta/blog-features": "workspace:*",
+    "@woolta/blog-screens": "workspace:*",
     "@woolta/common": "workspace:*",
     "@woolta/user-features": "workspace:*",
     "@woolta/wds": "workspace:*"

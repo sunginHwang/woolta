@@ -1,31 +1,29 @@
-import axios from 'axios';
-import type { ICategory } from '../../types/post/ICategory';
-import type { IPost } from '../../types/post/IPost';
+import { fetchAllPosts, fetchCategories } from '@blog/features';
 
-const API = 'https://blog.woolta.com';
-const BLOG_API = 'https://api-blog.woolta.com';
+const SITE = process.env.NEXT_PUBLIC_BLOG_URL ?? 'https://blog.woolta.com';
 
 const NOW = new Date();
 const CATEGORY_PRIORITY = 0.5;
 const POSTS_PRIORITY = 1;
 
 export async function makeCategoriesSiteMap() {
-  const categories = await axios.get(`${BLOG_API}/post/categories`);
-  const categoriesSiteMap = await (categories.data.data as ICategory[]).map((category) =>
-    makeSiteMapItemXml(`${API}/categories/${category.value}`, CATEGORY_PRIORITY),
-  );
+  const categories = await fetchCategories();
 
-  return wrapSiteMap(categoriesSiteMap as any);
+  return wrapSiteMap(
+    categories
+      .map((category) => makeSiteMapItemXml(`${SITE}/categories/${category.value}`, CATEGORY_PRIORITY))
+      .join(''),
+  );
 }
 
 export async function makePostsSiteMap() {
-  const posts = await axios.get(`${BLOG_API}/post/categories/posts/all`);
+  const posts = await fetchAllPosts();
 
-  const newPostsSiteMap = await (posts.data.data as IPost[]).map((post) =>
-    makeSiteMapItemXml(` ${API}/categories/${post.categoryNo}/posts/${post.postNo}`, POSTS_PRIORITY),
+  return wrapSiteMap(
+    posts
+      .map((post) => makeSiteMapItemXml(`${SITE}/categories/${post.categoryNo}/posts/${post.postNo}`, POSTS_PRIORITY))
+      .join(''),
   );
-
-  return wrapSiteMap(newPostsSiteMap as any);
 }
 
 function makeSiteMapItemXml(url: string, priority: number) {

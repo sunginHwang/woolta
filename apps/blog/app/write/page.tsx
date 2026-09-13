@@ -1,4 +1,4 @@
-import { PostWrite } from '../../components/write/PostWrite';
+import { PostWrite } from '@blog/features';
 
 const WritePage = () => {
   return <PostWrite />;

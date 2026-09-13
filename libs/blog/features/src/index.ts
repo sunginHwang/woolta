@@ -1,8 +1,5 @@
 // config
 
-export type { APIResponse } from './_shared/api';
-// api
-export { deleteData, getApiClient, getData, postData, putData, settingAccessHeaderToken } from './_shared/api';
 export { CategoryChips } from './_shared/category-chips/CategoryChips';
 export { ChipLayout } from './_shared/chips/ChipLayout';
 // shared components
@@ -15,9 +12,11 @@ export { getBlogConfig, setBlogConfig } from './_shared/config';
 // cookie
 export { getCookie } from './_shared/cookie';
 // shared hooks
-export { prefetchCategories, useCategories } from './_shared/hooks/useCategories';
+export { fetchCategories, prefetchCategories, useCategories } from './_shared/hooks/useCategories';
 export { useStickeyScrollReset } from './_shared/hooks/useStickeyScrollReset';
 export { useUserInfo } from './_shared/hooks/useUserInfo';
+// web push (서비스워커에서 호출 — 훅이 아니다)
+export { subscribeWebPush, unsubscribeWebPush } from './_shared/hooks/webPush';
 export { MarkdownViewer } from './_shared/mark-down-viewer/MarkdownViewer';
 // prefetch
 export { prefetchBlogList, prefetchBlogPost } from './_shared/prefetch';
@@ -58,7 +57,7 @@ export { PostLoading } from './post-detail/post-loading/PostLoading';
 // post-list feature
 export { Home } from './post-list/Home';
 export { useHomeRouterProps } from './post-list/hooks/useHomeRouterProps';
-export { prefetchPostList, usePostList } from './post-list/hooks/usePostList';
+export { fetchAllPosts, prefetchPostList, usePostList } from './post-list/hooks/usePostList';
 export { PostCategories } from './post-list/PostCategories';
 export { default as PostList } from './post-list/PostList';
 export { PostListSkeleton } from './post-list/PostListSkeleton';

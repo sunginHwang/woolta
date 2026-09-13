@@ -38,6 +38,7 @@ export default defineConfig({
       './apps/ssr-test',
       './libs/wds',
       './libs/article-curations/features',
+      './libs/blog/features',
       './libs/calendar/features',
       './libs/woolbank/features',
       './libs/memo/features',

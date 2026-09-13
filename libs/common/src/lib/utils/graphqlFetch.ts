@@ -39,8 +39,10 @@ const DEFAULT_API_HOST = 'https://api-blog.woolta.com';
  * 기존 변수로 폴백한다(설정하지 않은 환경의 동작을 그대로 보존).
  * 이관이 끝나면 폴백을 제거하고 NEXT_PUBLIC_GRAPHQL_API 로 수렴한다.
  * 배경: docs/rest-to-graphql-migration.md
+ *
+ * GraphQL 이 아닌 woolta-api REST 라우트(이미지 업로드 등)도 같은 호스트를 써야 하므로 export 한다.
  */
-const getGraphqlHost = () => {
+export const getGraphqlHost = () => {
   if (typeof window === 'undefined') {
     return process.env.NEXT_PUBLIC_GRAPHQL_API ?? process.env.NEXT_PUBLIC_BLOG_API ?? DEFAULT_API_HOST;
   }

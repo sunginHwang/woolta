@@ -8,6 +8,7 @@ import { useSetAtom } from 'jotai';
 import { useParams, useRouter } from 'next/navigation';
 import { useUserInfo } from '../../_shared/hooks/useUserInfo';
 import { useBlogRoutes } from '../../_shared/routes';
+import { formatPostDate } from '../../_shared/utils/date';
 import { setPostAtom } from '../../_shared/write-store';
 import { useDeletePost } from '../hooks/useDeletePost';
 import { usePost } from '../hooks/usePost';
@@ -94,7 +95,7 @@ export const Title = () => {
         <div>
           <img {...stylex.props(styles.authorImg)} src={writer.imageUrl} alt='wooltaUserImg' />
           <Text variant='small1Regular' color='graySecondary'>
-            {categoryLabel} | {createdAt}
+            {categoryLabel} | {formatPostDate(createdAt)}
           </Text>
         </div>
         {isLogin && (

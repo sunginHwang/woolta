@@ -1,14 +1,22 @@
 'use client';
 
+import { BlogRoutesContext, setBlogConfig } from '@blog/features';
 import { AppHostProvider } from '@common';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider as JotaiProvider } from 'jotai';
-import { settingAccessHeaderToken } from '../../../utils/api';
 import config, { setConfig } from '../../../utils/config';
-import { getCookie } from '../../../utils/cookie';
 import Layout from '../Layout';
 
 setConfig();
+
+// blog 앱은 자기 도메인 루트에 붙으므로 basePath 가 없다(대시보드는 '/blog').
+const BLOG_BASE_PATH = '';
+
+setBlogConfig({
+  imageApiUrl: config.imageApiUrl,
+  tempPostAutoSaveKey: config.tempPostAutoSave,
+  thumbnailImageUrl: config.blogThumbnailImageUrl,
+});
 
 let browserQueryClient: QueryClient | undefined;
 
@@ -31,22 +39,22 @@ function getQueryClient() {
   }
 }
 
+/**
+ * BlogScreensProvider 는 쓰지 않는다 — 그쪽은 NotificationBar 를 직접 렌더하는데
+ * 이 앱은 Layout 이 이미 렌더하고 있어 토스트가 두 번 뜬다. 라우트 컨텍스트만 가져다 쓴다.
+ */
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient();
-  const accessToken = getCookie(config.accessToken);
-  if (accessToken) {
-    settingAccessHeaderToken(accessToken);
-  }
 
   return (
-    <>
-      <AppHostProvider appHost='blog'>
-        <QueryClientProvider client={queryClient}>
-          <JotaiProvider>
+    <AppHostProvider appHost='blog'>
+      <QueryClientProvider client={queryClient}>
+        <JotaiProvider>
+          <BlogRoutesContext.Provider value={{ basePath: BLOG_BASE_PATH }}>
             <Layout>{children}</Layout>
-          </JotaiProvider>
-        </QueryClientProvider>
-      </AppHostProvider>
-    </>
+          </BlogRoutesContext.Provider>
+        </JotaiProvider>
+      </QueryClientProvider>
+    </AppHostProvider>
   );
 };

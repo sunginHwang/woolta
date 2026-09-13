@@ -148,7 +148,7 @@ woolBank `me` 인지 의미를 먼저 정해야 한다(0.3 의 테이블 미연�
 
 ---
 
-## Phase 2 — blog FE 🟡 진행 중 (libs 완료 / apps 보류)
+## Phase 2 — blog FE ✅ 완료 (2026-09-13)
 
 **범위는 두 곳이다** — `libs/blog/features`(8 엔드포인트/10 호출처, `apps/woolta` 대시보드가 소비)와
 `apps/blog` 독립 앱(12 호출처). 총 12개 고유 엔드포인트/23개 호출처이며 **axios 클라이언트가 둘로 분리**돼
@@ -162,9 +162,16 @@ woolBank `me` 인지 의미를 먼저 정해야 한다(0.3 의 테이블 미연�
 - ✅ 사용자·로그인 — `libs` 와 `apps/blog` 두 사본 모두 `/user/check/jwt` → 공용 `me`.
   아이디/비번 로그인은 제거하고 `/login` 을 `NEXT_PUBLIC_LOGIN_URL`(공용 소셜 로그인 화면)로 위임했다.
   `components/login/main/Main.tsx` · `hooks/queries/useLogin.ts` 삭제.
-- ⏸ `apps/blog` 의 글·카테고리·푸시 REST — **보류**(사용자 결정). `libs` 와 같은 패턴을 적용하면 된다.
-- ⏸ 이미지 업로드 — **REST 유지**(사용자 결정). 현재 `NEXT_PUBLIC_BLOG_API`(운영 Spring)로 나가며
-  `settingAccessHeaderToken` 도 이 호출 때문에 남겨뒀다.
+- ✅ `apps/blog` — 훅을 하나씩 옮기는 대신 **중복 자체를 없앴다**(2026-09-13). 앱이 `@blog/features`
+  컴포넌트를 직접 쓰고, 복제본 `components/{home,posts,post,write}` 와 훅 6개를 지웠다.
+  `utils/api/index.ts`(axios + 하드코딩 JWT)도 함께 제거. 앱에는 레이아웃·SEO·PWA 만 남는다.
+- ✅ 푸시 — `push.graphql` 추가 → `subscribeWebPush` / `unsubscribeWebPush`.
+  서비스워커 콜백에서 쓰므로 훅이 아니라 생성된 fetcher 를 감싼 `_shared/hooks/webPush.ts` 로 노출한다.
+- ✅ 사이트맵 — `fetchAllPosts()`(= `postList` 인자 생략)로 전체 67건. 아래 '서버에 없는 것' 표의
+  전체 글 목록 항목은 **오판이었다** — 전용 쿼리가 필요 없다.
+- ✅ 이미지 업로드 — woolta-api 로 이관. 경로만 다르고(`/blog/file/upload/image`) 응답 봉투는 같다.
+  호스트는 `getGraphqlHost()` 로 통일했고, 쿠키 세션을 쓰므로 `settingAccessHeaderToken` 은 삭제했다.
+  이로써 blog 계열에서 axios 와 레거시 호스트 의존이 **완전히 사라졌다**.
 
 **실측 확인** — `CategoryList` 9건, `GetRecentPostList` 20건/total 67, `PostList(1)` 19건,
 `Post` 상세(content 4888자 + writer), `DeletePost` 미인증 시 `UNAUTHENTICATED`.
@@ -190,7 +197,7 @@ woolBank `me` 인지 의미를 먼저 정해야 한다(0.3 의 테이블 미연�
 **결정(2026-09-04): 아이디/비번 로그인은 소셜로 통일한다. ✅ 적용 완료.** 신규 로그인 mutation 없이
 `loginBySocial` 로 수렴했다. blog 는 자체 로그인 화면을 두지 않고 `/login` 을 공용 소셜 로그인 화면으로
 위임한다(`NEXT_PUBLIC_LOGIN_URL`) — 쿠키가 `.woolta.com` 공유라 어디서 로그인해도 blog 세션이 성립한다.
-**남은 공백은 사이트맵용 전체 글 목록 하나뿐이다.**
+~~**남은 공백은 사이트맵용 전체 글 목록 하나뿐이다.**~~ → 공백이 아니었다. `postList` 리졸버가 `categoryId` 를 받지 않으면 where 를 비워 전체를 돌려준다(`PostService.getPostList`). 실측 67건.
 
 | 현재 REST | GraphQL | 호출처 |
 |---|---|---|

@@ -1,0 +1,9 @@
+# 웹 푸시 구독. blog 앱의 PWA 만 쓰지만 서버는 blog 도메인(/blog/graphql)이 제공하므로
+# 이 lib 에 둔다. React 밖(서비스워커 등록 콜백)에서 호출되므로 훅이 아니라 fetcher 로 쓴다.
+mutation SubscribeWebPush($input: SubscribeWebPushInput!) {
+  subscribeWebPush(input: $input)
+}
+
+mutation UnsubscribeWebPush($input: UnsubscribeWebPushInput!) {
+  unsubscribeWebPush(input: $input)
+}
