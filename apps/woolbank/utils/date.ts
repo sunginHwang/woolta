@@ -14,6 +14,20 @@ export const getRemainDay = (date: string | number, { completeMsg = 'd-day' }: {
   return { remainDay, remainDayKo: remainDay > 7 ? compareDay.format('MM월 D일') : `${remainDay}일 뒤` };
 };
 
+/**
+ * KST 기준 날짜 문자열(YYYY-MM-DD).
+ *
+ * 렌더 중에 `new Date()` 를 그대로 쓰면 서버(호스트 타임존)와 브라우저(사용자 타임존)가
+ * 다른 "오늘" 을 만들어 하이드레이션이 어긋난다. D-day 는 원래 날짜 단위 개념이므로
+ * 양쪽이 같은 값을 내도록 KST 날짜로 고정한다.
+ *
+ * `toISOString()` 은 항상 UTC 라 호스트 타임존에 의존하지 않는다 — 여기에 KST 오프셋을 더한다.
+ */
+const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+export const toKstDateString = (value: Date | string | number = Date.now()): string =>
+  new Date(new Date(value).getTime() + KST_OFFSET_MS).toISOString().slice(0, 10);
+
 export type DateRange = 'month' | 'week' | 'year';
 
 // 년, 월, 주 단위 날짜 최소, 최대 범위 계산

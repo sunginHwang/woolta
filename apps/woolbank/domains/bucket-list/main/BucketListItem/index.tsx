@@ -2,10 +2,10 @@ import * as stylex from '@stylexjs/stylex';
 import { Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import Link from 'next/link';
-import React, { type InvalidEvent } from 'react';
+import React, { useState } from 'react';
 import { IconCircleCheck } from '../../../../components/atom/Icon';
 import { CardItem } from '../../../../components/card-item/CardItem';
-import { getRemainDays } from '../../../../utils/date';
+import { getRemainDays, toKstDateString } from '../../../../utils/date';
 import type { BucketList } from '../hooks/useBucketList';
 import ItemSkeleton from './ItemSkeleton';
 
@@ -60,28 +60,36 @@ const styles = stylex.create({
  */
 export const BucketListItem = Object.assign(
   ({ bucketList, useSideMargin = false }: Props) => {
-    const remainDate = getRemainDays(new Date(), bucketList.completeDate);
+    // KST 날짜로 고정한다 — 렌더 중 new Date() 를 쓰면 서버와 브라우저가 다른 '오늘' 을 만들어
+    // 하이드레이션이 어긋난다(사용자 타임존이 호스트와 다를 때 재현된다).
+    const remainDate = getRemainDays(toKstDateString(), toKstDateString(bucketList.completeDate));
     const remainTodoCount = bucketList.todoCount - bucketList.completeTodoCount;
     const remainTodoCountMsg =
       remainTodoCount === 0 ? '모든 할일을 마치셨습니다.' : `${remainTodoCount}개의 할 일이 남았어요.`;
 
     const isExpireDday = remainDate === 0;
 
-    const handleImageFallback = (e: InvalidEvent<HTMLImageElement>) => {
-      e.currentTarget.style.backgroundColor = 'https://miro.medium.com/max/500/1*V9haN1irZjXH3uRae3a7Ew.jpeg';
-    };
+    /**
+     * 썸네일 로드 실패 처리.
+     *
+     * 원래는 이미지 URL 을 `style.backgroundColor` 에 대입하고 있었다 — 유효하지 않은 CSS 값이라
+     * 아무 일도 일어나지 않았고, 깨진 이미지 아이콘이 그대로 남았다.
+     * 썸네일이 없을 때와 같은 자리표시자를 보여준다.
+     */
+    const [isThumbBroken, setIsThumbBroken] = useState(false);
+    const hasThumb = !!bucketList.thumbImageUrl && !isThumbBroken;
 
     return (
       <Link href={`/bucket-list/${bucketList.id}`}>
         <CardItem useSideMargin={useSideMargin}>
           <div {...stylex.props(styles.bucketListItem)} data-cy='bucketItem'>
             <div {...stylex.props(styles.firstDiv)}>
-              {bucketList.thumbImageUrl ? (
+              {hasThumb ? (
                 <img
                   {...stylex.props(styles.thumbImage)}
                   src={bucketList.thumbImageUrl}
                   alt='버킷리스트 썸네일 이미지'
-                  onError={handleImageFallback}
+                  onError={() => setIsThumbBroken(true)}
                 />
               ) : (
                 <div {...stylex.props(styles.circle)} />

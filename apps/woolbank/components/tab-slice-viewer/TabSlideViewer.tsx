@@ -85,9 +85,7 @@ export const TabSlideViewer = Object.assign(
         <Tabs tabs={tabs} value={activeTab.value ?? ''} onChange={onTabChange} />
         <div {...listWrapperSx} className={listWrapperClassName}>
           <SwipeableViews index={tabIndex} onChangeIndex={onSlideTo} style={SwipeableViewsStyle}>
-            {/* @eslint-disable-next-line @typescript-eslint/ban-ts-comment
-             * @ts-ignore */}
-            {renderContent}
+            {renderContent()}
           </SwipeableViews>
         </div>
       </>

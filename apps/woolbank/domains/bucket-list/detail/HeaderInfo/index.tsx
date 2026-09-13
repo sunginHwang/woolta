@@ -10,7 +10,7 @@ import { BottomSheet } from '../../../../components/bottom-sheet/BottomSheet';
 
 import { Header } from '../../../../components/Header/Header';
 import { Progress } from '../../../../components/progress/Progress';
-import { getRemainDatePercentage, getRemainDays } from '../../../../utils/date';
+import { getRemainDatePercentage, getRemainDays, toKstDateString } from '../../../../utils/date';
 import { useBucket } from '../hooks/useBucket';
 
 const BOTTOM_SHEET_MENUS = [
@@ -100,7 +100,7 @@ export const HeaderInfo = () => {
   const fixedHeaderMsg = isShowFixedHeader ? title : '';
   const headerIconColor = isShowFixedHeader ? '#f03e3e' : '#FFFFFF';
   // 목표 날짜 까지 남은 기간
-  const remainDay = getRemainDays(new Date(now), new Date(completeDate));
+  const remainDay = getRemainDays(toKstDateString(now), toKstDateString(completeDate));
   // 목표 날짜 까지 이룬 %
   const remainPercent = getRemainDatePercentage(createdAt, completeDate, now);
 
