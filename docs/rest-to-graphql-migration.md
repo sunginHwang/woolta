@@ -73,7 +73,7 @@ todo/memo/article이 템플릿이다. 절차와 규칙은 [`docs/graphql-codegen
   `NEXT_PUBLIC_GRAPHQL_API(_BROWSER)`를 먼저 보고, 없으면 기존 `NEXT_PUBLIC_BLOG_API*`로 폴백한다
   (설정하지 않은 환경의 동작을 그대로 보존)
 - `apps/woolta/next.config.js` — `/api/gql/:path*` → `${NEXT_PUBLIC_GRAPHQL_API}/:path*` rewrite 추가
-- `apps/woolta/.env.local` — `NEXT_PUBLIC_GRAPHQL_API=http://localhost:4000`,
+- `apps/woolta/.env.local` — `NEXT_PUBLIC_GRAPHQL_API=http://localhost:4500`,
   `NEXT_PUBLIC_GRAPHQL_API_BROWSER=/api/gql`. `NEXT_PUBLIC_BLOG_API` 오버라이드는 제거해
   `.env`의 운영 Spring 값을 쓴다
 
