@@ -1,33 +1,39 @@
 /**
- * pm2 프로세스 정의 — woolta 모노레포의 Next 앱 3개.
+ * pm2 프로세스 정의 — 서버에 올린 standalone 산출물을 실행한다.
  *
- * 한 파일에 모은 이유는 포트가 서로 부딪히면 안 되기 때문이다. 여기가 유일한 포트 표다.
+ * 이 파일은 **서버의 배포 디렉터리**에 둔다(레포가 아니다).
+ * 빌드는 로컬에서 하고 tar 만 옮기므로, 서버에는 소스도 node_modules 도 없다.
  *
- *   blog      8091  →  blog.woolta.com
- *   woolbank  4200  →  bank.woolta.com
- *   woolta    4300  →  woolta.com (대시보드)
+ *   /home/woolta/
+ *     ├─ ecosystem.config.cjs   ← 이 파일
+ *     ├─ blog/     (blog.tar.gz 를 푼 것)
+ *     ├─ bank/
+ *     └─ woolta/
  *
- * 환경변수(NEXT_PUBLIC_*)는 **빌드 시점에 인라인**되므로 여기서 넣어도 늦다.
- * 각 앱의 `.env.production` 이 정본이고, pm2 는 런타임 PORT 만 준다.
- *
- * 특정 앱만 다루려면 `--only` 를 쓴다:
- *   pm2 reload ecosystem.config.cjs --only woolta-blog
+ * 포트가 서로 부딪히면 안 되므로 여기가 포트 표의 단일 소스다.
+ *   blog 8091 · bank 4200 · 대시보드 4300
  */
 const path = require('node:path');
 
-/** Next 앱 하나의 pm2 정의. 세 앱이 같은 모양이라 중복을 만들지 않는다. */
-const nextApp = ({ name, dir, port }) => ({
+/**
+ * standalone 산출물 하나의 pm2 정의.
+ *
+ * server.js 는 모노레포 구조가 보존돼 `<루트>/apps/<앱>/server.js` 에 있다.
+ * cwd 를 그 디렉터리로 잡아야 .next/static 과 public 을 찾는다.
+ */
+const standaloneApp = ({ name, dir, appDir, port }) => ({
   name,
-  // `next start` 를 직접 가리킨다. pnpm 을 거치면 pm2 가 래퍼를 관리하게 돼 reload 가 지저분해진다.
-  script: path.join(__dirname, 'node_modules', 'next', 'dist', 'bin', 'next'),
-  args: 'start',
-  cwd: path.join(__dirname, 'apps', dir),
+  script: 'server.js',
+  cwd: path.join(__dirname, dir, 'apps', appDir),
+  interpreter: 'node',
   instances: 1,
   exec_mode: 'fork',
   watch: false,
   env: {
     NODE_ENV: 'production',
     PORT: port,
+    // 0.0.0.0 으로 열지 않는다 — nginx 가 127.0.0.1 로만 프록시한다
+    HOSTNAME: '127.0.0.1',
   },
   min_uptime: 10_000,
   max_restarts: 5,
@@ -38,8 +44,8 @@ const nextApp = ({ name, dir, port }) => ({
 
 module.exports = {
   apps: [
-    nextApp({ name: 'woolta-blog', dir: 'blog', port: 8091 }),
-    nextApp({ name: 'woolta-bank', dir: 'woolbank', port: 4200 }),
-    nextApp({ name: 'woolta-dashboard', dir: 'woolta', port: 4300 }),
+    standaloneApp({ name: 'woolta-blog', dir: 'blog', appDir: 'blog', port: 8091 }),
+    standaloneApp({ name: 'woolta-bank', dir: 'bank', appDir: 'woolbank', port: 4200 }),
+    standaloneApp({ name: 'woolta-dashboard', dir: 'woolta', appDir: 'woolta', port: 4300 }),
   ],
 };

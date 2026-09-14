@@ -3,6 +3,10 @@ const withStylex = require('../../tools/stylex/nextStylex');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // 로컬에서 빌드해 산출물만 서버로 옮긴다 — 서버에 소스·node_modules 를 두지 않는다.
+  // 모노레포라 tracing 루트를 레포 루트로 올려야 libs/* 의존이 함께 묶인다.
+  output: 'standalone',
+  outputFileTracingRoot: require('node:path').join(__dirname, '../..'),
   // local-ssl-proxy 로 HTTPS 도메인에서 접속할 때 Next dev 가 /_next 요청을
   // cross-origin 으로 보고 403 을 준다. 개발용 vhost 를 허용한다.
   allowedDevOrigins: ['bank-local.woolta.com'],

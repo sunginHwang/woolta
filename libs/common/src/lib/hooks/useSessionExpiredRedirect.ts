@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
-import { isUnauthenticatedError } from '../utils/graphqlFetch';
+import { isAllowedUnauthenticated, isUnauthenticatedError } from '../utils/graphqlFetch';
 
 /**
  * 세션이 끊기면 로그인 화면으로 보낸다.
@@ -13,6 +13,8 @@ import { isUnauthenticatedError } from '../utils/graphqlFetch';
  *
  * 서버는 access 가 만료되면 refresh 쿠키로 자동 회전하므로, 여기까지 오는 건
  * **회전도 실패한 진짜 만료**다.
+ *
+ * 단, ALLOW_UNAUTHENTICATED 가 달린 쿼리는 건너뛴다.
  */
 export const useSessionExpiredRedirect = (loginUrl: string) => {
   const queryClient = useQueryClient();
@@ -20,8 +22,8 @@ export const useSessionExpiredRedirect = (loginUrl: string) => {
   const isRedirecting = useRef(false);
 
   useEffect(() => {
-    const handle = (error: unknown) => {
-      if (!isUnauthenticatedError(error) || isRedirecting.current) {
+    const handle = (error: unknown, meta: unknown) => {
+      if (isAllowedUnauthenticated(meta) || !isUnauthenticatedError(error) || isRedirecting.current) {
         return;
       }
 
@@ -34,13 +36,13 @@ export const useSessionExpiredRedirect = (loginUrl: string) => {
     // 조회와 변경은 캐시가 나뉘어 있다. 탭을 열어둔 채 저장하는 경우가 오히려 흔해 둘 다 본다.
     const unsubscribeQuery = queryClient.getQueryCache().subscribe((event) => {
       if (event.type === 'updated' && event.action.type === 'error') {
-        handle(event.action.error);
+        handle(event.action.error, event.query.meta);
       }
     });
 
     const unsubscribeMutation = queryClient.getMutationCache().subscribe((event) => {
       if (event.type === 'updated' && event.action.type === 'error') {
-        handle(event.action.error);
+        handle(event.action.error, event.mutation.meta);
       }
     });
 

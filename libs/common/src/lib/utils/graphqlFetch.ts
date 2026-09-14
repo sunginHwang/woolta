@@ -107,6 +107,20 @@ export const toPrefetchHeaders = ({ cookie }: PrefetchOptions) => {
  */
 export const UNAUTHENTICATED_CODE = 'UNAUTHENTICATED';
 
+/**
+ * 미인증이 **정상 상태**인 쿼리는 이 meta 를 달아 세션 만료 감시에서 제외한다.
+ *
+ *   useMeQuery(undefined, { meta: ALLOW_UNAUTHENTICATED })
+ *
+ * 로그인 여부를 판별하려고 일부러 호출하는 쿼리(`me`)가 대표적이다.
+ * 비로그인 방문자에게 이건 실패가 아니라 답이다 — 만료로 보면 공개 화면에서
+ * 방문자가 로그인으로 튕긴다(운영에서 실제로 터졌다).
+ */
+export const ALLOW_UNAUTHENTICATED = { allowUnauthenticated: true } as const;
+
+export const isAllowedUnauthenticated = (meta: unknown): boolean =>
+  typeof meta === 'object' && meta !== null && (meta as Record<string, unknown>).allowUnauthenticated === true;
+
 export const isUnauthenticatedError = (error: unknown): boolean => {
   if (!(error instanceof GraphqlFetchError)) {
     return false;

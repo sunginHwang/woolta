@@ -3,6 +3,10 @@ const withStylex = require('../../tools/stylex/nextStylex');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // 로컬에서 빌드해 산출물만 서버로 옮긴다 — 서버에 소스·node_modules 를 두지 않는다.
+  // 모노레포라 tracing 루트를 레포 루트로 올려야 libs/* 의존이 함께 묶인다.
+  output: 'standalone',
+  outputFileTracingRoot: require('node:path').join(__dirname, '../..'),
   transpilePackages: [
     '@woolta/blog-features',
     '@woolta/blog-screens',

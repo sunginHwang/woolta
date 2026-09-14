@@ -1,6 +1,6 @@
 // 이 모듈은 '로그인 사용자' 쿼리 도메인 전체(조회 · 캐시 조작 · 서버 프리페치)를 소유한다.
 // prefetchMe 를 RSC 에서 호출해야 하므로 'use client' 를 붙이지 않는다.
-import { type PrefetchOptions, toPrefetchHeaders } from '@common/graphql';
+import { ALLOW_UNAUTHENTICATED, type PrefetchOptions, toPrefetchHeaders } from '@common/graphql';
 import { type QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useMeQuery, useSuspenseMeQuery } from '../api/gql.generated';
@@ -22,9 +22,13 @@ export const useMe = (): UserInfo => {
 /**
  * 로그인 여부를 판별해야 하는 화면용 — 미인증이면 undefined 를 반환한다.
  * 미인증은 정상 상태이므로 재시도하지 않는다.
+ *
+ * ALLOW_UNAUTHENTICATED 로 세션 만료 감시에서 제외한다. 이게 없으면 공개 화면
+ * (blog 글 상세 등)에서 비로그인 방문자가 로그인 화면으로 튕긴다 —
+ * 여기서의 UNAUTHENTICATED 는 실패가 아니라 "로그인 안 함"이라는 답이다.
  */
 export const useMeOptional = (): { user: UserInfo | undefined; isLoading: boolean } => {
-  const { data, isLoading } = useMeQuery(undefined, { retry: false });
+  const { data, isLoading } = useMeQuery(undefined, { retry: false, meta: ALLOW_UNAUTHENTICATED });
 
   return { user: data?.me, isLoading };
 };
