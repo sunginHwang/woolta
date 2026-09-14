@@ -16,7 +16,7 @@ woolta 서비스 네 개를 단일 서버(`woolta.com`)에 pm2 로 올린다.
    ┌───────────────┬───────────────┼───────────────┬──────────────────┐
    │               │               │               │                  │
 blog.woolta.com  bank.woolta.com  woolta.com   api.woolta.com   image.woolta.com
-   │ :8091         │ :4200         │ :4300        │ :4100            │
+   │ :8091         │ :4200         │ :4300        │ :4500            │
    ▼               ▼               ▼              ▼                  ▼
 woolta-blog     woolta-bank   woolta-dashboard  woolta-api    /home/blog/post/upload
                                                                   (정적, 백엔드 미개입)
@@ -27,9 +27,9 @@ woolta-blog     woolta-bank   woolta-dashboard  woolta-api    /home/blog/post/up
 | blog | 8091 | `woolta/apps/blog` | `woolta-blog` |
 | bank | 4200 | `woolta/apps/woolbank` | `woolta-bank` |
 | 대시보드 | 4300 | `woolta/apps/woolta` | `woolta-dashboard` |
-| API | **4100** | `woolta-api` | `woolta-api` |
+| API | **4500** | `woolta-api` | `woolta-api` |
 
-**API 가 4100 인 이유** — 레거시 Koa `woolbankApi` 가 4000 을 쓰고 있다. Koa 를 내린 뒤에도 4100 을 유지한다. 바꾸면 nginx 와 FE 의 `NEXT_PUBLIC_GRAPHQL_API` 를 함께 고쳐야 한다.
+**API 가 4500 인 이유** — 레거시 Koa `woolbankApi` 가 4000 을 쓰고 있다. Koa 를 내린 뒤에도 4500 을 유지한다. 바꾸면 nginx 와 FE 의 `NEXT_PUBLIC_GRAPHQL_API` 를 함께 고쳐야 한다.
 
 ### 이미지는 쓰기와 읽기가 갈린다
 
@@ -97,17 +97,22 @@ curl -sf -X POST https://api.woolta.com/blog/graphql \
   -d '{"query":"{ categoryList { totalCount } }"}'
 ```
 
-### 3-2. FE env 를 채운다 — **빌드 전에**
+### 3-2. FE env 확인 — **빌드 전에**
 
-`NEXT_PUBLIC_*` 는 **빌드 시점에 번들로 박힌다.** 배포 후에는 고칠 수 없고 재빌드해야 한다.
+세 앱 모두 `https://api.woolta.com` 으로 이미 설정돼 있다.
 
-세 앱의 `.env.production` 에서 주석을 풀고 값을 넣는다:
+| 앱 | 값이 있는 파일 |
+|---|---|
+| blog | `.env` · `.env.production` |
+| bank | `.env.production` |
+| 대시보드 | `.env` |
 
-```bash
-NEXT_PUBLIC_GRAPHQL_API=https://api.woolta.com
-```
+앱마다 두는 파일이 다르다 — 배포 스크립트가 둘 다 보고, 없으면 중단한다.
 
-비워 두면 레거시 호스트로 폴백해 `/blog/graphql` 이 **404** 가 난다. 배포 스크립트가 이 값을 검사하고 비어 있으면 중단한다.
+**`NEXT_PUBLIC_*` 는 빌드 시점에 번들로 박힌다.** 값을 바꾸면 재빌드해야 하고, 배포 후 런타임에는 고칠 수 없다. 비우면 레거시 호스트로 폴백해 `/blog/graphql` 이 **404** 가 난다.
+
+> `.env.local` 이 서버에 있으면 운영 빌드에서도 `.env.production` 을 **덮어쓴다**.
+> 로컬 전용 파일이므로 서버에 올리지 않는다 (`git reset --hard` 는 untracked 파일을 지우지 않는다).
 
 ### 3-3. FE 배포
 
@@ -193,7 +198,7 @@ API 도 같은 방식이다. **DB 마이그레이션이 섞인 배포는 코드 
 | 업로드는 되는데 이미지가 404 | `IMAGE_UPLOAD_PATH` 와 nginx `root` 경로 불일치 |
 | 업로드 413 | nginx `client_max_body_size` (vhost 에 20m 로 설정돼 있다) |
 | 로그인이 자꾸 풀림 | `AUTH_SECRET_TOKEN_KEY` 가 레거시와 다름, 또는 `AUTH_COOKIE_DOMAIN` 이 `.woolta.com` 이 아님 |
-| API 가 4000 에서 안 뜸 | 레거시 Koa 가 점유 중. 4100 을 쓴다 |
+| API 가 4000 에서 안 뜸 | 레거시 Koa 가 점유 중. 4500 을 쓴다 |
 | 정기지출이 두 번 등록됨 | Koa 와 woolta-api 크론이 동시에 켜짐 |
 
 ---

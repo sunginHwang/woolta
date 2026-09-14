@@ -48,16 +48,37 @@ git reset --hard "origin/$BRANCH"
 echo "==> 의존성 설치"
 pnpm install --frozen-lockfile
 
+# .env.local 은 운영 빌드에서도 .env.production 을 덮어쓴다(Next 의 우선순위).
+# 서버에 남아 있으면 localhost 를 가리키는 번들이 조용히 배포된다 — 실측으로 확인한 함정이다.
+# git reset --hard 는 untracked 파일을 지우지 않으므로 여기서 직접 막는다.
+echo "==> .env.local 확인"
+for t in "${TARGETS[@]}"; do
+  read -r filter _ _ <<< "$(meta "$t")"
+  if [[ -f "apps/${filter}/.env.local" ]]; then
+    echo "    apps/${filter}/.env.local 이 서버에 있다." >&2
+    echo "    이 파일은 .env.production 을 덮어써 localhost 번들이 배포된다. 지우고 다시 실행할 것." >&2
+    exit 1
+  fi
+done
+
 # NEXT_PUBLIC_* 는 빌드 시점에 번들로 박힌다. 비어 있으면 런타임에 고칠 방법이 없다.
+# 앱마다 어느 파일에 두는지가 다르다(.env.production 만 있는 앱, .env 만 있는 앱) — 둘 다 본다.
 echo "==> 필수 환경변수 확인"
 for t in "${TARGETS[@]}"; do
   read -r filter _ _ <<< "$(meta "$t")"
-  env_file="apps/${filter}/.env.production"
-  if ! grep -qE '^NEXT_PUBLIC_GRAPHQL_API=.+' "$env_file"; then
-    echo "    $env_file 의 NEXT_PUBLIC_GRAPHQL_API 가 비어 있다." >&2
+  found=""
+  for env_file in "apps/${filter}/.env.production" "apps/${filter}/.env"; do
+    if [[ -f "$env_file" ]] && grep -qE '^NEXT_PUBLIC_GRAPHQL_API=.+' "$env_file"; then
+      found="$env_file"
+      break
+    fi
+  done
+  if [[ -z "$found" ]]; then
+    echo "    apps/${filter} 에 NEXT_PUBLIC_GRAPHQL_API 가 없다 (.env.production / .env 확인)." >&2
     echo "    이 값은 빌드에 인라인되므로 배포 후에는 고칠 수 없다." >&2
     exit 1
   fi
+  echo "    ${filter}: $(grep -hE '^NEXT_PUBLIC_GRAPHQL_API=' "$found" | head -1)"
 done
 
 echo "==> 타입체크"
