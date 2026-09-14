@@ -2,9 +2,11 @@
 #
 # woolta 모노레포 배포 — 서버에서 실행한다.
 #
-#   ./scripts/deploy.sh              # 세 앱 모두
-#   ./scripts/deploy.sh blog         # blog 만
-#   ./scripts/deploy.sh bank dash    # 여러 개
+#   ./scripts/deploy.sh                # 세 앱 모두
+#   ./scripts/deploy.sh blog           # blog 만
+#   ./scripts/deploy.sh bank woolta    # 여러 개
+#
+# 대상 이름: blog | bank | woolta  (woolta 는 대시보드, dash 로도 받는다)
 #
 # 하는 일: git pull → 설치 → 타입체크 → 빌드 → pm2 reload → 헬스체크
 #
@@ -20,26 +22,36 @@ BRANCH="${DEPLOY_BRANCH:-main}"
 # 연관배열(bash 4+)을 쓰지 않는다 — macOS 의 bash 3.2 에서도 돌아야 검증이 가능하다.
 meta() {
   case "$1" in
-    blog) echo "blog woolta-blog 8091" ;;
-    bank) echo "woolbank woolta-bank 4200" ;;
-    dash) echo "woolta woolta-dashboard 4300" ;;
-    *)    return 1 ;;
+    blog)          echo "blog woolta-blog 8091" ;;
+    bank)          echo "woolbank woolta-bank 4200" ;;
+    woolta|dash)   echo "woolta woolta-dashboard 4300" ;;
+    *)             return 1 ;;
   esac
 }
 
 if [[ $# -eq 0 ]]; then
-  set -- blog bank dash
+  set -- blog bank woolta
 fi
 TARGETS=("$@")
 
 for t in "${TARGETS[@]}"; do
   if ! meta "$t" > /dev/null; then
-    echo "알 수 없는 대상: $t (blog | bank | dash)" >&2
+    echo "알 수 없는 대상: $t (blog | bank | woolta)" >&2
     exit 1
   fi
 done
 
 echo "==> 대상: ${TARGETS[*]}"
+
+# reset --hard 는 미커밋 변경을 되돌릴 수 없게 지운다.
+# 서버에서 급히 고친 내용이 있으면 여기서 멈추는 편이 낫다.
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo "==> 커밋되지 않은 변경이 있다:" >&2
+  git status --short >&2
+  echo "    git reset --hard 로 지워진다. 커밋하거나 stash 한 뒤 다시 실행할 것." >&2
+  echo "    의도한 것이라면: DEPLOY_FORCE=1 ./scripts/deploy.sh ..." >&2
+  [[ "${DEPLOY_FORCE:-}" == "1" ]] || exit 1
+fi
 
 echo "==> 코드 갱신 ($BRANCH)"
 git fetch origin "$BRANCH"

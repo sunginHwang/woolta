@@ -83,7 +83,7 @@ FE 세 앱이 모두 woolta-api 를 바라보도록 이관됐다. **API 가 먼�
 
 ```bash
 cd /home/woolta-api
-./scripts/deploy.sh
+npm run deploy
 ```
 
 스크립트가 하는 일: `git pull` → `npm ci` → prisma 생성 → 타입체크 → `pm2 reload` → 헬스체크.
@@ -118,9 +118,17 @@ curl -sf -X POST https://api.woolta.com/blog/graphql \
 
 ```bash
 cd /home/woolta
-./scripts/deploy.sh              # 세 앱 모두
-./scripts/deploy.sh blog         # 하나만
-./scripts/deploy.sh bank dash    # 여러 개
+
+pnpm deploy            # 세 앱 모두
+pnpm deploy:blog       # blog 만
+pnpm deploy:bank       # bank 만
+pnpm deploy:woolta     # 대시보드만
+```
+
+여러 개를 한 번에 하려면 스크립트를 직접 부른다:
+
+```bash
+./scripts/deploy.sh bank woolta
 ```
 
 빌드를 **끝낸 뒤** reload 한다. Next 는 빌드 중 `.next` 를 갈아엎으므로 프로세스를 먼저 내리면 그동안 서비스가 죽는다.
@@ -172,10 +180,42 @@ sudo systemctl stop techblog-api   # 또는 kill <PID>
 
 ## 5. 운영
 
+### npm 스크립트
+
+배포(빌드 포함)와 pm2 조작을 나눠 뒀다. **코드가 바뀌었으면 `deploy`**, 프로세스만 다룰 때 `pm2:*` 를 쓴다.
+
+| 명령 | 하는 일 |
+|---|---|
+| `pnpm deploy` | 세 앱 전체 — pull · 설치 · 타입체크 · 빌드 · reload · 헬스체크 |
+| `pnpm deploy:blog` | blog 만 |
+| `pnpm deploy:bank` | bank 만 |
+| `pnpm deploy:woolta` | 대시보드만 |
+| `pnpm pm2:start` | 세 프로세스 기동 + `pm2 save` |
+| `pnpm pm2:reload` | 무중단 재시작 (**빌드 안 함**) |
+| `pnpm pm2:stop` | 정지 |
+| `pnpm pm2:delete` | pm2 목록에서 제거 |
+| `pnpm pm2:list` | 상태 |
+| `pnpm pm2:logs` | 최근 100줄 |
+
+`woolta-api` 도 같은 이름을 쓴다 (`npm run deploy`, `npm run pm2:reload` …).
+
+> `pm2:reload` 는 **빌드하지 않는다.** 소스를 고치고 이걸 부르면 이전 빌드가 그대로 뜬다.
+
+### 안전장치
+
+배포 스크립트는 `git reset --hard` 를 쓴다. 다음 경우 **시작 전에 중단**한다:
+
+- 커밋되지 않은 변경이 있을 때 — 서버에서 급히 고친 내용이 지워진다. 의도했다면 `DEPLOY_FORCE=1`
+- `.env.local` 이 있을 때 — 운영 빌드에서 `.env.production` 을 덮어 localhost 번들이 배포된다
+- `NEXT_PUBLIC_GRAPHQL_API` 가 비었을 때 — 빌드에 인라인되므로 나중에 못 고친다
+- (API) 업로드 디렉터리에 쓸 수 없을 때 — 업로드가 전부 실패한다
+
+### 직접 pm2 를 쓸 때
+
 ```bash
-pm2 list                      # 상태
+pm2 list
 pm2 logs woolta-api --lines 100
-pm2 reload woolta-blog        # 코드 변경 없이 재시작
+pm2 reload woolta-blog        # 개별 프로세스
 pm2 monit                     # 실시간
 ```
 
