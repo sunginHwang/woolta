@@ -11,6 +11,7 @@ interface Props {
   openModalName: string;
   formData: AccountBookSaveForm;
   onCloseModal: () => void;
+  onInputAmount: (amount: number) => void;
   onChangeAmount: (amount: number) => void;
   onChangeCategory: (category: AccountBookCategory) => void;
   onChangeDateTime: (date: Dayjs) => void;
@@ -29,6 +30,7 @@ export const FormModal = ({
   openModalName,
   onCloseModal,
   onChangeDateTime,
+  onInputAmount,
   onChangeAmount,
   onChangeCategory,
   onChangeScheduledPayment,
@@ -78,7 +80,7 @@ export const FormModal = ({
         visible={openModalName === 'amount'}
         currentAmount={formData.amount}
         oncloseModal={onCloseModal}
-        onChange={onChangeAmount}
+        onChange={onInputAmount}
         onComplete={handleAmountClick}
       />
       <ScheduledPaymentBottomSheet

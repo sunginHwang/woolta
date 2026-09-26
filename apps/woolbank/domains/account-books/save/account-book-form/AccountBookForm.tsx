@@ -310,6 +310,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
         openModalName={openModalName}
         formData={formData}
         onCloseModal={closeModal}
+        onInputAmount={setAmount}
         onChangeAmount={handleAmountClick}
         onChangeCategory={setAccountBookCategoryType}
         onChangeDateTime={setRegisterDateTime}
