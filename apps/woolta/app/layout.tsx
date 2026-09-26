@@ -2,6 +2,7 @@
 import '@wds/colors/darkTheme.css';
 import './stylex.css';
 import './global.css';
+import type { Viewport } from 'next';
 import { cookies } from 'next/headers';
 import { Providers } from '../components/layout/providers/Providers';
 import { parseThemeType, THEME_COOKIE_NAME } from '../components/layout/store/themeCookie';
@@ -9,6 +10,15 @@ import { parseThemeType, THEME_COOKIE_NAME } from '../components/layout/store/th
 export const metadata = {
   title: 'Woolta',
   description: 'Woolta 서비스들을 한눈에 관리하는 대시보드',
+};
+
+// iOS에서 폰트 16px 미만 input 포커스 시 자동 확대되는 것을 막는다
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,10 +29,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover'
-        />
         <link
           rel='stylesheet'
           as='style'

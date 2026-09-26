@@ -2,7 +2,7 @@
 import '@wds/colors/darkTheme.css';
 import './stylex.css';
 import './global.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { RootProvider } from '../domains/layout/root-provider/RootProvider';
 import { setConfig } from '../utils/config';
@@ -16,6 +16,15 @@ export const metadata: Metadata = {
     url: 'https://blog.woolta.com/',
   },
   applicationName: 'BanketList',
+};
+
+// iOS에서 폰트 16px 미만 input 포커스 시 자동 확대되는 것을 막는다
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 setConfig();
@@ -39,10 +48,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <meta name='theme-color' content='#fff' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-status-bar-style' content='white' />
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, orientation=portrait"'
-        />
         <meta name='google-site-verification' content='mHu43Zp59l_qzcOGtYILaM-tIH-mPKepPuYxRwbIqbs' />
         <link
           rel='stylesheet'
