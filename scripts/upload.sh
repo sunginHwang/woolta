@@ -63,6 +63,21 @@ for t in "${TARGETS[@]}"; do
   # 중간에 실패해도 돌고 있는 버전은 그대로 남는다.
   ssh "$HOST" bash -s <<REMOTE
 set -euo pipefail
+
+# nvm 으로 깔린 node/pm2 는 **비로그인 셸 PATH 에 없다**(ssh 로 넘기는 이 스크립트가 그렇다).
+# 게다가 pm2 는 interpreter 를 스폰 시점 PATH 로 해석하므로, 여기서 PATH 를 맞추지 않으면
+# 시스템 node(v10)로 떠서 standalone server.js 가 \`??\` 에서 SyntaxError 로 죽는다.
+export NVM_DIR="\${NVM_DIR:-\$HOME/.nvm}"
+[ -s "\$NVM_DIR/nvm.sh" ] && . "\$NVM_DIR/nvm.sh" > /dev/null
+
+command -v pm2 > /dev/null || { echo "    pm2 를 찾을 수 없다. 서버에 nvm/pm2 가 있는지 확인할 것." >&2; exit 1; }
+
+node_major=\$(node -p 'process.versions.node.split(".")[0]')
+if [ "\$node_major" -lt 20 ]; then
+  echo "    node \$(node -v) 로는 Next 16 standalone 이 뜨지 않는다 (20 이상 필요)." >&2
+  exit 1
+fi
+
 cd '${REMOTE_DIR}'
 
 rm -rf '${t}.new'
