@@ -89,8 +89,11 @@ rm -rf '${t}.old'
 [ -d '${t}' ] && mv '${t}' '${t}.old'
 mv '${t}.new' '${t}'
 
+# 프로세스 이름만 주고 reload 하면 pm2 가 dump.pm2 에 저장된 옛 설정(포트·interpreter 등)을
+# 그대로 재사용한다 — ecosystem.config.cjs 를 고쳐도 운영에 영영 반영되지 않는다.
+# 설정 파일을 지정해 매 배포마다 현재 설정으로 수렴시킨다.
 if pm2 describe '${proc}' > /dev/null 2>&1; then
-  pm2 reload '${proc}' --update-env
+  pm2 reload ecosystem.config.cjs --only '${proc}' --update-env
 else
   pm2 start ecosystem.config.cjs --only '${proc}'
 fi
