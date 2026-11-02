@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { prefetchAccountBookMain } from '@woolta/woolbank-features';
 import { cookies } from 'next/headers';
