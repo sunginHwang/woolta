@@ -48,7 +48,7 @@ export const StatisticChartSkeleton = () => {
       <div {...stylex.props(styles.list)}>
         {[...new Array(4)].map((_, index) => {
           return (
-            <div {...stylex.props(styles.listItem)} key={index}>
+            <div key={index} {...stylex.props(styles.listItem)}>
               <SkeletonBar width='13rem' height='2.4rem' />
               <SkeletonBar width='6.5rem' height='2.4rem' />
             </div>

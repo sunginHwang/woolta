@@ -39,7 +39,7 @@ export const AccountBookListSkeleton = () => {
   return (
     <section {...stylex.props(styles.container)}>
       {[...Array(5)].map((_, index) => (
-        <div {...stylex.props(styles.item)} key={index}>
+        <div key={index} {...stylex.props(styles.item)}>
           <div {...stylex.props(styles.dayGroup)}>
             <SkeletonBar width='3rem' height={LIST_ITEM_HEIGHT} />
             <SkeletonBar width='8rem' height={LIST_ITEM_HEIGHT} />

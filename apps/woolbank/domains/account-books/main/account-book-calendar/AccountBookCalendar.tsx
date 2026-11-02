@@ -87,7 +87,7 @@ export const AccountBookCalendar = () => {
               const key = `day-${day}-${index}`;
 
               if (day === 0) {
-                return <div {...stylex.props(styles.empty)} key={key} />;
+                return <div key={key} {...stylex.props(styles.empty)} />;
               }
               const accountBookByDay = accountBookListByWeek.find((accountBook) => Number(accountBook.days) === day);
 
@@ -123,7 +123,7 @@ export const AccountBookCalendar = () => {
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.week)}>
           {WEEK_DAY_KO_LIST.map((day) => (
-            <div {...stylex.props(styles.weekDay)} key={day}>
+            <div key={day} {...stylex.props(styles.weekDay)}>
               <Text variant='body2' color='gray600' alignment='center' mb={5} as='p'>
                 {day}
               </Text>

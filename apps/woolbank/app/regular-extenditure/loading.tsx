@@ -17,7 +17,7 @@ export default function Loading() {
       <main {...stylex.props(styles.content)}>
         {[...Array(10)].map((_, index) => {
           return (
-            <div {...stylex.props(styles.item)} key={index}>
+            <div key={index} {...stylex.props(styles.item)}>
               <div {...stylex.props(styles.itemTop)}>
                 <SkeletonBar width='9rem' height='3rem' />
                 <SkeletonBar width='6rem' height='2.1rem' />

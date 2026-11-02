@@ -88,7 +88,7 @@ const StatisticList = ({ accountBookChartList }: Props) => {
             });
           };
           return (
-            <div {...stylex.props(styles.item)} key={label} onClick={handleItemClick}>
+            <div key={label} {...stylex.props(styles.item)} onClick={handleItemClick}>
               <div {...stylex.props(styles.itemLeft)}>
                 <div {...stylex.props(styles.categoryLabel, dynamicStyles.categoryColor(color))} />
                 <Text variant='title6Medium' color='gray800' as='p' ml={10}>

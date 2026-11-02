@@ -82,7 +82,7 @@ export const AccountBookBottomSheet = ({ isOpen, title, titleColor, list, onClos
         <h3 {...stylex.props(styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
         <ul {...stylex.props(styles.list)}>
           {list.map(({ title, amount, iconImageUrl, registerDateTime }, key) => (
-            <li {...stylex.props(styles.item)} key={key}>
+            <li key={key} {...stylex.props(styles.item)}>
               <div {...stylex.props(styles.itemLeft)}>
                 {iconImageUrl && (
                   <div {...stylex.props(styles.iconWrapper)}>

@@ -59,7 +59,7 @@ const ExtentureTypeList = () => {
         const totalAmount = list.reduce((acc, item) => item.amount + acc, 0);
 
         return (
-          <div {...stylex.props(styles.expenditureType)} key={`${name}-${index}`}>
+          <div key={`${name}-${index}`} {...stylex.props(styles.expenditureType)}>
             <div {...stylex.props(styles.typeInfo)}>
               <div {...stylex.props(styles.leftGroup)}>
                 <img {...stylex.props(styles.leftImg)} src={imageUrl} alt={`${name} 아이콘`} />

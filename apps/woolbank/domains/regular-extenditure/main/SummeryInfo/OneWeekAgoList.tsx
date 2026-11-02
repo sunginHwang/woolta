@@ -68,7 +68,7 @@ const OneWeekAgoList: FC<Props> = ({ regularExpenditureList }) => {
             const { remainDayKo } = getRemainDay(regularExpenditureDay, { completeMsg: '지출일' });
 
             return (
-              <li {...stylex.props(styles.oneWeekAgoItem)} key={item.id}>
+              <li key={item.id} {...stylex.props(styles.oneWeekAgoItem)}>
                 <div {...stylex.props(styles.content)}>
                   <Text xstyle={styles.nameText} variant='small1Regular' color='gray700' as='p'>
                     {title}

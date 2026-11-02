@@ -94,7 +94,7 @@ export const AccountBookTabs = () => {
           {TAB_LIST.map(({ link, value, label }) => {
             const isActive = activeTab === value;
             return (
-              <li {...stylex.props(styles.item)} key={label}>
+              <li key={label} {...stylex.props(styles.item)}>
                 <Link replace href={link} {...stylex.props(styles.itemLink)}>
                   <Text variant='title6Bold' color={isActive ? 'gray900' : 'gray500'} as='p'>
                     {label}

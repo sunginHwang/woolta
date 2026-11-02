@@ -69,7 +69,7 @@ const CategoryBottomSheet: FC<Props> = ({ isOpen, title, titleColor, list, onClo
         <h3 {...stylex.props(styles.title, dynamicStyles.titleColor(titleColor))}>{title}</h3>
         <ul {...stylex.props(styles.list)}>
           {list.map(({ title, amount, registerDateTime }, key) => (
-            <li {...stylex.props(styles.item)} key={key}>
+            <li key={key} {...stylex.props(styles.item)}>
               <div {...stylex.props(styles.itemLeft)}>
                 <p {...stylex.props(styles.itemTitle)}>{title}</p>
                 <span {...stylex.props(styles.itemDate)}>{dayjs(registerDateTime).format('MM-DD~')}</span>

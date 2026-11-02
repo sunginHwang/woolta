@@ -118,8 +118,8 @@ export const CategorySaveForm = ({ type, onClose, isLoading, saveAccountBookCate
         <section {...stylex.props(styles.iconList)}>
           {accountBookCategoryImages.map(({ id, name, imageUrl }) => (
             <div
-              {...stylex.props(styles.iconInfo, iconId === id ? styles.iconInfoActive : styles.iconInfoInactive)}
               key={name}
+              {...stylex.props(styles.iconInfo, iconId === id ? styles.iconInfoActive : styles.iconInfoInactive)}
             >
               <img src={imageUrl} alt={name} onClick={() => setIconId(id)} {...stylex.props(styles.iconImg)} />
             </div>
