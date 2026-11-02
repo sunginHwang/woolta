@@ -41,6 +41,17 @@ export {
   fetchBucketListSummary,
   prefetchBucketListSummary,
 } from './_shared/hooks/bucketListApi';
+// _shared: 알림함 데이터 계층
+export type { Notification } from './_shared/hooks/notificationApi';
+export {
+  notificationDetailKey,
+  notificationListKey,
+  notificationListKeyPrefix,
+  unreadNotificationCountKey,
+  useNotificationDetailQuery,
+  useNotificationListQuery,
+  useUnreadNotificationCountQuery,
+} from './_shared/hooks/notificationApi';
 export { prefetchAccountBookMain } from './_shared/hooks/prefetch';
 export type { PushSetting, PushStatus } from './_shared/hooks/pushApi';
 export { pushStatusKey, pushStatusKeyPrefix, usePushStatusQuery } from './_shared/hooks/pushApi';
@@ -87,6 +98,22 @@ export { AccountBookAddButton } from './account-book-list/AccountBookAddButton';
 export { default as MonthStatistics } from './account-book-list/MonthStatistics';
 // account-book-tabs feature
 export { AccountBookTabs } from './account-book-tabs/AccountBookTabs';
+// notification feature (알림함)
+export {
+  NotificationDetail,
+  NotificationDetailView,
+  type NotificationDetailViewProps,
+} from './notification/NotificationDetail';
+export {
+  NotificationInboxEntry,
+  NotificationInboxEntryView,
+  type NotificationInboxEntryViewProps,
+} from './notification/NotificationInboxEntry';
+export {
+  NotificationList,
+  NotificationListView,
+  type NotificationListViewProps,
+} from './notification/NotificationList';
 // push-setting feature
 export { PushSettingSection, PushSettingView, type PushSettingViewProps } from './push-setting/PushSettingSection';
 export type { PushSettingModel, PushSettingState } from './push-setting/usePushSetting';

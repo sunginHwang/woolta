@@ -96,6 +96,10 @@ export type DeleteRegularExpenditureInput = {
   id: string | number;
 };
 
+export type MarkWoolBankNotificationReadInput = {
+  id: string | number;
+};
+
 export type ScheduledPaymentType =
   | 'INSTALLMENT'
   | 'REPEAT';
@@ -280,6 +284,39 @@ export type UpdateBucketListTodoCompleteMutationVariables = Exact<{
 
 
 export type UpdateBucketListTodoCompleteMutation = { updateBucketListTodoComplete: { id: string, title: string, isComplete: boolean, bucketListId: number } };
+
+export type WoolBankNotificationPartsFragment = { id: string, kind: string, title: string, summary: string, content: string, readAt: string | null, createdAt: string };
+
+export type WoolBankNotificationListQueryVariables = Exact<{
+  limitCount?: number | null | undefined;
+}>;
+
+
+export type WoolBankNotificationListQuery = { woolBankNotificationList: { itemList: Array<{ id: string, kind: string, title: string, summary: string, content: string, readAt: string | null, createdAt: string }> } };
+
+export type WoolBankNotificationQueryVariables = Exact<{
+  id: string | number;
+}>;
+
+
+export type WoolBankNotificationQuery = { woolBankNotification: { id: string, kind: string, title: string, summary: string, content: string, readAt: string | null, createdAt: string } | null };
+
+export type WoolBankUnreadNotificationCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WoolBankUnreadNotificationCountQuery = { getWoolBankUnreadNotificationCount: number };
+
+export type MarkWoolBankNotificationReadMutationVariables = Exact<{
+  input: MarkWoolBankNotificationReadInput;
+}>;
+
+
+export type MarkWoolBankNotificationReadMutation = { markWoolBankNotificationRead: { id: string, kind: string, title: string, summary: string, content: string, readAt: string | null, createdAt: string } };
+
+export type MarkAllWoolBankNotificationReadMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MarkAllWoolBankNotificationReadMutation = { markAllWoolBankNotificationRead: boolean };
 
 export type WoolBankPushSettingPartsFragment = { regularExpenditure: boolean };
 
@@ -473,6 +510,17 @@ export const BucketListPartsFragmentDoc = new TypedDocumentString(`
   isComplete
   bucketListId
 }`, {"fragmentName":"BucketListParts"});
+export const WoolBankNotificationPartsFragmentDoc = new TypedDocumentString(`
+    fragment WoolBankNotificationParts on WoolBankNotification {
+  id
+  kind
+  title
+  summary
+  content
+  readAt
+  createdAt
+}
+    `, {"fragmentName":"WoolBankNotificationParts"});
 export const WoolBankPushSettingPartsFragmentDoc = new TypedDocumentString(`
     fragment WoolBankPushSettingParts on WoolBankPushSetting {
   regularExpenditure
@@ -1404,6 +1452,217 @@ export const useUpdateBucketListTodoCompleteMutation = <
 
 
 useUpdateBucketListTodoCompleteMutation.fetcher = (variables: UpdateBucketListTodoCompleteMutationVariables, options?: RequestInit['headers']) => gqlFetch<UpdateBucketListTodoCompleteMutation, UpdateBucketListTodoCompleteMutationVariables>(UpdateBucketListTodoCompleteDocument, variables, options);
+
+export const WoolBankNotificationListDocument = new TypedDocumentString(`
+    query WoolBankNotificationList($limitCount: Int) {
+  woolBankNotificationList(limitCount: $limitCount) {
+    itemList {
+      ...WoolBankNotificationParts
+    }
+  }
+}
+    fragment WoolBankNotificationParts on WoolBankNotification {
+  id
+  kind
+  title
+  summary
+  content
+  readAt
+  createdAt
+}`);
+
+export const useWoolBankNotificationListQuery = <
+      TData = WoolBankNotificationListQuery,
+      TError = unknown
+    >(
+      variables?: WoolBankNotificationListQueryVariables,
+      options?: Omit<UseQueryOptions<WoolBankNotificationListQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<WoolBankNotificationListQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<WoolBankNotificationListQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WoolBankNotificationList'] : ['WoolBankNotificationList', variables],
+    queryFn: gqlFetch<WoolBankNotificationListQuery, WoolBankNotificationListQueryVariables>(WoolBankNotificationListDocument, variables),
+    ...options
+  }
+    )};
+
+useWoolBankNotificationListQuery.getKey = (variables?: WoolBankNotificationListQueryVariables) => variables === undefined ? ['WoolBankNotificationList'] : ['WoolBankNotificationList', variables];
+
+export const useSuspenseWoolBankNotificationListQuery = <
+      TData = WoolBankNotificationListQuery,
+      TError = unknown
+    >(
+      variables?: WoolBankNotificationListQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<WoolBankNotificationListQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<WoolBankNotificationListQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<WoolBankNotificationListQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WoolBankNotificationList'] : ['WoolBankNotificationList', variables],
+    queryFn: gqlFetch<WoolBankNotificationListQuery, WoolBankNotificationListQueryVariables>(WoolBankNotificationListDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseWoolBankNotificationListQuery.getKey = (variables?: WoolBankNotificationListQueryVariables) => variables === undefined ? ['WoolBankNotificationList'] : ['WoolBankNotificationList', variables];
+
+
+useWoolBankNotificationListQuery.fetcher = (variables?: WoolBankNotificationListQueryVariables, options?: RequestInit['headers']) => gqlFetch<WoolBankNotificationListQuery, WoolBankNotificationListQueryVariables>(WoolBankNotificationListDocument, variables, options);
+
+export const WoolBankNotificationDocument = new TypedDocumentString(`
+    query WoolBankNotification($id: ID!) {
+  woolBankNotification(id: $id) {
+    ...WoolBankNotificationParts
+  }
+}
+    fragment WoolBankNotificationParts on WoolBankNotification {
+  id
+  kind
+  title
+  summary
+  content
+  readAt
+  createdAt
+}`);
+
+export const useWoolBankNotificationQuery = <
+      TData = WoolBankNotificationQuery,
+      TError = unknown
+    >(
+      variables: WoolBankNotificationQueryVariables,
+      options?: Omit<UseQueryOptions<WoolBankNotificationQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<WoolBankNotificationQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<WoolBankNotificationQuery, TError, TData>(
+      {
+    queryKey: ['WoolBankNotification', variables],
+    queryFn: gqlFetch<WoolBankNotificationQuery, WoolBankNotificationQueryVariables>(WoolBankNotificationDocument, variables),
+    ...options
+  }
+    )};
+
+useWoolBankNotificationQuery.getKey = (variables: WoolBankNotificationQueryVariables) => ['WoolBankNotification', variables];
+
+export const useSuspenseWoolBankNotificationQuery = <
+      TData = WoolBankNotificationQuery,
+      TError = unknown
+    >(
+      variables: WoolBankNotificationQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<WoolBankNotificationQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<WoolBankNotificationQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<WoolBankNotificationQuery, TError, TData>(
+      {
+    queryKey: ['WoolBankNotification', variables],
+    queryFn: gqlFetch<WoolBankNotificationQuery, WoolBankNotificationQueryVariables>(WoolBankNotificationDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseWoolBankNotificationQuery.getKey = (variables: WoolBankNotificationQueryVariables) => ['WoolBankNotification', variables];
+
+
+useWoolBankNotificationQuery.fetcher = (variables: WoolBankNotificationQueryVariables, options?: RequestInit['headers']) => gqlFetch<WoolBankNotificationQuery, WoolBankNotificationQueryVariables>(WoolBankNotificationDocument, variables, options);
+
+export const WoolBankUnreadNotificationCountDocument = new TypedDocumentString(`
+    query WoolBankUnreadNotificationCount {
+  getWoolBankUnreadNotificationCount
+}
+    `);
+
+export const useWoolBankUnreadNotificationCountQuery = <
+      TData = WoolBankUnreadNotificationCountQuery,
+      TError = unknown
+    >(
+      variables?: WoolBankUnreadNotificationCountQueryVariables,
+      options?: Omit<UseQueryOptions<WoolBankUnreadNotificationCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<WoolBankUnreadNotificationCountQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<WoolBankUnreadNotificationCountQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WoolBankUnreadNotificationCount'] : ['WoolBankUnreadNotificationCount', variables],
+    queryFn: gqlFetch<WoolBankUnreadNotificationCountQuery, WoolBankUnreadNotificationCountQueryVariables>(WoolBankUnreadNotificationCountDocument, variables),
+    ...options
+  }
+    )};
+
+useWoolBankUnreadNotificationCountQuery.getKey = (variables?: WoolBankUnreadNotificationCountQueryVariables) => variables === undefined ? ['WoolBankUnreadNotificationCount'] : ['WoolBankUnreadNotificationCount', variables];
+
+export const useSuspenseWoolBankUnreadNotificationCountQuery = <
+      TData = WoolBankUnreadNotificationCountQuery,
+      TError = unknown
+    >(
+      variables?: WoolBankUnreadNotificationCountQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<WoolBankUnreadNotificationCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<WoolBankUnreadNotificationCountQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<WoolBankUnreadNotificationCountQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WoolBankUnreadNotificationCount'] : ['WoolBankUnreadNotificationCount', variables],
+    queryFn: gqlFetch<WoolBankUnreadNotificationCountQuery, WoolBankUnreadNotificationCountQueryVariables>(WoolBankUnreadNotificationCountDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseWoolBankUnreadNotificationCountQuery.getKey = (variables?: WoolBankUnreadNotificationCountQueryVariables) => variables === undefined ? ['WoolBankUnreadNotificationCount'] : ['WoolBankUnreadNotificationCount', variables];
+
+
+useWoolBankUnreadNotificationCountQuery.fetcher = (variables?: WoolBankUnreadNotificationCountQueryVariables, options?: RequestInit['headers']) => gqlFetch<WoolBankUnreadNotificationCountQuery, WoolBankUnreadNotificationCountQueryVariables>(WoolBankUnreadNotificationCountDocument, variables, options);
+
+export const MarkWoolBankNotificationReadDocument = new TypedDocumentString(`
+    mutation MarkWoolBankNotificationRead($input: MarkWoolBankNotificationReadInput!) {
+  markWoolBankNotificationRead(input: $input) {
+    ...WoolBankNotificationParts
+  }
+}
+    fragment WoolBankNotificationParts on WoolBankNotification {
+  id
+  kind
+  title
+  summary
+  content
+  readAt
+  createdAt
+}`);
+
+export const useMarkWoolBankNotificationReadMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<MarkWoolBankNotificationReadMutation, TError, MarkWoolBankNotificationReadMutationVariables, TContext>) => {
+    
+    return useMutation<MarkWoolBankNotificationReadMutation, TError, MarkWoolBankNotificationReadMutationVariables, TContext>(
+      {
+    mutationKey: ['MarkWoolBankNotificationRead'],
+    mutationFn: (variables?: MarkWoolBankNotificationReadMutationVariables) => gqlFetch<MarkWoolBankNotificationReadMutation, MarkWoolBankNotificationReadMutationVariables>(MarkWoolBankNotificationReadDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useMarkWoolBankNotificationReadMutation.fetcher = (variables: MarkWoolBankNotificationReadMutationVariables, options?: RequestInit['headers']) => gqlFetch<MarkWoolBankNotificationReadMutation, MarkWoolBankNotificationReadMutationVariables>(MarkWoolBankNotificationReadDocument, variables, options);
+
+export const MarkAllWoolBankNotificationReadDocument = new TypedDocumentString(`
+    mutation MarkAllWoolBankNotificationRead {
+  markAllWoolBankNotificationRead
+}
+    `);
+
+export const useMarkAllWoolBankNotificationReadMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<MarkAllWoolBankNotificationReadMutation, TError, MarkAllWoolBankNotificationReadMutationVariables, TContext>) => {
+    
+    return useMutation<MarkAllWoolBankNotificationReadMutation, TError, MarkAllWoolBankNotificationReadMutationVariables, TContext>(
+      {
+    mutationKey: ['MarkAllWoolBankNotificationRead'],
+    mutationFn: (variables?: MarkAllWoolBankNotificationReadMutationVariables) => gqlFetch<MarkAllWoolBankNotificationReadMutation, MarkAllWoolBankNotificationReadMutationVariables>(MarkAllWoolBankNotificationReadDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useMarkAllWoolBankNotificationReadMutation.fetcher = (variables?: MarkAllWoolBankNotificationReadMutationVariables, options?: RequestInit['headers']) => gqlFetch<MarkAllWoolBankNotificationReadMutation, MarkAllWoolBankNotificationReadMutationVariables>(MarkAllWoolBankNotificationReadDocument, variables, options);
 
 export const WoolBankPushStatusDocument = new TypedDocumentString(`
     query WoolBankPushStatus($endpoint: String) {

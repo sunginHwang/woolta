@@ -1,0 +1,39 @@
+# 알림함 — 푸시로 보낸 알림을 계정 단위로 보관한다(공유코드 세션도 같은 userId 라 같은 목록을 본다)
+
+fragment WoolBankNotificationParts on WoolBankNotification {
+  id
+  kind
+  title
+  summary
+  content
+  readAt
+  createdAt
+}
+
+query WoolBankNotificationList($limitCount: Int) {
+  woolBankNotificationList(limitCount: $limitCount) {
+    itemList {
+      ...WoolBankNotificationParts
+    }
+  }
+}
+
+query WoolBankNotification($id: ID!) {
+  woolBankNotification(id: $id) {
+    ...WoolBankNotificationParts
+  }
+}
+
+query WoolBankUnreadNotificationCount {
+  getWoolBankUnreadNotificationCount
+}
+
+mutation MarkWoolBankNotificationRead($input: MarkWoolBankNotificationReadInput!) {
+  markWoolBankNotificationRead(input: $input) {
+    ...WoolBankNotificationParts
+  }
+}
+
+mutation MarkAllWoolBankNotificationRead {
+  markAllWoolBankNotificationRead
+}

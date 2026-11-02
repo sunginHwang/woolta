@@ -215,8 +215,10 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
   };
 
   // AOS에서는 이 이벤트 가 동작하지 않는다 (IOS키보드 오픈)
+  // 한글 IME 조합 중(isComposing) 들어오는 Enter keydown 에서 blur 하면 크롬이 조합 중이던 마지막 글자를
+  // 한 번 더 커밋해 "바지" → "바지지" 가 된다. 조합이 끝난 뒤 다시 오는 Enter keydown 에서만 처리한다.
   const handleTitleKeyDownEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
-    const isKeyboardEnter = e.key === 'Enter';
+    const isKeyboardEnter = e.key === 'Enter' && !e.nativeEvent.isComposing;
     const isAvailOpenModal = isInsertMode && formData.category.name === '';
 
     if (isKeyboardEnter && isAvailOpenModal) {

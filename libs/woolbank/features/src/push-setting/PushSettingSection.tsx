@@ -102,7 +102,7 @@ export const PushSettingView = ({
   return (
     <section {...stylex.props(styles.container)}>
       <Text xstyle={styles.title} variant='body3' color='graySecondary' as='h3'>
-        알림
+        알림 설정
       </Text>
       <div {...stylex.props(styles.cardWrapper)}>
         <div {...stylex.props(styles.item)}>

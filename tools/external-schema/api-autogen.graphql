@@ -37,6 +37,7 @@ type Query {
   getShareCode: String!
   """푸시 상태. endpoint 를 주면 그 기기가 이 유저 구독으로 등록돼 있는지(isSubscribed)도 함께 준다."""
   getWoolBankPushStatus(endpoint: String): WoolBankPushStatus!
+  getWoolBankUnreadNotificationCount: Int!
   mainInfo: MainInfo!
   me: UserInfo!
   memo(id: String!): Memo
@@ -50,6 +51,9 @@ type Query {
   todoList: TodoList!
   user(id: ID!): User
   weeklyCurationList: WeeklyCurationList!
+  woolBankNotification(id: ID!): WoolBankNotification
+  """최신순. limitCount 기본 50"""
+  woolBankNotificationList(limitCount: Int): WoolBankNotificationList!
 }
 
 type Mutation {
@@ -73,6 +77,11 @@ type Mutation {
   createRegularExpenditure(input: CreateRegularExpenditureInput!): RegularExpenditure!
   createTodo(input: CreateTodoInput!): Todo!
   createTodoCategory(input: CreateTodoCategoryInput!): TodoCategory!
+  """
+  알림함에 한 건을 저장하고(sendPush 면) 이 계정의 모든 기기로 푸시를 보낸다. 푸시 클릭은 /notifications/{id} 로 간다.
+  aiho 같은 봇이 봇 인증(x-woolta-user-id)으로 호출한다. 공유코드 세션의 기기도 같은 userId 라 함께 받는다.
+  """
+  createWoolBankNotification(input: CreateWoolBankNotificationInput!): WoolBankNotification!
   deleteAccount(input: DeleteAccountInput!): Boolean!
   deleteAccountBook(input: DeleteAccountBookInput!): Boolean!
   deleteAccountBookCategory(input: DeleteAccountBookCategoryInput!): Boolean!
@@ -93,6 +102,8 @@ type Mutation {
   loginByShareCode(input: LoginByShareCodeInput!): UserInfo!
   loginBySocial(input: LoginBySocialInput!): UserInfo!
   logout: Boolean!
+  markAllWoolBankNotificationRead: Boolean!
+  markWoolBankNotificationRead(input: MarkWoolBankNotificationReadInput!): WoolBankNotification!
   """refresh 쿠키로 세션 갱신(회전). 토큰 값은 인자로도 응답으로도 오가지 않고 쿠키로만 처리된다."""
   refreshSession: Boolean!
   removeArticleFromCuration(input: RemoveArticleFromCurationInput!): WeeklyCuration!
@@ -533,6 +544,15 @@ input CreateTodoInput {
   title: String!
 }
 
+input CreateWoolBankNotificationInput {
+  content: String!
+  kind: String!
+  """false 면 알림함에만 저장하고 푸시는 보내지 않는다. 기본 true"""
+  sendPush: Boolean = true
+  summary: String!
+  title: String!
+}
+
 type CustomRegularExpenditure {
   accountBookCategory: AccountBookCategory!
   accountBookCategoryId: Int!
@@ -705,6 +725,10 @@ type MainInfo {
   bucketList: [BucketListSummary!]!
   totalSavedAmount: Int!
   totalSavedAmountExceptCurrentMonth: Int!
+}
+
+input MarkWoolBankNotificationReadInput {
+  id: ID!
 }
 
 type Memo {
@@ -1069,6 +1093,27 @@ type WeeklyCuration {
 
 type WeeklyCurationList {
   itemList: [WeeklyCuration!]!
+  totalCount: Int!
+}
+
+type WoolBankNotification {
+  """상세 페이지 본문. 줄바꿈 포함 plain text"""
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  """
+  알림 종류. 푸시 topic/tag 로도 쓴다 (예: DAILY_DIGEST, WEEKLY_DIGEST, EVENING_REMINDER, REGULAR_EXPENDITURE)
+  """
+  kind: String!
+  readAt: DateTime
+  """푸시 본문 겸 목록 미리보기 (255자 이내)"""
+  summary: String!
+  """푸시 제목 (100자 이내)"""
+  title: String!
+}
+
+type WoolBankNotificationList {
+  itemList: [WoolBankNotification!]!
   totalCount: Int!
 }
 
