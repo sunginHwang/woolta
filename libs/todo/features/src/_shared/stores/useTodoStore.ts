@@ -14,7 +14,7 @@ export const useTodoStore = create(
       {
         selectedTodoId: null as string | null,
         viewMode: 'list' as TodoViewMode,
-        isDetailVisible: true,
+        isDetailVisible: false,
       },
       (set) => ({
         selectTodo: (id: string | null) => {
@@ -28,8 +28,8 @@ export const useTodoStore = create(
           set({ isDetailVisible });
         },
         clearDetail: () => {
-          // 패널을 숨기지 않고 빈 상태(EmptyView)를 노출하기 위해 선택만 해제한다.
-          set({ selectedTodoId: null, isDetailVisible: true });
+          // 진입/리스트 전환 시 호출된다. 고른 할 일이 없으면 빈 패널을 띄우지 않고 닫아 둔다.
+          set({ selectedTodoId: null, isDetailVisible: false });
         },
         toggleDetailVisible: () => {
           set((state) => ({ isDetailVisible: !state.isDetailVisible }));

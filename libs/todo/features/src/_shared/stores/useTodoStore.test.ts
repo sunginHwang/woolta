@@ -21,7 +21,7 @@ describe('useTodoStore 테스트', () => {
   });
 
   describe('clearDetail 테스트', () => {
-    it('clearDetail 을 호출하면 선택만 해제되고 패널은 열린 채로 남는다.', () => {
+    it('clearDetail 을 호출하면 선택이 해제되고 패널도 닫힌다.', () => {
       // Given
       useTodoStore.setState({ selectedTodoId: 'todo-1', isDetailVisible: true });
 
@@ -31,7 +31,7 @@ describe('useTodoStore 테스트', () => {
       // Then
       const { selectedTodoId, isDetailVisible } = useTodoStore.getState();
       expect(selectedTodoId).toBeNull();
-      expect(isDetailVisible).toBe(true);
+      expect(isDetailVisible).toBe(false);
     });
   });
 
