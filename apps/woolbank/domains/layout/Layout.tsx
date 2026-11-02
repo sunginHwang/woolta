@@ -3,9 +3,10 @@
 import { useIsMounted } from '@common';
 import * as stylex from '@stylexjs/stylex';
 import { colorVars } from '@wds/tokens.stylex';
+import { Toast as FeatureToast, useRegisterPushServiceWorker } from '@woolta/woolbank-features';
 import { useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
-import { FC, type PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { FullScreenLoading } from '../../components/full-screen-loading/FullScreenLoading';
 import { LoadingAtom } from '../../store/layout';
 import { Alert } from './alert/Alert';
@@ -52,6 +53,8 @@ export const Layout = ({ children }: Props) => {
   const pathname = usePathname();
   const isMounted = useIsMounted();
   const { isLoading, message } = useAtomValue(LoadingAtom);
+  // 푸시 서비스워커는 등록만 한다 — 권한 요청은 마이페이지 알림 토글에서 사용자 제스처와 함께.
+  useRegisterPushServiceWorker();
 
   const useNavBar = NAVIGATION_PATH_LIST.find((path) => pathname === path);
   return (
@@ -64,6 +67,8 @@ export const Layout = ({ children }: Props) => {
             <FullScreenLoading loading={isLoading} message={message} />
             <Alert />
             <Toast />
+            {/* lib(woolbank-features) 컴포넌트가 띄우는 토스트는 별도 atom 을 쓴다 */}
+            <FeatureToast />
           </>
         )}
       </div>

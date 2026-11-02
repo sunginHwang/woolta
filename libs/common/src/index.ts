@@ -4,4 +4,5 @@ export * from './lib/common';
 export * from './lib/constants';
 export * from './lib/hoc';
 export * from './lib/hooks';
+export * from './lib/pwa';
 export * from './lib/utils';

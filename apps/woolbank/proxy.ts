@@ -87,8 +87,8 @@ export const config = {
      * - favicon.ico (favicon file)
      * - menifest.json
      * - service-worker.js
-     * - android-chrome-*
+     * - android-chrome-* / badge-* (푸시 알림 아이콘 — 서비스워커가 세션 없이도 받아야 한다)
      */
-    '/((?!api|_next/static|static|_next/image|favicon.ico|service-worker|manifest|android-chrome-*).*)',
+    '/((?!api|_next/static|static|_next/image|favicon.ico|service-worker|manifest|android-chrome-|badge-).*)',
   ],
 };

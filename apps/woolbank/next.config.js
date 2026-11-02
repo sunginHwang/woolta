@@ -27,6 +27,18 @@ const nextConfig = {
       },
     ];
   },
+  // 서비스워커는 브라우저가 24시간 캐시할 수 있다 — 푸시 핸들러를 고쳤는데 옛 SW 가 남지 않도록 캐시를 끈다.
+  async headers() {
+    return [
+      {
+        source: '/service-worker.js',
+        headers: [
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+        ],
+      },
+    ];
+  },
   experimental: {
     optimizePackageImports: ['@nivo/pie', 'lodash-es', '@woolta/wds'],
   },

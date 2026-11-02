@@ -1,6 +1,7 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
+import { PushSettingSection } from '@woolta/woolbank-features';
 import { Header } from '../../../components/Header/Header';
 import { UserInfoCard } from './user-info-card/UserInfoCard';
 
@@ -17,6 +18,7 @@ export const MyPageMain = () => {
       <Header title='나의 뱅킷리스트' />
       <main {...stylex.props(styles.container)}>
         <UserInfoCard />
+        <PushSettingSection />
       </main>
     </>
   );

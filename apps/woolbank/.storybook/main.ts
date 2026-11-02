@@ -3,7 +3,11 @@ import { viteStylexPlugin } from '../../../tools/stylex/viteStylexPlugin.mjs';
 import { workspaceAlias } from '../../../tools/workspaceAlias.mjs';
 
 const config: StorybookConfig = {
-  stories: ['../**/*.stories.@(tsx|mdx)'],
+  stories: [
+    '../**/*.stories.@(tsx|mdx)',
+    '../../../libs/woolbank/**/*.stories.@(tsx|mdx)',
+    '../../../libs/wds/**/*.stories.@(tsx|mdx)',
+  ],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
     name: '@storybook/nextjs-vite',

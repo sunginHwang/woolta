@@ -1,0 +1,33 @@
+# Web Push (PWA 알림) — 구독은 기기(endpoint) 단위, 설정은 유저 단위
+
+fragment WoolBankPushSettingParts on WoolBankPushSetting {
+  regularExpenditure
+}
+
+query WoolBankPushStatus($endpoint: String) {
+  getWoolBankPushStatus(endpoint: $endpoint) {
+    isSubscribed
+    subscriptionCount
+    setting {
+      ...WoolBankPushSettingParts
+    }
+  }
+}
+
+mutation SubscribeWoolBankPush($input: SubscribeWoolBankPushInput!) {
+  subscribeWoolBankPush(input: $input)
+}
+
+mutation UnsubscribeWoolBankPush($input: UnsubscribeWoolBankPushInput!) {
+  unsubscribeWoolBankPush(input: $input)
+}
+
+mutation UpdateWoolBankPushSetting($input: UpdateWoolBankPushSettingInput!) {
+  updateWoolBankPushSetting(input: $input) {
+    ...WoolBankPushSettingParts
+  }
+}
+
+mutation SendWoolBankTestPush($input: SendWoolBankTestPushInput) {
+  sendWoolBankTestPush(input: $input)
+}

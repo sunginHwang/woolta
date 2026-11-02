@@ -100,6 +100,24 @@ export type ScheduledPaymentType =
   | 'INSTALLMENT'
   | 'REPEAT';
 
+export type SendWoolBankTestPushInput = {
+  /** 이 기기(구독)로만 보낸다 */
+  endpoint?: string | null | undefined;
+};
+
+export type SubscribeWoolBankPushInput = {
+  auth: string;
+  endpoint: string;
+  /** PushSubscription.expirationTime — 대부분 null */
+  expirationTime?: string | null | undefined;
+  p256dh: string;
+  userAgent?: string | null | undefined;
+};
+
+export type UnsubscribeWoolBankPushInput = {
+  endpoint: string;
+};
+
 export type UpdateAccountBookInput = {
   amount?: number | null | undefined;
   categoryId?: number | null | undefined;
@@ -123,6 +141,10 @@ export type UpdateBucketListInput = {
 export type UpdateBucketListTodoCompleteInput = {
   isComplete: boolean;
   todoId: string | number;
+};
+
+export type UpdateWoolBankPushSettingInput = {
+  regularExpenditure: boolean;
 };
 
 export type AccountBookPartsFragment = { id: string, title: string, amount: number, memo: string, type: AccountBookCategoryType, registerDateTime: string, isDisabledBudget: boolean, isRegularExpenditure: boolean, installmentMonth: number | null, paidInstallmentMonth: number | null, regularDate: number | null, accountBookCategoryId: number, accountBookCategory: { id: string, name: string, type: AccountBookCategoryType, useStatistic: boolean, accountBookCategoryImageId: number, accountBookCategoryImage: { id: string, name: string, imageUrl: string } } };
@@ -258,6 +280,43 @@ export type UpdateBucketListTodoCompleteMutationVariables = Exact<{
 
 
 export type UpdateBucketListTodoCompleteMutation = { updateBucketListTodoComplete: { id: string, title: string, isComplete: boolean, bucketListId: number } };
+
+export type WoolBankPushSettingPartsFragment = { regularExpenditure: boolean };
+
+export type WoolBankPushStatusQueryVariables = Exact<{
+  endpoint?: string | null | undefined;
+}>;
+
+
+export type WoolBankPushStatusQuery = { getWoolBankPushStatus: { isSubscribed: boolean, subscriptionCount: number, setting: { regularExpenditure: boolean } } };
+
+export type SubscribeWoolBankPushMutationVariables = Exact<{
+  input: SubscribeWoolBankPushInput;
+}>;
+
+
+export type SubscribeWoolBankPushMutation = { subscribeWoolBankPush: boolean };
+
+export type UnsubscribeWoolBankPushMutationVariables = Exact<{
+  input: UnsubscribeWoolBankPushInput;
+}>;
+
+
+export type UnsubscribeWoolBankPushMutation = { unsubscribeWoolBankPush: boolean };
+
+export type UpdateWoolBankPushSettingMutationVariables = Exact<{
+  input: UpdateWoolBankPushSettingInput;
+}>;
+
+
+export type UpdateWoolBankPushSettingMutation = { updateWoolBankPushSetting: { regularExpenditure: boolean } };
+
+export type SendWoolBankTestPushMutationVariables = Exact<{
+  input?: SendWoolBankTestPushInput | null | undefined;
+}>;
+
+
+export type SendWoolBankTestPushMutation = { sendWoolBankTestPush: boolean };
 
 export type RegularExpenditureItemPartsFragment = { id: string, title: string, amount: number, regularDate: number, regularExpenditureDay: string, isAutoExpenditure: boolean, accountBookCategoryId: number, accountBookCategory: { id: string, name: string, type: AccountBookCategoryType, useStatistic: boolean, accountBookCategoryImageId: number, accountBookCategoryImage: { id: string, name: string, imageUrl: string } } };
 
@@ -414,6 +473,11 @@ export const BucketListPartsFragmentDoc = new TypedDocumentString(`
   isComplete
   bucketListId
 }`, {"fragmentName":"BucketListParts"});
+export const WoolBankPushSettingPartsFragmentDoc = new TypedDocumentString(`
+    fragment WoolBankPushSettingParts on WoolBankPushSetting {
+  regularExpenditure
+}
+    `, {"fragmentName":"WoolBankPushSettingParts"});
 export const RegularExpenditureItemPartsFragmentDoc = new TypedDocumentString(`
     fragment RegularExpenditureItemParts on CustomRegularExpenditure {
   id
@@ -1340,6 +1404,151 @@ export const useUpdateBucketListTodoCompleteMutation = <
 
 
 useUpdateBucketListTodoCompleteMutation.fetcher = (variables: UpdateBucketListTodoCompleteMutationVariables, options?: RequestInit['headers']) => gqlFetch<UpdateBucketListTodoCompleteMutation, UpdateBucketListTodoCompleteMutationVariables>(UpdateBucketListTodoCompleteDocument, variables, options);
+
+export const WoolBankPushStatusDocument = new TypedDocumentString(`
+    query WoolBankPushStatus($endpoint: String) {
+  getWoolBankPushStatus(endpoint: $endpoint) {
+    isSubscribed
+    subscriptionCount
+    setting {
+      ...WoolBankPushSettingParts
+    }
+  }
+}
+    fragment WoolBankPushSettingParts on WoolBankPushSetting {
+  regularExpenditure
+}`);
+
+export const useWoolBankPushStatusQuery = <
+      TData = WoolBankPushStatusQuery,
+      TError = unknown
+    >(
+      variables?: WoolBankPushStatusQueryVariables,
+      options?: Omit<UseQueryOptions<WoolBankPushStatusQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<WoolBankPushStatusQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<WoolBankPushStatusQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WoolBankPushStatus'] : ['WoolBankPushStatus', variables],
+    queryFn: gqlFetch<WoolBankPushStatusQuery, WoolBankPushStatusQueryVariables>(WoolBankPushStatusDocument, variables),
+    ...options
+  }
+    )};
+
+useWoolBankPushStatusQuery.getKey = (variables?: WoolBankPushStatusQueryVariables) => variables === undefined ? ['WoolBankPushStatus'] : ['WoolBankPushStatus', variables];
+
+export const useSuspenseWoolBankPushStatusQuery = <
+      TData = WoolBankPushStatusQuery,
+      TError = unknown
+    >(
+      variables?: WoolBankPushStatusQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<WoolBankPushStatusQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<WoolBankPushStatusQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<WoolBankPushStatusQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WoolBankPushStatus'] : ['WoolBankPushStatus', variables],
+    queryFn: gqlFetch<WoolBankPushStatusQuery, WoolBankPushStatusQueryVariables>(WoolBankPushStatusDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseWoolBankPushStatusQuery.getKey = (variables?: WoolBankPushStatusQueryVariables) => variables === undefined ? ['WoolBankPushStatus'] : ['WoolBankPushStatus', variables];
+
+
+useWoolBankPushStatusQuery.fetcher = (variables?: WoolBankPushStatusQueryVariables, options?: RequestInit['headers']) => gqlFetch<WoolBankPushStatusQuery, WoolBankPushStatusQueryVariables>(WoolBankPushStatusDocument, variables, options);
+
+export const SubscribeWoolBankPushDocument = new TypedDocumentString(`
+    mutation SubscribeWoolBankPush($input: SubscribeWoolBankPushInput!) {
+  subscribeWoolBankPush(input: $input)
+}
+    `);
+
+export const useSubscribeWoolBankPushMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<SubscribeWoolBankPushMutation, TError, SubscribeWoolBankPushMutationVariables, TContext>) => {
+    
+    return useMutation<SubscribeWoolBankPushMutation, TError, SubscribeWoolBankPushMutationVariables, TContext>(
+      {
+    mutationKey: ['SubscribeWoolBankPush'],
+    mutationFn: (variables?: SubscribeWoolBankPushMutationVariables) => gqlFetch<SubscribeWoolBankPushMutation, SubscribeWoolBankPushMutationVariables>(SubscribeWoolBankPushDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useSubscribeWoolBankPushMutation.fetcher = (variables: SubscribeWoolBankPushMutationVariables, options?: RequestInit['headers']) => gqlFetch<SubscribeWoolBankPushMutation, SubscribeWoolBankPushMutationVariables>(SubscribeWoolBankPushDocument, variables, options);
+
+export const UnsubscribeWoolBankPushDocument = new TypedDocumentString(`
+    mutation UnsubscribeWoolBankPush($input: UnsubscribeWoolBankPushInput!) {
+  unsubscribeWoolBankPush(input: $input)
+}
+    `);
+
+export const useUnsubscribeWoolBankPushMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UnsubscribeWoolBankPushMutation, TError, UnsubscribeWoolBankPushMutationVariables, TContext>) => {
+    
+    return useMutation<UnsubscribeWoolBankPushMutation, TError, UnsubscribeWoolBankPushMutationVariables, TContext>(
+      {
+    mutationKey: ['UnsubscribeWoolBankPush'],
+    mutationFn: (variables?: UnsubscribeWoolBankPushMutationVariables) => gqlFetch<UnsubscribeWoolBankPushMutation, UnsubscribeWoolBankPushMutationVariables>(UnsubscribeWoolBankPushDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUnsubscribeWoolBankPushMutation.fetcher = (variables: UnsubscribeWoolBankPushMutationVariables, options?: RequestInit['headers']) => gqlFetch<UnsubscribeWoolBankPushMutation, UnsubscribeWoolBankPushMutationVariables>(UnsubscribeWoolBankPushDocument, variables, options);
+
+export const UpdateWoolBankPushSettingDocument = new TypedDocumentString(`
+    mutation UpdateWoolBankPushSetting($input: UpdateWoolBankPushSettingInput!) {
+  updateWoolBankPushSetting(input: $input) {
+    ...WoolBankPushSettingParts
+  }
+}
+    fragment WoolBankPushSettingParts on WoolBankPushSetting {
+  regularExpenditure
+}`);
+
+export const useUpdateWoolBankPushSettingMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateWoolBankPushSettingMutation, TError, UpdateWoolBankPushSettingMutationVariables, TContext>) => {
+    
+    return useMutation<UpdateWoolBankPushSettingMutation, TError, UpdateWoolBankPushSettingMutationVariables, TContext>(
+      {
+    mutationKey: ['UpdateWoolBankPushSetting'],
+    mutationFn: (variables?: UpdateWoolBankPushSettingMutationVariables) => gqlFetch<UpdateWoolBankPushSettingMutation, UpdateWoolBankPushSettingMutationVariables>(UpdateWoolBankPushSettingDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUpdateWoolBankPushSettingMutation.fetcher = (variables: UpdateWoolBankPushSettingMutationVariables, options?: RequestInit['headers']) => gqlFetch<UpdateWoolBankPushSettingMutation, UpdateWoolBankPushSettingMutationVariables>(UpdateWoolBankPushSettingDocument, variables, options);
+
+export const SendWoolBankTestPushDocument = new TypedDocumentString(`
+    mutation SendWoolBankTestPush($input: SendWoolBankTestPushInput) {
+  sendWoolBankTestPush(input: $input)
+}
+    `);
+
+export const useSendWoolBankTestPushMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<SendWoolBankTestPushMutation, TError, SendWoolBankTestPushMutationVariables, TContext>) => {
+    
+    return useMutation<SendWoolBankTestPushMutation, TError, SendWoolBankTestPushMutationVariables, TContext>(
+      {
+    mutationKey: ['SendWoolBankTestPush'],
+    mutationFn: (variables?: SendWoolBankTestPushMutationVariables) => gqlFetch<SendWoolBankTestPushMutation, SendWoolBankTestPushMutationVariables>(SendWoolBankTestPushDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useSendWoolBankTestPushMutation.fetcher = (variables?: SendWoolBankTestPushMutationVariables, options?: RequestInit['headers']) => gqlFetch<SendWoolBankTestPushMutation, SendWoolBankTestPushMutationVariables>(SendWoolBankTestPushDocument, variables, options);
 
 export const RegularExpenditureGroupListDocument = new TypedDocumentString(`
     query RegularExpenditureGroupList($limitCount: Int) {

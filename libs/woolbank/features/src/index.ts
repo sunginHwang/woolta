@@ -42,6 +42,8 @@ export {
   prefetchBucketListSummary,
 } from './_shared/hooks/bucketListApi';
 export { prefetchAccountBookMain } from './_shared/hooks/prefetch';
+export type { PushSetting, PushStatus } from './_shared/hooks/pushApi';
+export { pushStatusKey, pushStatusKeyPrefix, usePushStatusQuery } from './_shared/hooks/pushApi';
 export type { RegularExpenditure, RegularExpenditureListItem } from './_shared/hooks/regularExpenditureApi';
 export {
   fetchRegularExpenditureList,
@@ -51,6 +53,8 @@ export {
 export type { UploadedBucketImage } from './_shared/hooks/uploadBucketImage';
 export { uploadBucketImage } from './_shared/hooks/uploadBucketImage';
 export { useAccountBookList } from './_shared/hooks/useAccountBookList';
+// _shared: 푸시 서비스워커 등록 (권한 요청 없음)
+export { useRegisterPushServiceWorker, WOOLBANK_VAPID_PUBLIC_KEY } from './_shared/hooks/useRegisterPushServiceWorker';
 export type { WoolbankRoutes } from './_shared/routes/context';
 // _shared: route context
 export { useWoolbankRoutes, WoolbankRoutesProvider } from './_shared/routes/context';
@@ -83,3 +87,7 @@ export { AccountBookAddButton } from './account-book-list/AccountBookAddButton';
 export { default as MonthStatistics } from './account-book-list/MonthStatistics';
 // account-book-tabs feature
 export { AccountBookTabs } from './account-book-tabs/AccountBookTabs';
+// push-setting feature
+export { PushSettingSection, PushSettingView, type PushSettingViewProps } from './push-setting/PushSettingSection';
+export type { PushSettingModel, PushSettingState } from './push-setting/usePushSetting';
+export { usePushSetting } from './push-setting/usePushSetting';
