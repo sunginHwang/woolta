@@ -56,7 +56,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css'
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <RootProvider>{children}</RootProvider>
         <div id='modalDeem' />
       </body>
