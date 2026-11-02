@@ -12,6 +12,11 @@ export interface AccountStatisticRange {
   startDate: Dayjs;
   endDate: Dayjs;
   type: AccountBookCategoryType;
+  /**
+   * true 면 서버가 통계 제외 카테고리(useStatistic=false)를 빼고, 비중도 남은 항목 합계 기준으로 내려준다.
+   * 화면에서 걸러내면 비중의 분모가 안 맞아 조각 합이 100% 가 되지 않았다 — 필터와 분모를 서버에서 함께 처리한다.
+   */
+  onlyUseStatistic?: boolean;
 }
 
 /**
@@ -19,6 +24,13 @@ export interface AccountStatisticRange {
  * 쿼리 파라미터로 보냈는데, 여기서는 ISO 8601 로 통일한다.
  */
 const toDateTime = (date: Dayjs) => date.toISOString();
+
+const toVariables = (range: AccountStatisticRange) => ({
+  startDate: toDateTime(range.startDate),
+  endDate: toDateTime(range.endDate),
+  type: range.type,
+  onlyUseStatistic: range.onlyUseStatistic ?? false,
+});
 
 /**
  * 쿼리키.
@@ -28,21 +40,10 @@ const toDateTime = (date: Dayjs) => date.toISOString();
  * 도메인별로 접두사가 갈리고 값도 문자열이 된다.
  */
 export const accountBookStatisticKey = (range: AccountStatisticRange) =>
-  useGetAccountBookStatisticListQuery.getKey({
-    startDate: toDateTime(range.startDate),
-    endDate: toDateTime(range.endDate),
-    type: range.type,
-  });
+  useGetAccountBookStatisticListQuery.getKey(toVariables(range));
 
 export const fetchAccountBookStatistics = async (range: AccountStatisticRange, options: PrefetchOptions = {}) => {
-  const data = await useGetAccountBookStatisticListQuery.fetcher(
-    {
-      startDate: toDateTime(range.startDate),
-      endDate: toDateTime(range.endDate),
-      type: range.type,
-    },
-    toPrefetchHeaders(options),
-  )();
+  const data = await useGetAccountBookStatisticListQuery.fetcher(toVariables(range), toPrefetchHeaders(options))();
 
   return data.getAccountBookStatisticList.itemList;
 };

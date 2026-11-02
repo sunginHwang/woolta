@@ -14,6 +14,8 @@ export default async function RegularExtenditurePage() {
       startDate: dayjs().startOf('month'),
       endDate: dayjs().endOf('month'),
       type: 'EXPENDITURE',
+      // 화면 기본값(통계 필터 적용)과 같은 키로 받아야 하이드레이션이 맞는다
+      onlyUseStatistic: true,
     },
     cookie,
   });

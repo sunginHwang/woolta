@@ -17,15 +17,16 @@ export const useAccountStatisticListQuery = (
   accountBookStatisticFilter: AccountStatisticFilter,
   allVisibilityStatistic: boolean,
 ) => {
+  // 필터와 비중 분모를 서버가 함께 처리한다 — 화면에서 걸러내면 조각 합이 100% 가 되지 않는다
+  const range = { ...accountBookStatisticFilter, onlyUseStatistic: !allVisibilityStatistic };
+
   const { data, ...rest } = useSuspenseQuery({
-    queryKey: accountBookStatisticKey(accountBookStatisticFilter),
-    queryFn: () => fetchAccountBookStatistics(accountBookStatisticFilter),
+    queryKey: accountBookStatisticKey(range),
+    queryFn: () => fetchAccountBookStatistics(range),
   });
 
-  const accountBookStatisticList = data?.filter((item) => allVisibilityStatistic || item.useStatistic) ?? [];
-
   return {
-    accountBookStatisticList,
+    accountBookStatisticList: data ?? [],
     ...rest,
   };
 };

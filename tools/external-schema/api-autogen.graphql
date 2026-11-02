@@ -25,7 +25,11 @@ type Query {
   calendarShareList: CalendarShareList!
   categoryList: CategoryList!
   checkAccess: Int!
-  getAccountBookStatisticList(endDate: DateTime!, startDate: DateTime!, type: AccountBookCategoryType!): StatisticList!
+  """
+  카테고리별 통계. onlyUseStatistic 이 true 면 통계 제외 카테고리(useStatistic=false)를 목록에서 빼고,
+  비중(percentage)도 남은 항목의 합계를 분모로 계산한다. 기본값 false 는 전체 기준이다.
+  """
+  getAccountBookStatisticList(endDate: DateTime!, onlyUseStatistic: Boolean = false, startDate: DateTime!, type: AccountBookCategoryType!): StatisticList!
   getAccountLastUpdatedDate: DateTime!
   getBucketListItemLastUpdatedDate(id: ID!): DateTime!
   getBucketListLastUpdatedDate: DateTime!

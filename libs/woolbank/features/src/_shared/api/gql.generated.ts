@@ -292,6 +292,7 @@ export type GetAccountBookStatisticListQueryVariables = Exact<{
   startDate: string;
   endDate: string;
   type: AccountBookCategoryType;
+  onlyUseStatistic?: boolean | null | undefined;
 }>;
 
 
@@ -1475,11 +1476,12 @@ export const useDeleteRegularExpenditureMutation = <
 useDeleteRegularExpenditureMutation.fetcher = (variables: DeleteRegularExpenditureMutationVariables, options?: RequestInit['headers']) => gqlFetch<DeleteRegularExpenditureMutation, DeleteRegularExpenditureMutationVariables>(DeleteRegularExpenditureDocument, variables, options);
 
 export const GetAccountBookStatisticListDocument = new TypedDocumentString(`
-    query GetAccountBookStatisticList($startDate: DateTime!, $endDate: DateTime!, $type: AccountBookCategoryType!) {
+    query GetAccountBookStatisticList($startDate: DateTime!, $endDate: DateTime!, $type: AccountBookCategoryType!, $onlyUseStatistic: Boolean) {
   getAccountBookStatisticList(
     startDate: $startDate
     endDate: $endDate
     type: $type
+    onlyUseStatistic: $onlyUseStatistic
   ) {
     totalCount
     itemList {

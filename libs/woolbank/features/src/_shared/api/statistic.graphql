@@ -15,8 +15,13 @@ fragment StatisticParts on Statistic {
   }
 }
 
-query GetAccountBookStatisticList($startDate: DateTime!, $endDate: DateTime!, $type: AccountBookCategoryType!) {
-  getAccountBookStatisticList(startDate: $startDate, endDate: $endDate, type: $type) {
+query GetAccountBookStatisticList(
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $type: AccountBookCategoryType!
+  $onlyUseStatistic: Boolean
+) {
+  getAccountBookStatisticList(startDate: $startDate, endDate: $endDate, type: $type, onlyUseStatistic: $onlyUseStatistic) {
     totalCount
     itemList {
       ...StatisticParts
