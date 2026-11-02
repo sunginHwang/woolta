@@ -36,10 +36,10 @@ const styles = stylex.create({
     paddingInline: '1.5rem',
     position: 'relative',
   },
-  wrapInner: {
-    display: 'inline-block',
-  },
+  // inline-block 과 width 100% 는 같은 요소에 있어야 부모 폭을 채운다.
+  // 둘을 나누면 inline-block 이 내용 폭으로 줄어 space-between 이 동작하지 않는다.
   content: {
+    display: 'inline-block',
     width: '100%',
     height: '100%',
     verticalAlign: 'bottom',
@@ -110,28 +110,26 @@ const RegularExpenditureItem: FC<Props> = ({ type, hasDeleteAuth, regularExpendi
   return (
     <li {...stylex.props(styles.expenditureTypeItem)} {...longPressAction}>
       <div {...stylex.props(styles.wrap)}>
-        <div {...stylex.props(styles.wrapInner)}>
-          <div {...stylex.props(styles.content)}>
-            <div {...stylex.props(styles.contentInner)}>
-              <div {...stylex.props(styles.left)}>
-                <div {...stylex.props(styles.title)}>
-                  <Text variant='body3' color='black' as='p' mr={4}>
-                    {title}
-                  </Text>
-                  {isAutoExpenditure && <label {...stylex.props(styles.label)}>정기이체</label>}
-                </div>
-                <Text variant='small1Regular' color='gray600'>
-                  {amount.toLocaleString('ko-KR')}원
+        <div {...stylex.props(styles.content)}>
+          <div {...stylex.props(styles.contentInner)}>
+            <div {...stylex.props(styles.left)}>
+              <div {...stylex.props(styles.title)}>
+                <Text variant='body3' color='black' as='p' mr={4}>
+                  {title}
                 </Text>
+                {isAutoExpenditure && <label {...stylex.props(styles.label)}>정기이체</label>}
               </div>
-              <Text
-                variant={isAccentRemainDay ? 'body4Bold' : 'body4Regular'}
-                color={isAccentRemainDay ? 'orange600' : 'gray600'}
-                as='p'
-              >
-                {remainDayKo}
+              <Text variant='small1Regular' color='gray600'>
+                {amount.toLocaleString('ko-KR')}원
               </Text>
             </div>
+            <Text
+              variant={isAccentRemainDay ? 'body4Bold' : 'body4Regular'}
+              color={isAccentRemainDay ? 'orange600' : 'gray600'}
+              as='p'
+            >
+              {remainDayKo}
+            </Text>
           </div>
         </div>
       </div>
