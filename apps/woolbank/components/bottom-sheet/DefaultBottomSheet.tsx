@@ -77,13 +77,23 @@ const styles = stylex.create({
     fontWeight: 500,
     color: colorVars['--color-gray800'],
   },
+  // 시트는 뷰포트의 85% 까지만 자라고, 넘치는 목록은 content 안에서 스크롤한다.
+  // 상한이 없으면 항목이 많은 메뉴(월 선택 60개 등)가 화면 위로 넘어가고,
+  // 본문 스크롤은 usePreventScroll 로 잠겨 있어 어디서도 스크롤할 수 없다.
   content: {
     marginBottom: '2.5rem',
-    overflowY: 'scroll',
+    overflowY: 'auto',
+    minHeight: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
   },
   bottomModal: {
     position: 'fixed',
     width: '100%',
+    maxHeight: '85dvh',
+    display: 'flex',
+    flexDirection: 'column',
     borderTopLeftRadius: '2rem',
     borderTopRightRadius: '2rem',
     textAlign: 'center',
