@@ -48,7 +48,7 @@ export const DefaultBottomSheet = ({
               <div {...stylex.props(styles.header)}>
                 <p {...stylex.props(styles.headerTitle)}>{title}</p>
                 {showCloseBtn && (
-                  <i onClick={oncloseModal}>
+                  <i onClick={() => oncloseModal?.()}>
                     <IconClose width={24} height={30} fill={colorVars['--color-gray700']} />
                   </i>
                 )}
