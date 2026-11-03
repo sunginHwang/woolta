@@ -1,5 +1,9 @@
 # 배포 가이드
 
+> **현재 실제 절차는 [`docs/RUNBOOK.md`](./RUNBOOK.md) 를 본다.** FE 는 서버 체크아웃이 아니라
+> 로컬 빌드 산출물을 `/home/frontend` 에 올리는 방식(`scripts/package.sh` + `scripts/upload.sh`)으로 운영 중이다.
+> 아래 3-3 의 `pnpm deploy` 는 서버에 레포를 둘 때의 설계다.
+
 woolta 서비스 네 개를 단일 서버(`woolta.com`)에 pm2 로 올린다.
 
 > **확인 필요한 가정**
