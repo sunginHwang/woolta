@@ -1,9 +1,8 @@
 import { delay } from '@common';
 import * as stylex from '@stylexjs/stylex';
-import { colors, Text } from '@wds';
+import { Button, colors, Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from 'react';
-import { Button } from '../../../../components/atom/Button';
 import { IconTrashCan } from '../../../../components/atom/Icon';
 import { IconCalendar } from '../../../../components/atom/Icon/Calendar';
 import { IconChevronRight } from '../../../../components/atom/Icon/ChevronRight';
@@ -295,7 +294,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
           <footer {...stylex.props(styles.buttonArea)}>
             <div {...stylex.props(styles.bottomWrapper)}>
               {!isUpdateForm && (
-                <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
+                <Button variant='outline' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
                   <IconTrashCan />
                 </Button>
               )}

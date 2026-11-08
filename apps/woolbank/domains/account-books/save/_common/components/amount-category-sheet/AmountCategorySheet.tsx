@@ -1,6 +1,6 @@
 import { useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
-import { Button } from '../../../../../../components/atom/Button';
+import { Button } from '@wds';
 import { BottomSheet } from '../../../../../../components/bottom-sheet/BottomSheet';
 import {
   type AccountBookCategory,
@@ -61,7 +61,7 @@ export const AmountCategorySheet = ({ open, onClose, type, selectCategoryId, onC
             })}
           </section>
           <div {...stylex.props(styles.footer)}>
-            <Button color='red' fill onClick={onOpenSaveForm}>
+            <Button fill onClick={onOpenSaveForm}>
               + {titleMsg}
             </Button>
           </div>

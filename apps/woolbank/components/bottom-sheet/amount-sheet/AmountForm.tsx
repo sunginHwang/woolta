@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
 import type { FC, MouseEvent } from 'react';
 import { vibrate } from '../../../utils/browsers/vibrate';
-import { Button } from '../../atom/Button';
 
 const VIBRATION_PATTERN = 10;
 interface Props {

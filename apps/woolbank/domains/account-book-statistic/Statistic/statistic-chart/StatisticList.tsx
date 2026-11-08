@@ -1,9 +1,8 @@
 import { useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
-import { Text } from '@wds';
+import { Button, Text } from '@wds';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { Button } from '../../../../components/atom/Button';
 import {
   AccountBookBottomSheet,
   type AccountBookSheetItem,
@@ -102,7 +101,7 @@ const StatisticList = ({ accountBookChartList }: Props) => {
           );
         })}
         <div {...stylex.props(styles.more)}>
-          <Button variant='tertiaryGray' fill onClick={() => toggleIsAllView()}>
+          <Button variant='outline' fill onClick={() => toggleIsAllView()}>
             {isAllView ? '접기' : '전체보기'}
           </Button>
         </div>

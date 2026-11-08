@@ -2,11 +2,10 @@
 
 import { delay, useIsDashboardHost } from '@common';
 import * as stylex from '@stylexjs/stylex';
-import { grayTertiary, Text } from '@wds';
+import { Button, grayTertiary, Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 import { typographyStyles } from '@wds/typography.stylex';
 import { type ChangeEvent, type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from 'react';
-import { Button } from '../_shared/components/button/Button';
 import { ToggleTab } from '../_shared/components/toggle-tab/ToggleTab';
 import { useConfirm } from '../_shared/confirm/ConfirmContext';
 import { useUserInfo } from '../_shared/hooks/useUserInfo';
@@ -356,7 +355,7 @@ export const AccountBookForm = ({ accountBookForm, submitForm, removeAccountBook
           <footer {...stylex.props(styles.buttonArea)}>
             <div {...stylex.props(styles.bottomWrapper)}>
               {!isCreateForm && (
-                <Button variant='tertiaryGray' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
+                <Button variant='outline' onClick={handleRemoveClick} disabled={!isActiveSubmit}>
                   <IconTrashCan />
                 </Button>
               )}

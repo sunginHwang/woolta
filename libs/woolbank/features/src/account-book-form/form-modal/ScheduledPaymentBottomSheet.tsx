@@ -1,10 +1,10 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { BottomSheet } from '../../_shared/bottom-sheet/BottomSheet';
 import { BaseInput } from '../../_shared/components/base-input/BaseInput';
-import { Button } from '../../_shared/components/button/Button';
 import { ToggleTab } from '../../_shared/components/toggle-tab/ToggleTab';
 import type { ScheduledPaymentType } from '../_common/hooks/useAccountBookForm';
 

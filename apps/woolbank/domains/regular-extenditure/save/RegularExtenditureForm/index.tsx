@@ -1,7 +1,7 @@
 import { useMount } from '@common';
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import { type FC, type KeyboardEvent, type MouseEvent, useRef, useState } from 'react';
-import { Button } from '../../../../components/atom/Button';
 import { BaseInput } from '../../../../components/base-input/BaseInput';
 import { ToggleTab } from '../../../../components/toggle-tab/ToggleTab';
 import { useToast } from '../../../../hooks/useToast';

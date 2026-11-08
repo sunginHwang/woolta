@@ -1,7 +1,7 @@
 import { useInput } from '@common';
+import { Button } from '@wds';
 import { useLoginByShareCode } from '@woolta/user-features';
 import { useRouter } from 'next/navigation';
-import { Button } from '../../../../components/atom/Button';
 import { BaseInput } from '../../../../components/base-input/BaseInput';
 import { useToast } from '../../../../hooks/useToast';
 import { LoginBox } from '../login-box/LoginBox';
@@ -29,7 +29,7 @@ export const IdLogin = () => {
   return (
     <LoginBox title='공유코드 접속' type='normal'>
       <BaseInput label='공유코드' value={id} onChange={setId} placeholder='공유코드를 입력해 주세요.' />
-      <Button fill color='red' loading={isLoggingIn} onClick={handleLoginClick}>
+      <Button fill loading={isLoggingIn} onClick={handleLoginClick}>
         공유코드 로그인 하기
       </Button>
     </LoginBox>

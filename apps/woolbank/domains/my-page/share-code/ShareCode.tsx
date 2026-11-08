@@ -1,9 +1,8 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
-import { Text } from '@wds';
+import { Button, Text } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { Button } from '../../../components/atom/Button';
 import { Header } from '../../../components/Header/Header';
 import { useToast } from '../../../hooks/useToast';
 import { useShareCode } from './_common/hooks/useShareCode';

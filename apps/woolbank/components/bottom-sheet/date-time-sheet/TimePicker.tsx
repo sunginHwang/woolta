@@ -1,7 +1,7 @@
 import { useInputs, useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
-import { Button } from '../../atom/Button';
 
 // 12시간
 const HALF_DAY_HOUR = 12;

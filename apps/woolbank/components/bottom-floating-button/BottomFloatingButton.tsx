@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import type { ComponentProps } from 'react';
-import { Button } from '../atom/Button';
 
 interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disabled' | 'children' | 'loading'> {
   // 버튼 디스플레이 여부

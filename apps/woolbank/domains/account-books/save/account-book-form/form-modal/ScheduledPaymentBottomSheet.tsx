@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import { type ChangeEvent, useEffect, useState } from 'react';
-import { Button } from '../../../../../components/atom/Button';
 import { BaseInput } from '../../../../../components/base-input/BaseInput';
 import { BottomSheet } from '../../../../../components/bottom-sheet/BottomSheet';
 import { ToggleTab } from '../../../../../components/toggle-tab/ToggleTab';

@@ -1,11 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
-import { Text } from '@wds';
+import { Button, Text } from '@wds';
 import { colorVars, zIndexConsts } from '@wds/tokens.stylex';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import type React from 'react';
 import type { FC } from 'react';
-import { Button } from '../../../../components/atom/Button';
 import { Header } from '../../../../components/Header/Header';
 import { useToast } from '../../../../hooks/useToast';
 import { useBucket } from '../../detail/hooks/useBucket';

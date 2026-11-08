@@ -2,8 +2,8 @@
 
 import { useToggle } from '@common';
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import { BottomSheet } from '../../../../_shared/bottom-sheet/BottomSheet';
-import { Button } from '../../../../_shared/components/button/Button';
 import {
   type AccountBookCategory,
   type AccountBookCategoryType,

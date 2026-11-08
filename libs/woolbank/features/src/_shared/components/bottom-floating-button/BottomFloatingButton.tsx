@@ -1,8 +1,8 @@
 'use client';
 
 import * as stylex from '@stylexjs/stylex';
+import { Button } from '@wds';
 import type { ComponentProps } from 'react';
-import { Button } from '../button/Button';
 
 interface Props extends Pick<ComponentProps<typeof Button>, 'onClick' | 'disabled' | 'children' | 'loading'> {
   isShow?: boolean;
