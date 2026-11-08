@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "types": ["node"]
+  },
+  "include": [".storybook/**/*.ts", ".storybook/**/*.tsx"],
+  "files": ["../../typings/cssmodule.d.ts", "../../typings/image.d.ts"]
+}

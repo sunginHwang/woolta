@@ -1,0 +1,27 @@
+/*
+ * wds 스토리북 전역 스타일.
+ * 앱 global.css 의 최소 공통분모(rem 기준 62.5%, Pretendard)만 가져온다.
+ * 색상은 tokens.stylex 가 만드는 var(--color-*) 로 연결되고,
+ * 다크 토큰은 darkTheme.css 가 :root[data-theme="dark"] 에서 재정의한다.
+ * app-base 레이어는 stylex.css 가 먼저 선언해 StyleX 보다 낮은 우선순위다.
+ */
+@layer app-base {
+  html {
+    font-size: 62.5%;
+    font-family: "Pretendard", sans-serif;
+  }
+
+  body {
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: var(--color-textPrimary);
+    background-color: var(--color-bgPage);
+  }
+
+  /* 툴바 테마 전환이 docs 페이지(.sbdocs)에도 반영되도록 한다 */
+  :root[data-theme="dark"] .sbdocs.sbdocs-wrapper {
+    color: var(--color-textPrimary);
+    background-color: var(--color-bgPage);
+  }
+}

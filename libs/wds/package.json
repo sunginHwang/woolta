@@ -5,6 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "storybook": "storybook dev -p 4600 -c .storybook",
+    "build-storybook": "storybook build -o ../../dist/storybook/wds -c .storybook",
+    "test-storybook": "pnpm -w exec vitest run --project storybook-wds",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.storybook.json"
   }
 }

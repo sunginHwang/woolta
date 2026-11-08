@@ -4,7 +4,11 @@ import { workspaceAlias } from '../../../tools/workspaceAlias.mjs';
 
 const config: StorybookConfig = {
   // blog 화면 컴포넌트는 libs/blog 로 옮겨졌다 — 앱 고유 컴포넌트와 함께 둘 다 수집한다.
-  stories: ['../components/**/*.stories.@(js|jsx|ts|tsx|mdx)', '../../../libs/blog/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  // `libs/blog/**` 는 workspace 심링크(node_modules/@woolta/*)를 타고 다른 패키지 스토리까지 끌어오므로 src 만 열거한다.
+  stories: [
+    '../components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../../../libs/blog/*/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+  ],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
     name: '@storybook/nextjs-vite',

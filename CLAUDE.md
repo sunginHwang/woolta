@@ -56,11 +56,12 @@ pnpm format        # biome format --write .
 
 # Storybook (Storybook 10 + @storybook/nextjs-vite)
 pnpm turbo run storybook --filter=blog        # port 4400
-pnpm turbo run storybook --filter=woolbank
+pnpm turbo run storybook --filter=woolbank    # port 4400
+pnpm turbo run storybook --filter=@woolta/wds # port 4600, 디자인 시스템 (react-vite)
 
 # 스토리 테스트 (실제 브라우저 렌더링)
-pnpm test:storybook                            # blog + woolbank
-npx vitest run --project storybook-woolbank    # 하나만
+pnpm test:storybook                            # blog + woolbank + wds
+npx vitest run --project storybook-wds         # 하나만
 ```
 
 ## 프로젝트 구조
@@ -74,7 +75,7 @@ apps/
 
 libs/
 ├── common/         # 공유 Hooks, HOC, 유틸리티
-└── wds/            # Woolta Design System (Atomic Design)
+└── wds/            # Woolta Design System — 자체 스토리북(Intro → Foundations → Components → Utilities)
 ```
 
 ## Path Aliases
@@ -157,8 +158,12 @@ domains/{feature}/
 - Vitest + Testing Library (`describe`/`it`/`expect` 는 globals 로 제공)
 - 루트 `vitest.config.mts` 가 모든 프로젝트를 모은다
   - 유닛 프로젝트 8개: 각 패키지 `vitest.config.mts` 가 `vitest.shared.mts`(alias, jsdom, StyleX 플러그인)를 공유
-  - 스토리 프로젝트 2개(`storybook-blog`, `storybook-woolbank`): `@storybook/addon-vitest` 가 스토리를 실제 크로미움에서 렌더링해 검증
+  - 스토리 프로젝트 3개(`storybook-blog`, `storybook-woolbank`, `storybook-wds`): `@storybook/addon-vitest` 가 스토리를 실제 크로미움에서 렌더링해 검증
 - StyleX 변환(`tools/stylex/viteStylexPlugin.mts`)과 워크스페이스 alias(`tools/workspaceAlias.mts`)는 Vitest 와 Storybook 이 같은 모듈을 공유한다
+- 스토리북 `stories` glob 은 실제 소스 디렉터리만 열거한다(`../**`, `libs/x/**` 금지). 넓은 glob 은 workspace 심링크
+  `node_modules/@woolta/*` 를 타고 다른 패키지 스토리를 중복 수집하고, addon-vitest 는 node_modules 기본 제외를 덮어쓴다.
+- 스토리북에서 StyleX CSS 는 Vite 변환이 아니라 postcss `@stylex;`(`.storybook/stylex.css`) 추출로 들어온다.
+  postcss 옵션은 `viteStylexPlugin` 과 같아야 클래스명이 일치한다. wds 는 `postcss.config.js` 에 갖춰져 있고, blog/woolbank 프리뷰는 아직 `stylex.css` 를 import 하지 않는다.
 - `pnpm test` 는 turbo 로 패키지별 유닛 테스트만 돌린다. 스토리까지 포함하려면 루트에서 `npx vitest run`
 
 ## 환경별 URL

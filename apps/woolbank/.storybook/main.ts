@@ -3,10 +3,12 @@ import { viteStylexPlugin } from '../../../tools/stylex/viteStylexPlugin.mjs';
 import { workspaceAlias } from '../../../tools/workspaceAlias.mjs';
 
 const config: StorybookConfig = {
+  // `../**` 같은 넓은 glob 은 workspace 심링크(node_modules/@woolta/wds)를 타고 wds 스토리까지 끌어온다.
+  // wds 는 자체 스토리북(libs/wds)이 있으므로 실제 소스 디렉터리만 열거한다.
   stories: [
-    '../**/*.stories.@(tsx|mdx)',
-    '../../../libs/woolbank/**/*.stories.@(tsx|mdx)',
-    '../../../libs/wds/**/*.stories.@(tsx|mdx)',
+    '../components/**/*.stories.@(tsx|mdx)',
+    '../domains/**/*.stories.@(tsx|mdx)',
+    '../../../libs/woolbank/features/src/**/*.stories.@(tsx|mdx)',
   ],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
