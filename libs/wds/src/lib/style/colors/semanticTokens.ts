@@ -27,8 +27,10 @@ export const lightSemanticTokens: SemanticColorTokens = {
 
   // Interactive
   interactivePrimary: palette.orange[600],
-  interactivePrimaryHover: palette.red[500],
+  interactivePrimaryHover: '#e04444',
   interactivePrimaryDisabled: palette.gray[300],
+  interactivePrimaryText: '#cc3535',
+  interactivePrimarySubtle: '#fff1f1',
 
   // Brand
   brandPrimary: palette.pink[600],
@@ -36,10 +38,17 @@ export const lightSemanticTokens: SemanticColorTokens = {
   brandDisabled: palette.pink[150],
 
   // Status
-  statusSuccess: palette.green[500],
+  statusSuccess: '#0a7a43',
   statusWarning: palette.yellow[600],
-  statusError: palette.red[500],
+  statusError: '#cc3535',
   statusInfo: palette.blue[400],
+
+  // Finance
+  finIncome: palette.blue[600],
+  finIncomeSubtle: palette.blue[50],
+  finExpense: palette.gray[900],
+
+  borderFocus: palette.gray[900],
 };
 
 export const darkSemanticTokens: SemanticColorTokens = {
@@ -68,8 +77,10 @@ export const darkSemanticTokens: SemanticColorTokens = {
 
   // Interactive
   interactivePrimary: '#FF6B6B',
-  interactivePrimaryHover: '#FF5252',
+  interactivePrimaryHover: '#FF7A7A',
   interactivePrimaryDisabled: '#4A4A4A',
+  interactivePrimaryText: '#FF7A7A',
+  interactivePrimarySubtle: '#3A1F1F',
 
   // Brand
   brandPrimary: '#FF4D8A',
@@ -77,8 +88,15 @@ export const darkSemanticTokens: SemanticColorTokens = {
   brandDisabled: '#804060',
 
   // Status
-  statusSuccess: '#6BD975',
+  statusSuccess: '#4ADE80',
   statusWarning: '#FFD54F',
-  statusError: '#FF5252',
+  statusError: '#FF7A7A',
   statusInfo: '#6B8AFF',
+
+  // Finance
+  finIncome: '#8C9EFF',
+  finIncomeSubtle: '#232A52',
+  finExpense: '#F5F5F5',
+
+  borderFocus: '#F5F5F5',
 };

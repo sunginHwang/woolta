@@ -1,0 +1,30 @@
+import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
+import { TypographyScale } from '../blocks/TypographyScale';
+
+<Meta title='Foundations/Typography' />
+
+# Typography
+
+글꼴은 **Pretendard**, 기준 크기는 `html { font-size: 62.5% }` (1rem = 10px) 입니다.
+스케일은 `typography.stylex.ts` 의 `typographyStyles` 하나이며, `Text` 컴포넌트의 `variant` prop 이 이 키를 그대로 받습니다.
+
+| 그룹 | 용도 | weight |
+| --- | --- | --- |
+| `title1`–`title6` | 제목·섹션 헤더 | Bold(600) / Medium(500) |
+| `body1`–`body4` | 본문 | body1–3 Regular, body4 Bold/Medium/Regular |
+| `small1`–`small4` | 캡션·보조 정보 | Bold / Medium / Regular |
+
+아래 표의 수치는 실제 렌더 결과(`getComputedStyle`)를 읽은 값이라 구현과 항상 일치합니다.
+
+<Unstyled><TypographyScale /></Unstyled>
+
+## 사용
+
+```tsx
+import { Text } from '@wds';
+
+<Text as='h2' variant='title2Bold' color='textPrimary'>제목</Text>
+<Text variant='body3' color='textSecondary'>본문</Text>
+```
+
+`Text` 를 쓸 수 없는 곳(button 등)에서는 `stylex.props(typographyStyles.body2)` 로 직접 적용합니다.

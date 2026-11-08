@@ -1,0 +1,29 @@
+import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
+import { PaletteTable, SemanticTokenTable } from '../blocks/ColorTokens';
+
+<Meta title='Foundations/Colors' />
+
+# Colors
+
+색상 토큰은 두 층입니다. 컴포넌트는 **Semantic 층만** 참조합니다.
+
+| 층 | 어디에 | 예시 | 쓰는 곳 |
+| --- | --- | --- | --- |
+| Base | `palette.ts` | `palette.pink[600]` | Semantic 토큰 정의, 문서 |
+| Semantic | `tokens.stylex.ts` → `colorVars` | `colorVars['--color-brandPrimary']` | 모든 컴포넌트 |
+
+다크 테마는 `colors/darkTheme.css` 가 `:root[data-theme="dark"]` 에서 같은 CSS 변수를 재정의합니다.
+StyleX `defineVars` 의 키를 `--color-*` 리터럴로 두었기 때문에, CSS Module 에서도 `var(--color-textPrimary)` 로 같은 토큰을 읽을 수 있습니다.
+
+## Semantic
+
+<Unstyled><SemanticTokenTable /></Unstyled>
+
+## Base (Palette)
+
+<Unstyled><PaletteTable /></Unstyled>
+
+## Legacy 키
+
+`gray050`·`border1`·`pinkPrimary` 처럼 역할이 아닌 이름으로 된 키는 기존 코드 호환용입니다.
+새 코드에서는 Semantic 키를 쓰고, 마주칠 때마다 치환합니다.

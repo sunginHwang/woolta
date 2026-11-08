@@ -3,6 +3,8 @@ export type ShadowTokens = {
   overlay: string;
   /** 버튼 등에서 열리는 작은 팝오버용 그림자 */
   popover: string;
+  /** 회색 섹션 위 카드. 라이트는 아주 옅게, 다크는 그림자 대신 흰 1px 링 */
+  card: string;
 };
 
 /**
@@ -12,6 +14,7 @@ export type ShadowTokens = {
 export const lightShadows: ShadowTokens = {
   overlay: '0 1.2rem 3.2rem rgba(0, 0, 0, 0.18), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.1)',
   popover: '0 0.4rem 1.6rem rgba(0, 0, 0, 0.15)',
+  card: '0 0.2rem 1.2rem rgba(0, 0, 0, 0.06)',
 };
 
 /**
@@ -23,4 +26,5 @@ export const darkShadows: ShadowTokens = {
   overlay:
     '0 1.6rem 4rem rgba(0, 0, 0, 0.64), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.48), 0 0 0 0.1rem rgba(255, 255, 255, 0.12)',
   popover: '0 0.4rem 1.6rem rgba(0, 0, 0, 0.56), 0 0 0 0.1rem rgba(255, 255, 255, 0.1)',
+  card: '0 0 0 0.1rem rgba(255, 255, 255, 0.08)',
 };

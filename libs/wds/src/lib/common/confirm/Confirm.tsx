@@ -2,7 +2,7 @@
 
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '../../atom/Text';
-import { colorVars, zIndexConsts } from '../../style/tokens.stylex';
+import { colorVars, shadowVars, zIndexConsts } from '../../style/tokens.stylex';
 import { typographyStyles } from '../../style/typography.stylex';
 
 interface Props {
@@ -41,10 +41,10 @@ const styles = stylex.create({
   modal: {
     width: '80%',
     maxWidth: '40rem',
-    borderRadius: '0.8rem',
+    borderRadius: '1.6rem',
     textAlign: 'center',
     backgroundColor: colorVars['--color-bgSurface'],
-    boxShadow: '0 0.2rem 1rem rgba(0, 0, 0, 0.35)',
+    boxShadow: shadowVars['--shadow-overlay'],
   },
   content: {
     display: 'flex',
@@ -88,7 +88,8 @@ const styles = stylex.create({
   },
   // 원본의 :last-child 규칙 — 확인(마지막) 버튼만 강조 색상
   confirmButton: {
-    color: colorVars['--color-interactivePrimary'],
+    color: colorVars['--color-interactivePrimaryText'],
+    fontWeight: 600,
     borderLeftWidth: '1px',
     borderLeftStyle: 'solid',
     borderLeftColor: colorVars['--color-borderSubtle'],

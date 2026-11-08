@@ -27,6 +27,10 @@ export type SemanticColorTokens = {
   interactivePrimary: string;
   interactivePrimaryHover: string;
   interactivePrimaryDisabled: string;
+  /** 코랄을 글자·아이콘으로 쓸 때 (흰 바탕 5.1:1) */
+  interactivePrimaryText: string;
+  /** 선택된 아웃라인 칩·강조 배지의 옅은 코랄 바탕 */
+  interactivePrimarySubtle: string;
 
   // Brand
   brandPrimary: string;
@@ -38,6 +42,16 @@ export type SemanticColorTokens = {
   statusWarning: string;
   statusError: string;
   statusInfo: string;
+
+  // Finance
+  /** 수입(+) 금액. 토스처럼 수입은 파랑 */
+  finIncome: string;
+  finIncomeSubtle: string;
+  /** 지출(−) 금액. 잉크와 같다 */
+  finExpense: string;
+
+  /** 포커스된 입력 필드의 테두리(잉크) */
+  borderFocus: string;
 };
 
 export type LegacyColorKey =

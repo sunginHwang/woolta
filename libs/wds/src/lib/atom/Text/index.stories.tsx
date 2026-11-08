@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ColorType, FontVarient } from '../../style';
 import { Text } from '.';
 
@@ -77,7 +77,7 @@ const colorType: ColorType[] = [
 ];
 
 const meta: Meta<typeof Text> = {
-  title: 'Component/Base/Text',
+  title: 'Components/Text',
   component: Text,
 };
 

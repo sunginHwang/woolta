@@ -1,0 +1,20 @@
+import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
+import { ZIndexTable } from '../blocks/ZIndexTable';
+
+<Meta title='Foundations/Z-Index' />
+
+# Z-Index
+
+레이어 순서는 숫자를 직접 쓰지 않고 토큰으로만 지정합니다.
+`stylex.create` 안에서는 모듈 import 값을 쓸 수 없으므로 `defineConsts` 로 만든 `zIndexConsts` 를 씁니다.
+(`zIndex.ts` 의 숫자 객체는 런타임 계산용이며 두 파일은 값을 동기 유지합니다.)
+
+<Unstyled><ZIndexTable /></Unstyled>
+
+```tsx
+import { zIndexConsts } from '@wds/tokens.stylex';
+
+const styles = stylex.create({
+  overlay: { zIndex: zIndexConsts.modalDeem },
+});
+```

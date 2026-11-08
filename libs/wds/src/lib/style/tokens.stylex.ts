@@ -100,20 +100,27 @@ export const colorVars = stylex.defineVars({
   '--color-borderStrong': '#919191',
   '--color-borderFaint': '#F4F4F4',
   '--color-interactivePrimary': '#f25e5e',
-  '--color-interactivePrimaryHover': '#f03e3e',
+  '--color-interactivePrimaryHover': '#e04444',
   '--color-interactivePrimaryDisabled': '#E1E1E1',
+  '--color-interactivePrimaryText': '#cc3535',
+  '--color-interactivePrimarySubtle': '#fff1f1',
   '--color-brandPrimary': '#E62F71',
   '--color-brandLight': '#FFB8D2',
   '--color-brandDisabled': '#FFCBDE',
-  '--color-statusSuccess': '#5ac366',
+  '--color-statusSuccess': '#0a7a43',
   '--color-statusWarning': '#FEC600',
-  '--color-statusError': '#f03e3e',
+  '--color-statusError': '#cc3535',
   '--color-statusInfo': '#536DFE',
+  '--color-finIncome': '#445cd1',
+  '--color-finIncomeSubtle': '#f2f4ff',
+  '--color-finExpense': '#242424',
+  '--color-borderFocus': '#242424',
 });
 
 export const shadowVars = stylex.defineVars({
   '--shadow-overlay': '0 1.2rem 3.2rem rgba(0, 0, 0, 0.18), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.1)',
   '--shadow-popover': '0 0.4rem 1.6rem rgba(0, 0, 0, 0.15)',
+  '--shadow-card': '0 0.2rem 1.2rem rgba(0, 0, 0, 0.06)',
 });
 
 /**
