@@ -53,7 +53,7 @@ const styles = stylex.create({
 });
 
 /**
- * 이달 요약 — "쓴 돈" 총지출이 가장 크고, 아래 한 줄에 수입·수지.
+ * 이달 요약 — "쓴 돈" 총지출이 가장 크고, 아래 한 줄에 수입·순수입(수입 − 지출).
  * @component
  */
 export const MonthSummary = () => {
@@ -81,7 +81,7 @@ export const MonthSummary = () => {
         <span aria-hidden='true' {...stylex.props(styles.divider)} />
         <span {...stylex.props(styles.pair)}>
           <Text variant='body3' color='textSecondary'>
-            수지
+            순수입
           </Text>
           <Text variant='title4Bold' color='interactivePrimaryText' xstyle={styles.tabular}>
             {formatWon(balance, { sign: true })}
