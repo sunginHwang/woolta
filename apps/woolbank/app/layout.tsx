@@ -6,7 +6,7 @@ import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import { RootProvider } from '../domains/layout/root-provider/RootProvider';
-import { parseThemeType, THEME_COLOR, THEME_COOKIE_NAME } from '../store/theme';
+import { parseThemeType, THEME_COLOR, THEME_COOKIE_NAME } from '../store/themeCookie';
 import { setConfig } from '../utils/config';
 
 export const metadata: Metadata = {
