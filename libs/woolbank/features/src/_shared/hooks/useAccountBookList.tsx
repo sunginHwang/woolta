@@ -12,6 +12,7 @@ import {
   prefetchAccountBookList,
   useAccountBookListQuery,
 } from './useAccountBookListQuery';
+import { weeklyBudgetUsageKeyPrefix } from './weeklyBudgetApi';
 
 export type { AcccountBookType, AccountBook } from './useAccountBookListQuery';
 
@@ -30,24 +31,30 @@ export const useAccountBookList = () => {
     prefetchAccountBookList(queryClient, { selectedDate: oneMonthAgo });
   }, [queryClient, selectedAccountBookDate]);
 
+  /** 지출이 바뀌면 이번 주 예산 사용액도 바뀐다. 구독자가 없는 화면(대시보드)에서는 no-op 이다. */
+  const invalidateWeeklyBudgetUsage = () => queryClient.invalidateQueries({ queryKey: weeklyBudgetUsageKeyPrefix() });
+
   const set = (accountBookList: AccountBook[]) => {
     queryClient.setQueryData<AccountBook[]>(queryKey, accountBookList);
   };
 
   const add = (accountBook: AccountBook) => {
     queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => [...prev, accountBook]);
+    void invalidateWeeklyBudgetUsage();
   };
 
   const update = (accountBook: AccountBook) => {
     queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
       return prev.map((item) => (accountBook.id === item.id ? accountBook : item));
     });
+    void invalidateWeeklyBudgetUsage();
   };
 
   const remove = (removeId: string) => {
     queryClient.setQueryData<AccountBook[]>(queryKey, (prev = []) => {
       return prev.filter((item) => removeId !== item.id);
     });
+    void invalidateWeeklyBudgetUsage();
   };
 
   return {

@@ -10,6 +10,10 @@ const nextConfig = {
   // local-ssl-proxy 로 HTTPS 도메인에서 접속할 때 Next dev 가 /_next 요청을
   // cross-origin 으로 보고 403 을 준다. 개발용 vhost 를 허용한다.
   allowedDevOrigins: ['bank-local.woolta.com'],
+  // 설정 › 정보 에 보여줄 앱 버전 — 모노레포 루트 package.json 의 version 을 쓴다
+  env: {
+    NEXT_PUBLIC_APP_VERSION: require('../../package.json').version,
+  },
   transpilePackages: [
     '@woolta/common',
     '@woolta/user-features',

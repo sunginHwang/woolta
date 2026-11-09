@@ -1,0 +1,29 @@
+# 주간 예산 — 월요일 00:00 ~ 일요일 23:59:59.999(서버 타임존) 주차 기준.
+# 사용액(spent)은 수입과 예산 제외(isDisabledBudget) 항목을 뺀 지출 합계다.
+
+fragment WeeklyBudgetUsageParts on WeeklyBudgetUsage {
+  budget
+  spent
+  remaining
+  percentage
+  startDate
+  endDate
+}
+
+query WeeklyBudget {
+  weeklyBudget {
+    amount
+  }
+}
+
+query WeeklyBudgetUsage($dateTime: DateTime) {
+  weeklyBudgetUsage(dateTime: $dateTime) {
+    ...WeeklyBudgetUsageParts
+  }
+}
+
+mutation SaveWeeklyBudget($input: SaveWeeklyBudgetInput!) {
+  saveWeeklyBudget(input: $input) {
+    amount
+  }
+}

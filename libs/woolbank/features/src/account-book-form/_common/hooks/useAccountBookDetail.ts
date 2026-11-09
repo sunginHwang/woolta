@@ -13,6 +13,7 @@ import {
 } from '../../../_shared/api/gql.generated';
 import type { AccountBook } from '../../../_shared/hooks/accountBookListApi';
 import { useAccountBookList } from '../../../_shared/hooks/useAccountBookList';
+import { weeklyBudgetUsageKeyPrefix } from '../../../_shared/hooks/weeklyBudgetApi';
 import { selectedAccountBookDateAtom } from '../../../_shared/stores/accountbookDate';
 import { selectedAccountBookIdAtom } from '../../../_shared/stores/selectedAccountBook';
 import { useToast } from '../../../_shared/toast/useToast';
@@ -98,6 +99,9 @@ export const useAccountBookDetail = (id: string | null) => {
             const registerDateMonth = dayjs(createAccountBook.registerDateTime).format('YYYY-MM');
             if (registerDateMonth === selectedAccountBookDate) {
               addAccountBookItem(createAccountBook);
+            } else {
+              // 보고 있는 달 밖에 적어도 이번 주일 수 있다 — 예산 사용액은 항상 다시 센다
+              void queryClient.invalidateQueries({ queryKey: weeklyBudgetUsageKeyPrefix() });
             }
             onToast('작성되었습니다.');
             closeDetail();

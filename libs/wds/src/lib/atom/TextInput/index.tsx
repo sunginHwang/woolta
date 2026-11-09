@@ -76,6 +76,8 @@ export interface TextInputProps
   fill?: boolean;
   /** 외부에서 주입하는 StyleX 스타일 — 루트에 마지막으로 머지된다 */
   xstyle?: StyleXStyles;
+  /** `<input>` 에만 머지되는 StyleX 스타일 — 금액 입력처럼 글자 크기·굵기를 키울 때 쓴다 */
+  inputXstyle?: StyleXStyles;
 }
 
 const styles = stylex.create({
@@ -288,6 +290,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       blurOnEnter = true,
       fill = true,
       xstyle,
+      inputXstyle,
       className,
       disabled = false,
       readOnly = false,
@@ -427,7 +430,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             onChange={handleChange}
-            {...stylex.props(styles.input)}
+            {...stylex.props(styles.input, inputXstyle)}
           />
           {showClear && (
             <button

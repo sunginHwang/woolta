@@ -50,6 +50,13 @@ type Query {
   todoCategoryList: TodoCategoryList!
   todoList: TodoList!
   user(id: ID!): User
+  """주간 예산 조회. 설정 안 되어 있으면 amount 0 으로 응답."""
+  weeklyBudget: WeeklyBudget!
+  """
+  해당 주차(월~일)의 예산 사용 현황. dateTime 생략 시 이번 주.
+  주의: 수입(income), is_disabled_budget=true, 정기지출 자동 등록분(is_regular_expenditure=true)은 사용액에서 제외한다.
+  """
+  weeklyBudgetUsage(dateTime: DateTime): WeeklyBudgetUsage!
   weeklyCurationList: WeeklyCurationList!
   woolBankNotification(id: ID!): WoolBankNotification
   """최신순. limitCount 기본 50"""
@@ -110,6 +117,8 @@ type Mutation {
   requestCalendarShare(input: RequestCalendarShareInput!): RequestCalendarShareResult!
   respondCalendarShare(input: RespondCalendarShareInput!): CalendarShare!
   restoreTodo(input: RestoreTodoInput!): Todo!
+  """주간 예산 생성·수정(upsert). 공유코드 세션은 불가(requireRealUser)."""
+  saveWeeklyBudget(input: SaveWeeklyBudgetInput!): WeeklyBudget!
   sendPushToAll(input: SendPushToAllInput!): Boolean!
   """테스트 알림. endpoint 를 주면 그 기기로만, 없으면 이 계정의 모든 기기로 보낸다. 공유코드 세션도 허용."""
   sendWoolBankTestPush(input: SendWoolBankTestPushInput): Boolean!
@@ -859,6 +868,11 @@ input RestoreTodoInput {
   id: String!
 }
 
+input SaveWeeklyBudgetInput {
+  """한 주 예산 금액(원). 0 이상."""
+  amount: Int!
+}
+
 type SavingType {
   createdAt: DateTime!
   id: ID!
@@ -1083,6 +1097,26 @@ type UserShareCode {
   shareCode: String!
   updatedAt: DateTime!
   userId: Int!
+}
+
+type WeeklyBudget {
+  """한 주 예산 금액(원). 미설정이면 0."""
+  amount: Int!
+}
+
+type WeeklyBudgetUsage {
+  """설정된 주간 예산(원). 미설정이면 0."""
+  budget: Int!
+  """해당 주차 종료일(일요일 23:59:59.999)."""
+  endDate: DateTime!
+  """예산 대비 사용 비율(%). 예산 0 이면 0. 반올림 정수."""
+  percentage: Int!
+  """남은 예산(원). budget - spent. 음수 가능(초과 지출)."""
+  remaining: Int!
+  """해당 주차 사용액(원). 수입·예산제외 항목 제외."""
+  spent: Int!
+  """해당 주차 시작일(월요일 00:00)."""
+  startDate: DateTime!
 }
 
 type WeeklyCuration {

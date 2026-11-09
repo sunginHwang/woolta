@@ -100,6 +100,11 @@ export type MarkWoolBankNotificationReadInput = {
   id: string | number;
 };
 
+export type SaveWeeklyBudgetInput = {
+  /** 한 주 예산 금액(원). 0 이상. */
+  amount: number;
+};
+
 export type ScheduledPaymentType =
   | 'INSTALLMENT'
   | 'REPEAT';
@@ -394,6 +399,27 @@ export type GetAccountBookStatisticListQueryVariables = Exact<{
 
 export type GetAccountBookStatisticListQuery = { getAccountBookStatisticList: { totalCount: number, itemList: Array<{ categoryId: string, categoryName: string, amount: number, percentage: number, useStatistic: boolean, list: Array<{ title: string, amount: number, registerDateTime: string }> }> } };
 
+export type WeeklyBudgetUsagePartsFragment = { budget: number, spent: number, remaining: number, percentage: number, startDate: string, endDate: string };
+
+export type WeeklyBudgetQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WeeklyBudgetQuery = { weeklyBudget: { amount: number } };
+
+export type WeeklyBudgetUsageQueryVariables = Exact<{
+  dateTime?: string | null | undefined;
+}>;
+
+
+export type WeeklyBudgetUsageQuery = { weeklyBudgetUsage: { budget: number, spent: number, remaining: number, percentage: number, startDate: string, endDate: string } };
+
+export type SaveWeeklyBudgetMutationVariables = Exact<{
+  input: SaveWeeklyBudgetInput;
+}>;
+
+
+export type SaveWeeklyBudgetMutation = { saveWeeklyBudget: { amount: number } };
+
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -613,6 +639,16 @@ export const StatisticPartsFragmentDoc = new TypedDocumentString(`
   amount
   registerDateTime
 }`, {"fragmentName":"StatisticParts"});
+export const WeeklyBudgetUsagePartsFragmentDoc = new TypedDocumentString(`
+    fragment WeeklyBudgetUsageParts on WeeklyBudgetUsage {
+  budget
+  spent
+  remaining
+  percentage
+  startDate
+  endDate
+}
+    `, {"fragmentName":"WeeklyBudgetUsageParts"});
 export const AccountBookListDocument = new TypedDocumentString(`
     query AccountBookList($dateTime: DateTime!) {
   accountBookList(dateTime: $dateTime) {
@@ -2011,3 +2047,128 @@ useSuspenseGetAccountBookStatisticListQuery.getKey = (variables: GetAccountBookS
 
 
 useGetAccountBookStatisticListQuery.fetcher = (variables: GetAccountBookStatisticListQueryVariables, options?: RequestInit['headers']) => gqlFetch<GetAccountBookStatisticListQuery, GetAccountBookStatisticListQueryVariables>(GetAccountBookStatisticListDocument, variables, options);
+
+export const WeeklyBudgetDocument = new TypedDocumentString(`
+    query WeeklyBudget {
+  weeklyBudget {
+    amount
+  }
+}
+    `);
+
+export const useWeeklyBudgetQuery = <
+      TData = WeeklyBudgetQuery,
+      TError = unknown
+    >(
+      variables?: WeeklyBudgetQueryVariables,
+      options?: Omit<UseQueryOptions<WeeklyBudgetQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<WeeklyBudgetQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<WeeklyBudgetQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WeeklyBudget'] : ['WeeklyBudget', variables],
+    queryFn: gqlFetch<WeeklyBudgetQuery, WeeklyBudgetQueryVariables>(WeeklyBudgetDocument, variables),
+    ...options
+  }
+    )};
+
+useWeeklyBudgetQuery.getKey = (variables?: WeeklyBudgetQueryVariables) => variables === undefined ? ['WeeklyBudget'] : ['WeeklyBudget', variables];
+
+export const useSuspenseWeeklyBudgetQuery = <
+      TData = WeeklyBudgetQuery,
+      TError = unknown
+    >(
+      variables?: WeeklyBudgetQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<WeeklyBudgetQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<WeeklyBudgetQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<WeeklyBudgetQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WeeklyBudget'] : ['WeeklyBudget', variables],
+    queryFn: gqlFetch<WeeklyBudgetQuery, WeeklyBudgetQueryVariables>(WeeklyBudgetDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseWeeklyBudgetQuery.getKey = (variables?: WeeklyBudgetQueryVariables) => variables === undefined ? ['WeeklyBudget'] : ['WeeklyBudget', variables];
+
+
+useWeeklyBudgetQuery.fetcher = (variables?: WeeklyBudgetQueryVariables, options?: RequestInit['headers']) => gqlFetch<WeeklyBudgetQuery, WeeklyBudgetQueryVariables>(WeeklyBudgetDocument, variables, options);
+
+export const WeeklyBudgetUsageDocument = new TypedDocumentString(`
+    query WeeklyBudgetUsage($dateTime: DateTime) {
+  weeklyBudgetUsage(dateTime: $dateTime) {
+    ...WeeklyBudgetUsageParts
+  }
+}
+    fragment WeeklyBudgetUsageParts on WeeklyBudgetUsage {
+  budget
+  spent
+  remaining
+  percentage
+  startDate
+  endDate
+}`);
+
+export const useWeeklyBudgetUsageQuery = <
+      TData = WeeklyBudgetUsageQuery,
+      TError = unknown
+    >(
+      variables?: WeeklyBudgetUsageQueryVariables,
+      options?: Omit<UseQueryOptions<WeeklyBudgetUsageQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<WeeklyBudgetUsageQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<WeeklyBudgetUsageQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WeeklyBudgetUsage'] : ['WeeklyBudgetUsage', variables],
+    queryFn: gqlFetch<WeeklyBudgetUsageQuery, WeeklyBudgetUsageQueryVariables>(WeeklyBudgetUsageDocument, variables),
+    ...options
+  }
+    )};
+
+useWeeklyBudgetUsageQuery.getKey = (variables?: WeeklyBudgetUsageQueryVariables) => variables === undefined ? ['WeeklyBudgetUsage'] : ['WeeklyBudgetUsage', variables];
+
+export const useSuspenseWeeklyBudgetUsageQuery = <
+      TData = WeeklyBudgetUsageQuery,
+      TError = unknown
+    >(
+      variables?: WeeklyBudgetUsageQueryVariables,
+      options?: Omit<UseSuspenseQueryOptions<WeeklyBudgetUsageQuery, TError, TData>, 'queryKey'> & { queryKey?: UseSuspenseQueryOptions<WeeklyBudgetUsageQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useSuspenseQuery<WeeklyBudgetUsageQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['WeeklyBudgetUsage'] : ['WeeklyBudgetUsage', variables],
+    queryFn: gqlFetch<WeeklyBudgetUsageQuery, WeeklyBudgetUsageQueryVariables>(WeeklyBudgetUsageDocument, variables),
+    ...options
+  }
+    )};
+
+useSuspenseWeeklyBudgetUsageQuery.getKey = (variables?: WeeklyBudgetUsageQueryVariables) => variables === undefined ? ['WeeklyBudgetUsage'] : ['WeeklyBudgetUsage', variables];
+
+
+useWeeklyBudgetUsageQuery.fetcher = (variables?: WeeklyBudgetUsageQueryVariables, options?: RequestInit['headers']) => gqlFetch<WeeklyBudgetUsageQuery, WeeklyBudgetUsageQueryVariables>(WeeklyBudgetUsageDocument, variables, options);
+
+export const SaveWeeklyBudgetDocument = new TypedDocumentString(`
+    mutation SaveWeeklyBudget($input: SaveWeeklyBudgetInput!) {
+  saveWeeklyBudget(input: $input) {
+    amount
+  }
+}
+    `);
+
+export const useSaveWeeklyBudgetMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<SaveWeeklyBudgetMutation, TError, SaveWeeklyBudgetMutationVariables, TContext>) => {
+    
+    return useMutation<SaveWeeklyBudgetMutation, TError, SaveWeeklyBudgetMutationVariables, TContext>(
+      {
+    mutationKey: ['SaveWeeklyBudget'],
+    mutationFn: (variables?: SaveWeeklyBudgetMutationVariables) => gqlFetch<SaveWeeklyBudgetMutation, SaveWeeklyBudgetMutationVariables>(SaveWeeklyBudgetDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useSaveWeeklyBudgetMutation.fetcher = (variables: SaveWeeklyBudgetMutationVariables, options?: RequestInit['headers']) => gqlFetch<SaveWeeklyBudgetMutation, SaveWeeklyBudgetMutationVariables>(SaveWeeklyBudgetDocument, variables, options);

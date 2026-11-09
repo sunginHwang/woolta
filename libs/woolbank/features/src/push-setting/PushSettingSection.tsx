@@ -62,7 +62,8 @@ const styles = stylex.create({
   },
 });
 
-const HELPER_TEXT: Partial<Record<PushSettingModel['state'], string>> = {
+/** 토글을 켤 수 없는 상태를 사용자 말로 풀어 쓴 안내. 설정 화면의 행 부제로도 쓴다 */
+export const PUSH_SETTING_HELPER_TEXT: Partial<Record<PushSettingModel['state'], string>> = {
   'unsupported': '이 브라우저는 푸시 알림을 지원하지 않아요.',
   'needs-install':
     'iPhone 은 홈 화면에 추가한 앱에서만 알림을 받을 수 있어요. Safari 의 공유 버튼 → "홈 화면에 추가" 후 앱에서 다시 켜주세요.',
@@ -92,7 +93,7 @@ export const PushSettingView = ({
 }: PushSettingViewProps) => {
   const isOn = state === 'on';
   const canToggle = state === 'on' || state === 'off';
-  const helper = HELPER_TEXT[state];
+  const helper = PUSH_SETTING_HELPER_TEXT[state];
 
   const handleMasterChange = (checked: boolean) => {
     // 권한 요청은 이 클릭 핸들러에서 바로 시작돼야 한다(iOS 제스처 규칙)

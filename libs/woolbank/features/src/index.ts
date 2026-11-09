@@ -66,6 +66,24 @@ export { uploadBucketImage } from './_shared/hooks/uploadBucketImage';
 export { useAccountBookList } from './_shared/hooks/useAccountBookList';
 // _shared: 푸시 서비스워커 등록 (권한 요청 없음)
 export { useRegisterPushServiceWorker, WOOLBANK_VAPID_PUBLIC_KEY } from './_shared/hooks/useRegisterPushServiceWorker';
+// _shared: 주간 예산 데이터 계층
+export {
+  useInvalidateWeeklyBudget,
+  useSaveWeeklyBudgetMutation,
+  useWeeklyBudget,
+  useWeeklyBudgetUsage,
+} from './_shared/hooks/useWeeklyBudget';
+export type { WeeklyBudgetUsage } from './_shared/hooks/weeklyBudgetApi';
+export {
+  fetchWeeklyBudget,
+  fetchWeeklyBudgetUsage,
+  invalidateWeeklyBudget,
+  prefetchWeeklyBudget,
+  prefetchWeeklyBudgetUsage,
+  weeklyBudgetKey,
+  weeklyBudgetUsageKey,
+  weeklyBudgetUsageKeyPrefix,
+} from './_shared/hooks/weeklyBudgetApi';
 export type { WoolbankRoutes } from './_shared/routes/context';
 // _shared: route context
 export { useWoolbankRoutes, WoolbankRoutesProvider } from './_shared/routes/context';
@@ -74,6 +92,15 @@ export { NEW_ACCOUNT_BOOK_ID, selectedAccountBookIdAtom } from './_shared/stores
 // _shared: toast
 export { Toast } from './_shared/toast/Toast';
 export { default as getCategoryMsg } from './_shared/utils/account-books';
+export {
+  abbreviateWon,
+  formatDayTitle,
+  formatWeekLabel,
+  formatWon,
+  MINUS_SIGN,
+  parseWon,
+  toIsoDate,
+} from './_shared/utils/format';
 // account-book-bulk feature
 export { AccountBookBulkUpload } from './account-book-bulk/AccountBookBulkUpload';
 export { BulkUploadEntryLink } from './account-book-bulk/BulkUploadEntryLink';
@@ -115,6 +142,11 @@ export {
   type NotificationListViewProps,
 } from './notification/NotificationList';
 // push-setting feature
-export { PushSettingSection, PushSettingView, type PushSettingViewProps } from './push-setting/PushSettingSection';
+export {
+  PUSH_SETTING_HELPER_TEXT,
+  PushSettingSection,
+  PushSettingView,
+  type PushSettingViewProps,
+} from './push-setting/PushSettingSection';
 export type { PushSettingModel, PushSettingState } from './push-setting/usePushSetting';
 export { usePushSetting } from './push-setting/usePushSetting';
