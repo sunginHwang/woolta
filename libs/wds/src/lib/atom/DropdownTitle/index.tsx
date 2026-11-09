@@ -26,6 +26,11 @@ export interface DropdownTitleProps {
    * @default 'medium'
    */
   size?: DropdownTitleSize;
+  /**
+   * 제목 옆 ∨ 표시. 양옆 화살표만으로 충분한 상단바(가계부 홈)에서는 끈다
+   * @default true
+   */
+  showChevron?: boolean;
   /** 외부에서 주입하는 StyleX 스타일 — 루트에 마지막으로 머지된다 */
   xstyle?: StyleXStyles;
 }
@@ -115,6 +120,7 @@ export const DropdownTitle = ({
   prevDisabled = false,
   nextDisabled = false,
   size = 'medium',
+  showChevron = true,
   xstyle,
 }: DropdownTitleProps) => (
   <div {...stylex.props(styles.root, xstyle)}>
@@ -139,9 +145,11 @@ export const DropdownTitle = ({
       )}
     >
       {title}
-      <span {...stylex.props(styles.chevronDown)}>
-        <Chevron direction='down' />
-      </span>
+      {showChevron && (
+        <span {...stylex.props(styles.chevronDown)}>
+          <Chevron direction='down' />
+        </span>
+      )}
     </button>
     {onNext && (
       <button

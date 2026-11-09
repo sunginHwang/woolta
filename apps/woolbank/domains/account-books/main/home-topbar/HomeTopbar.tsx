@@ -93,6 +93,7 @@ export const HomeTopbar = () => {
             onClick={() => toggleMonthPicker(true)}
             onPrev={() => moveMonth(-1)}
             onNext={() => moveMonth(1)}
+            showChevron={false}
           />
         </div>
         <div {...stylex.props(styles.side, styles.sideRight)}>

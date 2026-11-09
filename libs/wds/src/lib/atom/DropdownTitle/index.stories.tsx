@@ -10,6 +10,7 @@ const meta: Meta<typeof DropdownTitle> = {
   component: DropdownTitle,
   argTypes: {
     size: { control: 'radio', options: ['medium', 'large'] },
+    showChevron: { control: 'boolean' },
     xstyle: { control: false },
   },
   args: { title: '2026년 11월', onClick: fn(), onPrev: fn(), onNext: fn() },
@@ -54,6 +55,26 @@ export const WithoutArrows: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.queryByRole('button', { name: '이전' })).toBeNull();
     await expect(canvas.getAllByRole('button')).toHaveLength(1);
+  },
+};
+
+export const WithoutChevron: Story = {
+  args: { title: '11월', showChevron: false },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`showChevron={false}` — 양옆 화살표가 이미 "넘길 수 있다"를 말해 주는 상단바(가계부 홈)에서는 제목 옆 ∨ 를 뺀다. 제목 탭으로 피커를 여는 동작은 그대로다.',
+      },
+    },
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const title = canvas.getByRole('button', { name: '11월' });
+
+    await expect(title.querySelector('svg')).toBeNull();
+    await userEvent.click(title);
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
   },
 };
 
