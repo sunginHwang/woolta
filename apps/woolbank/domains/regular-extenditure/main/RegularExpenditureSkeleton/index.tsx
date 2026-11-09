@@ -3,84 +3,39 @@ import { SkeletonBar } from '@wds';
 import { colorVars } from '@wds/tokens.stylex';
 
 const styles = stylex.create({
-  container: {
-    paddingBlock: '3rem',
+  page: {
+    minHeight: '100dvh',
+    backgroundColor: colorVars['--color-bgSurfaceSecondary'],
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    height: '5.6rem',
     paddingInline: '1.6rem',
   },
-  listContent: {
-    marginTop: '1rem',
-  },
-  line: {
-    backgroundColor: colorVars['--color-gray100'],
-    height: '0.7rem',
-    marginTop: '2rem',
-  },
-  listTop: {
+  content: {
     display: 'flex',
-    justifyContent: 'space-between',
-    marginBottom: '0.5rem',
-  },
-  list: {
-    marginTop: '3rem',
-  },
-  title: {
-    marginTop: '1rem',
-    marginRight: 0,
-    marginBottom: '2rem',
-    marginLeft: 0,
-  },
-  oneWeek: {
-    paddingBlock: 0,
-    paddingInline: 0,
-  },
-  oneWeekFirst: {
-    marginBottom: '1.5rem',
+    flexDirection: 'column',
+    gap: '1.2rem',
+    paddingTop: '0.4rem',
+    paddingInline: '1.6rem',
   },
 });
 
 /**
- * 정기 지출 리스트 -> 리스트 페이지 로딩 스켈레톤
+ * 정기지출 화면 로딩 스켈레톤 — 요약 카드·이체 일정 카드 자리를 잡아 둔다.
  * @component
  */
-const RegularExpenditureSkeleton = () => {
-  return (
-    <div {...stylex.props(styles.container)}>
-      <div {...stylex.props(styles.title)}>
-        <SkeletonBar width='100%' height='5.4rem' />
-      </div>
-      <div {...stylex.props(styles.oneWeek)}>
-        <div {...stylex.props(styles.oneWeekFirst)}>
-          <SkeletonBar width='20.4rem' height='2.2rem' />
-        </div>
-        <SkeletonBar width='100%rem' height='4.3rem' />
-      </div>
-      <div {...stylex.props(styles.line)} />
-      <div {...stylex.props(styles.list)}>
-        <div {...stylex.props(styles.listTop)}>
-          <SkeletonBar width='6rem' height='2.1rem' />
-          <SkeletonBar width='7rem' height='2.1rem' />
-        </div>
-        <div {...stylex.props(styles.listContent)}>
-          <SkeletonBar width='100%' height='6.5rem' />
-          <SkeletonBar width='100%' height='6.5rem' />
-          <SkeletonBar width='100%' height='6.5rem' />
-        </div>
-      </div>
-      <div {...stylex.props(styles.list)}>
-        <div {...stylex.props(styles.listTop)}>
-          <SkeletonBar width='6rem' height='2.1rem' />
-          <SkeletonBar width='7rem' height='2.1rem' />
-        </div>
-        <div {...stylex.props(styles.listContent)}>
-          <SkeletonBar width='100%' height='6.5rem' />
-          <SkeletonBar width='100%' height='6.5rem' />
-          <SkeletonBar width='100%' height='6.5rem' />
-          <SkeletonBar width='100%' height='6.5rem' />
-          <SkeletonBar width='100%' height='6.5rem' />
-        </div>
-      </div>
+const RegularExpenditureSkeleton = () => (
+  <div {...stylex.props(styles.page)}>
+    <div {...stylex.props(styles.header)}>
+      <SkeletonBar width='8rem' height='2.4rem' />
     </div>
-  );
-};
+    <div {...stylex.props(styles.content)}>
+      <SkeletonBar width='100%' height='22rem' radius={16} />
+      <SkeletonBar width='100%' height='40rem' radius={16} />
+    </div>
+  </div>
+);
 
 export default RegularExpenditureSkeleton;

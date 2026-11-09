@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { expect, userEvent, waitFor, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
+import { IconPlus } from '../../icons';
 import { Stack } from '../Stack';
 import { Text } from '../Text';
 import { Button } from './index';
@@ -22,7 +23,7 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   argTypes: {
-    variant: { control: 'radio', options: ['primary', 'secondary', 'outline', 'outlinePrimary'] },
+    variant: { control: 'radio', options: ['primary', 'secondary', 'outline', 'outlinePrimary', 'text'] },
     size: { control: 'radio', options: ['small', 'medium', 'large'] },
     startIcon: { control: false },
     endIcon: { control: false },
@@ -60,16 +61,45 @@ export const Variants: Story = {
       <Button type='button' variant='outlinePrimary'>
         outlinePrimary
       </Button>
+      <Button type='button' variant='text'>
+        text
+      </Button>
     </Stack>
   ),
   parameters: {
     docs: {
       description: {
         story:
-          '네 가지 변형. woolbank 에서 쓰던 이름과의 대응은 `primary`→primary, `secondaryGray`→secondary, `tertiaryGray`→outline, `tertiaryColor`→outlinePrimary 다. ' +
+          '다섯 가지 변형. `text` 는 배경·테두리 없는 글자 버튼으로 헤더 우측 액션에 쓴다.  woolbank 에서 쓰던 이름과의 대응은 `primary`→primary, `secondaryGray`→secondary, `tertiaryGray`→outline, `tertiaryColor`→outlinePrimary 다. ' +
           '색은 전부 Semantic 토큰(interactive·text·bg·border)이라 다크 테마에서 자동으로 바뀐다.',
       },
     },
+  },
+};
+
+export const Text_: Story = {
+  name: 'Text',
+  render: (args) => (
+    <Button type='button' variant='text' size='small' startIcon={<IconPlus size={18} />} onClick={args.onClick}>
+      추가
+    </Button>
+  ),
+  args: { onClick: fn() },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`text` 변형 — 배경·테두리 없이 글자만. 정기지출 헤더의 "＋ 추가" 처럼 화면 상단 우측의 가벼운 액션에 쓴다. hover/active 에만 fillSubtle 배경이 깔린다.',
+      },
+    },
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: '추가' });
+    await expect(button.tagName).toBe('BUTTON');
+    await expect(getComputedStyle(button).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
   },
 };
 

@@ -15,8 +15,9 @@ export type ButtonSize = 'small' | 'medium' | 'large';
  * - secondary: 회색 채움. 주 액션 옆의 보조 액션
  * - outline: 회색 테두리. 취소·삭제처럼 눈에 덜 띄어야 하는 액션
  * - outlinePrimary: 강조색 테두리. 주 액션과 짝이 되는 대안 액션
+ * - text: 배경·테두리 없는 글자 버튼. 헤더 우측 "＋ 추가" 같은 가벼운 액션
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'outlinePrimary';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'outlinePrimary' | 'text';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -117,6 +118,13 @@ const sizeStyles = stylex.create({
   large: { height: '5.2rem', minWidth: '4.8rem', paddingInline: '2.4rem', borderRadius: '1.2rem' },
 });
 
+// text 변형은 글자만 있어 좌우 여백을 줄이고 최소 폭을 두지 않는다
+const textSizeStyles = stylex.create({
+  small: { minWidth: 0, paddingInline: '0.8rem' },
+  medium: { minWidth: 0, paddingInline: '1rem' },
+  large: { minWidth: 0, paddingInline: '1.2rem' },
+});
+
 const variantStyles = stylex.create({
   primary: {
     color: colorVars['--color-textInverse'],
@@ -167,6 +175,19 @@ const variantStyles = stylex.create({
       ':disabled': colorVars['--color-interactivePrimaryDisabled'],
     },
   },
+  text: {
+    color: {
+      default: colorVars['--color-textPrimary'],
+      ':disabled': colorVars['--color-textDisabled'],
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': colorVars['--color-fillSubtle'],
+      ':active': colorVars['--color-fillSubtle'],
+      ':disabled': 'transparent',
+    },
+    borderColor: 'transparent',
+  },
 });
 
 const SIZE = {
@@ -205,6 +226,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       SIZE[size].box,
       SIZE[size].text,
       variantStyles[variant],
+      variant === 'text' && textSizeStyles[size],
       fill && styles.fill,
       xstyle,
     );
