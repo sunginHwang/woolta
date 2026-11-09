@@ -3,6 +3,7 @@
 import type { StyleXStyles } from '@stylexjs/stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { FC, HTMLAttributes } from 'react';
+import { colorVars } from '../../style/tokens.stylex';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   width?: string;
@@ -12,14 +13,16 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   xstyle?: StyleXStyles;
 }
 
+// 색이 아니라 투명도를 흔든다 — 배경색은 토큰(fillMuted)이라 다크에서도 어두운 회색으로 따라간다
 const loading = stylex.keyframes({
-  '0%': { backgroundColor: 'hsl(0, 0%, 89%)' },
-  '50%': { backgroundColor: 'hsl(0, 0%, 85%)' },
-  '100%': { backgroundColor: 'hsl(0, 0%, 89%)' },
+  '0%': { opacity: 1 },
+  '50%': { opacity: 0.55 },
+  '100%': { opacity: 1 },
 });
 
 const styles = stylex.create({
   base: {
+    backgroundColor: colorVars['--color-fillMuted'],
     animationName: loading,
     animationDuration: '1.3s',
     animationIterationCount: 'infinite',

@@ -1,54 +1,6 @@
-'use client';
+import { AccountBookHomeSkeleton } from '../domains/account-books/main/AccountBookHomeSkeleton';
 
-import * as stylex from '@stylexjs/stylex';
-import { SkeletonBar } from '@wds';
-
+/** 홈(/) 라우트 로딩 — 실제 홈 레이아웃(상단바·요약·주간 예산·주 달력·일별 리스트)과 같은 뼈대 */
 export default function Loading() {
-  const { className: titleCls } = stylex.props(styles.headerTitle);
-
-  return (
-    <>
-      <header {...stylex.props(styles.header)}>
-        <SkeletonBar className={titleCls} width='60%' height='3.2rem' radius={12} />
-        <SkeletonBar width='100%' height='12rem' radius={18} />
-      </header>
-      <main {...stylex.props(styles.content)}>
-        {[...Array(8)].map((_, index) => {
-          return (
-            <div key={index} {...stylex.props(styles.item)}>
-              <div {...stylex.props(styles.itemTop)}>
-                <SkeletonBar width='9rem' height='3rem' />
-                <SkeletonBar width='6rem' height='2.1rem' />
-              </div>
-              <SkeletonBar width='100%' height='6.3rem' radius={18} />
-            </div>
-          );
-        })}
-      </main>
-    </>
-  );
+  return <AccountBookHomeSkeleton />;
 }
-
-const styles = stylex.create({
-  header: {
-    paddingTop: '3rem',
-    paddingInline: '1.6rem',
-    paddingBottom: 0,
-  },
-  headerTitle: {
-    marginBottom: '2rem',
-  },
-  content: {
-    paddingBlock: 0,
-    paddingInline: '1.6rem',
-  },
-  item: {
-    marginTop: '3rem',
-  },
-  itemTop: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '1rem',
-  },
-});
