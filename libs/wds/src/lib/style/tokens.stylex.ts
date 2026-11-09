@@ -95,6 +95,9 @@ export const colorVars = stylex.defineVars({
   '--color-bgElevated': '#F4F4F4',
   '--color-bgOverlay': 'rgba(0, 0, 0, 0.5)',
   '--color-bgInverse': '#242424',
+  '--color-fillSubtle': '#F4F4F4',
+  '--color-fillMuted': '#E1E1E1',
+  '--color-fillStrong': '#242424',
   '--color-borderDefault': '#D3D3D3',
   '--color-borderSubtle': '#E1E1E1',
   '--color-borderStrong': '#919191',
@@ -121,6 +124,7 @@ export const shadowVars = stylex.defineVars({
   '--shadow-overlay': '0 1.2rem 3.2rem rgba(0, 0, 0, 0.18), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.1)',
   '--shadow-popover': '0 0.4rem 1.6rem rgba(0, 0, 0, 0.15)',
   '--shadow-card': '0 0.2rem 1.2rem rgba(0, 0, 0, 0.06)',
+  '--shadow-nav': '0 -0.2rem 1.2rem rgba(0, 0, 0, 0.06)',
 });
 
 /**

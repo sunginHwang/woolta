@@ -19,6 +19,11 @@ export const lightSemanticTokens: SemanticColorTokens = {
   bgOverlay: 'rgba(0, 0, 0, 0.5)',
   bgInverse: palette.gray[900],
 
+  // Fill
+  fillSubtle: palette.gray[100],
+  fillMuted: palette.gray[300],
+  fillStrong: palette.gray[900],
+
   // Border
   borderDefault: palette.gray[400],
   borderSubtle: palette.gray[300],
@@ -68,6 +73,11 @@ export const darkSemanticTokens: SemanticColorTokens = {
   bgElevated: '#333333',
   bgOverlay: 'rgba(0, 0, 0, 0.6)',
   bgInverse: '#F5F5F5',
+
+  // Fill
+  fillSubtle: '#2A2A2A',
+  fillMuted: '#333333',
+  fillStrong: '#F5F5F5',
 
   // Border
   borderDefault: '#3A3A3A',

@@ -11,7 +11,7 @@ export type ProgressTone = 'primary' | 'brand' | 'success' | 'warning' | 'error'
 /** 트랙 높이 4 / 8px */
 export type ProgressSize = 'small' | 'medium';
 
-export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'title'> {
   /** 진행률 0–100. 범위를 벗어나면 잘라낸다 */
   value: number;
   /**

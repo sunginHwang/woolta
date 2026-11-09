@@ -43,6 +43,9 @@
   --color-bgElevated: #333333;
   --color-bgOverlay: rgba(0, 0, 0, 0.6);
   --color-bgInverse: #f5f5f5;
+  --color-fillSubtle: #2a2a2a;
+  --color-fillMuted: #333333;
+  --color-fillStrong: #f5f5f5;
   --color-borderDefault: #3a3a3a;
   --color-borderSubtle: #2e2e2e;
   --color-borderStrong: #555555;
@@ -67,4 +70,5 @@
     0 1.6rem 4rem rgba(0, 0, 0, 0.64), 0 0.2rem 0.8rem rgba(0, 0, 0, 0.48), 0 0 0 0.1rem rgba(255, 255, 255, 0.12);
   --shadow-popover: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.56), 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
   --shadow-card: 0 0 0 0.1rem rgba(255, 255, 255, 0.08);
+  --shadow-nav: 0 0 0 0.1rem rgba(255, 255, 255, 0.08);
 }

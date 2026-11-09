@@ -129,9 +129,9 @@ export const Toast = ({
               {...stylex.props(styles.icon, tone === 'success' ? styles.iconSuccess : styles.iconError)}
             >
               {tone === 'success' ? (
-                <IconCircleCheck width={20} height={20} />
+                <IconCircleCheck size={20} />
               ) : (
-                <IconCloseCircle width={20} height={20} />
+                <IconCloseCircle size={20} />
               )}
             </span>
           )}

@@ -1,6 +1,10 @@
 import type { Decorator, Preview } from '@storybook/nextjs-vite';
+// 순서는 앱 layout.tsx 와 같다: 다크 토큰 → StyleX 추출 CSS(@stylex) → 전역 스타일
+import '@wds/colors/darkTheme.css';
+import './stylex.css';
+import '../app/global.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { ConfirmProvider } from '../components/Confirm/ConfirmContext';
 import { Layout } from '../domains/layout/Layout';
 import { setConfig } from '../utils/config';
@@ -75,9 +79,37 @@ const withApp: Decorator = (Story) => {
   );
 };
 
+type ThemeType = 'light' | 'dark';
+
+/** 툴바의 테마 선택을 앱과 같은 방식(html[data-theme])으로 반영한다 */
+const withTheme: Decorator = (Story, context) => {
+  const theme = (context.globals.theme ?? 'light') as ThemeType;
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
+  return <Story />;
+};
+
 const preview: Preview = {
   parameters,
-  decorators: [withApp],
+  globalTypes: {
+    theme: {
+      description: '라이트/다크 테마',
+      toolbar: {
+        title: 'Theme',
+        icon: 'mirror',
+        items: [
+          { value: 'light', title: 'Light', icon: 'sun' },
+          { value: 'dark', title: 'Dark', icon: 'moon' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: { theme: 'light' },
+  decorators: [withApp, withTheme],
 };
 
 export default preview;

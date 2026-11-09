@@ -3,8 +3,10 @@ import '@wds/colors/darkTheme.css';
 import './stylex.css';
 import './global.css';
 import type { Metadata, Viewport } from 'next';
+import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import { RootProvider } from '../domains/layout/root-provider/RootProvider';
+import { parseThemeType, THEME_COLOR, THEME_COOKIE_NAME } from '../store/theme';
 import { setConfig } from '../utils/config';
 
 export const metadata: Metadata = {
@@ -30,8 +32,12 @@ export const viewport: Viewport = {
 setConfig();
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
+  // 쿠키의 테마를 첫 렌더에 반영해야 라이트 → 다크 깜빡임이 없다 (apps/woolta 와 같은 방식)
+  const initialThemeType = parseThemeType((await cookies()).get(THEME_COOKIE_NAME)?.value);
+  const isDark = initialThemeType === 'dark';
+
   return (
-    <html lang='ko' data-scroll-behavior='smooth'>
+    <html lang='ko' data-theme={initialThemeType} data-scroll-behavior='smooth'>
       <head>
         <meta charSet='utf-8' />
         <link rel='icon' href='/static/woolta.ico' type='icon' />
@@ -45,9 +51,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <link rel='shortcut icon' href='/static/woolta.ico' />
         <link rel='manifest' href='/manifest.json' />
         <meta name='mobile-web-app-capable' content='yes' />
-        <meta name='theme-color' content='#fff' />
+        <meta name='theme-color' content={THEME_COLOR[initialThemeType]} />
         <meta name='apple-mobile-web-app-capable' content='yes' />
-        <meta name='apple-mobile-web-app-status-bar-style' content='white' />
+        <meta name='apple-mobile-web-app-status-bar-style' content={isDark ? 'black' : 'white'} />
         <meta name='google-site-verification' content='mHu43Zp59l_qzcOGtYILaM-tIH-mPKepPuYxRwbIqbs' />
         <link
           rel='stylesheet'
@@ -57,7 +63,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body suppressHydrationWarning>
-        <RootProvider>{children}</RootProvider>
+        <RootProvider initialThemeType={initialThemeType}>{children}</RootProvider>
         <div id='modalDeem' />
       </body>
     </html>

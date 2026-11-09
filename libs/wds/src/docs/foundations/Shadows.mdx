@@ -5,12 +5,14 @@ import { ShadowSamples } from '../blocks/ShadowSamples';
 
 # Shadows
 
-떠 있는 표면의 높이를 두 단계로만 표현합니다.
+떠 있는 표면의 높이를 네 토큰으로 표현합니다.
 
 | 토큰 | 용도 | StyleX |
 | --- | --- | --- |
 | `overlay` | 리스트·페이지 위에 떠 있는 입력창, 시트 | `shadowVars['--shadow-overlay']` |
 | `popover` | 버튼에서 열리는 작은 팝오버·메뉴 | `shadowVars['--shadow-popover']` |
+| `card` | 회색 섹션 위 카드. 라이트는 아주 옅게 | `shadowVars['--shadow-card']` |
+| `nav` | 화면 하단 내비게이션 바. 위쪽으로만 퍼진다 | `shadowVars['--shadow-nav']` |
 
 다크 테마에서는 검정 그림자가 보이지 않으므로 더 짙은 그림자에 **흰색 반투명 링**을 더해 경계를 드러냅니다.
 값은 `shadows.ts`(라이트/다크 원본)와 `tokens.stylex.ts`(StyleX 변수)에서 동기 유지합니다.

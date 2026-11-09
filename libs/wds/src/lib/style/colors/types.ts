@@ -17,6 +17,14 @@ export type SemanticColorTokens = {
   bgOverlay: string;
   bgInverse: string;
 
+  // Fill — 버튼 배경이 아닌 "채움" 면. 칩·알약·달력 선택일·비중 바 등
+  /** 가장 옅은 채움. 안내 박스·주차 합계 알약·행 hover 배경 */
+  fillSubtle: string;
+  /** 중간 채움. 비중 바의 "그 외"·비활성 트랙 */
+  fillMuted: string;
+  /** 잉크색 채움. 선택된 날짜 원·solid 칩 — 위 글자는 textInverse */
+  fillStrong: string;
+
   // Border
   borderDefault: string;
   borderSubtle: string;

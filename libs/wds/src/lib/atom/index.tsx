@@ -11,6 +11,7 @@ export * from './FixedBottomCTA';
 export * from './FloatingActionButton';
 export * from './FullScreenLoading';
 export * from './Header';
+export * from './ListRow';
 export * from './Overlay';
 export * from './Portal';
 export * from './Progress';

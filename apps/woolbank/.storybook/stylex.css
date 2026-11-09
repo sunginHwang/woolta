@@ -1,0 +1,9 @@
+/*
+ * 앱의 app/stylex.css 와 같은 역할.
+ * StyleX(useCSSLayers)는 CSS 를 @layer priority* 안에 넣으므로, 전역 리셋(preview.css)이
+ * 컴포넌트 스타일을 덮지 않도록 app-base 레이어를 먼저 선언해 더 낮은 우선순위로 고정한다.
+ */
+@layer app-base;
+
+/* postcss.config.js 의 @stylexswc/postcss-plugin 이 추출된 StyleX CSS 로 치환한다 */
+@stylex;

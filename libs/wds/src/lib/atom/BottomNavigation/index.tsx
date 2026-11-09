@@ -72,9 +72,9 @@ const styles = stylex.create({
     boxSizing: 'border-box',
     paddingBottom: 'env(safe-area-inset-bottom)',
     backgroundColor: colorVars['--color-bgSurface'],
-    boxShadow: `0 -1px 0 0 ${colorVars['--color-borderSubtle']}`,
-    borderTopLeftRadius: '1.6rem',
-    borderTopRightRadius: '1.6rem',
+    boxShadow: shadowVars['--shadow-nav'],
+    borderTopLeftRadius: '2rem',
+    borderTopRightRadius: '2rem',
     zIndex: zIndexConsts.navigationBar,
     transitionProperty: 'transform',
     transitionDuration: '0.25s',
@@ -89,7 +89,7 @@ const styles = stylex.create({
     alignItems: 'stretch',
     width: '100%',
     maxWidth: '48rem',
-    minHeight: '5.6rem',
+    minHeight: '5.8rem',
     marginInline: 'auto',
     marginBlock: 0,
     padding: 0,
@@ -114,7 +114,7 @@ const styles = stylex.create({
     borderWidth: 0,
     borderStyle: 'none',
     textDecoration: 'none',
-    color: colorVars['--color-textSecondary'],
+    color: colorVars['--color-textTertiary'],
     cursor: 'pointer',
     userSelect: 'none',
     WebkitTapHighlightColor: 'transparent',
@@ -128,6 +128,7 @@ const styles = stylex.create({
     borderRadius: '0.8rem',
   },
   tabSelected: { color: colorVars['--color-textPrimary'] },
+  labelSelected: { fontWeight: 600 },
   tabDisabled: { color: colorVars['--color-textDisabled'], cursor: 'not-allowed' },
   iconWrap: {
     position: 'relative',
@@ -150,8 +151,8 @@ const styles = stylex.create({
     justifyContent: 'center',
   },
   centerButton: {
-    width: '4.8rem',
-    height: '4.8rem',
+    width: '4.4rem',
+    height: '4.4rem',
     borderRadius: '50%',
     borderWidth: 0,
     borderStyle: 'none',
@@ -267,7 +268,9 @@ export const BottomNavigation = ({
           {icon}
           {item.badge !== undefined && <Badge badge={item.badge} />}
         </span>
-        <span {...stylex.props(typographyStyles.small2Medium, styles.label)}>{item.label}</span>
+        <span {...stylex.props(typographyStyles.small2Medium, styles.label, selected && styles.labelSelected)}>
+          {item.label}
+        </span>
       </>
     );
     const tabStyle = stylex.props(styles.tab, selected && styles.tabSelected, item.disabled && styles.tabDisabled);

@@ -163,7 +163,9 @@ domains/{feature}/
 - 스토리북 `stories` glob 은 실제 소스 디렉터리만 열거한다(`../**`, `libs/x/**` 금지). 넓은 glob 은 workspace 심링크
   `node_modules/@woolta/*` 를 타고 다른 패키지 스토리를 중복 수집하고, addon-vitest 는 node_modules 기본 제외를 덮어쓴다.
 - 스토리북에서 StyleX CSS 는 Vite 변환이 아니라 postcss `@stylex;`(`.storybook/stylex.css`) 추출로 들어온다.
-  postcss 옵션은 `viteStylexPlugin` 과 같아야 클래스명이 일치한다. wds 는 `postcss.config.js` 에 갖춰져 있고, blog/woolbank 프리뷰는 아직 `stylex.css` 를 import 하지 않는다.
+  postcss 옵션은 `viteStylexPlugin` 과 같아야 클래스명이 일치한다(앱 빌드용 `stylexRsOptions.js` 는 debug 클래스명 옵션이 달라 못 쓴다).
+  공용 헬퍼 `tools/stylex/storybookStylex.mts`(`storybookStylexPostcss`, `stylexCssHmrPlugin`)를 main.ts 의 `viteFinal` 에서 `css.postcss` 로 넘긴다.
+  wds 는 `postcss.config.js`, woolbank 는 이 헬퍼로 갖춰져 있고 blog 프리뷰는 아직 `stylex.css` 를 import 하지 않는다.
 - `pnpm test` 는 turbo 로 패키지별 유닛 테스트만 돌린다. 스토리까지 포함하려면 루트에서 `npx vitest run`
 
 ## 환경별 URL

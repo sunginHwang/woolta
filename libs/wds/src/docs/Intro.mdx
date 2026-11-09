@@ -38,7 +38,8 @@ woolbank 에서 쓰던 구현을 당근 SEED·토스 TDS 의 옵션 체계와 �
 | 오버레이 | Overlay, BottomSheet(+Menu), Toast, Confirm, FullScreenLoading | Deem, DefaultBottomSheet/MenuSheet, Toast, Confirm, FullScreenLoading |
 | 피드백·상태 | Badge, Tag, Progress, Spinner, EmptyState, Skeleton(+SkeletonBar) | 알림 배지, '정기이체' 라벨, Progress, ClipLoader, EmptyInfo, *Skeleton |
 | 레이아웃 | Stack, Card, Text | monolith Stack, CardItem, Text |
-| 아이콘 | `Icon*` 28종 (Foundations/Icons) | components/atom/Icon |
+| 목록 | ListRow, ListSectionHeader | 가계부 Item/DayGroup, 마이페이지 설정 행 (신규) |
+| 아이콘 | `Icon*` 34종 (Foundations/Icons) — Bell·Settings·Clock·InfoCircle·Theme·ChartOutline 추가 | components/atom/Icon |
 
 공통 규칙: Next·motion·jotai·`@common` 에 의존하지 않습니다. 라우팅은 `linkComponent`·`onBackClick` 같은 prop 으로,
 스크롤 방향·전역 상태는 호출하는 쪽이 넘깁니다.

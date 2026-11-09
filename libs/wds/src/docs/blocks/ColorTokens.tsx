@@ -104,6 +104,11 @@ export const PaletteTable = () => (
 const SEMANTIC_GROUPS: Array<{ prefix: string; label: string; usage: string }> = [
   { prefix: 'text', label: 'Text', usage: '글자색. 위계(primary/secondary/tertiary)와 상태(active/inactive/disabled)' },
   { prefix: 'bg', label: 'Background', usage: '페이지·표면·떠 있는 레이어·오버레이 배경' },
+  {
+    prefix: 'fill',
+    label: 'Fill',
+    usage: '버튼이 아닌 "채움" 면 — 안내 박스·알약·선택된 날짜 원·비중 바 (subtle/muted/strong)',
+  },
   { prefix: 'border', label: 'Border', usage: '구분선과 테두리. 강도별(faint/subtle/default/strong)' },
   { prefix: 'interactive', label: 'Interactive', usage: '버튼·링크 등 사용자가 누르는 요소의 기본/hover/disabled' },
   { prefix: 'brand', label: 'Brand', usage: 'Woolta 브랜드 핑크. 강조 포인트에만 쓴다' },
