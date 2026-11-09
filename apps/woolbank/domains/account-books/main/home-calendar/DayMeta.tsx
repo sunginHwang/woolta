@@ -9,8 +9,13 @@ export interface DayAmount {
 
 const styles = stylex.create({
   line: {
+    display: 'block',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    textAlign: 'center',
     fontVariantNumeric: 'tabular-nums',
-    letterSpacing: '-0.02em',
+    letterSpacing: '-0.03em',
     whiteSpace: 'nowrap',
     minHeight: '1.4rem',
   },

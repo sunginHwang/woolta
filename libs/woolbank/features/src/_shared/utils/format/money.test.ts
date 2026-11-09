@@ -21,7 +21,12 @@ describe('abbreviateWon', () => {
   it('1만 원 이상은 만 단위 소수 1자리로 줄인다', () => {
     expect(abbreviateWon(47000)).toBe('4.7만');
     expect(abbreviateWon(264000)).toBe('26.4만');
+  });
+
+  it('100만 원 이상은 소수 없이 만 단위로 줄인다 — 달력 셀 폭을 넘지 않게', () => {
     expect(abbreviateWon(1_000_000)).toBe('100만');
+    expect(abbreviateWon(4_703_505)).toBe('470만');
+    expect(abbreviateWon(51_054_740)).toBe('5,105만');
   });
 
   it('소수 끝의 0 은 떼고, 반올림 경계를 처리한다', () => {

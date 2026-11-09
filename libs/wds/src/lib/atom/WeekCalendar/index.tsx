@@ -94,6 +94,8 @@ const styles = stylex.create({
     alignItems: 'center',
     gap: '0.2rem',
     width: '100%',
+    minWidth: 0,
+    overflow: 'hidden',
     minHeight: '5.6rem',
     paddingTop: '0.6rem',
     paddingBottom: '0.4rem',
@@ -138,6 +140,24 @@ const styles = stylex.create({
   },
   numberOutside: {
     color: colorVars['--color-textDisabled'],
+  },
+  // 접힘/펼침 애니메이션 — 숨은 주 묶음을 grid-template-rows 0fr ↔ 1fr 로 전환해 높이가 자연스럽게 늘고 준다
+  collapsible: {
+    display: 'grid',
+    gridTemplateRows: '0fr',
+    transitionProperty: 'grid-template-rows',
+    transitionDuration: {
+      default: '280ms',
+      '@media (prefers-reduced-motion: reduce)': '0ms',
+    },
+    transitionTimingFunction: 'ease-out',
+  },
+  collapsibleOpen: {
+    gridTemplateRows: '1fr',
+  },
+  collapsibleInner: {
+    minHeight: 0,
+    overflow: 'hidden',
   },
   toggle: {
     display: 'flex',
@@ -213,7 +233,10 @@ export const WeekCalendar = ({
   const selectedIndex = findWeekIndex(rows, selectedDate);
   const todayIndex = findWeekIndex(rows, today);
   const visibleIndex = selectedIndex >= 0 ? selectedIndex : todayIndex >= 0 ? todayIndex : 0;
-  const visibleRows = expanded ? rows : [rows[visibleIndex]];
+  // 항상 모든 주를 그리고, 보이는 주 위/아래 묶음만 접는다 — 펼칠 때 아래 주들이 내려오는 전환이 생긴다
+  const rowsBefore = rows.slice(0, visibleIndex);
+  const visibleRow = rows[visibleIndex];
+  const rowsAfter = rows.slice(visibleIndex + 1);
 
   // 키보드로 옮긴 직후에만 새 셀로 포커스를 따라가게 한다 — 탭/프로그램 변경에는 포커스를 건드리지 않는다
   const cellRefs = useRef(new Map<ISODate, HTMLButtonElement>());
@@ -274,6 +297,58 @@ export const WeekCalendar = ({
     }
   };
 
+  const renderWeek = (row: WeekCalendarWeek, { withSummary = true }: { withSummary?: boolean } = {}) => {
+    // 보이는 주의 합계는 펼쳤을 때만 — 접힌 상태에선 그 주 아래에 아무것도 없어야 한 줄 달력으로 보인다
+    const summary = withSummary ? renderWeekSummary?.(row) : null;
+
+    return (
+      <div key={row.index}>
+        {/* biome-ignore lint/a11y/useSemanticElements: ARIA grid 패턴 */}
+        {/* biome-ignore lint/a11y/useFocusableInteractive: row 는 포커스 대상이 아니다 */}
+        <div role='row' {...stylex.props(styles.week)}>
+          {row.dates.map((date) => {
+            const isOutsideMonth = !isSameMonth(date, month);
+            const isSelected = date === selectedDate;
+            const isToday = date === today;
+            const disabled = isOutsideMonth && !allowOutsideMonth;
+
+            return (
+              // biome-ignore lint/a11y/useSemanticElements: ARIA grid 패턴 — 셀은 버튼이면서 gridcell
+              <button
+                key={date}
+                ref={setCellRef(date)}
+                type='button'
+                role='gridcell'
+                aria-selected={isSelected}
+                aria-current={isToday ? 'date' : undefined}
+                aria-label={formatDateLabel(date)}
+                tabIndex={isSelected ? 0 : -1}
+                disabled={disabled}
+                onClick={() => onSelectDate(date)}
+                onKeyDown={(event) => handleKeyDown(event, date, row)}
+                {...stylex.props(styles.day, disabled && styles.dayDisabled)}
+              >
+                <span
+                  {...stylex.props(
+                    typographyStyles.body2,
+                    styles.number,
+                    isOutsideMonth && styles.numberOutside,
+                    isToday && !isSelected && styles.numberToday,
+                    isSelected && styles.numberSelected,
+                  )}
+                >
+                  {getDayOfMonth(date)}
+                </span>
+                {renderDayMeta?.(date, { isOutsideMonth, isSelected, isToday })}
+              </button>
+            );
+          })}
+        </div>
+        {summary != null && summary !== false && <div>{summary}</div>}
+      </div>
+    );
+  };
+
   return (
     <div {...stylex.props(styles.root, xstyle)}>
       {/* WAI-ARIA grid 패턴 — 달력은 2차원 이동(←→↑↓)이 있어 table/list 시맨틱보다 grid 가 맞다.
@@ -291,56 +366,25 @@ export const WeekCalendar = ({
             </span>
           ))}
         </div>
-        {visibleRows.map((row) => {
-          const summary = expanded ? renderWeekSummary?.(row) : null;
-
-          return (
-            <div key={row.index}>
-              {/* biome-ignore lint/a11y/useSemanticElements: ARIA grid 패턴 */}
-              {/* biome-ignore lint/a11y/useFocusableInteractive: row 는 포커스 대상이 아니다 */}
-              <div role='row' {...stylex.props(styles.week)}>
-                {row.dates.map((date) => {
-                  const isOutsideMonth = !isSameMonth(date, month);
-                  const isSelected = date === selectedDate;
-                  const isToday = date === today;
-                  const disabled = isOutsideMonth && !allowOutsideMonth;
-
-                  return (
-                    // biome-ignore lint/a11y/useSemanticElements: ARIA grid 패턴 — 셀은 버튼이면서 gridcell
-                    <button
-                      key={date}
-                      ref={setCellRef(date)}
-                      type='button'
-                      role='gridcell'
-                      aria-selected={isSelected}
-                      aria-current={isToday ? 'date' : undefined}
-                      aria-label={formatDateLabel(date)}
-                      tabIndex={isSelected ? 0 : -1}
-                      disabled={disabled}
-                      onClick={() => onSelectDate(date)}
-                      onKeyDown={(event) => handleKeyDown(event, date, row)}
-                      {...stylex.props(styles.day, disabled && styles.dayDisabled)}
-                    >
-                      <span
-                        {...stylex.props(
-                          typographyStyles.body2,
-                          styles.number,
-                          isOutsideMonth && styles.numberOutside,
-                          isToday && !isSelected && styles.numberToday,
-                          isSelected && styles.numberSelected,
-                        )}
-                      >
-                        {getDayOfMonth(date)}
-                      </span>
-                      {renderDayMeta?.(date, { isOutsideMonth, isSelected, isToday })}
-                    </button>
-                  );
-                })}
-              </div>
-              {summary != null && summary !== false && <div>{summary}</div>}
-            </div>
-          );
-        })}
+        {rowsBefore.length > 0 && (
+          <div
+            aria-hidden={!expanded}
+            inert={!expanded}
+            {...stylex.props(styles.collapsible, expanded && styles.collapsibleOpen)}
+          >
+            <div {...stylex.props(styles.collapsibleInner)}>{rowsBefore.map((row) => renderWeek(row))}</div>
+          </div>
+        )}
+        {renderWeek(visibleRow, { withSummary: expanded })}
+        {rowsAfter.length > 0 && (
+          <div
+            aria-hidden={!expanded}
+            inert={!expanded}
+            {...stylex.props(styles.collapsible, expanded && styles.collapsibleOpen)}
+          >
+            <div {...stylex.props(styles.collapsibleInner)}>{rowsAfter.map((row) => renderWeek(row))}</div>
+          </div>
+        )}
       </div>
       <button
         type='button'
