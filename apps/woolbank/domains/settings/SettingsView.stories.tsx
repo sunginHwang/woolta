@@ -92,6 +92,10 @@ export const 공유_유저: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
+    // 주간 예산은 값만 보이고 상세로 들어가는 링크·화살표가 없다
+    await expect(canvas.queryByRole('link', { name: /주간 예산/ })).not.toBeInTheDocument();
+    await expect(canvas.getByText('주간 예산')).toBeInTheDocument();
+    await expect(canvas.getByText('450,000원')).toBeInTheDocument();
     await expect(canvas.queryByRole('switch', { name: '정기지출 결제 전날 알림' })).not.toBeInTheDocument();
   },
 };

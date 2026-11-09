@@ -22,7 +22,7 @@ export interface SettingsViewProps {
   weeklyBudgetAmount: number;
   /** 푸시 설정 상태 머신 — 스토리에서 각 상태를 고정하려고 props 로 받는다 */
   push: Pick<PushSettingModel, 'state' | 'setting' | 'isBusy' | 'enable' | 'disable' | 'setRegularExpenditure'>;
-  /** 공유코드 세션 — 알림 종류 설정은 주인만 바꿀 수 있어 숨긴다 */
+  /** 공유코드 세션 — 주간 예산 상세 진입을 막고(값만 표시) 알림 종류 설정은 숨긴다 */
   isShareUser: boolean;
   themeType: ThemeType;
   onThemeChange: (themeType: ThemeType) => void;
@@ -79,16 +79,27 @@ export const SettingsView = ({
       <Header.Sub title='설정' onBackClick={onBackClick} />
       <main {...stylex.props(styles.main)}>
         <ListSectionHeader xstyle={styles.firstHeader}>예산</ListSectionHeader>
-        <ListRow
-          leading={<IconWalletOutline size={20} />}
-          title='주간 예산'
-          subtitle='매주 월요일에 새로 시작해요'
-          value={weeklyBudgetAmount > 0 ? formatWon(weeklyBudgetAmount) : '미설정'}
-          valueTone='secondary'
-          chevron
-          href='/settings/weekly-budget'
-          linkComponent={Link}
-        />
+        {/* 공유코드 세션은 예산을 바꿀 수 없다(saveWeeklyBudget 은 주인만) — 값만 보여주고 상세로 들어가지 않는다 */}
+        {isShareUser ? (
+          <ListRow
+            leading={<IconWalletOutline size={20} />}
+            title='주간 예산'
+            subtitle='매주 월요일에 새로 시작해요'
+            value={weeklyBudgetAmount > 0 ? formatWon(weeklyBudgetAmount) : '미설정'}
+            valueTone='secondary'
+          />
+        ) : (
+          <ListRow
+            leading={<IconWalletOutline size={20} />}
+            title='주간 예산'
+            subtitle='매주 월요일에 새로 시작해요'
+            value={weeklyBudgetAmount > 0 ? formatWon(weeklyBudgetAmount) : '미설정'}
+            valueTone='secondary'
+            chevron
+            href='/settings/weekly-budget'
+            linkComponent={Link}
+          />
+        )}
 
         {showPushSection && (
           <>
