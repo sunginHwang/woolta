@@ -29,3 +29,4 @@ export * from './Textarea';
 export * from './TextInput';
 export * from './Toast';
 export * from './Toggle';
+export * from './WeekCalendar';

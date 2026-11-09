@@ -47,6 +47,16 @@ const INIT_FORM_DATA: AccountBookSaveForm = {
   memo: '',
 };
 
+/**
+ * 신규 작성 폼의 초깃값. 달력에서 "이날 내역 추가" 로 들어오면 `registerDateTime` 만 그날로 바꿔 넘긴다.
+ * 내부 기본값(INIT_FORM_DATA)은 비공개로 두고 이 함수로만 만든다.
+ */
+export const createInitialAccountBookForm = (overrides: Partial<AccountBookSaveForm> = {}): AccountBookSaveForm => ({
+  ...INIT_FORM_DATA,
+  registerDateTime: dayjs(),
+  ...overrides,
+});
+
 export const useAccountBookForm = (saveForm?: AccountBookSaveForm) => {
   const {
     inputs: formData,

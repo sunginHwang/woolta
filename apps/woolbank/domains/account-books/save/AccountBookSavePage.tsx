@@ -6,16 +6,19 @@ import type { NextPage } from 'next';
 import { Header } from '../../../components/Header/Header';
 import { type AccountBookDetail, useAccountBookDetail } from './_common/hooks/useAccountBookDetail';
 import { useAccountBookSaveRouterProps } from './_common/hooks/useAccountBookSaveRouterProps';
-import type { AccountBookSaveForm } from './account-book-form/_common/hooks/useAccountBookForm';
+import {
+  type AccountBookSaveForm,
+  createInitialAccountBookForm,
+} from './account-book-form/_common/hooks/useAccountBookForm';
 import { AccountBookForm } from './account-book-form/AccountBookForm';
 
 interface Props {
   dehydratedState?: DehydratedState;
 }
 export const AccountBookSavePage: NextPage<Props> = ({ dehydratedState }) => {
-  const { account_book_id } = useAccountBookSaveRouterProps();
+  const { account_book_id, initial_date } = useAccountBookSaveRouterProps();
   const { accountBookDetail, upsertAccountBook, removeAccountBook } = useAccountBookDetail(account_book_id);
-  const accountBookForm = getAccountBookFrom(accountBookDetail);
+  const accountBookForm = getAccountBookFrom(accountBookDetail) ?? getInitialForm(initial_date);
 
   return (
     <HydrationBoundary state={dehydratedState}>
@@ -47,4 +50,15 @@ function getAccountBookFrom(accountBookDetail: AccountBookDetail | null): Accoun
     category: accountBookCategory,
     type,
   };
+}
+
+/** 달력에서 넘어온 날짜가 있으면 그날(현재 시각)로 시작한다. 없으면 폼 기본값을 쓴다 */
+function getInitialForm(initialDate: string | null): AccountBookSaveForm | undefined {
+  if (!initialDate) {
+    return undefined;
+  }
+
+  const now = dayjs();
+
+  return createInitialAccountBookForm({ registerDateTime: dayjs(initialDate).hour(now.hour()).minute(now.minute()) });
 }

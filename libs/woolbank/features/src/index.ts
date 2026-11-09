@@ -116,7 +116,7 @@ export { useAccountBookCategoryImages } from './account-book-form/_common/hooks/
 export type { AccountBookDetail } from './account-book-form/_common/hooks/useAccountBookDetail';
 export { getAccountBookFetchInfo, useAccountBookDetail } from './account-book-form/_common/hooks/useAccountBookDetail';
 export type { AccountBookSaveForm, ScheduledPaymentType } from './account-book-form/_common/hooks/useAccountBookForm';
-export { useAccountBookForm } from './account-book-form/_common/hooks/useAccountBookForm';
+export { createInitialAccountBookForm, useAccountBookForm } from './account-book-form/_common/hooks/useAccountBookForm';
 export { useAccountBookSaveRouterProps } from './account-book-form/_common/hooks/useAccountBookSaveRouterProps';
 // account-book-form feature
 export { AccountBookForm } from './account-book-form/AccountBookForm';
